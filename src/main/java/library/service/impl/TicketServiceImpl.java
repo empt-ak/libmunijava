@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TicketServiceImpl implements TicketService {
 
     @Autowired
-    TicketDAO ticketDAO;
+    private TicketDAO ticketDAO;
 
     @Override
     @Transactional
@@ -43,25 +43,25 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public Ticket getTicketByID(Long id) throws IllegalArgumentException {
         return ticketDAO.getTicketByID(id);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public Ticket getLastTicketForUser(User user) throws IllegalArgumentException {
         return ticketDAO.getLastTicketForUser(user);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public List<Ticket> getTicketsInPeriodForUser(DateTime from, DateTime to, User user) throws IllegalArgumentException {
         return ticketDAO.getTicketsInPeriodForUser(from, to, user);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public List<Ticket> getAllTicketsForUser(User user) throws IllegalArgumentException {
         return ticketDAO.getAllTicketsForUser(user);
     }

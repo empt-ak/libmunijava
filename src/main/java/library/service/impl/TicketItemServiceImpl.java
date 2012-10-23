@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TicketItemServiceImpl implements TicketItemService {
 
     @Autowired
-    TicketItemDAO ticketItemDAO;
+    private TicketItemDAO ticketItemDAO;
 
     @Override
     @Transactional
@@ -42,13 +42,13 @@ public class TicketItemServiceImpl implements TicketItemService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public TicketItem getTicketItemByID(Long id) throws IllegalArgumentException {
         return ticketItemDAO.getTicketItemByID(id);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public List<TicketItem> getTicketItemsByTicket(Ticket ticket) throws IllegalArgumentException {
         return ticketItemDAO.getTicketItemsByTicket(ticket);
     }

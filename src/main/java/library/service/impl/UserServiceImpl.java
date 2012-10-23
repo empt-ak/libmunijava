@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserServiceImpl implements UserService
 {
     @Autowired
-    UserDAO userDAO;    
+    private UserDAO userDAO;    
 
     @Override
     @Transactional
@@ -29,14 +29,14 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public User getUserByID(Long ID) throws IllegalArgumentException{//
         return userDAO.getUserByID(ID);
     }
 
     @Override
-    @Transactional
-    public List<User> getUsers() {//
+    @Transactional(readOnly=true)
+    public List<User> getUsers() {
         return userDAO.getUsers();
     }
 
@@ -53,13 +53,13 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public User getUserByUsername(String username) throws IllegalArgumentException {
         return userDAO.getUserByUsername(username);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public List<User> findUserByRealName(String name) throws IllegalArgumentException {
         return userDAO.findUserByRealName(name);
     }

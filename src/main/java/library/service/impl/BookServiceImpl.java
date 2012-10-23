@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BookServiceImpl implements BookService {
 
     @Autowired
-    BookDAO bookDAO;
+    private BookDAO bookDAO;
 
     @Override
     @Transactional
@@ -42,31 +42,31 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public Book getBookByID(Long id) throws IllegalArgumentException {
         return bookDAO.getBookByID(id);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public List<Book> getAllBooks() {
         return bookDAO.getAllBooks();
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public List<Book> getBooksByAuthor(String authorName) throws IllegalArgumentException {
         return bookDAO.getBooksByAuthor(authorName);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public List<Book> searchBooksByTitle(String title) throws IllegalArgumentException {
         return bookDAO.searchBooksByTitle(title);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly=true)
     public List<Book> getBooksByDepartment(Department department) throws IllegalArgumentException {
         return bookDAO.getBooksByDepartment(department);
     }
