@@ -6,9 +6,9 @@ package library.test;
 
 import java.util.ArrayList;
 import java.util.List;
-import library.entity.Book;
-import library.entity.BookStatus;
-import library.entity.Department;
+import library.entity.dto.Book;
+import library.entity.enums.BookStatus;
+import library.entity.enums.Department;
 import library.service.BookService;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -329,7 +329,7 @@ public class BookServiceTest {
             list = bookService.getBooksByDepartment(Department.SCIENTIFIC);
 
         } catch (Exception e) {
-            fail("No exception should be thrown when getting book by correct possible department that is created inside database");
+            fail("No exception should be thrown when getting book by correct possible department that is created inside database"+e.getMessage());
         }
 
         assertEquals("Search did not return correct number of books", 1, list.size());

@@ -6,7 +6,7 @@ package library.test;
 
 import java.util.ArrayList;
 import java.util.List;
-import library.entity.User;
+import library.entity.dto.User;
 import library.service.UserService;
 import static org.junit.Assert.*;
 import org.junit.Before;

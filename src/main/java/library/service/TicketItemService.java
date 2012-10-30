@@ -5,8 +5,9 @@
 package library.service;
 
 import java.util.List;
-import library.entity.Ticket;
-import library.entity.TicketItem;
+import library.entity.dto.Ticket;
+import library.entity.dto.TicketItem;
+
 
 /**
  *

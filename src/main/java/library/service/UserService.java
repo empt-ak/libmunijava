@@ -5,7 +5,7 @@
 package library.service;
 
 import java.util.List;
-import library.entity.User;
+import library.entity.dto.User;
 
 /**
  *

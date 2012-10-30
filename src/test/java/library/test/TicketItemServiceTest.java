@@ -7,13 +7,13 @@ package library.test;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import library.entity.Book;
-import library.entity.BookStatus;
-import library.entity.Department;
-import library.entity.Ticket;
-import library.entity.TicketItem;
-import library.entity.TicketItemStatus;
-import library.entity.User;
+import library.entity.enums.BookStatus;
+import library.entity.enums.Department;
+import library.entity.enums.TicketItemStatus;
+import library.entity.dto.Book;
+import library.entity.dto.Ticket;
+import library.entity.dto.TicketItem;
+import library.entity.dto.User;
 import library.service.BookService;
 import library.service.TicketItemService;
 import library.service.TicketService;
@@ -371,6 +371,7 @@ public class TicketItemServiceTest
     
     private static java.util.Comparator<TicketItem> tIComparator = new Comparator<TicketItem>()
     {
+        @Override
         public int compare(TicketItem ti1,TicketItem ti2)
         {
             return Long.valueOf(ti1.getTicketItemID()).compareTo(Long.valueOf(ti2.getTicketItemID()));

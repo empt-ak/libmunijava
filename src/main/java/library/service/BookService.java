@@ -5,8 +5,8 @@
 package library.service;
 
 import java.util.List;
-import library.entity.Book;
-import library.entity.Department;
+import library.entity.dto.Book;
+import library.entity.enums.Department;
 
 /**
  *

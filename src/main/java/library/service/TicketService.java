@@ -5,8 +5,8 @@
 package library.service;
 
 import java.util.List;
-import library.entity.Ticket;
-import library.entity.User;
+import library.entity.dto.Ticket;
+import library.entity.dto.User;
 import org.joda.time.DateTime;
 
 /**

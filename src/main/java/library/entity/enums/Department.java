@@ -2,12 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package library.entity;
+package library.entity.enums;
 
 /**
  *
- * @author Nemko
+ * @author Gaspar
  */
-public enum BookStatus {
-    AVAILABLE, NOT_AVAILABLE
+public enum Department 
+{
+    ADULT,KIDS,SCIENTIFIC    
 }
