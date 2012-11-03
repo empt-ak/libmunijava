@@ -1,50 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://dozer.sourceforge.net  http://dozer.sourceforge.net/schema/beanmapping.xsd">  
-  <mapping>
-    <class-a>library.entity.BookDO</class-a>
-    <class-b>library.entity.dto.Book</class-b>
-  </mapping> 
-  <mapping>
-    <class-a>library.entity.TicketDO</class-a>
-    <class-b>library.entity.dto.Ticket</class-b>
-    <field>
-        <a set-method="setBorrowTime" get-method="getBorrowTime">borrowTime</a>
-        <b set-method="setBorrowTime" get-method="getBorrowTime">borrowTime</b>        
-    </field>    
-  </mapping>
-  <mapping>
-    <class-a>library.entity.TicketItemDO</class-a>
-    <class-b>library.entity.dto.TicketItem</class-b>
-  </mapping>
-  <mapping>
-    <class-a>library.entity.UserDO</class-a>
-    <class-b>library.entity.dto.User</class-b>
-    <field>
-        <a>userID</a>
-        <b>userID</b>
-    </field>
-    <!-- ak by sme chceli vlastne mapovanie ine nazvy tak toto --> 
-<!--    
-    <field>
-      <a>userID</a>
-      <b>userID</b>
-    </field>
-    <field>
-      <a>username</a>
-      <b>username</b>
-    </field>
-    <field>
-      <a>password</a>
-      <b>password</b>
-    </field>
-    <field>
-      <a>realName</a>
-      <b>realName</b>
-    </field>
-    <field>
-      <a>systemRole</a>
-      <b>systemRole</b>
-    </field>-->
-  </mapping>
+          xsi:schemaLocation="http://dozer.sourceforge.net  http://dozer.sourceforge.net/schema/beanmapping.xsd">  
+    <configuration>
+        <custom-converters>
+            <converter type="library.utils.JodaTimeConverter">
+                <class-a>org.joda.time.DateTime</class-a>
+                <class-b>org.joda.time.DateTime</class-b>
+            </converter>  
+        </custom-converters>
+    </configuration>
+    
+    
+    <mapping>
+        <class-a>library.entity.BookDO</class-a>
+        <class-b>library.entity.dto.Book</class-b>
+    </mapping> 
+    <mapping>
+        <class-a>library.entity.TicketDO</class-a>
+        <class-b>library.entity.dto.Ticket</class-b>  
+<!--        <field custom-converter=""     -->
+    </mapping>
+    <mapping>
+        <class-a>library.entity.TicketItemDO</class-a>
+        <class-b>library.entity.dto.TicketItem</class-b>
+    </mapping>
+    <mapping>
+        <class-a>library.entity.UserDO</class-a>
+        <class-b>library.entity.dto.User</class-b>        
+        <!-- ak by sme chceli vlastne mapovanie ine nazvy tak toto --> 
+        <!--    
+        <field>
+          <a>userID</a>
+          <b>userID</b>
+        </field>
+        <field>
+          <a>username</a>
+          <b>username</b>
+        </field>
+        <field>
+          <a>password</a>
+          <b>password</b>
+        </field>
+        <field>
+          <a>realName</a>
+          <b>realName</b>
+        </field>
+        <field>
+          <a>systemRole</a>
+          <b>systemRole</b>
+        </field>-->
+    </mapping>
 </mappings>
