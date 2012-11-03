@@ -29,6 +29,10 @@
     <logger name="org.hibernate.tool.hbm2ddl">
         <level value="fatal"/>
     </logger>
+    
+    <logger name="org.dozer">
+        <level value="fatal"/>
+    </logger>
 	
     <logger name="org.hibernate">
         <level value="warn"/>  

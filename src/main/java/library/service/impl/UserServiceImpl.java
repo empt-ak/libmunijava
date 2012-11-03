@@ -20,73 +20,81 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Gaspar
  */
 @Service
-public class UserServiceImpl implements UserService
-{
+public class UserServiceImpl implements UserService {
+
     @Autowired
-    private UserDAO userDAO; 
-    
+    private UserDAO userDAO;
     @Autowired
     private Mapper mapper;
 
     @Override
     @Transactional
-    public void createUser(User user) throws IllegalArgumentException{// 
-            if(user == null){ throw new IllegalArgumentException(); } // mapper nesmie dostat ako source null
-            UserDO userDO = mapper.map(user, UserDO.class);
-            userDAO.createUser(userDO);
-            user.setUserID(userDO.getUserID()); // treba nastavit ID pretoze DTO nie je manazovany factory
+    public void createUser(User user) throws IllegalArgumentException {
+        if (user == null) {
+            throw new IllegalArgumentException();
+        } // mapper nesmie dostat ako source null
+        UserDO userDO = mapper.map(user, UserDO.class);
+        userDAO.createUser(userDO);
+        user.setUserID(userDO.getUserID()); // treba nastavit ID pretoze DTO nie je manazovany factory
     }
 
     @Override
-    @Transactional(readOnly=true)
-    public User getUserByID(Long ID) throws IllegalArgumentException{//        
-        return mapper.map(userDAO.getUserByID(ID),User.class);
+    @Transactional(readOnly = true)
+    public User getUserByID(Long ID) throws IllegalArgumentException {
+        UserDO userDO = userDAO.getUserByID(ID);
+        if (userDO != null) {
+            return mapper.map(userDAO.getUserByID(ID), User.class);
+        } else {
+            return null;
+        }
+
     }
 
     @Override
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public List<User> getUsers() {
         List<User> users = new ArrayList<>();
         List<UserDO> usersDO = userDAO.getUsers();
-        for(UserDO uDO : usersDO)
-        {
+        for (UserDO uDO : usersDO) {
             users.add(mapper.map(uDO, User.class));
         }
-        
+
         return users;
     }
 
     @Override
     @Transactional
-    public void updateUser(User user) throws IllegalArgumentException {//
-            if(user == null){ throw new IllegalArgumentException(); }
-            userDAO.updateUser(mapper.map(user, UserDO.class)); 
+    public void updateUser(User user) throws IllegalArgumentException {
+        if (user == null) {
+            throw new IllegalArgumentException();
+        }
+        userDAO.updateUser(mapper.map(user, UserDO.class));
     }
 
     @Override
     @Transactional
-    public void deleteUser(User user) throws IllegalArgumentException {//
-        if(user == null){ throw new IllegalArgumentException(); }
+    public void deleteUser(User user) throws IllegalArgumentException {
+        if (user == null) {
+            throw new IllegalArgumentException();
+        }
         UserDO userDO = mapper.map(user, UserDO.class);
         userDAO.deleteUser(userDO);
     }
 
     @Override
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public User getUserByUsername(String username) throws IllegalArgumentException {
-        return mapper.map(userDAO.getUserByUsername(username),User.class);
+        return mapper.map(userDAO.getUserByUsername(username), User.class);
     }
 
     @Override
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public List<User> findUserByRealName(String name) throws IllegalArgumentException {
         List<User> users = new ArrayList<>();
         List<UserDO> usersDO = userDAO.findUserByRealName(name);
-        for(UserDO uDO : usersDO)
-        {
+        for (UserDO uDO : usersDO) {
             users.add(mapper.map(uDO, User.class));
         }
         return users;
     }
-    
 }

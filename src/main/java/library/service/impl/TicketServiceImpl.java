@@ -57,7 +57,13 @@ public class TicketServiceImpl implements TicketService {
     @Override
     @Transactional(readOnly=true)
     public Ticket getTicketByID(Long id) throws IllegalArgumentException {
-        return mapper.map(ticketDAO.getTicketByID(id), Ticket.class);
+        TicketDO ticketDO = ticketDAO.getTicketByID(id);
+        if(ticketDO != null){
+            return mapper.map(ticketDO, Ticket.class);
+        }else{
+            return null;
+        }
+        
     }
 
     @Override

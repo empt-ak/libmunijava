@@ -21,7 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Szalai
  */
 @Service
-public class BookServiceImpl implements BookService {
+public class BookServiceImpl implements BookService 
+{
+    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(BookServiceImpl.class);
 
     @Autowired
     private BookDAO bookDAO;
@@ -31,8 +33,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public void createBook(Book book) throws IllegalArgumentException {
-            if(book == null){throw new IllegalArgumentException(); }
+    public void createBook(Book book) throws IllegalArgumentException 
+    {
+            if(book == null)
+            {
+                throw new IllegalArgumentException("ERROR: method argument for method createBook cannot be null");            
+            }
             BookDO bookDO = mapper.map(book, BookDO.class);
             bookDAO.createBook(bookDO);
             book.setBookID(bookDO.getBookID());
@@ -40,27 +46,50 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public void updateBook(Book book) throws IllegalArgumentException {      
-            if(book == null){throw new IllegalArgumentException(); }
-            bookDAO.updateBook(mapper.map(book, BookDO.class));        
+    public void updateBook(Book book) throws IllegalArgumentException 
+    {      
+            if(book == null)
+            {
+                throw new IllegalArgumentException("ERROR: method argument for method updateBook cannot be null"); 
+            }
+            BookDO bookDO = mapper.map(book, BookDO.class);
+            
+            bookDAO.updateBook(bookDO);        
     }
 
     @Override
     @Transactional
-    public void deleteBook(Book book) throws IllegalArgumentException {
-        if(book == null){throw new IllegalArgumentException(); }
-        bookDAO.deleteBook(mapper.map(book, BookDO.class));
+    public void deleteBook(Book book) throws IllegalArgumentException 
+    {
+        if(book == null)
+        {
+            throw new IllegalArgumentException("ERROR: method argument for method deleteBook cannot be null"); 
+        }
+        BookDO bookDO = mapper.map(book, BookDO.class);
+        
+        bookDAO.deleteBook(bookDO);
     }
 
     @Override
     @Transactional(readOnly=true)
-    public Book getBookByID(Long id) throws IllegalArgumentException {
-        return mapper.map(bookDAO.getBookByID(id), Book.class);
+    public Book getBookByID(Long id) throws IllegalArgumentException 
+    {
+        BookDO bookDO = bookDAO.getBookByID(id); // throws iae on wrong id
+        if(bookDO != null)
+        {
+            return mapper.map(bookDAO.getBookByID(id), Book.class);
+        }
+        else
+        {
+            return null;
+        }
+        
     }
 
     @Override
     @Transactional(readOnly=true)
-    public List<Book> getAllBooks() {
+    public List<Book> getAllBooks() 
+    {
         List<Book> books = new ArrayList<>();
         List<BookDO> booksDO = bookDAO.getAllBooks();
         for(BookDO bDO : booksDO)
@@ -72,7 +101,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly=true)
-    public List<Book> getBooksByAuthor(String authorName) throws IllegalArgumentException {
+    public List<Book> getBooksByAuthor(String authorName) throws IllegalArgumentException 
+    {
         List<Book> books = new ArrayList<>();
         List<BookDO> booksDO = bookDAO.getBooksByAuthor(authorName);
         for(BookDO bDO : booksDO)
@@ -84,7 +114,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly=true)
-    public List<Book> searchBooksByTitle(String title) throws IllegalArgumentException {
+    public List<Book> searchBooksByTitle(String title) throws IllegalArgumentException 
+    {
         List<Book> books = new ArrayList<>();
         List<BookDO> booksDO = bookDAO.searchBooksByTitle(title);
         for(BookDO bDO : booksDO)
@@ -96,7 +127,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly=true)
-    public List<Book> getBooksByDepartment(Department department) throws IllegalArgumentException {
+    public List<Book> getBooksByDepartment(Department department) throws IllegalArgumentException 
+    {
         if(department == null){throw new IllegalArgumentException(); }
         List<Book> books = new ArrayList<>();
         List<BookDO> booksDO = bookDAO.getBooksByDepartment(department);
