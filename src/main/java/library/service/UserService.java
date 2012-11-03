@@ -5,7 +5,7 @@
 package library.service;
 
 import java.util.List;
-import library.entity.dto.User;
+import library.entity.dto.UserDTO;
 
 /**
  *
@@ -14,18 +14,18 @@ import library.entity.dto.User;
 public interface UserService 
 {
     
-    void createUser(User user) throws IllegalArgumentException;
+    void createUser(UserDTO user) throws IllegalArgumentException;
    
-    void updateUser(User user) throws IllegalArgumentException;    
+    void updateUser(UserDTO user) throws IllegalArgumentException;    
    
-    void deleteUser(User user) throws IllegalArgumentException;    
+    void deleteUser(UserDTO user) throws IllegalArgumentException;    
     
-    User getUserByID(Long id) throws IllegalArgumentException;  
+    UserDTO getUserByID(Long id) throws IllegalArgumentException;  
     
-    User getUserByUsername(String username) throws IllegalArgumentException;
+    UserDTO getUserByUsername(String username) throws IllegalArgumentException;
      
-    List<User> findUserByRealName(String name) throws IllegalArgumentException;
+    List<UserDTO> findUserByRealName(String name) throws IllegalArgumentException;
     
-    List<User> getUsers();
+    List<UserDTO> getUsers();
     
 }

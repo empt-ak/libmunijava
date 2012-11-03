@@ -1,8 +1,8 @@
 package library;
 
 
-import library.entity.UserDO;
-import library.entity.dto.User;
+import library.entity.User;
+import library.entity.dto.UserDTO;
 import library.service.UserService;
 import org.dozer.Mapper;
 import org.springframework.context.ApplicationContext;
@@ -32,16 +32,16 @@ public class NewMain {
     public static void main(String[] args) {
         //appContext.getBean("userService");
         createUser();              
-        UserDO udto = mapper.map(userService.getUserByID(1L), UserDO.class);
+        User udto = mapper.map(userService.getUserByID(1L), User.class);
         
         dumpudto(udto);
         
         
     }
     
-    private static void dumpudto(UserDO udto)
+    private static void dumpudto(User udto)
     {
-        System.out.println(udto.getClass().equals(UserDO.class));
+        System.out.println(udto.getClass().equals(User.class));
         System.out.println(udto.getPassword());
         System.out.println(udto.getRealName());
         System.out.println(udto.getSystemRole());
@@ -51,7 +51,7 @@ public class NewMain {
     
     private static void createUser()
     {
-        User u = new User();
+        UserDTO u = new UserDTO();
         u.setPassword("heslo");
         u.setRealName("meno");
         u.setSystemRole("USER");

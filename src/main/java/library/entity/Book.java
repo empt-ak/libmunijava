@@ -2,22 +2,44 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package library.entity.dto;
+package library.entity;
 
 import library.entity.enums.Department;
 import library.entity.enums.BookStatus;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  *
  * @author Gaspar
  */
-public class Book
+@Entity
+public class Book implements java.io.Serializable
 {
-    private Long bookID;    
-    private String title;    
-    private String author;    
-    private Department department;   
+    private static final long serialVersionUID = 7515477206657718701L;
+    
+    @Id
+    @GeneratedValue
+    @Column(name="bookID",length=10)
+    private Long bookID;
+    
+    @Column(name="title",length=100,nullable=false)
+    private String title;
+    
+    @Column(name="author",length=100,nullable=false)
+    private String author;
+    
+    @Column(name="department",nullable=false)
+    @Enumerated(EnumType.STRING)
+    private Department department;
+    
+    @Column(name="bookStatus",nullable=false)
+    @Enumerated(EnumType.STRING)
     private BookStatus bookStatus;
 
     public Long getBookID() {
@@ -84,6 +106,6 @@ public class Book
 
     @Override
     public String toString() {
-        return "BookDTO{" + "bookID=" + bookID + ", title=" + title + ", author=" + author + ", department=" + department + ", bookStatus=" + bookStatus + '}';
+        return "Book{" + "bookID=" + bookID + ", title=" + title + ", author=" + author + ", department=" + department + ", bookStatus=" + bookStatus + '}';
     }
 }

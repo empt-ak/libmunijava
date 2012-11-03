@@ -7,10 +7,10 @@ package library.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import library.dao.TicketDAO;
-import library.entity.TicketDO;
-import library.entity.UserDO;
-import library.entity.dto.Ticket;
-import library.entity.dto.User;
+import library.entity.Ticket;
+import library.entity.User;
+import library.entity.dto.TicketDTO;
+import library.entity.dto.UserDTO;
 import library.service.TicketService;
 import org.dozer.Mapper;
 import org.joda.time.DateTime;
@@ -33,33 +33,33 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional
-    public void createTicket(Ticket ticket) throws IllegalArgumentException {
-        if(ticket == null){throw new IllegalArgumentException();}
-        TicketDO ticketDO = mapper.map(ticket, TicketDO.class);
+    public void createTicket(TicketDTO ticketDTO) throws IllegalArgumentException {
+        if(ticketDTO == null){throw new IllegalArgumentException();}
+        Ticket ticketDO = mapper.map(ticketDTO, Ticket.class);
         ticketDAO.createTicket(ticketDO);
-        ticket.setTicketID(ticketDO.getTicketID());
+        ticketDTO.setTicketID(ticketDO.getTicketID());
     }
 
     @Override
     @Transactional
-    public void updateTicket(Ticket ticket) throws IllegalArgumentException {
-        if(ticket == null){throw new IllegalArgumentException();}
-        ticketDAO.updateTicket(mapper.map(ticket, TicketDO.class));
+    public void updateTicket(TicketDTO ticketDTO) throws IllegalArgumentException {
+        if(ticketDTO == null){throw new IllegalArgumentException();}
+        ticketDAO.updateTicket(mapper.map(ticketDTO, Ticket.class));
     }
 
     @Override
     @Transactional
-    public void deleteTicket(Ticket ticket) throws IllegalArgumentException {
-        if(ticket == null){throw new IllegalArgumentException();}
-        ticketDAO.deleteTicket(mapper.map(ticket, TicketDO.class));
+    public void deleteTicket(TicketDTO ticketDTO) throws IllegalArgumentException {
+        if(ticketDTO == null){throw new IllegalArgumentException();}
+        ticketDAO.deleteTicket(mapper.map(ticketDTO, Ticket.class));
     }
 
     @Override
     @Transactional(readOnly=true)
-    public Ticket getTicketByID(Long id) throws IllegalArgumentException {
-        TicketDO ticketDO = ticketDAO.getTicketByID(id);
-        if(ticketDO != null){
-            return mapper.map(ticketDO, Ticket.class);
+    public TicketDTO getTicketByID(Long id) throws IllegalArgumentException {
+        Ticket ticket = ticketDAO.getTicketByID(id);
+        if(ticket != null){
+            return mapper.map(ticket, TicketDTO.class);
         }else{
             return null;
         }
@@ -68,37 +68,37 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     @Transactional(readOnly=true)
-    public Ticket getLastTicketForUser(User user) throws IllegalArgumentException {
-        if(user==null){throw new IllegalArgumentException(); }
-        UserDO userDO = mapper.map(user, UserDO.class);
-        return mapper.map(ticketDAO.getLastTicketForUser(userDO),Ticket.class);
+    public TicketDTO getLastTicketForUser(UserDTO userDTO) throws IllegalArgumentException {
+        if(userDTO==null){throw new IllegalArgumentException(); }
+        User user = mapper.map(userDTO, User.class);
+        return mapper.map(ticketDAO.getLastTicketForUser(user),TicketDTO.class);
     }
  
     @Override
     @Transactional(readOnly=true)
-    public List<Ticket> getTicketsInPeriodForUser(DateTime from, DateTime to, User user) throws IllegalArgumentException {
-        if(user==null){throw new IllegalArgumentException(); }
-        UserDO userDO = mapper.map(user, UserDO.class);
-        List<TicketDO> dOs = ticketDAO.getTicketsInPeriodForUser(from, to, userDO);
-        List<Ticket> tickets = new ArrayList<>();
-        for(TicketDO tDO :dOs)
+    public List<TicketDTO> getTicketsInPeriodForUser(DateTime from, DateTime to, UserDTO userDTO) throws IllegalArgumentException {
+        if(userDTO==null){throw new IllegalArgumentException(); }
+        User user = mapper.map(userDTO, User.class);
+        List<Ticket> tickets = ticketDAO.getTicketsInPeriodForUser(from, to, user);
+        List<TicketDTO> ticketDTOs = new ArrayList<>();
+        for(Ticket tDO : tickets)
         {
-            tickets.add(mapper.map(tDO, Ticket.class));
+            ticketDTOs.add(mapper.map(tDO, TicketDTO.class));
         }
-        return tickets;
+        return ticketDTOs;
     }
 
     @Override
     @Transactional(readOnly=true)
-    public List<Ticket> getAllTicketsForUser(User user) throws IllegalArgumentException {
-        if(user==null){throw new IllegalArgumentException(); }
-        UserDO userDO = mapper.map(user, UserDO.class);
-        List<TicketDO> dOs = ticketDAO.getAllTicketsForUser(userDO);
-        List<Ticket> tickets = new ArrayList<>();
-        for(TicketDO tDO :dOs)
+    public List<TicketDTO> getAllTicketsForUser(UserDTO userDTO) throws IllegalArgumentException {
+        if(userDTO==null){throw new IllegalArgumentException(); }
+        User user = mapper.map(userDTO, User.class);
+        List<Ticket> tickets = ticketDAO.getAllTicketsForUser(user);
+        List<TicketDTO> ticketDTOs = new ArrayList<>();
+        for(Ticket tDO : tickets)
         {
-            tickets.add(mapper.map(tDO, Ticket.class));
+            ticketDTOs.add(mapper.map(tDO, TicketDTO.class));
         }
-        return tickets;
+        return ticketDTOs;
     }
 }

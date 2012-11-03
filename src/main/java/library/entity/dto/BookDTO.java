@@ -2,44 +2,22 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package library.entity;
+package library.entity.dto;
 
 import library.entity.enums.Department;
 import library.entity.enums.BookStatus;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
 /**
  *
  * @author Gaspar
  */
-@Entity
-public class BookDO implements java.io.Serializable
+public class BookDTO
 {
-    private static final long serialVersionUID = 7515477206657718701L;
-    
-    @Id
-    @GeneratedValue
-    @Column(name="bookID",length=10)
-    private Long bookID;
-    
-    @Column(name="title",length=100,nullable=false)
-    private String title;
-    
-    @Column(name="author",length=100,nullable=false)
-    private String author;
-    
-    @Column(name="department",nullable=false)
-    @Enumerated(EnumType.STRING)
-    private Department department;
-    
-    @Column(name="bookStatus",nullable=false)
-    @Enumerated(EnumType.STRING)
+    private Long bookID;    
+    private String title;    
+    private String author;    
+    private Department department;   
     private BookStatus bookStatus;
 
     public Long getBookID() {
@@ -97,7 +75,7 @@ public class BookDO implements java.io.Serializable
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final BookDO other = (BookDO) obj;
+        final BookDTO other = (BookDTO) obj;
         if (!Objects.equals(this.bookID, other.bookID)) {
             return false;
         }
@@ -106,6 +84,6 @@ public class BookDO implements java.io.Serializable
 
     @Override
     public String toString() {
-        return "Book{" + "bookID=" + bookID + ", title=" + title + ", author=" + author + ", department=" + department + ", bookStatus=" + bookStatus + '}';
+        return "BookDTO{" + "bookID=" + bookID + ", title=" + title + ", author=" + author + ", department=" + department + ", bookStatus=" + bookStatus + '}';
     }
 }

@@ -9,11 +9,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import library.dao.TicketDAO;
-import library.entity.BookDO;
+import library.entity.Book;
 import library.entity.enums.BookStatus;
-import library.entity.TicketDO;
-import library.entity.TicketItemDO;
-import library.entity.UserDO;
+import library.entity.Ticket;
+import library.entity.TicketItem;
+import library.entity.User;
 import library.utils.ValidationUtils;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
@@ -29,7 +29,7 @@ public class TicketDAOImpl implements TicketDAO {
     private EntityManager entityManager;
 
     @Override
-    public void createTicket(TicketDO loanTicket) throws IllegalArgumentException {
+    public void createTicket(Ticket loanTicket) throws IllegalArgumentException {
         if (loanTicket == null) {
             throw new IllegalArgumentException("Error creating Ticket object: passed TicketItem is null");
         }
@@ -39,9 +39,9 @@ public class TicketDAOImpl implements TicketDAO {
             if (loanTicket.getTicketItems().isEmpty()) {
                 throw new IllegalArgumentException("Error creating Ticket object: TicketItem list is empty");
             }
-            for (Iterator<TicketItemDO> it = loanTicket.getTicketItems().iterator(); it.hasNext();) {
-                TicketItemDO item = it.next();
-                BookDO book = item.getBook();
+            for (Iterator<TicketItem> it = loanTicket.getTicketItems().iterator(); it.hasNext();) {
+                TicketItem item = it.next();
+                Book book = item.getBook();
                 ValidationUtils.testBookIsCorrect(book);
                 if (ValidationUtils.testIsBookAvailable(book)) {
                     book.setBookStatus(BookStatus.NOT_AVAILABLE);
@@ -64,7 +64,7 @@ public class TicketDAOImpl implements TicketDAO {
     }
 
     @Override
-    public TicketDO getTicketByID(Long id) throws IllegalArgumentException {
+    public Ticket getTicketByID(Long id) throws IllegalArgumentException {
         if (id == null) {
             throw new IllegalArgumentException("Given Ticket can't be found "
                     + "in the database, it's ID is null");
@@ -72,11 +72,11 @@ public class TicketDAOImpl implements TicketDAO {
             throw new IllegalArgumentException("Can't get Ticket: Passed ID is not within a correct range");
         }
 
-        return entityManager.find(TicketDO.class, id);
+        return entityManager.find(Ticket.class, id);
     }
 
     @Override
-    public void updateTicket(TicketDO ticket) throws IllegalArgumentException {
+    public void updateTicket(Ticket ticket) throws IllegalArgumentException {
         if (ticket == null) {
             throw new IllegalArgumentException("Given ticket is null");
         }
@@ -85,9 +85,9 @@ public class TicketDAOImpl implements TicketDAO {
             if (ticket.getTicketItems().isEmpty()) {
                 throw new IllegalArgumentException("Error creating Ticket object: TicketItem list is empty");
             }
-            for (Iterator<TicketItemDO> it = ticket.getTicketItems().iterator(); it.hasNext();) {
-                TicketItemDO item = it.next();
-                BookDO book = item.getBook();
+            for (Iterator<TicketItem> it = ticket.getTicketItems().iterator(); it.hasNext();) {
+                TicketItem item = it.next();
+                Book book = item.getBook();
                 ValidationUtils.testBookIsCorrect(book);
             }
             entityManager.merge(ticket);
@@ -97,12 +97,12 @@ public class TicketDAOImpl implements TicketDAO {
     }
 
     @Override
-    public void deleteTicket(TicketDO ticket) throws IllegalArgumentException {
+    public void deleteTicket(Ticket ticket) throws IllegalArgumentException {
         if (ticket == null) {
             throw new IllegalArgumentException("Passed Ticket is null");
         }
         
-        TicketDO thisTicket = entityManager.find(TicketDO.class, ticket.getTicketID());
+        Ticket thisTicket = entityManager.find(Ticket.class, ticket.getTicketID());
         if (thisTicket != null) {
             entityManager.remove(thisTicket);
         } else {
@@ -112,13 +112,13 @@ public class TicketDAOImpl implements TicketDAO {
     }
 
     @Override
-    public TicketDO getLastTicketForUser(UserDO user) throws IllegalArgumentException {
+    public Ticket getLastTicketForUser(User user) throws IllegalArgumentException {
         if (user == null) {
             throw new IllegalArgumentException("Given user is null");
         }
 
-         return (TicketDO) entityManager.createQuery("SELECT t FROM TicketDO t where "
-                 + "t.ticketID = (SELECT MAX(ticketID) FROM TicketDO t WHERE t.user = :user)")
+         return (Ticket) entityManager.createQuery("SELECT t FROM Ticket t where "
+                 + "t.ticketID = (SELECT MAX(ticketID) FROM Ticket t WHERE t.user = :user)")
                  .setParameter("user", user).getSingleResult();
         //return entityManager.createNativeQuery("SELECT * FROM Ticket t where t.userID = :userID AND t.ticketID = MAX(t.ticketID))",Ticket.class)
         //        .setParameter("userID", user.getUserID()).getSingleResult();
@@ -127,7 +127,7 @@ public class TicketDAOImpl implements TicketDAO {
     }
 
     @Override
-    public List<TicketDO> getTicketsInPeriodForUser(DateTime from, DateTime to, UserDO user) throws IllegalArgumentException {
+    public List<Ticket> getTicketsInPeriodForUser(DateTime from, DateTime to, User user) throws IllegalArgumentException {
 
         if (from == null) {
             throw new IllegalArgumentException("Given DateTime indicating start date is null");
@@ -139,18 +139,18 @@ public class TicketDAOImpl implements TicketDAO {
             throw new IllegalArgumentException("Given user is null");
         }
 
-        return entityManager.createQuery("SELECT t FROM TicketDO t WHERE t.borrowTime BETWEEN :start AND :end AND t.user = :user")
+        return entityManager.createQuery("SELECT t FROM Ticket t WHERE t.borrowTime BETWEEN :start AND :end AND t.user = :user")
                 .setParameter("start", from).setParameter("end", to)
                 .setParameter("user", user).getResultList();
     }
 
     @Override
-    public List<TicketDO> getAllTicketsForUser(UserDO user) throws IllegalArgumentException {
+    public List<Ticket> getAllTicketsForUser(User user) throws IllegalArgumentException {
         if (user == null) {
             throw new IllegalArgumentException("Given user is null");
         }
 
-        return entityManager.createQuery("SELECT t FROM TicketDO t WHERE user = :user")
+        return entityManager.createQuery("SELECT t FROM Ticket t WHERE user = :user")
                 .setParameter("user", user).getResultList();
     }
 }

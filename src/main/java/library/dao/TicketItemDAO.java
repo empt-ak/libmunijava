@@ -5,8 +5,8 @@
 package library.dao;
 
 import java.util.List;
-import library.entity.TicketDO;
-import library.entity.TicketItemDO;
+import library.entity.Ticket;
+import library.entity.TicketItem;
 
 /**
  *
@@ -18,21 +18,21 @@ public interface TicketItemDAO {
      * @param ticketItem
      * @throws IllegalArgumentException 
      */
-    void createTicketItem(TicketItemDO ticketItem) throws IllegalArgumentException;    
+    void createTicketItem(TicketItem ticketItem) throws IllegalArgumentException;    
     
     /**
      * Method used for updating given TicketItem. 
      * @param ticketItem ticketItem object for updating
      * @throws IllegalArgumentException if ticketItem is null
      */
-    void updateTicketItem(TicketItemDO ticketItem) throws IllegalArgumentException;
+    void updateTicketItem(TicketItem ticketItem) throws IllegalArgumentException;
     
     /**
      * Method used for retrieving TicketItems from the database. 
      * @param ticketItem ticketItem object for deletion
      * @throws IllegalArgumentException if ticketItem is null or does not exist in the database
      */
-    void deleteTicketItem(TicketItemDO ticketItem) throws IllegalArgumentException;
+    void deleteTicketItem(TicketItem ticketItem) throws IllegalArgumentException;
     
     /**
      * Method used for retrieving TicketItem by given id. 
@@ -40,7 +40,7 @@ public interface TicketItemDAO {
      * @return List with books by given department or empty {@link java.util.ArrayList} if there are no books
      * @throws IllegalArgumentException if id is null or lower or equal to zero
      */
-    TicketItemDO getTicketItemByID(Long id) throws IllegalArgumentException;
+    TicketItem getTicketItemByID(Long id) throws IllegalArgumentException;
     
     /**
      * Method used for retrieving TicketItems belonging to a given TicketItem.
@@ -48,5 +48,5 @@ public interface TicketItemDAO {
      * @return List with TicketItems by given ticket or empty {@link java.util.ArrayList} if there are no TicketItems
      * @throws IllegalArgumentException if ticket is null
      */
-    List<TicketItemDO> getTicketItemsByTicket(TicketDO ticket) throws IllegalArgumentException;
+    List<TicketItem> getTicketItemsByTicket(Ticket ticket) throws IllegalArgumentException;
 }

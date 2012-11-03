@@ -4,10 +4,10 @@
  */
 package library.utils;
 
-import library.entity.BookDO;
+import library.entity.Book;
 import library.entity.enums.BookStatus;
 import library.entity.enums.Department;
-import library.entity.UserDO;
+import library.entity.User;
 
 /**
  *
@@ -15,7 +15,7 @@ import library.entity.UserDO;
  */
 public class ValidationUtils {
 
-    public static void checkUser(UserDO user) {
+    public static void checkUser(User user) {
         if (user.getPassword() == null) {
             throw new IllegalArgumentException("ERROR: obtained user does not have his password set");
         }
@@ -48,7 +48,7 @@ public class ValidationUtils {
         }
     }
     
-    public static boolean testBookIsCorrect(BookDO book) {
+    public static boolean testBookIsCorrect(Book book) {
         
         if (book == null) {
             return false;
@@ -84,7 +84,7 @@ public class ValidationUtils {
 
     }
     
-    public static boolean testIsBookAvailable(BookDO book) {
+    public static boolean testIsBookAvailable(Book book) {
         return book.getBookStatus().equals(BookStatus.AVAILABLE);
     }
 }

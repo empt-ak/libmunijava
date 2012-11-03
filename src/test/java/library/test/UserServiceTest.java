@@ -6,7 +6,7 @@ package library.test;
 
 import java.util.ArrayList;
 import java.util.List;
-import library.entity.dto.User;
+import library.entity.dto.UserDTO;
 import library.service.UserService;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -31,8 +31,8 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class UserServiceTest
 {
-    private List<User> correctUsers = null;
-    private List<User> wrongUsers = null;
+    private List<UserDTO> correctUsers = null;
+    private List<UserDTO> wrongUsers = null;
     
     @Autowired
     private UserService userService;
@@ -40,20 +40,20 @@ public class UserServiceTest
     @Before
     public void init(){
         correctUsers = new ArrayList<>();
-        User cu = createUser("heslo1", "realny1", "USER", "uziv1");
-        User cu2 = createUser("heslo2", "realny2", "USER", "uziv2");
-        User cu3 = createUser("heslo3", "realny3", "ADMINISTRATOR", "uziv3");
-        User cu4 = createUser("heslo4", "realny4", "USER", "uziv4");
+        UserDTO cu = createUser("heslo1", "realny1", "USER", "uziv1");
+        UserDTO cu2 = createUser("heslo2", "realny2", "USER", "uziv2");
+        UserDTO cu3 = createUser("heslo3", "realny3", "ADMINISTRATOR", "uziv3");
+        UserDTO cu4 = createUser("heslo4", "realny4", "USER", "uziv4");
         correctUsers.add(cu);
         correctUsers.add(cu2);
         correctUsers.add(cu3);
         correctUsers.add(cu4);
         
         wrongUsers = new ArrayList<>();
-        User wu = createUser(null, "r_zly1", "USER", "uz_zly1");
-        User wu2 = createUser("h_zly2", null, "USER", "uz_zly2");
-        User wu3 = createUser("h_zly3", "r_zly3", null, "uz_zly3");
-        User wu4 = createUser("h_zly4", "r_zly4", "ADMINISTRATOR", null);
+        UserDTO wu = createUser(null, "r_zly1", "USER", "uz_zly1");
+        UserDTO wu2 = createUser("h_zly2", null, "USER", "uz_zly2");
+        UserDTO wu3 = createUser("h_zly3", "r_zly3", null, "uz_zly3");
+        UserDTO wu4 = createUser("h_zly4", "r_zly4", "ADMINISTRATOR", null);
         wrongUsers.add(wu);
         wrongUsers.add(wu2);
         wrongUsers.add(wu3);
@@ -131,7 +131,7 @@ public class UserServiceTest
         }catch(IllegalArgumentException iae){
             //ok
         }
-        User saved = null;
+        UserDTO saved = null;
         try{
             saved = userService.getUserByID(correctUsers.get(0).getUserID()); // should be 5
         }catch(Exception e){
@@ -143,7 +143,7 @@ public class UserServiceTest
     
     @Test
     public void testUpdateUser(){
-        User u = correctUsers.get(1);
+        UserDTO u = correctUsers.get(1);
         userService.createUser(u);
         try{
             userService.updateUser(null);
@@ -189,7 +189,7 @@ public class UserServiceTest
             fail("No exception should be thrown when updating correct user"+e);
         }
         
-        User uzer = userService.getUserByID(u.getUserID());
+        UserDTO uzer = userService.getUserByID(u.getUserID());
         
         assertDeepEquals(u, uzer);
     }
@@ -201,7 +201,7 @@ public class UserServiceTest
         userService.createUser(correctUsers.get(2));
         userService.createUser(correctUsers.get(3));
         
-        User toDelete =correctUsers.get(2);
+        UserDTO toDelete =correctUsers.get(2);
         
         try{
             userService.deleteUser(null);
@@ -214,7 +214,7 @@ public class UserServiceTest
         }catch(IllegalArgumentException iae){
             fail("No Exception should be thrown when deleting correct user "+iae.getMessage());
         }
-        List<User> list = userService.getUsers();
+        List<UserDTO> list = userService.getUsers();
         assertEquals("v db nie su 3 uzivatelia",3,list.size());
         assertNotSame("a", correctUsers.get(2), list.get(0));
         assertNotSame("b",correctUsers.get(2),list.get(1));
@@ -229,7 +229,7 @@ public class UserServiceTest
         userService.createUser(correctUsers.get(2));
         userService.createUser(correctUsers.get(3)); 
         
-        List<User> uzers = userService.getUsers();
+        List<UserDTO> uzers = userService.getUsers();
         
         assertEquals("There should be 4 users inside database but they are not",4,uzers.size());
         assertDeepEquals(correctUsers, uzers);
@@ -252,7 +252,7 @@ public class UserServiceTest
         }catch(IllegalArgumentException iae){
             //ok
         }
-        User u = null;
+        UserDTO u = null;
         try{
             u = userService.getUserByUsername("uziv1");
         }catch(Exception e){
@@ -283,7 +283,7 @@ public class UserServiceTest
             //ok
         }
         
-        List<User> list = null;
+        List<UserDTO> list = null;
         
         try{
             list = userService.findUserByRealName("alny");
@@ -299,8 +299,8 @@ public class UserServiceTest
 
     
     
-    private User createUser(String password,String realname,String systemRole,String username){
-        User u = new User();
+    private UserDTO createUser(String password,String realname,String systemRole,String username){
+        UserDTO u = new UserDTO();
         u.setPassword(password);
         u.setRealName(realname);
         u.setSystemRole(systemRole);
@@ -308,14 +308,14 @@ public class UserServiceTest
         return u;
     }
     
-    private void assertDeepEquals(User expected, User actual){
+    private void assertDeepEquals(UserDTO expected, UserDTO actual){
         assertEquals("Passwords are not same",expected.getPassword(),actual.getPassword());
         assertEquals("Real names are not same",expected.getRealName(),actual.getRealName());
         assertEquals("Usernames are not same",expected.getUsername(),actual.getUsername());
         assertEquals("System roles are not same",expected.getSystemRole(),actual.getSystemRole());
     }
     
-    private void assertDeepEquals(List<User> expected, List<User> actual){
+    private void assertDeepEquals(List<UserDTO> expected, List<UserDTO> actual){
         for(int i =0;i<expected.size();i++){
             assertEquals("Passwords are not same",expected.get(i).getPassword(),actual.get(i).getPassword());
             assertEquals("Real names are not same",expected.get(i).getRealName(),actual.get(i).getRealName());

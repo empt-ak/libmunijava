@@ -5,7 +5,7 @@
 package library.service;
 
 import java.util.List;
-import library.entity.dto.Book;
+import library.entity.dto.BookDTO;
 import library.entity.enums.Department;
 
 /**
@@ -22,7 +22,7 @@ public interface BookService {
      * @param book with all valid attributes to be saved
      * @throws IllegalArgumentException if book is null or does not have set its ID
      */
-    void createBook(Book book) throws IllegalArgumentException;
+    void createBook(BookDTO book) throws IllegalArgumentException;
     
     /**
      * Method used for updating book in DAO layer. Since book object we are trying to update is parsed from service layer
@@ -31,31 +31,31 @@ public interface BookService {
      * @param book with all valid attributes to be update
      * @throws IllegalArgumentException if book is null or does not have set its ID
      */
-    void updateBook(Book book) throws IllegalArgumentException;
+    void updateBook(BookDTO book) throws IllegalArgumentException;
     
     /**
-     * Method used for deleting book in DAO layer. The only required field to be set for book is ID, because {@link Book#equals(java.lang.Object) }
+     * Method used for deleting book in DAO layer. The only required field to be set for book is ID, because {@link BookDTO#equals(java.lang.Object) }
      * compares books based on their IDs, therefore when deleting object ID has to be set in order to successful deletion.
      * @param book with proper ID to be deleted
      * @throws IllegalArgumentException if book is null or does not have proper id
      */
-    void deleteBook(Book book) throws IllegalArgumentException;
+    void deleteBook(BookDTO book) throws IllegalArgumentException;
     
     /**
      * Method used for obtaining book in DAO layer. Since book IDs are from range 1 to {@link java.lang.Long#MAX_VALUE}, we check only
      * range or if ID is not null in order to retrieve book by given id.
      * @param id from range 1 to {@link java.lang.Long#MAX_VALUE} or not null
-     * @return Book by given id as parameter
+     * @return BookDTO by given id as parameter
      * @throws IllegalArgumentException if id is null or out of range
      */
-    Book getBookByID(Long id) throws IllegalArgumentException;
+    BookDTO getBookByID(Long id) throws IllegalArgumentException;
     
     /**
      * Method used for retrieving all books from database. If there are currently no books stored inside db empty {@link java.util.ArrayList} is
      * returned
      * @return List with all books or empty {@link java.util.ArrayList}
      */
-    List<Book> getAllBooks();
+    List<BookDTO> getAllBooks();
     
     /**
      * Method used for retrieving books written by given author from database. Name should be longer than 1 character and should not be null,
@@ -64,7 +64,7 @@ public interface BookService {
      * @return List with all books written by given authors name or empty {@link java.util.ArrayList}
      * @throws IllegalArgumentException if authorName is null or has zero length
      */
-    List<Book> getBooksByAuthor(String authorName) throws IllegalArgumentException;
+    List<BookDTO> getBooksByAuthor(String authorName) throws IllegalArgumentException;
     
     /**
      * Method used for retrieving books by given title. Title should be longer than 1 character and should not be null,
@@ -73,7 +73,7 @@ public interface BookService {
      * @return List of books by given title, or empty {@link java.util.ArrayList}
      * @throws IllegalArgumentException if title is null or has zero length
      */
-    List<Book> searchBooksByTitle(String title) throws IllegalArgumentException;
+    List<BookDTO> searchBooksByTitle(String title) throws IllegalArgumentException;
     
     /**
      * Method used for retrieving books by given department. 
@@ -81,7 +81,7 @@ public interface BookService {
      * @return List with books by given department or empty {@link java.util.ArrayList} if there are no books
      * @throws IllegalArgumentException if department is null
      */
-    List<Book> getBooksByDepartment(Department department) throws IllegalArgumentException;   
+    List<BookDTO> getBooksByDepartment(Department department) throws IllegalArgumentException;   
     
 }
 

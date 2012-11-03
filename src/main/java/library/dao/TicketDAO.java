@@ -5,8 +5,8 @@
 package library.dao;
 
 import java.util.List;
-import library.entity.TicketDO;
-import library.entity.UserDO;
+import library.entity.Ticket;
+import library.entity.User;
 import org.joda.time.DateTime;
 
 /**
@@ -19,21 +19,21 @@ public interface TicketDAO {
      * @param ticket to be save with correct fields
      * @throws IllegalArgumentException if ticket is null or has no id
      */
-    void createTicket(TicketDO ticket) throws IllegalArgumentException;
+    void createTicket(Ticket ticket) throws IllegalArgumentException;
     
     /**
      * Method updates ticket inside database
      * @param ticket to be update with correct fields
      * @throws IllegalArgumentException if ticket is null or has no id
      */
-    void updateTicket(TicketDO ticket) throws IllegalArgumentException;
+    void updateTicket(Ticket ticket) throws IllegalArgumentException;
     
     /**
      * method deletes ticked from database
      * @param ticket to be deleted. only id has to be set
      * @throws IllegalArgumentException if ticket is null
      */
-    void deleteTicket(TicketDO ticket) throws IllegalArgumentException;
+    void deleteTicket(Ticket ticket) throws IllegalArgumentException;
     
     /**
      * method gets ticket from database on its id
@@ -41,7 +41,7 @@ public interface TicketDAO {
      * @return ticket with given id
      * @throws IllegalArgumentException  if id is null or out of range 
      */
-    TicketDO getTicketByID(Long id) throws IllegalArgumentException;
+    Ticket getTicketByID(Long id) throws IllegalArgumentException;
     
     /**
      * method returns last ticket for given user. this is useful when he returns books
@@ -50,7 +50,7 @@ public interface TicketDAO {
      * @return last ticket for given user
      * @throws IllegalArgumentException if user is null
      */
-    TicketDO getLastTicketForUser(UserDO user) throws IllegalArgumentException;
+    Ticket getLastTicketForUser(User user) throws IllegalArgumentException;
     
     /**
      * method return tickets between given period of time for given user
@@ -60,7 +60,7 @@ public interface TicketDAO {
      * @return list from given period for given user
      * @throws IllegalArgumentException if any of paramters are null.
      */
-    List<TicketDO> getTicketsInPeriodForUser(DateTime from, DateTime to,UserDO user) throws IllegalArgumentException;
+    List<Ticket> getTicketsInPeriodForUser(DateTime from, DateTime to,User user) throws IllegalArgumentException;
     
     /**
      * method returns all tickets for given user
@@ -68,5 +68,5 @@ public interface TicketDAO {
      * @return list with all tickets for given user
      * @throws IllegalArgumentException if user is null
      */
-    List<TicketDO> getAllTicketsForUser(UserDO user) throws IllegalArgumentException;
+    List<Ticket> getAllTicketsForUser(User user) throws IllegalArgumentException;
 }

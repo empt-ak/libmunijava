@@ -7,10 +7,10 @@ package library.test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import library.entity.dto.Book;
-import library.entity.dto.Ticket;
-import library.entity.dto.TicketItem;
-import library.entity.dto.User;
+import library.entity.dto.BookDTO;
+import library.entity.dto.TicketDTO;
+import library.entity.dto.TicketItemDTO;
+import library.entity.dto.UserDTO;
 import library.entity.enums.BookStatus;
 import library.entity.enums.Department;
 import library.entity.enums.TicketItemStatus;
@@ -49,18 +49,18 @@ public class TicketServiceTest {
     private TicketItemService ticketItemService;
     @Autowired
     private TicketService ticketService;
-    private List<Ticket> correctTickets;
-    private List<Ticket> wrongTickets;
+    private List<TicketDTO> correctTickets;
+    private List<TicketDTO> wrongTickets;
 
     @Before
     public void init() {
         // we need one correct user for ticket, since one of fields is user
-        User user1 = createUser("heslo1", "realny1", "USER", "uziv1");
-        User user2 = createUser("heslo2", "realny2", "USER", "uziv2");
+        UserDTO user1 = createUser("heslo1", "realny1", "USER", "uziv1");
+        UserDTO user2 = createUser("heslo2", "realny2", "USER", "uziv2");
         userService.createUser(user1);
         userService.createUser(user2);
 
-        List<Book> books = new ArrayList<>(6);
+        List<BookDTO> books = new ArrayList<>(6);
 
         books.add(createBook("nazov1", "autor1", Department.SCIENTIFIC, BookStatus.AVAILABLE));
         books.add(createBook("nazov2", "autor2", Department.ADULT, BookStatus.AVAILABLE));
@@ -70,12 +70,12 @@ public class TicketServiceTest {
         books.add(createBook("nazov6", "autor6", Department.ADULT, BookStatus.AVAILABLE));
 
         // lets save those books
-        for (Book b : books) {
+        for (BookDTO b : books) {
             bookService.createBook(b);
         }
 
 
-        List<TicketItem> ticketItems = new ArrayList<>(6);
+        List<TicketItemDTO> ticketItems = new ArrayList<>(6);
         ticketItems.add(createTicketItem(books.get(0), TicketItemStatus.BORROWED));
         ticketItems.add(createTicketItem(books.get(1), TicketItemStatus.RESERVATION));
         ticketItems.add(createTicketItem(books.get(2), TicketItemStatus.RETURNED));
@@ -84,7 +84,7 @@ public class TicketServiceTest {
         ticketItems.add(createTicketItem(books.get(5), TicketItemStatus.RETURNED));
 
 
-        for (TicketItem ti : ticketItems) {
+        for (TicketItemDTO ti : ticketItems) {
             ticketItemService.createTicketItem(ti);
         }
 
@@ -101,7 +101,7 @@ public class TicketServiceTest {
         wrongTickets = new ArrayList<>(3);
 
         wrongTickets.add(createTicket(null, new DateTime(), new ArrayList<>(Arrays.asList(ticketItems.get(5)))));//ticket without user
-        wrongTickets.add(createTicket(user1, new DateTime(), new ArrayList<TicketItem>()));
+        wrongTickets.add(createTicket(user1, new DateTime(), new ArrayList<TicketItemDTO>()));
 
 
 
@@ -165,13 +165,13 @@ public class TicketServiceTest {
         } catch (IllegalArgumentException iae) {
             //ok
         }
-        Ticket saved = null;
+        TicketDTO saved = null;
         try {
             saved = ticketService.getTicketByID(correctTickets.get(0).getTicketID()); // should be 5
         } catch (Exception e) {
         }
         // when creating a new correct ticket (reservation) the book is automatically set as not available
-        for (TicketItem ti : saved.getTicketItems()) {
+        for (TicketItemDTO ti : saved.getTicketItems()) {
             ti.getBook().setBookStatus(BookStatus.NOT_AVAILABLE);
         }
         assertEquals("Based on equals method tickets are not same, they dont have same ID", correctTickets.get(0), saved);       
@@ -191,7 +191,7 @@ public class TicketServiceTest {
             //ok
         }
         
-        Ticket ticket = correctTickets.get(2);
+        TicketDTO ticket = correctTickets.get(2);
         ticket.setUser(null);
         
         try {
@@ -212,7 +212,7 @@ public class TicketServiceTest {
         }
          
         ticket = correctTickets.get(2);
-        List<TicketItem> emptyList = new ArrayList<>();
+        List<TicketItemDTO> emptyList = new ArrayList<>();
         ticket.setTicketItems(emptyList);
         
         try {
@@ -243,7 +243,7 @@ public class TicketServiceTest {
             //ok
         }
         ticketService.createTicket(correctTickets.get(3));
-        Ticket ticket = ticketService.getTicketByID(1L);
+        TicketDTO ticket = ticketService.getTicketByID(1L);
         
         assertNotNull(ticket);
         ticketService.deleteTicket(ticket);
@@ -255,13 +255,13 @@ public class TicketServiceTest {
      */
     @Test
     public void testGetLastTicketForUser() {
-        Ticket last = null;
-        for (Ticket t : correctTickets) {
+        TicketDTO last = null;
+        for (TicketDTO t : correctTickets) {
             ticketService.createTicket(t);
             last = t;
         }
 
-        Ticket ticket = ticketService.getLastTicketForUser(userService.getUserByID(2L));
+        TicketDTO ticket = ticketService.getLastTicketForUser(userService.getUserByID(2L));
         last.setTicketID(ticket.getTicketID());
         assertDeepEquals(ticket, last);
     }
@@ -271,12 +271,12 @@ public class TicketServiceTest {
      */
     @Test
     public void testGetTicketsInPeriodForUser() {
-        for(Ticket t :correctTickets)
+        for(TicketDTO t :correctTickets)
         {
             ticketService.createTicket(t);
         }
         
-        List<Ticket> list = ticketService.getTicketsInPeriodForUser(new DateTime(2012, 10, 5, 12, 00), 
+        List<TicketDTO> list = ticketService.getTicketsInPeriodForUser(new DateTime(2012, 10, 5, 12, 00), 
                                                                     new DateTime(2012, 10, 9, 12, 30), 
                                                                     userService.getUserByID(1L));
         
@@ -292,7 +292,7 @@ public class TicketServiceTest {
     @Test
     public void testGetAllTicketsForUser() {
         
-        for(Ticket t :correctTickets)
+        for(TicketDTO t :correctTickets)
         {
             ticketService.createTicket(t);
         }
@@ -303,7 +303,7 @@ public class TicketServiceTest {
         } catch (IllegalArgumentException iae) {
             //ok
         }
-        List<Ticket> list = ticketService.getAllTicketsForUser(userService.getUserByID(1L));
+        List<TicketDTO> list = ticketService.getAllTicketsForUser(userService.getUserByID(1L));
         
         correctTickets.get(0).setTicketID(list.get(0).getTicketID());
         correctTickets.get(1).setTicketID(list.get(1).getTicketID());
@@ -314,8 +314,8 @@ public class TicketServiceTest {
         assertDeepEquals(correctTickets.get(2), list.get(2));
     }
 
-    private User createUser(String password, String realname, String systemRole, String username) {
-        User u = new User();
+    private UserDTO createUser(String password, String realname, String systemRole, String username) {
+        UserDTO u = new UserDTO();
         u.setPassword(password);
         u.setRealName(realname);
         u.setSystemRole(systemRole);
@@ -323,8 +323,8 @@ public class TicketServiceTest {
         return u;
     }
 
-    private Book createBook(String title, String author, Department department, BookStatus status) {
-        Book b = new Book();
+    private BookDTO createBook(String title, String author, Department department, BookStatus status) {
+        BookDTO b = new BookDTO();
         b.setTitle(title);
         b.setAuthor(author);
         b.setDepartment(department);
@@ -333,15 +333,15 @@ public class TicketServiceTest {
         return b;
     }
 
-    private TicketItem createTicketItem(Book book, TicketItemStatus ticketItemStatus) {
-        TicketItem ti = new TicketItem();
+    private TicketItemDTO createTicketItem(BookDTO book, TicketItemStatus ticketItemStatus) {
+        TicketItemDTO ti = new TicketItemDTO();
         ti.setBook(book);
         ti.setTicketItemStatus(ticketItemStatus);
         return ti;
     }
 
-    private Ticket createTicket(User user, DateTime dateTime, ArrayList<TicketItem> ticketItems) {
-        Ticket t = new Ticket();
+    private TicketDTO createTicket(UserDTO user, DateTime dateTime, ArrayList<TicketItemDTO> ticketItems) {
+        TicketDTO t = new TicketDTO();
         t.setUser(user);
         t.setBorrowTime(dateTime);
 
@@ -350,14 +350,14 @@ public class TicketServiceTest {
         return t;
     }
 
-    private void assertDeepEquals(Ticket expected, Ticket actual) {
+    private void assertDeepEquals(TicketDTO expected, TicketDTO actual) {
         assertEquals("Users are not the same", expected.getUser(), actual.getUser());
         assertEquals("Borrow times are not the same", expected.getBorrowTime(), actual.getBorrowTime());
         assertDeepEquals(expected.getTicketItems(), actual.getTicketItems());
 
     }
 
-    private void assertDeepEquals(List<TicketItem> expected, List<TicketItem> actual) {
+    private void assertDeepEquals(List<TicketItemDTO> expected, List<TicketItemDTO> actual) {
         for (int i = 0; i < expected.size(); i++) {
             assertEquals("Books are not the same", expected.get(i).getBook(), actual.get(i).getBook());
             assertEquals("TicketItemStstuses are not the same", expected.get(i).getTicketItemStatus(), actual.get(i).getTicketItemStatus());

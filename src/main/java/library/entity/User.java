@@ -2,20 +2,40 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package library.entity.dto;
+package library.entity;
 
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author Nemcek
  */
-public class User
+@Entity
+@Table(name="Users")
+public class User implements java.io.Serializable
 {
-    private Long userID;    
-    private String username;    
-    private String password;   
-    private String realName;   
+    private static final long serialVersionUID = -5804765234884503762L;
+    
+    @Id
+    @GeneratedValue
+    @Column(name="userID",length=10)
+    private Long userID;
+    
+    @Column(name="username",unique=true,length=12,nullable=false)
+    private String username;
+    
+    @Column(name="password",length=40,nullable=false)
+    private String password;
+    
+    @Column(name="realName",length=50,nullable=false)
+    private String realName;
+    
+    @Column(name="systemRole",length=13,nullable=false)
     private String systemRole;
 
     public Long getUserID() {

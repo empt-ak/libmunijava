@@ -7,10 +7,10 @@ package library.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import library.dao.TicketItemDAO;
-import library.entity.TicketDO;
-import library.entity.TicketItemDO;
-import library.entity.dto.Ticket;
-import library.entity.dto.TicketItem;
+import library.entity.Ticket;
+import library.entity.TicketItem;
+import library.entity.dto.TicketDTO;
+import library.entity.dto.TicketItemDTO;
 import library.service.TicketItemService;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,33 +32,33 @@ public class TicketItemServiceImpl implements TicketItemService {
 
     @Override
     @Transactional
-    public void createTicketItem(TicketItem ticketItem) throws IllegalArgumentException {
-        if(ticketItem == null){throw new IllegalArgumentException(); }
-        TicketItemDO ticketItemDO = mapper.map(ticketItem, TicketItemDO.class);
-        ticketItemDAO.createTicketItem(ticketItemDO);
-        ticketItem.setTicketItemID(ticketItemDO.getTicketItemID());
+    public void createTicketItem(TicketItemDTO ticketItemDTO) throws IllegalArgumentException {
+        if(ticketItemDTO == null){throw new IllegalArgumentException(); }
+        TicketItem ticketItem = mapper.map(ticketItemDTO, TicketItem.class);
+        ticketItemDAO.createTicketItem(ticketItem);
+        ticketItemDTO.setTicketItemID(ticketItem.getTicketItemID());
     }
 
     @Override
     @Transactional
-    public void updateTicketItem(TicketItem ticketItem) throws IllegalArgumentException {
-        if(ticketItem == null){throw new IllegalArgumentException(); }
-        ticketItemDAO.updateTicketItem(mapper.map(ticketItem, TicketItemDO.class));
+    public void updateTicketItem(TicketItemDTO ticketItemDTO) throws IllegalArgumentException {
+        if(ticketItemDTO == null){throw new IllegalArgumentException(); }
+        ticketItemDAO.updateTicketItem(mapper.map(ticketItemDTO, TicketItem.class));
     }
 
     @Override
     @Transactional
-    public void deleteTicketItem(TicketItem ticketItem) throws IllegalArgumentException {
-        if(ticketItem == null){throw new IllegalArgumentException(); }
-        ticketItemDAO.deleteTicketItem(mapper.map(ticketItem, TicketItemDO.class));
+    public void deleteTicketItem(TicketItemDTO ticketItemDTO) throws IllegalArgumentException {
+        if(ticketItemDTO == null){throw new IllegalArgumentException(); }
+        ticketItemDAO.deleteTicketItem(mapper.map(ticketItemDTO, TicketItem.class));
     }
 
     @Override
     @Transactional(readOnly=true)
-    public TicketItem getTicketItemByID(Long id) throws IllegalArgumentException {
-        TicketItemDO ticketItemDO = ticketItemDAO.getTicketItemByID(id);
-        if(ticketItemDO != null){
-            return mapper.map(ticketItemDO, TicketItem.class);
+    public TicketItemDTO getTicketItemByID(Long id) throws IllegalArgumentException {
+        TicketItem ticketItem = ticketItemDAO.getTicketItemByID(id);
+        if(ticketItem != null){
+            return mapper.map(ticketItem, TicketItemDTO.class);
         }else{
             return null;
         }
@@ -67,14 +67,14 @@ public class TicketItemServiceImpl implements TicketItemService {
 
     @Override
     @Transactional(readOnly=true)
-    public List<TicketItem> getTicketItemsByTicket(Ticket ticket) throws IllegalArgumentException {
-        if(ticket== null){ throw new IllegalArgumentException();}
-        List<TicketItemDO> ticketItemDOs = ticketItemDAO.getTicketItemsByTicket(mapper.map(ticket, TicketDO.class));
-        List<TicketItem> ticketItems = new ArrayList<>();
-        for(TicketItemDO tio : ticketItemDOs)
+    public List<TicketItemDTO> getTicketItemsByTicket(TicketDTO ticketDTO) throws IllegalArgumentException {
+        if(ticketDTO == null){ throw new IllegalArgumentException();}
+        List<TicketItem> ticketItems = ticketItemDAO.getTicketItemsByTicket(mapper.map(ticketDTO, Ticket.class));
+        List<TicketItemDTO> ticketItemDTOs = new ArrayList<>();
+        for(TicketItem tio : ticketItems)
         {
-            ticketItems.add(mapper.map(tio, TicketItem.class));
+            ticketItemDTOs.add(mapper.map(tio, TicketItemDTO.class));
         }
-        return ticketItems;
+        return ticketItemDTOs;
     }
 }

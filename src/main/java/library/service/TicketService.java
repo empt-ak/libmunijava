@@ -5,8 +5,8 @@
 package library.service;
 
 import java.util.List;
-import library.entity.dto.Ticket;
-import library.entity.dto.User;
+import library.entity.dto.TicketDTO;
+import library.entity.dto.UserDTO;
 import org.joda.time.DateTime;
 
 /**
@@ -21,21 +21,21 @@ public interface TicketService {
      * @param ticket to be save with correct fields
      * @throws IllegalArgumentException if ticket is null or has no id
      */
-    void createTicket(Ticket ticket) throws IllegalArgumentException;
+    void createTicket(TicketDTO ticket) throws IllegalArgumentException;
     
     /**
      * Method updates ticket inside database
      * @param ticket to be update with correct fields
      * @throws IllegalArgumentException if ticket is null or has no id
      */
-    void updateTicket(Ticket ticket) throws IllegalArgumentException;
+    void updateTicket(TicketDTO ticket) throws IllegalArgumentException;
     
     /**
      * method deletes ticked from database
      * @param ticket to be deleted. only id has to be set
      * @throws IllegalArgumentException if ticket is null
      */
-    void deleteTicket(Ticket ticket) throws IllegalArgumentException;
+    void deleteTicket(TicketDTO ticket) throws IllegalArgumentException;
     
     /**
      * method gets ticket from database on its id
@@ -43,7 +43,7 @@ public interface TicketService {
      * @return ticket with given id
      * @throws IllegalArgumentException  if id is null or out of range 
      */
-    Ticket getTicketByID(Long id) throws IllegalArgumentException;
+    TicketDTO getTicketByID(Long id) throws IllegalArgumentException;
     
     /**
      * method returns last ticket for given user. this is useful when he returns books
@@ -52,7 +52,7 @@ public interface TicketService {
      * @return last ticket for given user
      * @throws IllegalArgumentException if user is null
      */
-    Ticket getLastTicketForUser(User user) throws IllegalArgumentException;
+    TicketDTO getLastTicketForUser(UserDTO user) throws IllegalArgumentException;
     
     /**
      * method return tickets between given period of time for given user
@@ -62,7 +62,7 @@ public interface TicketService {
      * @return list from given period for given user
      * @throws IllegalArgumentException if any of paramters are null.
      */
-    List<Ticket> getTicketsInPeriodForUser(DateTime from, DateTime to,User user) throws IllegalArgumentException;
+    List<TicketDTO> getTicketsInPeriodForUser(DateTime from, DateTime to,UserDTO user) throws IllegalArgumentException;
     
     /**
      * method returns all tickets for given user
@@ -70,7 +70,7 @@ public interface TicketService {
      * @return list with all tickets for given user
      * @throws IllegalArgumentException if user is null
      */
-    List<Ticket> getAllTicketsForUser(User user) throws IllegalArgumentException;
+    List<TicketDTO> getAllTicketsForUser(UserDTO user) throws IllegalArgumentException;
 }
 
 

@@ -12,21 +12,21 @@
     
     
     <mapping>
-        <class-a>library.entity.BookDO</class-a>
-        <class-b>library.entity.dto.Book</class-b>
+        <class-a>library.entity.Book</class-a>
+        <class-b>library.entity.dto.BookDTO</class-b>
     </mapping> 
     <mapping>
-        <class-a>library.entity.TicketDO</class-a>
-        <class-b>library.entity.dto.Ticket</class-b>  
+        <class-a>library.entity.Ticket</class-a>
+        <class-b>library.entity.dto.TicketDTO</class-b>  
 <!--        <field custom-converter=""     -->
     </mapping>
     <mapping>
-        <class-a>library.entity.TicketItemDO</class-a>
-        <class-b>library.entity.dto.TicketItem</class-b>
+        <class-a>library.entity.TicketItem</class-a>
+        <class-b>library.entity.dto.TicketItemDTO</class-b>
     </mapping>
     <mapping>
-        <class-a>library.entity.UserDO</class-a>
-        <class-b>library.entity.dto.User</class-b>        
+        <class-a>library.entity.User</class-a>
+        <class-b>library.entity.dto.UserDTO</class-b>        
         <!-- ak by sme chceli vlastne mapovanie ine nazvy tak toto --> 
         <!--    
         <field>

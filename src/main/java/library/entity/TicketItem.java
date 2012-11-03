@@ -2,21 +2,39 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package library.entity.dto;
+package library.entity;
 
 import library.entity.enums.TicketItemStatus;
 import java.util.Objects;
-
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author Gajdos
  */
-public class TicketItem
+@Entity
+@Table(name="ticketItem")
+public class TicketItem implements java.io.Serializable
 {
+    private static final long serialVersionUID = 4734694315399882778L;
+    
+    @Id
+    @GeneratedValue
+    @Column(name="ticketItemID")
     private Long ticketItemID;
+    
+    @ManyToOne(optional=false)
     private Book book;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(nullable=false)
     private TicketItemStatus ticketItemStatus;
 
     public Long getTicketItemID() {

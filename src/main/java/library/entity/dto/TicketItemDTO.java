@@ -2,39 +2,21 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package library.entity;
+package library.entity.dto;
 
 import library.entity.enums.TicketItemStatus;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+
+
 
 /**
  *
  * @author Gajdos
  */
-@Entity
-@Table(name="ticketItem")
-public class TicketItemDO implements java.io.Serializable
+public class TicketItemDTO
 {
-    private static final long serialVersionUID = 4734694315399882778L;
-    
-    @Id
-    @GeneratedValue
-    @Column(name="ticketItemID")
     private Long ticketItemID;
-    
-    @ManyToOne(optional=false)
-    private BookDO book;
-    
-    @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
+    private BookDTO book;
     private TicketItemStatus ticketItemStatus;
 
     public Long getTicketItemID() {
@@ -45,11 +27,11 @@ public class TicketItemDO implements java.io.Serializable
         this.ticketItemID = ticketItemID;
     }
 
-    public BookDO getBook() {
+    public BookDTO getBook() {
         return book;
     }
 
-    public void setBook(BookDO book) {
+    public void setBook(BookDTO book) {
         this.book = book;
     }
 
@@ -76,7 +58,7 @@ public class TicketItemDO implements java.io.Serializable
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final TicketItemDO other = (TicketItemDO) obj;
+        final TicketItemDTO other = (TicketItemDTO) obj;
         if (!Objects.equals(this.ticketItemID, other.ticketItemID)) {
             return false;
         }

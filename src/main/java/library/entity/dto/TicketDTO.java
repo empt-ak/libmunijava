@@ -13,14 +13,14 @@ import org.joda.time.DateTime;
  *
  * @author Szalai
  */
-public class Ticket
+public class TicketDTO
 {
     private Long ticketID;    
-    private User user;    
+    private UserDTO user;    
     private DateTime borrowTime;    
     private DateTime dueTime;    
     private DateTime returnTime;    
-    private List<TicketItem> ticketItems;
+    private List<TicketItemDTO> ticketItems;
 
     public Long getTicketID() {
         return ticketID;
@@ -30,11 +30,11 @@ public class Ticket
         this.ticketID = ticketID;
     }
 
-    public User getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDTO user) {
         this.user = user;
     }
 
@@ -62,11 +62,11 @@ public class Ticket
         this.returnTime = returnTime;
     }
 
-    public List<TicketItem> getTicketItems() {
+    public List<TicketItemDTO> getTicketItems() {
         return ticketItems;
     }
 
-    public void setTicketItems(List<TicketItem> ticketItems) {
+    public void setTicketItems(List<TicketItemDTO> ticketItems) {
         this.ticketItems = ticketItems;
     }
 
@@ -85,7 +85,7 @@ public class Ticket
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Ticket other = (Ticket) obj;
+        final TicketDTO other = (TicketDTO) obj;
         if (!Objects.equals(this.ticketID, other.ticketID)) {
             return false;
         }

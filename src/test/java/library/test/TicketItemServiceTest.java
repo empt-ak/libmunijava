@@ -10,10 +10,10 @@ import java.util.List;
 import library.entity.enums.BookStatus;
 import library.entity.enums.Department;
 import library.entity.enums.TicketItemStatus;
-import library.entity.dto.Book;
-import library.entity.dto.Ticket;
-import library.entity.dto.TicketItem;
-import library.entity.dto.User;
+import library.entity.dto.BookDTO;
+import library.entity.dto.TicketDTO;
+import library.entity.dto.TicketItemDTO;
+import library.entity.dto.UserDTO;
 import library.service.BookService;
 import library.service.TicketItemService;
 import library.service.TicketService;
@@ -50,18 +50,18 @@ public class TicketItemServiceTest
     @Autowired
     private TicketService ticketService;
     
-    private List<Book> books;
-    private List<TicketItem> correct;
-    private List<TicketItem> incorrect;
+    private List<BookDTO> books;
+    private List<TicketItemDTO> correct;
+    private List<TicketItemDTO> incorrect;
     
     @Before
     public void init() 
     {
         // now we need some books for various testing
         books = new ArrayList<>(3);
-        Book b1 = createBook("pepazdepa", "ach jaj", Department.ADULT, BookStatus.AVAILABLE);
-        Book b2 = createBook("pepazdepa", "xexe", Department.ADULT, BookStatus.AVAILABLE);
-        Book b3 = createBook("pepazdepa", "hlavninadrazi", Department.ADULT, BookStatus.AVAILABLE);
+        BookDTO b1 = createBook("pepazdepa", "ach jaj", Department.ADULT, BookStatus.AVAILABLE);
+        BookDTO b2 = createBook("pepazdepa", "xexe", Department.ADULT, BookStatus.AVAILABLE);
+        BookDTO b3 = createBook("pepazdepa", "hlavninadrazi", Department.ADULT, BookStatus.AVAILABLE);
         books.add(b1);
         books.add(b2);
         books.add(b3);        
@@ -71,16 +71,16 @@ public class TicketItemServiceTest
         
         //now lets create some ticketitems
         correct = new ArrayList<>(3);
-        TicketItem cti1 = createTicketItem(b1, TicketItemStatus.BORROWED);
-        TicketItem cti2 = createTicketItem(b2, TicketItemStatus.BORROWED);
-        TicketItem cti3 = createTicketItem(b3, TicketItemStatus.RETURNED);
+        TicketItemDTO cti1 = createTicketItem(b1, TicketItemStatus.BORROWED);
+        TicketItemDTO cti2 = createTicketItem(b2, TicketItemStatus.BORROWED);
+        TicketItemDTO cti3 = createTicketItem(b3, TicketItemStatus.RETURNED);
         correct.add(cti1);
         correct.add(cti2);
         correct.add(cti3);
         
         incorrect = new ArrayList<>(2);
-        TicketItem wti1 = createTicketItem(null, TicketItemStatus.BORROWED);
-        TicketItem wti2 = createTicketItem(b3, null);        
+        TicketItemDTO wti1 = createTicketItem(null, TicketItemStatus.BORROWED);
+        TicketItemDTO wti2 = createTicketItem(b3, null);        
         incorrect.add(wti1);
         incorrect.add(wti2);
     }
@@ -150,7 +150,7 @@ public class TicketItemServiceTest
             // ok
         }
         
-        TicketItem ti = null;
+        TicketItemDTO ti = null;
         try
         {
             ti = ticketItemService.getTicketItemByID(correct.get(0).getTicketItemID()); // should be 3
@@ -182,14 +182,14 @@ public class TicketItemServiceTest
         }
         try
         {   // update without set its id
-            ticketItemService.createTicketItem(new TicketItem());
+            ticketItemService.createTicketItem(new TicketItemDTO());
             fail("IllegalArgumentException should be thrown when updating ticketitem with unset id");
         }
         catch(IllegalArgumentException iae)
         {
             //ok
         }
-        TicketItem tic = correct.get(0);
+        TicketItemDTO tic = correct.get(0);
         tic.setBook(books.get(2));
         tic.setTicketItemStatus(TicketItemStatus.RESERVATION);
         try
@@ -201,7 +201,7 @@ public class TicketItemServiceTest
             fail("No exception should be thrown when updating correct ticketItem. Following exception was thrown: "+e);
         }
         
-        TicketItem returned = ticketItemService.getTicketItemByID(tic.getTicketItemID());
+        TicketItemDTO returned = ticketItemService.getTicketItemByID(tic.getTicketItemID());
         
         assertEquals(tic, returned);
         assertDeepEquals(tic, returned);
@@ -229,7 +229,7 @@ public class TicketItemServiceTest
         }        
         try
         {   // we try to delete ticketitem without id
-            ticketItemService.deleteTicketItem(new TicketItem());
+            ticketItemService.deleteTicketItem(new TicketItemDTO());
             fail("IllegalArgumentException should be thrown when deleting ticketitem without set id");
         }
         catch(IllegalArgumentException iae)
@@ -246,7 +246,7 @@ public class TicketItemServiceTest
             fail("No exception should be thrown when deleting correct ticket. Following exception was thrown: " +e);
         }
         
-        TicketItem toBeFound = null;
+        TicketItemDTO toBeFound = null;
         try
         {
             toBeFound = ticketItemService.getTicketItemByID(new Long(2));
@@ -270,14 +270,14 @@ public class TicketItemServiceTest
         ticketItemService.createTicketItem(correct.get(1));
         ticketItemService.createTicketItem(correct.get(2));
         
-        User cUser = createUser("heslo", "realnemeno", "USER", "login");
+        UserDTO cUser = createUser("heslo", "realnemeno", "USER", "login");
         userService.createUser(cUser);
         
         
-        Ticket ticket = createTicket(cUser, new DateTime(2012, 10, 7, 12, 00), new ArrayList<>(correct));
+        TicketDTO ticket = createTicket(cUser, new DateTime(2012, 10, 7, 12, 00), new ArrayList<>(correct));
         ticketService.createTicket(ticket);
         
-        List<TicketItem> returned = null;
+        List<TicketItemDTO> returned = null;
         try
         {   // test null
             ticketItemService.getTicketItemsByTicket(null);
@@ -289,7 +289,7 @@ public class TicketItemServiceTest
         }
         try
         {   // get by null id
-            ticketItemService.getTicketItemsByTicket(new Ticket());
+            ticketItemService.getTicketItemsByTicket(new TicketDTO());
             fail("IllegalArgumentException should be thrown when getting ticketitems by ticket that has set no id");
         }
         catch(IllegalArgumentException iae)
@@ -313,9 +313,9 @@ public class TicketItemServiceTest
         
     }
     
-    private Ticket createTicket(User user, DateTime borrowtime, ArrayList<TicketItem> ticketItems)
+    private TicketDTO createTicket(UserDTO user, DateTime borrowtime, ArrayList<TicketItemDTO> ticketItems)
     {
-        Ticket t = new Ticket();
+        TicketDTO t = new TicketDTO();
         t.setUser(user);
         t.setBorrowTime(borrowtime);
         t.setTicketItems(ticketItems);
@@ -323,9 +323,9 @@ public class TicketItemServiceTest
         return t;
     }
     
-    private User createUser(String password,String realname,String systemRole,String username)
+    private UserDTO createUser(String password,String realname,String systemRole,String username)
     {
-        User u = new User();
+        UserDTO u = new UserDTO();
         u.setPassword(password);
         u.setRealName(realname);
         u.setSystemRole(systemRole);
@@ -333,18 +333,18 @@ public class TicketItemServiceTest
         return u;
     }
     
-    private TicketItem createTicketItem(Book b,TicketItemStatus status)
+    private TicketItemDTO createTicketItem(BookDTO b,TicketItemStatus status)
     {
-        TicketItem ti = new TicketItem();
+        TicketItemDTO ti = new TicketItemDTO();
         ti.setBook(b);
         ti.setTicketItemStatus(status);
         
         return ti;
     }
     
-    private Book createBook(String author, String title, Department department, BookStatus status)
+    private BookDTO createBook(String author, String title, Department department, BookStatus status)
     {
-        Book b = new Book();
+        BookDTO b = new BookDTO();
         b.setAuthor(author);
         b.setTitle(title);
         b.setDepartment(department);
@@ -353,13 +353,13 @@ public class TicketItemServiceTest
         return b;
     }
     
-    private void assertDeepEquals(TicketItem expected, TicketItem actual)
+    private void assertDeepEquals(TicketItemDTO expected, TicketItemDTO actual)
     {
         assertEquals("Books for given ticketitem are not same",expected.getBook(),actual.getBook());
         assertEquals("Statuses for given ticketitem are not same", expected.getTicketItemStatus(),actual.getTicketItemStatus());
     }
     
-    private void assertDeepEquals(List<TicketItem> expected, List<TicketItem> actual)
+    private void assertDeepEquals(List<TicketItemDTO> expected, List<TicketItemDTO> actual)
     {
         for(int i =0;i<expected.size();i++)
         {
@@ -369,10 +369,10 @@ public class TicketItemServiceTest
     }
     
     
-    private static java.util.Comparator<TicketItem> tIComparator = new Comparator<TicketItem>()
+    private static java.util.Comparator<TicketItemDTO> tIComparator = new Comparator<TicketItemDTO>()
     {
         @Override
-        public int compare(TicketItem ti1,TicketItem ti2)
+        public int compare(TicketItemDTO ti1,TicketItemDTO ti2)
         {
             return Long.valueOf(ti1.getTicketItemID()).compareTo(Long.valueOf(ti2.getTicketItemID()));
         }      

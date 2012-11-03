@@ -6,7 +6,7 @@ package library.test;
 
 import java.util.ArrayList;
 import java.util.List;
-import library.entity.dto.Book;
+import library.entity.dto.BookDTO;
 import library.entity.enums.BookStatus;
 import library.entity.enums.Department;
 import library.service.BookService;
@@ -32,17 +32,17 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class BookServiceTest {
 
-    private List<Book> correctBooks = null;
-    private List<Book> wrongBooks = null;
+    private List<BookDTO> correctBooks = null;
+    private List<BookDTO> wrongBooks = null;
     @Autowired
     private BookService bookService;
 
     @Before
     public void init() {
         correctBooks = new ArrayList<>();
-        Book cb1 = createBook("nazov1", "autor1", Department.SCIENTIFIC, BookStatus.AVAILABLE);
-        Book cb2 = createBook("nazov2", "autor2", Department.ADULT, BookStatus.AVAILABLE);
-        Book cb3 = createBook("nazov3", "autor3", Department.KIDS, BookStatus.AVAILABLE);
+        BookDTO cb1 = createBook("nazov1", "autor1", Department.SCIENTIFIC, BookStatus.AVAILABLE);
+        BookDTO cb2 = createBook("nazov2", "autor2", Department.ADULT, BookStatus.AVAILABLE);
+        BookDTO cb3 = createBook("nazov3", "autor3", Department.KIDS, BookStatus.AVAILABLE);
 
         correctBooks.add(cb1);
         correctBooks.add(cb2);
@@ -51,9 +51,9 @@ public class BookServiceTest {
 
 
         wrongBooks = new ArrayList<>();
-        Book wb1 = createBook(null, "autor1", Department.SCIENTIFIC, BookStatus.AVAILABLE);
-        Book wb2 = createBook("nazov2", null, Department.ADULT, BookStatus.AVAILABLE);
-        Book wb3 = createBook("nazov3", "autor3", null, BookStatus.AVAILABLE);
+        BookDTO wb1 = createBook(null, "autor1", Department.SCIENTIFIC, BookStatus.AVAILABLE);
+        BookDTO wb2 = createBook("nazov2", null, Department.ADULT, BookStatus.AVAILABLE);
+        BookDTO wb3 = createBook("nazov3", "autor3", null, BookStatus.AVAILABLE);
         wrongBooks.add(wb1);
         wrongBooks.add(wb2);
         wrongBooks.add(wb3);
@@ -110,7 +110,7 @@ public class BookServiceTest {
         }
 
         //=================
-        // TEST get Book
+        // TEST get BookDTO
         //================= 
         try {
             bookService.getBookByID(null);
@@ -124,7 +124,7 @@ public class BookServiceTest {
         } catch (IllegalArgumentException iae) {
             //ok
         }
-        Book saved = null;
+        BookDTO saved = null;
         try {
             saved = bookService.getBookByID(correctBooks.get(0).getBookID()); // should be 5
         } catch (Exception e) {
@@ -138,7 +138,7 @@ public class BookServiceTest {
      */
     @Test
     public void testUpdateBook() {
-        Book b = correctBooks.get(1);
+        BookDTO b = correctBooks.get(1);
         bookService.createBook(b);
         try {
             bookService.updateBook(null);
@@ -178,7 +178,7 @@ public class BookServiceTest {
         }
 
 
-        Book buuk = bookService.getBookByID(b.getBookID());
+        BookDTO buuk = bookService.getBookByID(b.getBookID());
 
         assertDeepEquals(b, buuk);
     }
@@ -193,7 +193,7 @@ public class BookServiceTest {
         bookService.createBook(correctBooks.get(2));
 
 
-        Book toDelete = correctBooks.get(2);
+        BookDTO toDelete = correctBooks.get(2);
 
         try {
             bookService.deleteBook(null);
@@ -206,7 +206,7 @@ public class BookServiceTest {
         } catch (IllegalArgumentException iae) {
             fail("No Exception should be thrown when deleting correct Book " + iae.getMessage());
         }
-        List<Book> list = bookService.getAllBooks();
+        List<BookDTO> list = bookService.getAllBooks();
         assertEquals("v db nie su 2 knihy", 2, list.size());
         assertNotSame("a", correctBooks.get(1), list.get(0));
         assertNotSame("b", correctBooks.get(2), list.get(1));
@@ -230,7 +230,7 @@ public class BookServiceTest {
             fail("No exception should be thrown");
         }
 
-        List<Book> buuks = bookService.getAllBooks();
+        List<BookDTO> buuks = bookService.getAllBooks();
 
 
 
@@ -261,7 +261,7 @@ public class BookServiceTest {
             //ok
         }
 
-        List<Book> list = null;
+        List<BookDTO> list = null;
 
         try {
             list = bookService.searchBooksByTitle("zov");
@@ -295,7 +295,7 @@ public class BookServiceTest {
             //ok
         }
 
-        List<Book> list = null;
+        List<BookDTO> list = null;
 
         try {
             list = bookService.getBooksByAuthor("tor");
@@ -323,7 +323,7 @@ public class BookServiceTest {
         }
 
 
-        List<Book> list = null;
+        List<BookDTO> list = null;
 
         try {
             list = bookService.getBooksByDepartment(Department.SCIENTIFIC);
@@ -337,8 +337,8 @@ public class BookServiceTest {
 
     }
 
-    private Book createBook(String title, String author, Department department, BookStatus status) {
-        Book b = new Book();
+    private BookDTO createBook(String title, String author, Department department, BookStatus status) {
+        BookDTO b = new BookDTO();
         b.setTitle(title);
         b.setAuthor(author);
         b.setDepartment(department);
@@ -347,14 +347,14 @@ public class BookServiceTest {
         return b;
     }
 
-    private void assertDeepEquals(Book expected, Book actual) {
+    private void assertDeepEquals(BookDTO expected, BookDTO actual) {
         assertEquals("Titles are not same", expected.getTitle(), actual.getTitle());
         assertEquals("Authors are not same", expected.getAuthor(), actual.getAuthor());
         assertEquals("Departments are not same", expected.getDepartment(), actual.getDepartment());
 
     }
 
-    private void assertDeepEquals(List<Book> expected, List<Book> actual) {
+    private void assertDeepEquals(List<BookDTO> expected, List<BookDTO> actual) {
         for (int i = 0; i < expected.size(); i++) {
             assertEquals("Titles are not same", expected.get(i).getTitle(), actual.get(i).getTitle());
             assertEquals("Authors are not same", expected.get(i).getAuthor(), actual.get(i).getAuthor());

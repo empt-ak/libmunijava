@@ -24,7 +24,7 @@ import org.joda.time.DateTime;
  */
 @Entity
 @Table(name="ticket")
-public class TicketDO implements java.io.Serializable
+public class Ticket implements java.io.Serializable
 {
     private static final long serialVersionUID = 1202246631796977382L;
     
@@ -35,7 +35,7 @@ public class TicketDO implements java.io.Serializable
     
     @ManyToOne
     @JoinColumn(name="userID")
-    private UserDO user;
+    private User user;
     
     // maps Joda-Time DateTime for persisting to a database using Hibernate
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
@@ -52,7 +52,7 @@ public class TicketDO implements java.io.Serializable
     
     
     @OneToMany(fetch = FetchType.EAGER)
-    private List<TicketItemDO> ticketItems;
+    private List<TicketItem> ticketItems;
 
     public Long getTicketID() {
         return ticketID;
@@ -62,11 +62,11 @@ public class TicketDO implements java.io.Serializable
         this.ticketID = ticketID;
     }
 
-    public UserDO getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(UserDO user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -94,11 +94,11 @@ public class TicketDO implements java.io.Serializable
         this.returnTime = returnTime;
     }
 
-    public List<TicketItemDO> getTicketItems() {
+    public List<TicketItem> getTicketItems() {
         return ticketItems;
     }
 
-    public void setTicketItems(List<TicketItemDO> ticketItems) {
+    public void setTicketItems(List<TicketItem> ticketItems) {
         this.ticketItems = ticketItems;
     }
 
@@ -117,7 +117,7 @@ public class TicketDO implements java.io.Serializable
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final TicketDO other = (TicketDO) obj;
+        final Ticket other = (Ticket) obj;
         if (!Objects.equals(this.ticketID, other.ticketID)) {
             return false;
         }

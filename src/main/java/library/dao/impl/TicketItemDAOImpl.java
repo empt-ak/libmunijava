@@ -9,8 +9,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import library.dao.TicketItemDAO;
-import library.entity.TicketDO;
-import library.entity.TicketItemDO;
+import library.entity.Ticket;
+import library.entity.TicketItem;
 
 /**
  *
@@ -23,7 +23,7 @@ public class TicketItemDAOImpl implements TicketItemDAO {
     private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(TicketItemDAOImpl.class);
 
     @Override
-    public void createTicketItem(TicketItemDO ticketItem) {
+    public void createTicketItem(TicketItem ticketItem) {
         logger.debug("creating object:"+ticketItem);
         if (ticketItem == null) {
             throw new IllegalArgumentException("Error creating TicketItem object: passed TicketItem is null");
@@ -34,16 +34,16 @@ public class TicketItemDAOImpl implements TicketItemDAO {
     }
 
     @Override
-    public TicketItemDO getTicketItemByID(Long id) throws IllegalArgumentException {
+    public TicketItem getTicketItemByID(Long id) throws IllegalArgumentException {
         if (id == null || id.compareTo(new Long(1)) < 0) {
             throw new IllegalArgumentException("Given ID is null or not within a valid range");
         }
 
-        return entityManager.find(TicketItemDO.class, id);
+        return entityManager.find(TicketItem.class, id);
     }
 
     @Override
-    public void updateTicketItem(TicketItemDO ticketItem) throws IllegalArgumentException {
+    public void updateTicketItem(TicketItem ticketItem) throws IllegalArgumentException {
         if (ticketItem == null) {
             throw new IllegalArgumentException("Given TicketItem can't be updated " + ", it is null");
         }
@@ -58,7 +58,7 @@ public class TicketItemDAOImpl implements TicketItemDAO {
     }
 
     @Override
-    public void deleteTicketItem(TicketItemDO ticketItem) throws IllegalArgumentException {
+    public void deleteTicketItem(TicketItem ticketItem) throws IllegalArgumentException {
         if (ticketItem == null) {
             throw new IllegalArgumentException("Given TicketItem can't be found "
                     + "in the database, it is null");
@@ -67,7 +67,7 @@ public class TicketItemDAOImpl implements TicketItemDAO {
             throw new IllegalArgumentException("Given ticketitem can't be deleted, its ID is null");
         }
 
-        TicketItemDO thisTicket = entityManager.find(TicketItemDO.class, ticketItem.getTicketItemID());
+        TicketItem thisTicket = entityManager.find(TicketItem.class, ticketItem.getTicketItemID());
         if (thisTicket != null) {
            
             //http://stackoverflow.com/a/4273927
@@ -82,7 +82,7 @@ public class TicketItemDAOImpl implements TicketItemDAO {
     }
 
     @Override
-    public List<TicketItemDO> getTicketItemsByTicket(TicketDO ticket) throws IllegalArgumentException {
+    public List<TicketItem> getTicketItemsByTicket(Ticket ticket) throws IllegalArgumentException {
         if (ticket == null) {
             throw new IllegalArgumentException("Passed ticket is null");
         }
@@ -92,12 +92,12 @@ public class TicketItemDAOImpl implements TicketItemDAO {
         // http://stackoverflow.com/a/4834009
 //        return entityManager.createQuery("SELECT ti FROM TicketItem ti WHERE ti.ticket.ticketID = :ticketID")
 //                .setParameter("ticketID", ticket.getTicketID()).getResultList();
-        TicketDO t = entityManager.find(TicketDO.class, ticket.getTicketID());
+        Ticket t = entityManager.find(Ticket.class, ticket.getTicketID());
         
         return (new ArrayList<>(t.getTicketItems()));        
     }
     
-    private void checkTicketItem(TicketItemDO ticketItem){
+    private void checkTicketItem(TicketItem ticketItem){
         if(ticketItem.getBook() == null || ticketItem.getBook().getBookID() == null || ticketItem.getBook().getBookID().compareTo(new Long(1)) <0){
             throw new IllegalArgumentException("ERROR: Obtained ticketItem does not have set book");
         }
