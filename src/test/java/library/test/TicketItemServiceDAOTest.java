@@ -7,13 +7,13 @@ package library.test;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import library.entity.enums.BookStatus;
-import library.entity.enums.Department;
-import library.entity.enums.TicketItemStatus;
 import library.entity.dto.BookDTO;
 import library.entity.dto.TicketDTO;
 import library.entity.dto.TicketItemDTO;
 import library.entity.dto.UserDTO;
+import library.entity.enums.BookStatus;
+import library.entity.enums.Department;
+import library.entity.enums.TicketItemStatus;
 import library.service.BookService;
 import library.service.TicketItemService;
 import library.service.TicketService;
@@ -39,7 +39,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @ContextConfiguration(locations ={"file:src/main/resources/spring/applicationContext-test.xml"})
 @TestExecutionListeners({DirtiesContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class TicketItemServiceTest 
+public class TicketItemServiceDAOTest 
 {
     @Autowired
     private UserService userService;

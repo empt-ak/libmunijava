@@ -12,11 +12,11 @@ import library.entity.enums.Department;
 import library.service.BookService;
 import library.service.impl.BookServiceImpl;
 import org.dozer.Mapper;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -26,7 +26,7 @@ import org.springframework.test.util.ReflectionTestUtils;
  * @author Nemko
  */
 @RunWith(MockitoJUnitRunner.class)
-public class BookServiceTestMock {
+public class BookServiceMockTest {
     
     BookService bookService;
     
