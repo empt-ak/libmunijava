@@ -35,7 +35,11 @@ public class UserServiceImpl implements UserService {
         } // mapper nesmie dostat ako source null
         User user = mapper.map(userDTO, User.class);
         userDAO.createUser(user);
-        userDTO.setUserID(user.getUserID()); // treba nastavit ID pretoze DTO nie je manazovany factory
+        
+        if(user != null) //fu dozer
+        {   // treba nastavit ID pretoze DTO nie je manazovany factory
+            userDTO.setUserID(user.getUserID());
+        } 
     }
 
     @Override
