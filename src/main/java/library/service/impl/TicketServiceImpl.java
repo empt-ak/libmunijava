@@ -37,7 +37,9 @@ public class TicketServiceImpl implements TicketService {
         if(ticketDTO == null){throw new IllegalArgumentException();}
         Ticket ticketDO = mapper.map(ticketDTO, Ticket.class);
         ticketDAO.createTicket(ticketDO);
-        ticketDTO.setTicketID(ticketDO.getTicketID());
+        if (ticketDO != null) {
+            ticketDTO.setTicketID(ticketDO.getTicketID());
+        }
     }
 
     @Override
