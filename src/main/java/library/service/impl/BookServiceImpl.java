@@ -41,7 +41,9 @@ public class BookServiceImpl implements BookService
             }
             Book book = mapper.map(bookDTO, Book.class);
             bookDAO.createBook(book);
-            bookDTO.setBookID(book.getBookID());
+            if (book != null) {
+                bookDTO.setBookID(book.getBookID());
+            }
     }
 
     @Override
