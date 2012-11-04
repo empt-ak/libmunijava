@@ -269,8 +269,11 @@ public class TicketServiceMockTest {
         when(ticketDAO.getTicketsInPeriodForUser(new DateTime(2012, 10, 5, 12, 00), 
                                                   new DateTime(2012, 10, 9, 12, 30), user1)).thenReturn(expectedTickets);
         
-        /*
-       
+        
+       /*
+        * 
+        * ticketService.getTicketsInPeriodForUser return null list of tickets
+        * 
        List<TicketDTO> testExpectedTicketsDTO = new ArrayList<>(2);
          
         try {
@@ -306,6 +309,9 @@ public class TicketServiceMockTest {
         when(ticketDAO.getAllTicketsForUser(user1)).thenReturn(correctTickets);
         
         /*
+        * 
+        * ticketService.getAllTicketsForUser return null list of tickets
+        * 
         List<TicketDTO> testExpectedTicketsDTO = new ArrayList<>(2);
          
         try {
