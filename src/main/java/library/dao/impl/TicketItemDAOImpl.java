@@ -94,7 +94,7 @@ public class TicketItemDAOImpl implements TicketItemDAO {
 //                .setParameter("ticketID", ticket.getTicketID()).getResultList();
         Ticket t = entityManager.find(Ticket.class, ticket.getTicketID());
         
-        return (new ArrayList<>(t.getTicketItems()));        
+        return t.getTicketItems();        
     }
     
     private void checkTicketItem(TicketItem ticketItem){
