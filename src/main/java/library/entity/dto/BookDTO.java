@@ -85,5 +85,5 @@ public class BookDTO
     @Override
     public String toString() {
         return "BookDTO{" + "bookID=" + bookID + ", title=" + title + ", author=" + author + ", department=" + department + ", bookStatus=" + bookStatus + '}';
-    }
+    }    
 }

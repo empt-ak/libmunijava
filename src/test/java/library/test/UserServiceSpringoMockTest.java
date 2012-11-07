@@ -47,11 +47,15 @@ public class UserServiceSpringoMockTest extends AbstractJUnit4SpringContextTests
     {
         for(int i =1;i<5;i++)
         {
-            userDTOs.add(createUserDTO(new Long(i), "heslo"+i, "rname"+i, "USER", "username"+i));
+            userDTOs.add(createUserDTO("heslo"+i, "rname"+i, "USER", "username"+i));
             users.add(createUser(new Long(i), "heslo"+i, "rname"+i, "USER", "username"+i));            
         }
+        //specialny na create
+        userDTOs.add(createUserDTO("npas", "n_name", "USER", "nlogin"));
+        users.add(createUser(null, "npas", "n_name", "USER", "nlogin")); 
+        
         // specialny na vyhladavanie
-        userDTOs.add(createUserDTO(new Long(7), "hEsLo", "Andrejko", "USER", "pinkrain"));
+        userDTOs.add(createUserDTO("hEsLo", "Andrejko", "USER", "pinkrain"));
         users.add(createUser(new Long(7), "hEsLo", "Andrejko", "USER", "pinkrain")); 
     }
     
@@ -72,10 +76,10 @@ public class UserServiceSpringoMockTest extends AbstractJUnit4SpringContextTests
         doThrow(new IllegalArgumentException("")).when(userDAO).createUser(null);
         
         // zavolame metodu
-        userService.createUser(userDTOs.get(0));
+        userService.createUser(userDTOs.get(userDTOs.size()-2));
         
         // overime ze bola zavolana
-        verify(userDAO,times(1)).createUser(users.get(0));
+        verify(userDAO,times(1)).createUser(users.get(users.size()-2));
         //verify(userDAO).createUser();
         
 //        when(userDAO.getUserByID(new Long(1))).thenReturn(u);
@@ -95,13 +99,14 @@ public class UserServiceSpringoMockTest extends AbstractJUnit4SpringContextTests
     public void testGetUser()
     {
         // given
-        userService.createUser(userDTOs.get(0));
         when(userDAO.getUserByID(new Long(1))).thenReturn(users.get(0));
+        userService.createUser(userDTOs.get(0));
+        
         // when
         UserDTO result = userService.getUserByID(new Long(1));
         
-        //then 
-        assertEquals(result.getUserID(),userDTOs.get(0).getUserID());
+        //then -- 
+        assertEquals(new Long(1),result.getUserID());
         //verify(userDAO,times(1)).getUserByID(new Long(1));        
     }
     
@@ -205,9 +210,9 @@ public class UserServiceSpringoMockTest extends AbstractJUnit4SpringContextTests
         return input.contains(value.subSequence(0, value.length()));
     }
     
-    private UserDTO createUserDTO(Long id, String password,String realname,String systemRole,String username){
+    private UserDTO createUserDTO(String password,String realname,String systemRole,String username){
         UserDTO u = new UserDTO();
-        u.setUserID(id);
+        //u.setUserID(id);
         u.setPassword(password);
         u.setRealName(realname);
         u.setSystemRole(systemRole);
