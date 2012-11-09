@@ -138,8 +138,6 @@ public class TicketItemServiceTest extends AbstractJUnit4SpringContextTests {
         TicketDTO tidto1 = createTicketDTO(new Long(1), new UserDTO(), new DateTime(2012, 10, 7, 12, 00), ticketDTOS.subList(0, 2));//treti ti nema id
         Ticket t1 = createTicket(new Long(1), new User(), new DateTime(2012, 10, 7, 12, 00), ticketsDAOs.subList(0, 2));
         when(ticketItemDAO.getTicketItemsByTicket(t1)).thenReturn(ticketsDAOs.subList(0, 2));
-        System.out.println(tidto1.getTicketItems().size() + " ; " +tidto1.getTicketItems());
-        System.out.println(t1.getTicketItems().size() + " ; " + t1.getTicketItems());
         
         //when        
         ticketItemService.createTicketItem(ticketDTOS.get(0));

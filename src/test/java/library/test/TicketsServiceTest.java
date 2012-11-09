@@ -126,10 +126,7 @@ public class TicketsServiceTest extends AbstractJUnit4SpringContextTests {
         when(ticketDAO.getTicketByID(new Long(1))).thenReturn(correctTicketDAOS.get(0));
         ticketService.createTicket(correctTickets.get(0));
 
-
         TicketDTO result = ticketService.getTicketByID(new Long(1));
-
-        System.out.println(result);
 
         assertEquals(new Long(1), result.getTicketID());
     }
@@ -215,9 +212,6 @@ public class TicketsServiceTest extends AbstractJUnit4SpringContextTests {
         when(ticketDAO.getAllTicketsForUser(correctUserDAOS.get(0))).thenReturn(correctTicketDAOS);
 
         List<TicketDTO> testExpectedTicketsDTO = ticketService.getAllTicketsForUser(correctUSERS.get(0));
-
-        System.out.println(testExpectedTicketsDTO);
-
 
         for (int i = 0; i < 3; i++) {
             assertEquals(testExpectedTicketsDTO.get(i), correctTickets.get(i));
