@@ -30,7 +30,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(loader = SpringockitoContextLoader.class,
 locations = "file:src/main/resources/spring/applicationContext-mock.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class UserServiceSpringoMockTest extends AbstractJUnit4SpringContextTests
+public class UserServiceTest extends AbstractJUnit4SpringContextTests
 {    
     
     @Autowired
@@ -68,10 +68,8 @@ public class UserServiceSpringoMockTest extends AbstractJUnit4SpringContextTests
     
     @Test
     @DirtiesContext
-    public void testCreate(){
-//        User u = createUser(new Long(1),"heslo", "rname", "USER", "username");
-//        UserDTO udto = createUserDTO(new Long(1), "heslo", "rname", "USER", "username");
-        
+    public void testCreate()
+    {      
         //test vynimky
         doThrow(new IllegalArgumentException("")).when(userDAO).createUser(null);
         
@@ -80,18 +78,6 @@ public class UserServiceSpringoMockTest extends AbstractJUnit4SpringContextTests
         
         // overime ze bola zavolana
         verify(userDAO,times(1)).createUser(users.get(users.size()-2));
-        //verify(userDAO).createUser();
-        
-//        when(userDAO.getUserByID(new Long(1))).thenReturn(u);
-//        
-//        UserDTO result = userService.getUserByID(new Long(1));
-//        
-//        System.out.println(result);
-        
-//        UserDTO udto = userService.getUserByID(new Long(1));
-//        System.out.println(userService);
-//        assertEquals(udto.getUserID(),u.getUserID());
-    
     }
     
     @Test
@@ -161,10 +147,8 @@ public class UserServiceSpringoMockTest extends AbstractJUnit4SpringContextTests
         {
             userService.createUser(userDTOs.get(i));
         }
-        List<UserDTO> resultList = userService.getUsers();
-       
-        //then       todo deepequals just for check 
-        //System.err.println(resultList);
+        List<UserDTO> resultList = userService.getUsers();       
+        
         assertEquals(resultList.size(),temp.size());        
     }
     
@@ -211,8 +195,7 @@ public class UserServiceSpringoMockTest extends AbstractJUnit4SpringContextTests
     }
     
     private UserDTO createUserDTO(String password,String realname,String systemRole,String username){
-        UserDTO u = new UserDTO();
-        //u.setUserID(id);
+        UserDTO u = new UserDTO();//u.setUserID(id);
         u.setPassword(password);
         u.setRealName(realname);
         u.setSystemRole(systemRole);

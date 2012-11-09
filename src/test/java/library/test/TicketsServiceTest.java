@@ -41,7 +41,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(loader = SpringockitoContextLoader.class,
 locations = "file:src/main/resources/spring/applicationContext-mock.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class TicketServiceSpringoMockTest extends AbstractJUnit4SpringContextTests {
+public class TicketsServiceTest extends AbstractJUnit4SpringContextTests {
 
     @Autowired
     private TicketService ticketService;

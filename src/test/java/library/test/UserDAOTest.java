@@ -29,7 +29,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @ContextConfiguration(locations ={"file:src/main/resources/spring/applicationContext-test.xml"})
 @TestExecutionListeners({DirtiesContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class})
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class UserServiceDAOTest
+public class UserDAOTest
 {
     private List<UserDTO> correctUsers = null;
     private List<UserDTO> wrongUsers = null;
