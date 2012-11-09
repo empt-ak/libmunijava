@@ -5,9 +5,7 @@
 package library.test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import library.dao.TicketDAO;
 import library.dao.TicketItemDAO;
 import library.entity.Book;
 import library.entity.Ticket;
@@ -22,7 +20,6 @@ import library.entity.enums.Department;
 import library.entity.enums.TicketItemStatus;
 import library.service.TicketItemService;
 import org.joda.time.DateTime;
-import org.junit.After;
 import org.junit.Test;
 import org.kubek2k.springockito.annotations.SpringockitoContextLoader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,104 +42,66 @@ locations = "file:src/main/resources/spring/applicationContext-mock.xml")
 public class TicketItemServiceTest extends AbstractJUnit4SpringContextTests {
 
     @Autowired
-    TicketItemService ticketItemService;
+    private TicketItemService ticketItemService;
     @Autowired
-    TicketItemDAO ticketItemDAO;
-    //private List<BookDTO> books;
-    private List<TicketItemDTO> correct;
-    private List<TicketItem> correctDAOS;
-    private List<UserDTO> correctUSERS;
-    private List<User> correctUserDAOS;
-    private List<TicketDTO> correctTickets;
-    private List<Ticket> correctTicketDAOS;
+    private TicketItemDAO ticketItemDAO;    
+    private List<TicketItemDTO> ticketDTOS;
+    private List<TicketItem> ticketsDAOs;
 
     @Before
     public void init() {
         List<BookDTO> books = new ArrayList<>(3);
         books.add(createBookDTO(new Long(1), "pepazdepa", "ach jaj", Department.ADULT, BookStatus.AVAILABLE));
         books.add(createBookDTO(new Long(2), "pepazdepa", "xexe", Department.ADULT, BookStatus.AVAILABLE));
-        books.add(createBookDTO(null, "pepazdepa", "hlavninadrazi", Department.ADULT, BookStatus.AVAILABLE));
 
         List<Book> booksDAO = new ArrayList<>(3);
         booksDAO.add(createBook(new Long(1), "pepazdepa", "ach jaj", Department.ADULT, BookStatus.AVAILABLE));
         booksDAO.add(createBook(new Long(2), "pepazdepa", "xexe", Department.ADULT, BookStatus.AVAILABLE));
-        booksDAO.add(createBook(null, "pepazdepa", "hlavninadrazi", Department.ADULT, BookStatus.AVAILABLE));
 
+        ticketDTOS = new ArrayList<>(3);
+        ticketDTOS.add(createTicketItemDTO(books.get(0), TicketItemStatus.BORROWED));
+        ticketDTOS.add(createTicketItemDTO(books.get(1), TicketItemStatus.BORROWED));
+        ticketDTOS.add(createTicketItemDTO(new BookDTO(), TicketItemStatus.RETURNED));
 
-
-        //now lets create some ticketitems
-        correct = new ArrayList<>(3);
-        correct.add(createTicketItemDTO(new Long(1), books.get(0), TicketItemStatus.BORROWED));
-        correct.add(createTicketItemDTO(new Long(2), books.get(1), TicketItemStatus.BORROWED));
-        correct.add(createTicketItemDTO(null, books.get(2), TicketItemStatus.RETURNED));
-
-        correctDAOS = new ArrayList<>(3);
-        correctDAOS.add(createTicketItem(new Long(1), booksDAO.get(0), TicketItemStatus.BORROWED));
-        correctDAOS.add(createTicketItem(new Long(2), booksDAO.get(1), TicketItemStatus.BORROWED));
-        correctDAOS.add(createTicketItem(null, booksDAO.get(2), TicketItemStatus.RETURNED));
-
-
-        correctUSERS = new ArrayList<>(2);
-        correctUSERS.add(createUserDTO(new Long(1), "heslo1", "realnemeno1", "USER1", "login1"));
-        correctUSERS.add(createUserDTO(new Long(2), "heslo2", "realnemeno2", "USER2", "login2"));
-
-        correctUserDAOS = new ArrayList<>(2);
-        correctUserDAOS.add(createUser(new Long(1), "heslo1", "realnemeno1", "USER1", "login1"));
-        correctUserDAOS.add(createUser(new Long(2), "heslo2", "realnemeno2", "USER2", "login2"));
-
-        correctTickets = new ArrayList<>(2);
-        correctTickets.add(createTicketDTO(new Long(1), correctUSERS.get(0), new DateTime(2012, 10, 7, 12, 00), correct));
-       
-        
-        correctTicketDAOS = new ArrayList<>(2);
-        correctTicketDAOS.add(createTicket(new Long(1), correctUserDAOS.get(0), new DateTime(2012, 10, 7, 12, 00), correctDAOS));
-       
-
-
-    }
-
-    //toto asi nejde
-    @After
-    public void clearMocks() {
-        reset(ticketItemDAO);
+        ticketsDAOs = new ArrayList<>(3);
+        ticketsDAOs.add(createTicketItem(new Long(1), booksDAO.get(0), TicketItemStatus.BORROWED));
+        ticketsDAOs.add(createTicketItem(new Long(2), booksDAO.get(1), TicketItemStatus.BORROWED));
+        ticketsDAOs.add(createTicketItem(null, new Book(), TicketItemStatus.RETURNED));        
     }
 
     @Test
     @DirtiesContext
     public void testCreateTicketItem() {
-
-
         doThrow(new IllegalArgumentException("")).when(ticketItemDAO).createTicketItem(null);
 
         // zavolame metodu
-        ticketItemService.createTicketItem(correct.get(2));
+        ticketItemService.createTicketItem(ticketDTOS.get(2));
 
 
         // overime ze bola zavolana
-        verify(ticketItemDAO, times(1)).createTicketItem(correctDAOS.get(2));
+        verify(ticketItemDAO, times(1)).createTicketItem(ticketsDAOs.get(2));
     }
 
     @Test
     @DirtiesContext
     public void testGetTicketItemByID() {
-        when(ticketItemDAO.getTicketItemByID(new Long(1))).thenReturn(correctDAOS.get(0));
-        ticketItemService.createTicketItem(correct.get(0));
+        // given
+        when(ticketItemDAO.getTicketItemByID(new Long(1))).thenReturn(ticketsDAOs.get(0));
+        ticketItemService.createTicketItem(ticketDTOS.get(0));
 
-
+        //when        
         TicketItemDTO result = ticketItemService.getTicketItemByID(new Long(1));
 
-        System.out.println(result);
-
+        //then
         assertEquals(new Long(1), result.getTicketItemID());
     }
 
     @Test
     @DirtiesContext
     public void testUpdateTicketItem() {
-
         // given
-        TicketItemDTO tiDTO = correct.get(0);
-        TicketItem ti = correctDAOS.get(0);
+        TicketItemDTO tiDTO = ticketDTOS.get(0);
+        TicketItem ti = ticketsDAOs.get(0);
         ti.setTicketItemStatus(TicketItemStatus.RETURNED);
         when(ticketItemDAO.getTicketItemByID(new Long(1))).thenReturn(ti);
 
@@ -154,7 +113,6 @@ public class TicketItemServiceTest extends AbstractJUnit4SpringContextTests {
 
         //then        
         assertEquals(result.getTicketItemStatus(), ti.getTicketItemStatus());
-
     }
 
     @Test
@@ -165,8 +123,8 @@ public class TicketItemServiceTest extends AbstractJUnit4SpringContextTests {
 
 
         //when
-        ticketItemService.createTicketItem(correct.get(1));
-        ticketItemService.deleteTicketItem(correct.get(1));
+        ticketItemService.createTicketItem(ticketDTOS.get(1));
+        ticketItemService.deleteTicketItem(ticketDTOS.get(1));
         TicketItemDTO result = ticketItemService.getTicketItemByID(new Long(2));
 
         //then
@@ -176,35 +134,23 @@ public class TicketItemServiceTest extends AbstractJUnit4SpringContextTests {
     @Test
     @DirtiesContext
     public void testGetTicketItemsByTicket() {
+        //given
+        TicketDTO tidto1 = createTicketDTO(new Long(1), new UserDTO(), new DateTime(2012, 10, 7, 12, 00), ticketDTOS.subList(0, 2));//treti ti nema id
+        Ticket t1 = createTicket(new Long(1), new User(), new DateTime(2012, 10, 7, 12, 00), ticketsDAOs.subList(0, 2));
+        when(ticketItemDAO.getTicketItemsByTicket(t1)).thenReturn(ticketsDAOs.subList(0, 2));
+        System.out.println(tidto1.getTicketItems().size() + " ; " +tidto1.getTicketItems());
+        System.out.println(t1.getTicketItems().size() + " ; " + t1.getTicketItems());
         
-      TicketDTO tidto1 = createTicketDTO(new Long(1), correctUSERS.get(0), new DateTime(2012, 10, 7, 12, 00), (ArrayList<TicketItemDTO>) correct);
-    
-        
-        
-      Ticket t1 = createTicket(new Long(1), correctUserDAOS.get(0), new DateTime(2012, 10, 7, 12, 00), correctDAOS);
-       
-        
-        when(ticketItemDAO.getTicketItemsByTicket(t1)).thenReturn(correctDAOS);
-        
-        ticketItemService.createTicketItem(correct.get(0));
-
-
+        //when        
+        ticketItemService.createTicketItem(ticketDTOS.get(0));
+        ticketItemService.createTicketItem(ticketDTOS.get(1));
         List<TicketItemDTO> result = ticketItemService.getTicketItemsByTicket(tidto1);
-
-        System.out.println(result);
-
         
-        for(int i = 0; i < 3; i++) {
-        
-        assertEquals(correct.get(i), result.get(i));
-        
-        }
-        
-        
-        
-        
-
+        //then        
+        assertEquals(2,result.size());        
     }
+    
+    
 
     private TicketDTO createTicketDTO(Long id, UserDTO user, DateTime borrowtime, List<TicketItemDTO> ticketItems) {
         TicketDTO t = new TicketDTO();
@@ -215,8 +161,8 @@ public class TicketItemServiceTest extends AbstractJUnit4SpringContextTests {
 
         return t;
     }
-    
-      private Ticket createTicket(Long id, User user, DateTime borrowtime, List<TicketItem> ticketItems) {
+
+    private Ticket createTicket(Long id, User user, DateTime borrowtime, List<TicketItem> ticketItems) {
         Ticket t = new Ticket();
         t.setTicketID(id);
         t.setUser(user);
@@ -246,9 +192,8 @@ public class TicketItemServiceTest extends AbstractJUnit4SpringContextTests {
         return u;
     }
 
-    private TicketItemDTO createTicketItemDTO(Long id, BookDTO b, TicketItemStatus status) {
+    private TicketItemDTO createTicketItemDTO(BookDTO b, TicketItemStatus status) {
         TicketItemDTO ti = new TicketItemDTO();
-        ti.setTicketItemID(id);
         ti.setBook(b);
         ti.setTicketItemStatus(status);
 

@@ -6,7 +6,6 @@ package library.test;
 
 import library.service.TicketService;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import library.dao.TicketDAO;
 import library.entity.Book;
@@ -46,7 +45,7 @@ public class TicketsServiceTest extends AbstractJUnit4SpringContextTests {
     @Autowired
     private TicketService ticketService;
     @Autowired
-    TicketDAO ticketDAO;
+    private TicketDAO ticketDAO;
     private List<TicketItemDTO> correctTicketItems;
     private List<TicketItem> correctTicketItemDAOS;
     private List<UserDTO> correctUSERS;
@@ -99,10 +98,6 @@ public class TicketsServiceTest extends AbstractJUnit4SpringContextTests {
         correctTicketDAOS.add(createTicket(new Long(1), correctUserDAOS.get(0), new DateTime(2012, 10, 7, 12, 00), correctTicketItemDAOS));
         correctTicketDAOS.add(createTicket(new Long(2), correctUserDAOS.get(1), new DateTime(2012, 10, 8, 12, 30), correctTicketItemDAOS));
         correctTicketDAOS.add(createTicket(null, correctUserDAOS.get(1), new DateTime(2012, 10, 11, 12, 30), correctTicketItemDAOS));
-
-
-
-
     }
 
     //toto asi nejde
@@ -157,14 +152,11 @@ public class TicketsServiceTest extends AbstractJUnit4SpringContextTests {
 
         //then        
         assertEquals(result.getReturnTime(), t.getReturnTime());
-
-
     }
 
-    /**
-     * Test of deleteTicket method, of class TicketService.
-     */
+    
     @Test
+    @DirtiesContext
     public void testDeleteTicket() {
 
         //given
@@ -183,7 +175,6 @@ public class TicketsServiceTest extends AbstractJUnit4SpringContextTests {
     @Test
     @DirtiesContext
     public void testGetLastTicketForUser() {
-
         TicketDTO lastDTO = null;
         for (TicketDTO t : correctTickets) {
             ticketService.createTicket(t);
@@ -195,24 +186,15 @@ public class TicketsServiceTest extends AbstractJUnit4SpringContextTests {
             ticketDAO.createTicket(t);
             last = t;
         }
-
-
-
         when(ticketDAO.getLastTicketForUser(correctUserDAOS.get(0))).thenReturn(last);
 
         ticketService.createTicket(correctTickets.get(0));
         ticketService.createTicket(correctTickets.get(1));
         ticketService.createTicket(correctTickets.get(2));
-
-
-
+        
         TicketDTO result = ticketService.getLastTicketForUser(correctUSERS.get(0));
-
-
-        System.out.println(result);
-
-
-
+        
+        
         assertEquals(result, lastDTO);
 
     }
@@ -220,7 +202,6 @@ public class TicketsServiceTest extends AbstractJUnit4SpringContextTests {
     @Test
     @DirtiesContext
     public void testGetAllTicketsForUser() {
-
 
         for (TicketDTO t : correctTickets) {
             ticketService.createTicket(t);
@@ -230,8 +211,6 @@ public class TicketsServiceTest extends AbstractJUnit4SpringContextTests {
             ticketDAO.createTicket(t);
         }
 
-
-
         //    when(ticketService.getAllTicketsForUser(correctUSERS.get(0))).thenReturn(correctTickets);
         when(ticketDAO.getAllTicketsForUser(correctUserDAOS.get(0))).thenReturn(correctTicketDAOS);
 
@@ -239,9 +218,9 @@ public class TicketsServiceTest extends AbstractJUnit4SpringContextTests {
 
         System.out.println(testExpectedTicketsDTO);
 
-        
-        for(int i = 0; i < 3; i++) {
-        assertEquals(testExpectedTicketsDTO.get(i), correctTickets.get(i));
+
+        for (int i = 0; i < 3; i++) {
+            assertEquals(testExpectedTicketsDTO.get(i), correctTickets.get(i));
         }
     }
 
@@ -276,23 +255,13 @@ public class TicketsServiceTest extends AbstractJUnit4SpringContextTests {
         List<TicketDTO> testExpectedTicketsDTO = new ArrayList<>(2);
 
 
-        testExpectedTicketsDTO = ticketService.getTicketsInPeriodForUser(new DateTime(2012, 10, 5, 12, 00), 
-                                                     new DateTime(2012, 10, 9, 12, 30), correctUSERS.get(0));
-        
-          for(int i = 0; i < 2; i++) {
-         assertEquals(testExpectedTicketsDTO.get(i),expectedTicketsDTO.get(i));      
-         
-          }
-                
-                
+        testExpectedTicketsDTO = ticketService.getTicketsInPeriodForUser(new DateTime(2012, 10, 5, 12, 00),
+                new DateTime(2012, 10, 9, 12, 30), correctUSERS.get(0));
 
-       
+        for (int i = 0; i < 2; i++) {
+            assertEquals(testExpectedTicketsDTO.get(i), expectedTicketsDTO.get(i));
 
-
-
-
-
-
+        }
     }
 
     private TicketDTO createTicketDTO(Long id, UserDTO user, DateTime borrowtime, List<TicketItemDTO> ticketItems) {

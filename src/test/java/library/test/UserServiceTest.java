@@ -34,13 +34,13 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests
 {    
     
     @Autowired
-    UserService userService;
+    private UserService userService;
     
     @Autowired
-    UserDAOImpl userDAO;
+    private UserDAOImpl userDAO;
     
-    java.util.List<User> users = new java.util.ArrayList<>();
-    java.util.List<UserDTO> userDTOs = new java.util.ArrayList<>();
+    private List<User> users = new java.util.ArrayList<>();
+    private List<UserDTO> userDTOs = new java.util.ArrayList<>();
     
     @Before
     public void init()
