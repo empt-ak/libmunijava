@@ -156,6 +156,7 @@ public class BookServiceTest extends AbstractJUnit4SpringContextTests {
     @DirtiesContext
     public void testGetBooksByAuthor() 
     {
+        //given
         List<BookDTO> tempDTO = new ArrayList<>();
         tempDTO.add(listDTOS.get(0));
         tempDTO.add(listDTOS.get(1));
@@ -163,8 +164,21 @@ public class BookServiceTest extends AbstractJUnit4SpringContextTests {
         
         List<Book> tempDAOz = new ArrayList<>();
         tempDAOz.add(listDAOS.get(0));
-        tempDAOz.add(listDAOS.get(1));
-        tempDAOz.add(createBook(new Long(4), "stvrtya", "stvrtynazov", Department.ADULT, BookStatus.AVAILABLE));
+        tempDAOz.add(listDAOS.get(1));       
+        
+        when(bookDAO.getBooksByAuthor("pepazdepa")).thenReturn(tempDAOz);
+        
+        
+        //when
+        for(BookDTO b : tempDTO)
+        {
+            bookService.createBook(b);
+        }
+        List<BookDTO> resulList = bookService.getBooksByAuthor("pepazdepa");
+        
+        
+        //then
+        assertEquals(2,resulList.size());
     }
 
     @Test
