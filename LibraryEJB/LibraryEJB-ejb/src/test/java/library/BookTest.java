@@ -5,31 +5,28 @@
 package library;
 
 import java.util.ArrayList;
-import junit.framework.TestCase;
-import org.apache.openejb.jee.EjbJar;
-import org.apache.openejb.jee.jpa.unit.PersistenceUnit;
-import org.apache.openejb.junit.ApplicationComposer;
-import org.apache.openejb.junit.Configuration;
-import org.apache.openejb.junit.Module;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
+import java.util.List;
+import java.util.Properties;
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.UserTransaction;
-import java.util.List;
-import java.util.Properties;
-import javax.ejb.EJBException;
-import javax.ejb.EJBTransactionRolledbackException;
 import javax.transaction.RollbackException;
+import javax.transaction.UserTransaction;
+import junit.framework.TestCase;
 import library.dao.BookDao;
 import library.dao.BookDaoLocal;
 import library.entity.Book;
 import library.utils.LibraryIllegalArgumentException;
+import org.apache.openejb.jee.EjbJar;
 import org.apache.openejb.jee.StatelessBean;
+import org.apache.openejb.jee.jpa.unit.PersistenceUnit;
+import org.apache.openejb.junit.ApplicationComposer;
+import org.apache.openejb.junit.Configuration;
+import org.apache.openejb.junit.Module;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  *
