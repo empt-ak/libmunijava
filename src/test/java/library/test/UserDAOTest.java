@@ -186,7 +186,7 @@ public class UserDAOTest
         try{
             userService.updateUser(u);
         }catch(Exception e){
-            fail("No exception should be thrown when updating correct user"+e);
+            fail("No exception should be thrown when updating correct user" + u+e);
         }
         
         UserDTO uzer = userService.getUserByID(u.getUserID());

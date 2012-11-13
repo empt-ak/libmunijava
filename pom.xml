@@ -136,6 +136,25 @@
             <version>${org.springframework-version}</version>
         </dependency>
             
+            
+        <!-- Spring AOP + AspectJ -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+ 
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.7.1</version>
+        </dependency>
+ 
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.7.1</version>
+        </dependency>
         <!-- dozer used for dto conversion -->
         <dependency>
             <groupId>net.sf.dozer</groupId>
@@ -187,7 +206,7 @@
             <version>3.0.0.CR4</version>
         </dependency>
  
-         <dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.21</version>

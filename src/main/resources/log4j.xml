@@ -37,6 +37,10 @@
     <logger name="org.hibernate">
         <level value="warn"/>  
     </logger>
+    
+    <logger name="org.apache.catalina">
+        <level value="info" />
+    </logger>
 
     <!-- Root Logger -->
     <root>
