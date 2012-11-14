@@ -23,10 +23,10 @@
     
     
     <aop:aspectj-autoproxy />
-    <bean id="bookAspect" class="library.aop.AspectDAOBookScanner" />
-    <bean id="userAspect" class="library.aop.AspectDAOUserScanner" />
-    <bean id="ticketItemAspect" class="library.aop.AspectDAOTicketItemScanner" />
-    <bean id="ticketAspect" class="library.aop.AspectDAOTicketScanner" />
+    <bean id="bookAspect" class="library.utils.aop.AspectDAOBookScanner" />
+    <bean id="userAspect" class="library.utils.aop.AspectDAOUserScanner" />
+    <bean id="ticketItemAspect" class="library.utils.aop.AspectDAOTicketItemScanner" />
+    <bean id="ticketAspect" class="library.utils.aop.AspectDAOTicketScanner" />
     
     
 <!--    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

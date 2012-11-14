@@ -204,10 +204,7 @@ public class TicketsDAOTest {
         }
         ticketService.createTicket(correctTickets.get(1));
         
-        TicketDTO ticket = ticketService.getLastTicketForUser(userService.getUserByID(new Long(1)));
-        
-        System.out.println(ticket);
-       
+        TicketDTO ticket = ticketService.getLastTicketForUser(userService.getUserByID(new Long(1)));       
         ticket.setBorrowTime(null);
         try
         {
