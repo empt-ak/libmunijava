@@ -13,6 +13,7 @@ import library.entity.enums.BookStatus;
 import library.entity.enums.Department;
 
 import library.service.BookService;
+import library.utils.aop.validators.LibraryValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -67,7 +68,32 @@ public class BookController {
        return new ModelAndView("book_add","bookDTO",new BookDTO()); 
     }
     
+    @RequestMapping(value="/edit/{bookID}",method= RequestMethod.GET)
+    public ModelAndView editBook(@PathVariable Long bookID)
+    {
+        return new ModelAndView("book_edit","bookDTO",bookService.getBookByID(bookID));
+    }
     
+    @RequestMapping(value="/edit/",method = RequestMethod.POST)
+    public ModelAndView editBook(@ModelAttribute("bookDTO") BookDTO bookDTO,BindingResult result, Errors errors)
+    {
+        bookValidator.validate(bookDTO, errors);
+        if(!LibraryValidator.isValidID(bookDTO.getBookID()))
+        {
+            //errors.
+        }
+        System.out.println(bookDTO);
+        
+        if(result.hasErrors())
+        {
+            return new ModelAndView("book_edit","bookDTO",bookDTO);
+        }
+        else
+        {
+            bookService.updateBook(bookDTO);
+            return new ModelAndView("redirect:/book/");
+        }
+    }
     
     
     @RequestMapping("/show/{bookID}")
@@ -86,10 +112,10 @@ public class BookController {
     
     @RequestMapping("/delete/{bookID}")
     public ModelAndView deleteBook(@PathVariable Long bookID)
-    {  
-                
-        
-        return new ModelAndView();
+    {
+        //BookDTO b = bookService.getBookByID(bookID);
+        bookService.deleteBook(bookService.getBookByID(bookID));
+        return new ModelAndView("redirect:/");
     }
     
     

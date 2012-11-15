@@ -41,7 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/user")
 @SessionAttributes({"USER"})
-public class UserController extends SessionController
+public class UserController
 {
     @Autowired
     Validator userValidator;
@@ -52,11 +52,11 @@ public class UserController extends SessionController
     @RequestMapping(value="/register",method= RequestMethod.POST)
     public ModelAndView addUser(@ModelAttribute("userDTO") UserDTO userDTO,BindingResult result, Errors errors)
     {       
-        System.out.println(userDTO);
+        //System.out.println(userDTO);
         userValidator.validate(userDTO, errors);
         if(result.hasErrors())
         {
-            System.out.println("chyba");
+            //System.out.println("chyba");
             return new ModelAndView("user_add","userDTO",userDTO); 
         }
         else
@@ -82,7 +82,7 @@ public class UserController extends SessionController
     @RequestMapping(value="/edit",method= RequestMethod.POST)
     public ModelAndView editUser(@ModelAttribute("userDTO") UserDTO userDTO,BindingResult result, Errors errors)
     {       
-        System.out.println(userDTO);
+        //System.out.println(userDTO);
         userValidator.validate(userDTO, errors);
         if(result.hasErrors())
         {            
@@ -95,6 +95,48 @@ public class UserController extends SessionController
         }           
     }
     
+    @RequestMapping(value="/edit/{userID}",method= RequestMethod.GET)
+    public ModelAndView editUser(@PathVariable Long userID)
+    {
+        //System.out.println(userID);
+        return new ModelAndView("user_edit","userDTO",userService.getUserByID(userID));
+    }
+    
+    @RequestMapping(value="/editprofile/",method= RequestMethod.POST)
+    public ModelAndView editUserProfile(@ModelAttribute("userDTO") UserDTO userDTO,BindingResult result, Errors errors)
+    {       
+        System.out.println(userDTO);
+        userValidator.validate(userDTO, errors);
+        if(result.hasErrors())
+        {            
+            return new ModelAndView("user_profile","userDTO",userDTO); 
+        }
+        else
+        {   
+           try {
+                userDTO.setPassword(Tools.SHA1(userDTO.getPassword()));
+            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try
+            {
+                userService.updateUser(userDTO);
+            }
+            catch(IllegalArgumentException iae)
+            {
+                return new ModelAndView("error/fatal","ERROR_MESSAGE",iae.getCause());
+            }
+            
+            return new ModelAndView("index");  
+        }           
+    }
+    
+    @RequestMapping(value="/editprofile/{username}",method= RequestMethod.GET)
+    public ModelAndView editUserProfile(@PathVariable String username)
+    {
+        return new ModelAndView("user_profile","userDTO",userService.getUserByUsername(username));
+    }
+    
     @RequestMapping(value="/delete/{userID}",method= RequestMethod.GET)
     public ModelAndView deleteUser(@PathVariable Long userID)
     {
@@ -102,15 +144,10 @@ public class UserController extends SessionController
         u.setUserID(userID);
         userService.deleteUser(u);
         
-        return showUsers();
+        return new ModelAndView("redirect:/user/");
     }
     
-    @RequestMapping(value="/edit/{userID}",method= RequestMethod.GET)
-    public ModelAndView editUser(@PathVariable Long userID)
-    {
-        System.out.println(userID);
-        return new ModelAndView("user_edit","userDTO",userService.getUserByID(userID));
-    }
+    
     
     
     @RequestMapping("/")
@@ -167,8 +204,8 @@ public class UserController extends SessionController
     {
         String username = (String) request.getParameter("username");
         String password = (String) request.getParameter("password");
-        System.out.println(username);
-        System.out.println(password);
+        //System.out.println(username);
+        //System.out.println(password);
         try {
             password = Tools.SHA1(password);
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {

@@ -30,12 +30,13 @@
                 <div id="leftcolumn">
                     <c:choose>
                         <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
-                            <form:form method="POST" action="${pageContext.request.contextPath}/book/save" commandName="bookDTO">                    
+                            <form:form method="POST" action="${pageContext.request.contextPath}/book/edit/" commandName="bookDTO">                    
                                 <fieldset>
                                     <%-- todo formatovanie errov :] --%>
                                     <legend><spring:message code="label.website.book.add.formheader" /></legend>                    
                                     <form:label path="title"><spring:message code="label.website.book.add.field.booktitle"/></form:label>
                                     <form:input path="title" id="register_input"/> <form:errors path="title"/><br />
+                                    <form:hidden path="bookID" />
 
                                     <form:label path="author"><spring:message code="label.website.book.add.field.booktauthor"/></form:label>
                                     <form:input path="author" id="register_input"/><form:errors path="author"/><br/>
@@ -46,9 +47,15 @@
                                         <form:option value="ADULT"><spring:message code="book.department.adult"/></form:option>
                                         <form:option value="KIDS"><spring:message code="book.department.kids"/></form:option>
                                         <form:option value="SCIENTIFIC"><spring:message code="book.department.scientific"/></form:option>
-                                    </form:select> <br/><br />
+                                    </form:select> <br/>
+                                    
+                                    <form:label path="bookStatus"><spring:message code="label.website.book.add.field.bookstatus"/></form:label>
+                                    <form:select path="bookStatus" id="register_input">
+                                        <form:option value="AVAILABLE"><spring:message code="book.bookstatus.available"/></form:option>
+                                        <form:option value="NOT_AVAILABLE"><spring:message code="book.bookstatus.unavailable"/></form:option>                                        
+                                    </form:select><br /><br />
 
-                                    <label></label><input type="submit" value="<spring:message code="label.website.book.add.createbutton"/>" id="register_button"/>
+                                    <label></label><input type="submit" value="<spring:message code="label.website.book.add.updatebutton"/>" id="register_button"/>
                                 </fieldset>
                             </form:form>
                          </c:when>

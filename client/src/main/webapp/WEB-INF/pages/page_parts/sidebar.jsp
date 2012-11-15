@@ -20,10 +20,11 @@
                         <input type="submit" />
                     </form>
                 </div>-->
-<c:out value="${USER}" />
-                      prihlaseny ako:
+                <c:out value="${USER}" />
+                <a href="${pageContext.request.contextPath}/user/editprofile/${USER.username}">Upravit profil</a>
+<!--                      prihlaseny ako:
                       obsah poslednej pozicky:
-                      <a href="${pageContext.request.contextPath}/user/logout/">odhlasit sa </a>
+                      <a href="${pageContext.request.contextPath}/user/logout/">odhlasit sa </a>-->
                       
                     
      

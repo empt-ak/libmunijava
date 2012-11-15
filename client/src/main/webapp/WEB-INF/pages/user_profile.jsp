@@ -29,8 +29,8 @@
                 <!-- content -->
                 <div id="leftcolumn">
                     <c:choose>
-                        <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
-                            <form:form method="POST" action="${pageContext.request.contextPath}/user/edit/" commandName="userDTO">                    
+                        <c:when test="${USER == userDTO}">
+                            <form:form method="POST" action="${pageContext.request.contextPath}/user/editprofile/" commandName="userDTO">                    
                                 <fieldset>
                                     <%-- todo formatovanie errov :] --%>
                                     <legend><spring:message code="label.website.user.editprofile.formheader" /></legend>                    
@@ -42,12 +42,8 @@
 
                                     <form:label path="password"><spring:message code="label.website.user.register.field.password"/></form:label>
                                     <form:password path="password" id="register_input"/><form:errors path="password"/><br />
-                                    
-                                    <form:label path="systemRole"><spring:message code="label.website.user.register.field.systemRole"/></form:label>
-                                    <form:input path="systemRole" id="register_input"/><form:errors path="systemRole"/><br/>
-                                    
                                     <form:hidden path="userID" />
-                                    
+                                    <form:hidden path="systemRole"/>
                                     <label></label><input type="submit" value="<spring:message code="label.website.user.editprofile.editbutton"/>" id="register_button"/>
                                 </fieldset>
                             </form:form>

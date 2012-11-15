@@ -31,7 +31,7 @@
                     <form:form method="POST" action="${pageContext.request.contextPath}/user/register" commandName="userDTO">                    
                         <fieldset>
                             <%-- todo formatovanie errov :] --%>
-                            <legend><spring:message code="label.webstie.user.register.formheader" /></legend>                    
+                            <legend><spring:message code="label.website.user.register.formheader" /></legend>                    
                             <form:label path="username"><spring:message code="label.website.user.register.field.username"/></form:label>
                             <form:input path="username" id="register_input"/> <form:errors path="username"/><br />
 
