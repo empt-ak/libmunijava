@@ -13,7 +13,6 @@
         <java-version>1.7</java-version>
         <org.springframework-version>3.1.2.RELEASE</org.springframework-version>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
-        <netbeans.hint.deploy.server>gfv3ee6</netbeans.hint.deploy.server>
     </properties>
 
     <dependencies>
@@ -82,26 +81,22 @@
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.0</version>
-<!--                <executions>
+                <executions>
                     <execution>
-                        <phase>validate</phase>
+                        <id>1</id>
+                        <phase>install</phase>
                         <goals>
-                            <goal>copy</goal>
+                            <goal>run</goal>
                         </goals>
-                        <configuration>
-                            <outputDirectory>${endorsed.dir}</outputDirectory>
-                            <silent>true</silent>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>javax</groupId>
-                                    <artifactId>javaee-endorsed-api</artifactId>
-                                    <version>6.0</version>
-                                    <type>jar</type>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
                     </execution>
-                </executions>-->
+                    <execution>
+                        <id>2</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <path>/pa165</path>
                 </configuration>
