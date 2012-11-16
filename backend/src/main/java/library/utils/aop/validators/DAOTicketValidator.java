@@ -55,12 +55,14 @@ class DAOTicketValidator
 //        {
 //            throw new IllegalArgumentException("ERROR: Given ticket does not have return time");
 //        }
-        
+        System.out.println(ticket);
         LibraryValidator.validateDAO(ticket.getUser(), User.class, Operation.UPDATE);
-        for(TicketItem ti : ticket.getTicketItems())
+        if(ticket.getTicketItems() != null && ticket.getTicketItems().size() > 0)
         {
-            LibraryValidator.validateDAO(ti, TicketItem.class, Operation.UPDATE);
-        }
-        
+            for(TicketItem ti : ticket.getTicketItems())
+            {
+                LibraryValidator.validateDAO(ti, TicketItem.class, Operation.UPDATE);
+            }            
+        }       
     }
 }

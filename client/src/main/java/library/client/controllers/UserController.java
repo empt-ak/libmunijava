@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -40,7 +41,6 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/user")
-@SessionAttributes({"USER"})
 public class UserController
 {
     @Autowired
@@ -61,15 +61,36 @@ public class UserController
         }
         else
         {
-            userDTO.setSystemRole("USER");
-            try {
-                userDTO.setPassword(Tools.SHA1(userDTO.getPassword()));
-            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
-                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            UserDTO temp = null;
+            try
+            {
+                temp = userService.getUserByUsername(userDTO.getUsername());
+            }catch(NoResultException nre)
+            {
+                
             }
             
-            userService.createUser(userDTO);
-            return new ModelAndView("index");  
+            if(temp == null)
+            {
+                userDTO.setSystemRole("USER");
+                try 
+                {
+                    userDTO.setPassword(Tools.SHA1(userDTO.getPassword()));
+                } 
+                catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) 
+                {
+                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                userService.createUser(userDTO);
+                return new ModelAndView("redirect:/");                
+            }
+            else
+            {// uzivatel s takym menom uz existuje
+                errors.rejectValue("username", "error.field.username.duplicate");
+                return new ModelAndView("user_add","userDTO",userDTO);
+            }
+              
         }           
     }
     
@@ -223,10 +244,12 @@ public class UserController
     }
     
     @RequestMapping("/logout/")
-    public ModelAndView logout(HttpSession session)
+    public ModelAndView logout(HttpSession session,HttpServletRequest request)
     {
-        session.setAttribute("USER", new UserDTO());
-        session.invalidate();
+//        session.setAttribute("USER", new UserDTO());
+//        session.invalidate();
+        
+        request.getSession().invalidate();
         
         return new ModelAndView("redirect:/");
     }

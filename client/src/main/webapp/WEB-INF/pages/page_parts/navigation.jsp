@@ -17,15 +17,17 @@
                     </ul>
                 </c:when>
             </c:choose>
-
-        </li>  
+        </li> 
         <c:choose>
             <c:when test="${USER != null}">
-                <li class='active'><a href='${pageContext.request.contextPath}/ticket/'><span><spring:message code="label.website.navigation.tickets" /></span></a></li>
+                <li><a href='#'><span><spring:message code="label.website.navigation.tickets" /></span></a>
+                    <ul>
+                        <li><a href='${pageContext.request.contextPath}/ticket/create/user/${USER.userID}'><span><spring:message code="label.website.navigation.tickets.create" /></span></a></li>
+                            <li><a href='${pageContext.request.contextPath}/ticket/show/mytickets/user/${USER.userID}'><span>Zobrazit moje pozicky</span></a></li>
+                    </ul>
+                </li> 
             </c:when>
         </c:choose>
-
-
         <c:choose>
             <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
                 <li class="active"><a href="${pageContext.request.contextPath}/user/"><span><spring:message code="label.website.navigation.users" /></span></a></li>
@@ -40,8 +42,5 @@
                 <li class='active'><a href='${pageContext.request.contextPath}/user/logout/'><span><spring:message code="label.website.navigation.logout" /></span></a></li>
             </c:otherwise>
         </c:choose>
-
-
-
     </ul> 
 </div>
