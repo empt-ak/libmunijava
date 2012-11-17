@@ -20,13 +20,13 @@
                 border-bottom:5px solid #333333;
                 display: none;
             }​​
-            #intro
+
+            #ffs
             {
-                font-size:120%;
-                color:#404040;
-                /*                background-color:transparent;*/
                 background-color: #d7e291;
+                padding:20px;
                 margin-top:10px;
+                border-bottom:5px solid #333333;
             }
         </style>
 
@@ -59,7 +59,16 @@
                 <!-- content -->
                 <div id="leftcolumn">
                     <c:forEach var="ticket" items="${tickets}">
-                        <a href="#" class="show">Show</a>
+                        <div class="show" style="background-color: #d7e291; border-style: dotted; border-width: 1px;">
+                            <table width="100%">
+                                <tr>
+                                    <td>Pozicka c: ${ticket.ticketID}</td>
+                                    <td>Datum pozicania: ${ticket.borrowTime.dayOfMonth}.${ticket.borrowTime.monthOfYear}.${ticket.borrowTime.year}</td>
+                                    <td>Vratit do : ${ticket.dueTime.dayOfMonth}.${ticket.dueTime.monthOfYear}.${ticket.dueTime.year}</td>  
+                                    <td><img src="<c:url value="/resources/img/arrow_down.gif" />" /></td>
+                                </tr>
+                            </table>
+                        </div>                        
                         <div class="slidingDiv">
                             <table>
                                 <tr>
@@ -77,7 +86,7 @@
                             </table> <a href="#" class="hide">Hide</a>
                         </div> <br/>  
                     </c:forEach>
-
+                        
                     <div class="clear"></div>
                 </div> 
                 <!-- sidebar -->
