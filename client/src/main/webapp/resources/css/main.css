@@ -25,7 +25,7 @@ body
 
 #faux 
 {
-    background: url(faux-2-2-col.gif);
+/*    background: url(faux-2-2-col.gif);*/
     margin-bottom: 5px;
     overflow: auto; /* Paul O Brien Fix for IE www.pmob.co.uk */
     width: 100%;	
@@ -42,7 +42,7 @@ body
     /* background: #d7e291 url(images/header.gif); */
 }
 
-#rightcolumn 
+/*#rightcolumn 
 { 
     display: inline;
     color: #333;
@@ -52,7 +52,7 @@ body
     float: right;
     padding-left: 5px;
     border-left:2px solid #333333;
-}
+}*/
 
 #leftcolumn 
 { 
@@ -61,7 +61,8 @@ body
     /* border: 1px solid red;*/
     margin: 10px;
     padding: 0px;
-    width: 683px;
+/*    width: 683px;*/
+    width: 902px;
     display: inline;
     position: relative;
 }

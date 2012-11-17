@@ -112,13 +112,13 @@ public class TicketController
     }
     
     //                      /show/mytickets/user/1
-    @RequestMapping(value="/show/mytickets/user/{userID}")
-    public ModelAndView viewTicketsForUser(@PathVariable Long userID, HttpServletRequest request)
+    @RequestMapping(value="/show/mytickets/")
+    public ModelAndView viewTicketsForUser(HttpServletRequest request)
     {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         if(inSession != null)
         {
-            UserDTO temp = userService.getUserByID(userID);
+            UserDTO temp = userService.getUserByID(inSession.getUserID());
             if(inSession.equals(temp))
             {
                 List<TicketDTO> tickets = ticketService.getAllTicketsForUser(temp);
@@ -136,14 +136,14 @@ public class TicketController
     {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         if(inSession != null)
-        {
-            BookDTO b = bookService.getBookByID(bookID);
+        {            
+            BookDTO b = bookService.getBookByID(bookID);            
             if(b!= null && b.getBookStatus().equals(BookStatus.AVAILABLE))
             {
                 TicketDTO t = null;
                 try
                 {
-                    t = ticketService.getLastTicketForUser(inSession);
+                    t = ticketService.getLastTicketForUser(inSession);                    
                 }
                 catch(NoResultException nre)
                 {
@@ -194,6 +194,101 @@ public class TicketController
         return new ModelAndView();
     }
     
+    //http://localhost:8080/pa165/ticket/return/3/ticketitem/16
+    @RequestMapping("/return/{ticketID}/ticketitem/{ticketItemID}")
+    public ModelAndView returnBookForTicket(@PathVariable Long ticketID,@PathVariable Long ticketItemID,HttpServletRequest request)
+    {
+        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+        
+        if(inSession != null)
+        {
+            System.out.println("uzivatel prihlaseny"+inSession);
+            TicketDTO ti = null;
+            try
+            {
+                ti = ticketService.getTicketByID(ticketID);
+                System.out.println("najdeny ticket "+ti);
+            }
+            catch(NoResultException nre)
+            {
+
+            }
+            if(ti != null && ti.getUser().equals(inSession)) 
+            {//tento ticket existuje a sme jeho majitel ako prihlaseny uzivatel
+                TicketItemDTO tdo = null;
+                try
+                {
+                    tdo = ticketItemService.getTicketItemByID(ticketItemID);
+                    System.out.println("najdeny ticketitem"+tdo);
+                }
+                catch(NoResultException nre)
+                {
+
+                }
+                
+                if(tdo != null)
+                {
+                    BookDTO b = bookService.getBookByID(tdo.getBook().getBookID());
+                    System.out.println("najdena kniha "+b);
+                    b.setBookStatus(BookStatus.AVAILABLE);
+                    bookService.updateBook(b);
+                    System.out.println("po update knihy "+b);
+                    List<TicketItemDTO> list = ti.getTicketItems();
+                    System.out.println("ti v tickete "+ti.getTicketItems());
+                    //list.remove(tdo);
+                    System.out.println("ti po zmazani naseho "+ti.getTicketItems());
+                    //tdo.setBook(b);
+                    //tdo.setTicketItemStatus(TicketItemStatus.RETURNED);
+                    ticketItemService.updateTicketItem(tdo);
+                    System.out.println(" po update ti "+tdo);
+                    //list.add(tdo);
+                    //ti.setTicketItems(list);
+                    
+                   // System.out.println("vratenie ti do t "+ti.getTicketItems());
+                    
+                    boolean flag = false;
+                    for(TicketItemDTO temp : ti.getTicketItems())
+                    {
+                        if(!temp.getTicketItemStatus().equals(TicketItemStatus.RETURNED) ||!temp.getTicketItemStatus().equals(TicketItemStatus.RETURNED_DAMAGED))
+                        {
+                            flag = true;
+                            break;
+                        }
+                    }
+                    
+                    if(!flag)
+                    {// vsetky knihy su vratene
+                        ti.setReturnTime(new DateTime());
+                    }
+                    
+                    ticketService.updateTicket(ti);
+                    System.out.println("po update ticketu "+ti);
+                }               
+            }
+            List<TicketDTO> tickets = ticketService.getAllTicketsForUser(inSession);
+            java.util.Collections.sort(tickets,tComparator);
+            return new ModelAndView("ticket_list","tickets",tickets); 
+        }
+        
+        
+        return new ModelAndView();
+    }
+    
+    @RequestMapping("/delete/{ticketID}")
+    public ModelAndView deleteTicket(@PathVariable Long ticketID,HttpServletRequest request)
+    {
+        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+        if(inSession != null)
+        {
+            TicketDTO t = ticketService.getTicketByID(ticketID);
+            if(t.getUser().equals(inSession))
+            {
+                ticketService.deleteTicket(t);
+            }
+        }
+        
+        return new ModelAndView("redirect:/ticket/show/mytickets/");
+    }
     
     
     private static java.util.Comparator<TicketDTO> tComparator = new Comparator<TicketDTO>() 

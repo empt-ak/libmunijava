@@ -75,12 +75,14 @@
                                     <td>nazov knihy</td>
                                     <td>autor</td>
                                     <td>status</td>
+                                    <td></td>
                                 </tr>
                                 <c:forEach var="ticketItem" items="${ticket.ticketItems}">
                                     <tr>
                                         <td>${ticketItem.book.title}</td>
                                         <td>${ticketItem.book.author}</td>
                                         <td>${ticketItem.ticketItemStatus}</td>
+                                        <td><a href="${pageContext.request.contextPath}/ticket/return/${ticket.ticketID}/ticketitem/${ticketItem.book.bookID}">Vratit knihu</a></td>
                                     </tr>
                                 </c:forEach>
                             </table> <a href="#" class="hide">Hide</a>

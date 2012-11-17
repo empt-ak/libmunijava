@@ -166,4 +166,22 @@ public class BookController {
         
         return sb.toString();        
     }
+    
+    
+    /**
+     * just in case we want o return all books
+     * @return 
+     */
+    @RequestMapping("/reset/")
+    public ModelAndView resetBooks()
+    {
+        List<BookDTO> bookz = bookService.getAllBooks();
+        for(BookDTO b : bookz)
+        {
+            b.setBookStatus(BookStatus.AVAILABLE);
+            bookService.updateBook(b);
+        }
+        
+        return new ModelAndView("redirect:/book/");
+    }
 }

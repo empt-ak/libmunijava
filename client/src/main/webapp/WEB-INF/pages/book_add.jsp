@@ -33,9 +33,8 @@
                             <form:form method="POST" action="${pageContext.request.contextPath}/book/save" commandName="bookDTO">                    
                                 <fieldset>
                                     <%-- todo formatovanie errov :] --%>
-                                    <legend><spring:message code="label.website.book.add.formheader" /></legend>                    
+                                    <legend><spring:message code="label.website.book.add.formheader" /></legend> 
                                     
-                                    <spring:message code="label.website.book.add.field.booktitle"/>
                                     <form:label path="title"><spring:message code="label.website.book.add.field.booktitle"/></form:label>
                                     <form:input path="title" id="register_input"/> <form:errors path="title"/><br />
 

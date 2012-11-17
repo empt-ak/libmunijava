@@ -29,7 +29,7 @@
                         null,
                         null, { "bSortable": false,
                             "fnRender": function(oObj) {
-                                return output(oObj.aData[0]);
+                                return output(oObj.aData[0],oObj.aData[1],oObj.aData[2]);
                             }
                         }],
                         "oLanguage": {
@@ -44,8 +44,9 @@
                 });
             });
             
-            function output(recordID)
+            function output(recordID,bookTitle,author)
             {
+//                alert(recordID+bookTitle+author);                
                 var text = '<a href="${pageContext.request.contextPath}/book/show/'+recordID+'"><img src="<c:url value="/resources/img/icon_more.jpg" />" alt="<spring:message code="label.website.navigation.viewdetails" />" /></a> &nbsp;';
                 <c:choose>
                     <c:when test="${USER != null}">
@@ -55,12 +56,30 @@
                 <c:choose>
                 <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
                     text += '<a href="${pageContext.request.contextPath}/book/edit/'+recordID+'"><img src="<c:url value="/resources/img/icon_edit.gif" />" alt="<spring:message code="label.website.book.add.updatebutton" />" /></a> &nbsp;'
-                    text += '<a href="${pageContext.request.contextPath}/book/delete/'+recordID+'"><img src="<c:url value="/resources/img/icon_delete.png" />" alt="<spring:message code="label.website.book.list.deletebook" />" /></a>';
+                    text += '<a href="#" onClick="confirmDelete('+recordID+',\''+bookTitle+'\',\''+author+'\')"><img src="<c:url value="/resources/img/icon_delete.png" />" alt="<spring:message code="label.website.book.list.deletebook" />" /></a>';
                 </c:when>
             </c:choose>
                 
                 return text;
             }
+            <c:choose>
+                <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
+                    function confirmDelete(id,bookTitle,author)
+                    {
+                        if(confirm("Naozaj chcete zmazat zaznam : "+id+", \nKniha: "+bookTitle+" od \""+author+"\" ?"))
+                        {
+                            document.location = "${pageContext.request.contextPath}/book/delete/"+id;
+                        }
+                        else
+                        {
+                            //document.location = "/meh";
+                        }
+                    }
+                </c:when>
+            </c:choose>
+            
+
+           
         </script>     
     </head>
     <body> 
@@ -75,7 +94,7 @@
             <!-- Begin Faux Columns -->
             <div id="faux">
                 <!-- content -->
-                <div id="leftcolumn">                
+<!--                <div id="leftcolumn">                -->
                     <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
                         <thead>
                             <tr>
@@ -103,10 +122,8 @@
                     </table>
 
                     <div class="clear"></div>
-                </div>           	 
-
-                <!-- sidebar -->
-                <%@include file="/WEB-INF/pages/page_parts/sidebar.jsp" %>           
+<!--                </div>           	 -->
+   
             </div>	
 
             <!-- footer -->
