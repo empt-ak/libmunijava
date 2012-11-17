@@ -8,7 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
             <div id="rightcolumn">
-                Jazykova verzia: <a href="${pageContext.request.contextPath}?lang=en"><img src="<c:url value="/resources/img/us-flag.jpg"/>" /></a> | <a href="${pageContext.request.contextPath}?lang=sk_SK"><img src="<c:url value="/resources/img/slovak-flag.png"/>" /></a><br /><br />
+                <a><span><spring:message code="label.website.sidebar.languague" /></span></a> <a href="${pageContext.request.contextPath}?lang=en"><img src="<c:url value="/resources/img/us-flag.jpg"/>" /></a> | <a href="${pageContext.request.contextPath}?lang=sk_SK"><img src="<c:url value="/resources/img/slovak-flag.png"/>" /></a><br /><br />
                 <!-- sidebar -->
 <!--            	<div class="searchBox">
                 <form action="${pageContext.request.contextPath}/search/" method="post">
@@ -21,7 +21,7 @@
                     </form>
                 </div>-->
                <!-- <c:out value="${USER}" /> -->
-                <a href="${pageContext.request.contextPath}/user/editprofile/${USER.username}">Upravit profil</a>
+               <a href="${pageContext.request.contextPath}/user/editprofile/${USER.username}"><span><spring:message code="label.website.sidebar.editProfile" /></span></a>
 <!--                      prihlaseny ako:
                       obsah poslednej pozicky:
                       <a href="${pageContext.request.contextPath}/user/logout/">odhlasit sa </a>-->

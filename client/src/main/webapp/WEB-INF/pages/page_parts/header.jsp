@@ -25,6 +25,6 @@
         </script>  
         <div id="header"> 
             <div align="left">
-                <h1>Kniznica - projekt PA165</h1>
+                <h1><a><span><spring:message code="label.website.header.headerLibrary" /></span></a></h1>
             </div>      
         </div>

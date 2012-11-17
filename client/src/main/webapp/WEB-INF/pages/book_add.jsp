@@ -34,6 +34,8 @@
                                 <fieldset>
                                     <%-- todo formatovanie errov :] --%>
                                     <legend><spring:message code="label.website.book.add.formheader" /></legend>                    
+                                    
+                                    <spring:message code="label.website.book.add.field.booktitle"/>
                                     <form:label path="title"><spring:message code="label.website.book.add.field.booktitle"/></form:label>
                                     <form:input path="title" id="register_input"/> <form:errors path="title"/><br />
 
@@ -66,7 +68,7 @@
                 <%@include file="/WEB-INF/pages/page_parts/sidebar.jsp" %>           
             </div>	
 
-            <!-- footer -->
+            <!-- footer -->z
             <%@include file="/WEB-INF/pages/page_parts/footer.jsp" %>      
         </div>
     </body>

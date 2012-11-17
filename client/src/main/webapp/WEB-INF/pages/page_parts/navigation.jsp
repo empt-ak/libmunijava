@@ -23,7 +23,7 @@
                 <li><a href='#'><span><spring:message code="label.website.navigation.tickets" /></span></a>
                     <ul>
                         <li><a href='${pageContext.request.contextPath}/ticket/create/user/${USER.userID}'><span><spring:message code="label.website.navigation.tickets.create" /></span></a></li>
-                            <li><a href='${pageContext.request.contextPath}/ticket/show/mytickets/user/${USER.userID}'><span>Zobrazit moje pozicky</span></a></li>
+                            <li><a href='${pageContext.request.contextPath}/ticket/show/mytickets/user/${USER.userID}'><span><spring:message code="label.website.navigation.displayBorrowings" /></span></a></li>
                     </ul>
                 </li> 
             </c:when>
