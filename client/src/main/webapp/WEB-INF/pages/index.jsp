@@ -15,16 +15,7 @@
     <script src="<c:url value="/resources/javascript/jQuery.1.8.2.js" />"></script>
     <script type="text/javascript" language="javascript" src="<c:url value="/resources/javascript/jquery.dataTables.js" />"></script>
 
-  
-        
-    <script> 
-        $(document).ready(function() {
-				$('#example').dataTable( {
-					"bProcessing": true,
-					"sAjaxSource": '${pageContext.request.contextPath}/book/getJSONList'
-				} );
-			} );
-	</script>     
+     
 </head>
 <body> 
     <!-- wrapper -->
@@ -39,7 +30,7 @@
         <div id="faux">
             <!-- content -->
             <div id="leftcolumn">
-                <h3>Ak sa zaregsitrujete a chcete mat admin prava zavolame url s adresou /client/makeadmin/vaslogin</h3>
+                <h3>Ak sa zaregsitrujete a chcete mat admin prava zavolame url s adresou /pa165/makeadmin/vaslogin</h3>
                 <br/>
                
                 <div class="clear"></div>

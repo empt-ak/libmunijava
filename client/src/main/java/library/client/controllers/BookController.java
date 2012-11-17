@@ -151,6 +151,7 @@ public class BookController {
             sb.append(b.getDepartment());
             sb.append("\",\"");
             sb.append(b.getBookStatus());
+            sb.append("\",\"");
             
             if(i < bookz.size()-1)
             {
