@@ -6,7 +6,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Registrácia užívateľa</title>
+        <title><spring:message code="label.website.index.userRegistrationTitle"/></title>
         <link rel="stylesheet" href="<c:url value="/resources/css/main.css" />"><!-- type="text/css"  nepovinne v html 5 -->
         <link rel="stylesheet" href="<c:url value="/resources/css/menu.css" />" />
         <link rel="stylesheet" href="<c:url value="/resources/css/demo_table.css" />" />
@@ -15,7 +15,6 @@
         <script type="text/javascript" language="javascript" src="<c:url value="/resources/javascript/jquery.dataTables.js" />"></script>
 
     </head>
-    <body> 
         <!-- wrapper -->
         <div id="wrapper">
             <!-- header -->
