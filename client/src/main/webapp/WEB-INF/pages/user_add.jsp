@@ -15,45 +15,41 @@
         <script type="text/javascript" language="javascript" src="<c:url value="/resources/javascript/jquery.dataTables.js" />"></script>
 
     </head>
-        <!-- wrapper -->
-        <div id="wrapper">
-            <!-- header -->
-            <%@include file="/WEB-INF/pages/page_parts/header.jsp" %>	
+    <!-- wrapper -->
+    <div id="wrapper">
+        <!-- header -->
+        <%@include file="/WEB-INF/pages/page_parts/header.jsp" %>	
 
-            <!-- navigation--> 
-            <%@include file="/WEB-INF/pages/page_parts/navigation.jsp" %>       
+        <!-- navigation--> 
+        <%@include file="/WEB-INF/pages/page_parts/navigation.jsp" %>       
 
-            <!-- Begin Faux Columns -->
-            <div id="faux">
-                <!-- content -->
-                <div id="leftcolumn">
-                    <form:form method="POST" action="${pageContext.request.contextPath}/user/register" commandName="userDTO">                    
-                        <fieldset>
-                            <%-- todo formatovanie errov :] --%>
-                            <legend><spring:message code="label.website.user.register.formheader" /></legend>                    
-                            <form:label path="username"><spring:message code="label.website.user.register.field.username"/></form:label>
-                            <form:input path="username" id="register_input"/> <form:errors path="username"/><br />
+        <!-- Begin Faux Columns -->
+        <div id="faux">
 
-                            <form:label path="realName"><spring:message code="label.website.user.register.field.realname"/></form:label>
-                            <form:input path="realName" id="register_input"/><form:errors path="realName"/><br/>
+            <form:form method="POST" action="${pageContext.request.contextPath}/user/register" commandName="userDTO">                    
+                <fieldset>
+                    <%-- todo formatovanie errov :] --%>
+                    <legend><spring:message code="label.website.user.register.formheader" /></legend>                    
+                    <form:label path="username"><spring:message code="label.website.user.register.field.username"/></form:label>
+                    <form:input path="username" id="register_input"/> <form:errors path="username"/><br />
 
-                            <form:label path="password"><spring:message code="label.website.user.register.field.password"/></form:label>
-                            <form:password path="password" id="register_input"/><form:errors path="password"/><br />
+                    <form:label path="realName"><spring:message code="label.website.user.register.field.realname"/></form:label>
+                    <form:input path="realName" id="register_input"/><form:errors path="realName"/><br/>
 
-                            <label></label><input type="submit" value="<spring:message code="label.website.user.register.registerbutton"/>" id="register_button"/>
-                        </fieldset>
-                    </form:form>
+                    <form:label path="password"><spring:message code="label.website.user.register.field.password"/></form:label>
+                    <form:password path="password" id="register_input"/><form:errors path="password"/><br />
+
+                    <label></label><input type="submit" value="<spring:message code="label.website.user.register.registerbutton"/>" id="register_button"/>
+                </fieldset>
+            </form:form>
 
 
-                    <div class="clear"></div>
-                </div>           	 
+            <div class="clear"></div>
 
-                <!-- sidebar -->
-                <%@include file="/WEB-INF/pages/page_parts/sidebar.jsp" %>           
-            </div>	
+        </div>	
 
-            <!-- footer -->
-            <%@include file="/WEB-INF/pages/page_parts/footer.jsp" %>      
-        </div>
-    </body>
+        <!-- footer -->
+        <%@include file="/WEB-INF/pages/page_parts/footer.jsp" %>      
+    </div>
+</body>
 </html>

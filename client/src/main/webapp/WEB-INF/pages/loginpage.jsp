@@ -26,23 +26,19 @@
 
             <!-- Begin Faux Columns -->
             <div id="faux">
-                <!-- content -->
-                <div id="leftcolumn">
-                    <form action="${pageContext.request.contextPath}/user/login/" method="post" >           									
+
+                <form action="${pageContext.request.contextPath}/user/login/" method="post" >           									
                     <fieldset>
                         <label><spring:message code="label.website.user.register.field.username"/></label><input type="text" id="register_input" name="username" /><br/>
                         <label><spring:message code="label.website.user.register.field.password"/></label><input type="password" id="register_input" name="password" /><br/>
                         <label></label><input type="submit" id="register_button" value="<spring:message code="label.website.user.login.loginbutton"/>" />    
-                        </fieldset>
-                    
+                    </fieldset>
+
                 </form>	
 
 
-                    <div class="clear"></div>
-                </div>           	 
+                <div class="clear"></div>
 
-                <!-- sidebar -->
-                <%@include file="/WEB-INF/pages/page_parts/sidebar.jsp" %>           
             </div>	
 
             <!-- footer -->

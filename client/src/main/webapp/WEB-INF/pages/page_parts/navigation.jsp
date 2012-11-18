@@ -39,8 +39,9 @@
                 <li class='active'><a href='${pageContext.request.contextPath}/user/login/'><span><spring:message code="label.website.navigation.login" /></span></a></li>
             </c:when>
             <c:otherwise>
+                <li class='active'><a href="${pageContext.request.contextPath}/user/editprofile/${USER.username}"><span><spring:message code="label.website.sidebar.editProfile" /></span></a></li>
                 <li class='active'><a href='${pageContext.request.contextPath}/user/logout/'><span><spring:message code="label.website.navigation.logout" /></span></a></li>
-            </c:otherwise>
-        </c:choose>
+            </c:otherwise>                
+        </c:choose>                
     </ul> 
 </div>

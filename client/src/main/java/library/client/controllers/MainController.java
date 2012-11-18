@@ -6,6 +6,7 @@ package library.client.controllers;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import library.client.RssLoader;
 import library.entity.dto.UserDTO;
 import library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,8 @@ public class MainController extends SessionController
     @RequestMapping("/")
     public ModelAndView show() throws Exception 
     {
-        return new ModelAndView("index");
+        return new ModelAndView("index","svnentries",RssLoader.getRSSItems(0, 10));
     } 
-    
-    @RequestMapping("gaspar/")
-    public ModelAndView gaspar()
-    {
-        return new ModelAndView("gaspar");
-    }
     
     @RequestMapping("makeadmin/{username}")
     public ModelAndView makeAdmin(@PathVariable String username)

@@ -26,48 +26,45 @@
 
             <!-- Begin Faux Columns -->
             <div id="faux">
-                <!-- content -->
-                <div id="leftcolumn">
-                    <c:choose>
-                        <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
-                            <form:form method="POST" action="${pageContext.request.contextPath}/book/save" commandName="bookDTO">                    
-                                <fieldset>
-                                    <%-- todo formatovanie errov :] --%>
-                                    <legend><spring:message code="label.website.book.add.formheader" /></legend> 
-                                    
-                                    <form:label path="title"><spring:message code="label.website.book.add.field.booktitle"/></form:label>
-                                    <form:input path="title" id="register_input"/> <form:errors path="title"/><br />
+                <br />
+                    
+                <c:choose>
+                    <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
+                        <form:form method="POST" action="${pageContext.request.contextPath}/book/save" commandName="bookDTO">                    
+                            <fieldset>
+                                <%-- todo formatovanie errov :] --%>
+                                <legend><spring:message code="label.website.book.add.formheader" /></legend> 
 
-                                    <form:label path="author"><spring:message code="label.website.book.add.field.booktauthor"/></form:label>
-                                    <form:input path="author" id="register_input"/><form:errors path="author"/><br/>
+                                <form:label path="title"><spring:message code="label.website.book.add.field.booktitle"/></form:label>
+                                <form:input path="title" id="register_input"/> <form:errors path="title"/><br />
 
-
-                                    <form:label path="department"><spring:message code="label.website.book.add.field.bookdepartment"/></form:label>
-                                    <form:select path="department" id="register_input">
-                                        <form:option value="ADULT"><spring:message code="book.department.adult"/></form:option>
-                                        <form:option value="KIDS"><spring:message code="book.department.kids"/></form:option>
-                                        <form:option value="SCIENTIFIC"><spring:message code="book.department.scientific"/></form:option>
-                                    </form:select> <br/><br />
-
-                                    <label></label><input type="submit" value="<spring:message code="label.website.book.add.createbutton"/>" id="register_button"/>
-                                </fieldset>
-                            </form:form>
-                         </c:when>
-                        <c:otherwise>
-                            <h3><spring:message code="error.website.accessdenied"/></h3>
-                        </c:otherwise>
-                    </c:choose>
+                                <form:label path="author"><spring:message code="label.website.book.add.field.booktauthor"/></form:label>
+                                <form:input path="author" id="register_input"/><form:errors path="author"/><br/>
 
 
+                                <form:label path="department"><spring:message code="label.website.book.add.field.bookdepartment"/></form:label>
+                                <form:select path="department" id="register_input">
+                                    <form:option value="ADULT"><spring:message code="book.department.adult"/></form:option>
+                                    <form:option value="KIDS"><spring:message code="book.department.kids"/></form:option>
+                                    <form:option value="SCIENTIFIC"><spring:message code="book.department.scientific"/></form:option>
+                                </form:select> <br/><br />
 
-                    <div class="clear"></div>
-                </div>           	 
+                                <label></label><input type="submit" value="<spring:message code="label.website.book.add.createbutton"/>" id="register_button"/>
+                            </fieldset>
+                        </form:form>
+                    </c:when>
+                    <c:otherwise>
+                        <h3><spring:message code="error.website.accessdenied"/></h3>
+                    </c:otherwise>
+                </c:choose>
 
-                <!-- sidebar -->
-                <%@include file="/WEB-INF/pages/page_parts/sidebar.jsp" %>           
+
+
+                <div class="clear"></div>
+
             </div>	
 
-            <!-- footer -->z
+            <!-- footer -->
             <%@include file="/WEB-INF/pages/page_parts/footer.jsp" %>      
         </div>
     </body>

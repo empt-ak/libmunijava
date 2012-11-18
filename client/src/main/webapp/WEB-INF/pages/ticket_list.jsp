@@ -58,8 +58,9 @@
             <!-- Begin Faux Columns -->
             <div id="faux">
                 <!-- content -->
-                <div id="leftcolumn">
+<!--                <div id="leftcolumn">-->
                     <c:forEach var="ticket" items="${tickets}">
+                        <!-- hlavicka pozicky -->
                         <div class="show" style="background-color: #d7e291; border-style: dotted; border-width: 1px;">
                             <table width="100%">
                                 <tr>
@@ -69,7 +70,9 @@
                                     <td><img src="<c:url value="/resources/img/arrow_down.gif" />" /></td>
                                 </tr>
                             </table>
-                        </div>                        
+                        </div> 
+                           
+                        <!-- telo pozicky -->
                         <div class="slidingDiv">
                             <table>
                                 <tr>
@@ -83,17 +86,32 @@
                                         <td>${ticketItem.book.title}</td>
                                         <td>${ticketItem.book.author}</td>
                                         <td>${ticketItem.ticketItemStatus}</td>
-                                        <td><a href="${pageContext.request.contextPath}/ticket/return/${ticket.ticketID}/ticketitem/${ticketItem.book.bookID}">Vratit knihu</a></td>
+                                        <c:choose>
+                                            <c:when test="${ticketItem.ticketItemStatus == 'RETURNED' || ticketItem.ticketItemStatus == 'RETURNED_DAMAGED'}">
+                                                <td></td>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <td><a href="${pageContext.request.contextPath}/ticket/return/${ticket.ticketID}/ticketitem/${ticketItem.ticketItemID}">Vratit knihu</a></td>
+                                            </c:otherwise>
+                                        </c:choose>
+                                        
                                     </tr>
                                 </c:forEach>
-                            </table> <a href="#" class="hide">Hide</a>
+                            </table><br />                               
+                            Zrusit Rezervaciu | <a href="#" class="hide">Hide</a>
+<!--                            <table style="border-style: dashed; border-width: 2px; padding: 2px;">
+                                <tr>
+                                    <td>Zrusit rezervaciu</td>
+                                    <td><a href="#" class="hide">Hide</a></td>    
+                                </tr>
+                            </table>-->
                         </div> <br/>  
                     </c:forEach>
                         
                     <div class="clear"></div>
-                </div> 
+<!--                </div> -->
                 <!-- sidebar -->
-                <%@include file="/WEB-INF/pages/page_parts/sidebar.jsp" %>           
+                         
             </div>	
 
             <!-- footer -->
