@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
@@ -26,47 +25,30 @@
 
             <!-- Begin Faux Columns -->
             <div id="faux">
+                
+                ${book}
+                    ${error}
                 <table>
                     <tr>
                         <td>nazov knihy</td>
-                        <td>knihaa</td>
+                        <td>${book.title}</td>
+                        <td><a href="${pageContext.request.contextPath}/book/category/title/${book.title}">zobrazit tituly s podobnym nazvom</a></td>
                     </tr>
                     <tr>
                         <td>autoor</td>
-                        <td>autor</td>
+                        <td>${book.author}</td>
+                        <td><a href="${pageContext.request.contextPath}/book/category/author/${book.author}">zobrazit knihy od tohto autora</a></td>
                     </tr>
                     <tr>
                         <td>oddelenie</td>
-                        <td>autor</td>
+                        <td>${book.department}</td>
+                        <td><a href="${pageContext.request.contextPath}/book/category/department/${book.department}"> knihy z tohto oddelenia</a></td>
+                    </tr>
+                    <tr>
+                        <td>dostupnost</td>
+                        <td colspan="2">ee</td>
                     </tr>
                 </table>
-
-                <form:form method="POST" action="${pageContext.request.contextPath}/book/edit/" commandName="bookDTO">                    
-                    <fieldset>
-                        <%-- todo formatovanie errov :] --%>
-                        <legend><spring:message code="label.website.book.add.formheader" /></legend>                    
-                        <form:label path="title"><spring:message code="label.website.book.add.field.booktitle"/></form:label>
-                        <form:input path="title" id="register_input"/> <form:errors path="title"/><br />
-                        <form:hidden path="bookID" />
-
-                        <form:label path="author"><spring:message code="label.website.book.add.field.booktauthor"/></form:label>
-                        <form:input path="author" id="register_input"/><form:errors path="author"/><br/>
-
-
-                        <form:label path="department"><spring:message code="label.website.book.add.field.bookdepartment"/></form:label>
-                        <form:select path="department" id="register_input">
-                            <form:option value="ADULT"><spring:message code="book.department.adult"/></form:option>
-                            <form:option value="KIDS"><spring:message code="book.department.kids"/></form:option>
-                            <form:option value="SCIENTIFIC"><spring:message code="book.department.scientific"/></form:option>
-                        </form:select> <br/>
-
-                        <form:label path="bookStatus"><spring:message code="label.website.book.add.field.bookstatus"/></form:label>
-                        <form:select path="bookStatus" id="register_input">
-                            <form:option value="AVAILABLE"><spring:message code="book.bookstatus.available"/></form:option>
-                            <form:option value="NOT_AVAILABLE"><spring:message code="book.bookstatus.unavailable"/></form:option>                                        
-                        </form:select><br /><br />
-                    </fieldset>
-                </form:form>
 
                 <div class="clear"></div>
 

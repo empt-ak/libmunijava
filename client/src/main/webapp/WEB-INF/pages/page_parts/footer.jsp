@@ -6,5 +6,5 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div id="footer">
-    ಠ_ಠ &copy; 2012	|  <spring:message code="label.website.footer.copyright" />
+    <!--<a href="#">Nahlasit problem</a> <a href="#">Pomoc</a>--> ಠ_ಠ &copy; 2012	|  <spring:message code="label.website.footer.copyright" />
 </div>

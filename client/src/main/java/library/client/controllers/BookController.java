@@ -4,12 +4,10 @@
  */
 package library.client.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import javax.persistence.NoResultException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import library.entity.dto.BookDTO;
 import library.entity.enums.BookStatus;
 import library.entity.enums.Department;
@@ -59,7 +57,7 @@ public class BookController {
         {
             bookDTO.setBookStatus(BookStatus.AVAILABLE);
             bookService.createBook(bookDTO);
-            return new ModelAndView("book_list");  
+            return new ModelAndView("redirect:/book/");  
         }           
     }
     
@@ -102,28 +100,22 @@ public class BookController {
         BookDTO b = null;
         try
         {
-            bookService.getBookByID(bookID);
+            b = bookService.getBookByID(bookID);
         }
         catch(NoResultException nre)
-        {
+        {            
         }
-        
         if(b != null)
         {
+            
             return new ModelAndView("book_show","book",b);
         }
         else
         {
             return new ModelAndView("book_show","error","notfound");
         }
-    } 
-    
-    @RequestMapping("/edit/{bookID}")
-    public ModelAndView editBook(@PathVariable String bookID)
-    {
-        return new ModelAndView();
-    }
-    
+    }    
+   
     // db operation
     
     @RequestMapping("/delete/{bookID}")
@@ -132,20 +124,6 @@ public class BookController {
         //BookDTO b = bookService.getBookByID(bookID);
         bookService.deleteBook(bookService.getBookByID(bookID));
         return new ModelAndView("redirect:/book/");
-    }
-    
-    
-    @RequestMapping("/update")
-    public void updateBook(HttpServletRequest request, HttpServletResponse response){
-        
-    }
-    
-    @RequestMapping(value="/insert",method= RequestMethod.POST)
-    public ModelAndView insertBook(HttpServletRequest request, HttpServletResponse response){
-      
-        
-        return new ModelAndView();
-        
     }
     
     @RequestMapping(value="/getJSONList",method= RequestMethod.GET)
@@ -201,6 +179,12 @@ public class BookController {
         return sb.toString();        
     }
     
+    /**
+     * metoda vlozi url pre JSON ktoru si stranka zavola
+     * @param categoryFilter category
+     * @param value hodnota pre danu kategoriu
+     * @return m&v pre dany input
+     */
     @RequestMapping("/category/{categoryFilter}/{value}")
     public ModelAndView getCategoryFilter(@PathVariable String categoryFilter,@PathVariable String value)
     {
@@ -214,28 +198,40 @@ public class BookController {
         return new ModelAndView("redirect:/");
     }
     
-    @RequestMapping(value="/getJSONDepartment/{departmentValue}", method= RequestMethod.GET)
-    
+    @RequestMapping(value="/getJSONDepartment/{departmentValue}", method= RequestMethod.GET)    
     public @ResponseBody String getJSONByDepartment(@PathVariable String departmentValue,Locale locale)
     {
-       
-        List<BookDTO> bookz = bookService.getBooksByDepartment(Department.valueOf(departmentValue));
+        Department d = null;
+        try
+        {
+            d = Department.valueOf(departmentValue.toUpperCase());
+        }
+        catch(IllegalArgumentException iae)
+        {
+            
+        }
         
+        if(d != null)
+        {
+            return generateJSONfromList(bookService.getBooksByDepartment(d), locale);
+        }
+        else
+        {
+            return generateJSONfromList(new ArrayList<BookDTO>(), locale);
+        }
         
-        
-        
-        return generateJSONfromList(bookz, locale);
     }
     
     @RequestMapping(value="/getJSONAuthor/{authorValue}", method= RequestMethod.GET)
     
     public @ResponseBody String getJSONByAuthor(@PathVariable String authorValue,Locale locale)
     {
-       
-        List<BookDTO> bookz = bookService.getBooksByAuthor(authorValue);
+        List<BookDTO> bookz = new ArrayList<>();
         
-        
-        
+        if(authorValue != null)
+        {
+            bookz = bookService.getBooksByAuthor(authorValue);
+        }
         
         return generateJSONfromList(bookz, locale);
     }
@@ -244,17 +240,18 @@ public class BookController {
     
     public @ResponseBody String getJSONByTitle(@PathVariable String titleValue,Locale locale)
     {
-       
-        List<BookDTO> bookz = bookService.searchBooksByTitle(titleValue);
-        
-        
-        
-        
+        List<BookDTO> bookz = new ArrayList<>();
+
+        if(titleValue != null)
+        {
+            bookz = bookService.searchBooksByTitle(titleValue);
+        }
+
         return generateJSONfromList(bookz, locale);
     }
     
     /**
-     * just in case we want o return all books
+     * just in case we want to reset all books
      * @return 
      */
     @RequestMapping("/reset/")
