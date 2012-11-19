@@ -20,7 +20,7 @@
             $(document).ready(function() {
                 oTable = $('#example').dataTable({
                     "bProcessing": true,
-                    "sAjaxSource": '${pageContext.request.contextPath}/book/getJSONList',
+                    "sAjaxSource": '${pageContext.request.contextPath}/book${jsonURL}',
 //                    "sPaginationType": "full_numbers",
                     "aoColumns": [
                         null,

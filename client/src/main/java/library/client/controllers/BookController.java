@@ -7,6 +7,7 @@ package library.client.controllers;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import library.entity.dto.BookDTO;
@@ -42,7 +43,7 @@ public class BookController {
     @RequestMapping("/")
     public ModelAndView listBooks()
     {
-        return new ModelAndView("book_list");
+        return new ModelAndView("book_list","jsonURL","/getJSONList");
     }
     
     @RequestMapping(value="/save",method= RequestMethod.POST)
@@ -95,9 +96,25 @@ public class BookController {
     
     
     @RequestMapping("/show/{bookID}")
-    public ModelAndView showBook(@PathVariable String bookID)
+    public ModelAndView showBook(@PathVariable Long bookID)
     {
-        return new ModelAndView();
+        BookDTO b = null;
+        try
+        {
+            bookService.getBookByID(bookID);
+        }
+        catch(NoResultException nre)
+        {
+        }
+        
+        if(b != null)
+        {
+            return new ModelAndView("book_show","book",b);
+        }
+        else
+        {
+            return new ModelAndView("book_show","error","notfound");
+        }
     } 
     
     @RequestMapping("/edit/{bookID}")
@@ -173,6 +190,31 @@ public class BookController {
         sb.append("\r\n] }");
         
         return sb.toString();        
+    }
+    
+    
+    @RequestMapping("/category/{categoryFilter}/{value}")
+    public ModelAndView getCategoryFilter(@PathVariable String categoryFilter,@PathVariable String value)
+    {
+        switch(categoryFilter)
+        {
+            case "department" : return new ModelAndView("book_list","jsonURL","/getJSONDepartment/"+value);
+            case "author" : return new ModelAndView("book_list","jsonURL","/getJSONAuthor/"+value);
+            case "title" : return new ModelAndView("book_list","jsonURL","/getJSONTitle/"+value);                
+        }
+        
+        return new ModelAndView("redirect:/");
+    }
+    
+    
+    @RequestMapping("/getJSONDepartment/{departmentValue}")
+    public String getJSONByDepartment(@PathVariable String departmentValue,Locale locale)
+    {
+        // logika vystupu json
+        
+        
+        
+        return "";
     }
     
     
