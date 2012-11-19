@@ -55,7 +55,7 @@ public class RssLoader {
             {
                 reader.close();
             } 
-            catch (IOException ex) 
+            catch (IOException | NullPointerException e) 
             {                
             }
         }

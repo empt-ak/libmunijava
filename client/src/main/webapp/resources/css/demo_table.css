@@ -69,8 +69,8 @@
 }
 
 .dataTables_paginate {
-	float: right;
-	text-align: right;
+	float: left;
+	text-align: left;
 }
 
 /* Pagination nested */

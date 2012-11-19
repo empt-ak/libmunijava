@@ -4,14 +4,13 @@
  */
 package library.client.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import library.entity.dto.BookDTO;
 import library.entity.enums.BookStatus;
-import library.entity.enums.Department;
-
 import library.service.BookService;
 import library.utils.aop.validators.LibraryValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -133,8 +131,9 @@ public class BookController {
     }
     
     @RequestMapping(value="/getJSONList",method= RequestMethod.GET)
-    public @ResponseBody String getJSONlist()
+    public @ResponseBody String getJSONlist(Locale locale)
     {
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle/messages",locale);
         List<BookDTO> bookz = bookService.getAllBooks();
         StringBuilder sb = new StringBuilder("{ \"aaData\": [");
         for(int i =0;i<bookz.size();i++)
@@ -148,9 +147,18 @@ public class BookController {
             sb.append("\",\"");
             sb.append(b.getAuthor());
             sb.append("\",\"");
-            sb.append(b.getDepartment());
+            switch(b.getDepartment())
+            {
+                case ADULT: sb.append(bundle.getString("book.department.adult")); break;
+                case KIDS: sb.append(bundle.getString("book.department.kids")); break;
+                case SCIENTIFIC: sb.append(bundle.getString("book.department.scientific")); break;
+            }
             sb.append("\",\"");
-            sb.append(b.getBookStatus());
+            switch(b.getBookStatus())
+            {
+                case AVAILABLE: sb.append(bundle.getString("book.bookstatus.available")); break;
+                case NOT_AVAILABLE: sb.append(bundle.getString("book.bookstatus.unavailable")); break;
+            }
             sb.append("\",\"");
             
             if(i < bookz.size()-1)

@@ -51,11 +51,6 @@ class DAOTicketValidator
             throw new IllegalArgumentException("ERROR: given ticket does not have due time");
         }
         
-//        if(ticket.getReturnTime() == null)
-//        {
-//            throw new IllegalArgumentException("ERROR: Given ticket does not have return time");
-//        }
-        System.out.println(ticket);
         LibraryValidator.validateDAO(ticket.getUser(), User.class, Operation.UPDATE);
         if(ticket.getTicketItems() != null && ticket.getTicketItems().size() > 0)
         {

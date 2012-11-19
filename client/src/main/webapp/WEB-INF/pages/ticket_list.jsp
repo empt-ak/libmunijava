@@ -99,7 +99,7 @@
                                     </tr>
                                 </c:forEach>
                             </table><br />                               
-                            <a href="${pageContext.request.contextPath}/ticket/cancel/${ticket.ticketID}" >Zrusit rezervaciu</a> | <a href="#" class="hide">Hide</a>
+                            <a href="${pageContext.request.contextPath}/ticket/cancel/${ticket.ticketID}" >Zrusit rezervaciu</a> | <a href="#" class="hide">Schovat <img src="<c:url value="/resources/img/arrow_up.gif" />" /></a>
 <!--                            <table style="border-style: dashed; border-width: 2px; padding: 2px;">
                                 <tr>
                                     <td>Zrusit rezervaciu</td>
