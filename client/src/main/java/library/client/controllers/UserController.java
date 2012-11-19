@@ -189,7 +189,7 @@ public class UserController
             sb.append(u.getPassword());
             sb.append("\",\"");
             sb.append(u.getSystemRole());
-            
+            sb.append("\",\"");
             if(i < users.size()-1)
             {
                 sb.append("\"],");

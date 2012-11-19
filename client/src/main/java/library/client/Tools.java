@@ -7,6 +7,7 @@ package library.client;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import org.joda.time.DateTime;
 
 /**
  *
@@ -49,5 +50,11 @@ public class Tools {
         }
 
         return buf.toString();
+    }
+    
+    private void a()
+    {
+        DateTime d = new DateTime();
+        //d.g
     }
 }

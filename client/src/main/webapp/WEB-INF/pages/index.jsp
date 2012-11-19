@@ -32,16 +32,16 @@
                 <h1>ಠ_ಠ</h1>
                 <h3>Ak sa zaregsitrujete a chcete mat admin prava zavolame url s adresou /pa165/makeadmin/vaslogin</h3>
                 <br/>
-                <table>
+                <table border="1">
                     <tr>
                         <td>commiter</td>
-                        <td>messaage</td>
-                        <td>date </td>
+                        <td>date</td>
+                        <td>title </td>
                     </tr>
                     <c:forEach var="svnentry" items="${svnentries}">
                         <tr>
                             <td><c:out value="${svnentry.commiter}" /></td>
-                            <td><c:out value="${svnentry.time}" /></td>
+                            <td><c:out value="${svnentry.time.dayOfMonth}" />.<c:out value="${svnentry.time.monthOfYear}" />.<c:out value="${svnentry.time.year}" /></td>
                             <td><c:out value="${svnentry.title}" /></td>
                         </tr>
                     </c:forEach>

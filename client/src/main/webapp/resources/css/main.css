@@ -20,7 +20,7 @@ body
 #wrapper 
 { 
     margin: 0 auto;
-    width: 922px;
+    width: 902px;
 }
 
 #faux 
@@ -35,6 +35,21 @@ body
 {
     color: #333;
     width: 902px;
+/*    padding: 10px;*/
+    height: 200px;
+    margin: 10px 0px 5px 0px;
+    background: #d7e291;
+    background-image: url('../img/header2.png');
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /* background: #d7e291 url(images/header.gif); */
+}
+
+#panel_menu 
+{
+    color: #333;
+    width: 102px;
     padding: 10px;
     height: 150px;
     margin: 10px 0px 5px 0px;

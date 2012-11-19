@@ -43,7 +43,8 @@
                             <th>username</th>
                             <th>rname</th>
                             <th>pass</th>
-                            <th>role</th>                                
+                            <th>role</th>  
+                            <th>act</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,7 +56,8 @@
                             <th>username</th>
                             <th>rname</th>
                             <th>pass</th>
-                            <th>role</th>                                 
+                            <th>role</th> 
+                            <th>act</th>
                         </tr>
                     </tfoot>
                 </table>

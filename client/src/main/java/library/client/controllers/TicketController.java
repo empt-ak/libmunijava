@@ -150,7 +150,7 @@ public class TicketController
                 }
             }            
         }       
-        return new ModelAndView("redirect:/ticket/show/mytickets/");
+        return new ModelAndView("redirect:/book/");
     }
     
     
@@ -287,11 +287,58 @@ public class TicketController
             if(t.getUser().equals(inSession))
             {
                 ticketService.deleteTicket(t);
-            }
+            }            
         }
         
         return new ModelAndView("redirect:/ticket/show/mytickets/");
-    }    
+    }  
+    
+    
+    @RequestMapping("/cancel/{ticketID}")
+    public ModelAndView cancelTicket(@PathVariable Long ticketID,HttpServletRequest request)
+    {
+        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+        if(inSession != null)
+        {
+            TicketDTO t = null;
+            try
+            {
+                t = ticketService.getTicketByID(ticketID);
+            }
+            catch(NoResultException nre)
+            {
+            }
+            
+            if(t != null)
+            {
+                boolean flag = true; // all books are reservation
+                for(TicketItemDTO ti : t.getTicketItems())
+                {
+                    if(!ti.getTicketItemStatus().equals(TicketItemStatus.RESERVATION))
+                    {
+                        flag = false;
+                    }
+                }
+                
+                if(flag)
+                {
+                    ticketService.deleteTicket(t);
+                    for(TicketItemDTO ti : t.getTicketItems())
+                    {
+                        BookDTO b = ti.getBook();
+                        b.setBookStatus(BookStatus.AVAILABLE);
+                        
+                        bookService.updateBook(b);
+                    }
+                }
+            }
+            
+            return new ModelAndView("redirect:/ticket/show/mytickets/");
+        }
+        
+        return new ModelAndView("index");
+        
+    }
     
     
     private static java.util.Comparator<TicketDTO> tComparator = new Comparator<TicketDTO>() 

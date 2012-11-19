@@ -61,6 +61,7 @@
 <!--                <div id="leftcolumn">-->
                     <c:forEach var="ticket" items="${tickets}">
                         <!-- hlavicka pozicky -->
+                        <br />
                         <div class="show" style="background-color: #d7e291; border-style: dotted; border-width: 1px;">
                             <table width="100%">
                                 <tr>
@@ -98,7 +99,7 @@
                                     </tr>
                                 </c:forEach>
                             </table><br />                               
-                            Zrusit Rezervaciu | <a href="#" class="hide">Hide</a>
+                            <a href="${pageContext.request.contextPath}/ticket/cancel/${ticket.ticketID}" >Zrusit rezervaciu</a> | <a href="#" class="hide">Hide</a>
 <!--                            <table style="border-style: dashed; border-width: 2px; padding: 2px;">
                                 <tr>
                                     <td>Zrusit rezervaciu</td>

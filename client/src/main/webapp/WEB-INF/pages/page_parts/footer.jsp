@@ -6,5 +6,5 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
         <div id="footer">
-        &copy; 2012	|  <a><span><spring:message code="label.website.footer.copyright" /></span></a>
+        ಠ_ಠ &copy; 2012	|  <a><span><spring:message code="label.website.footer.copyright" /></span></a>
         </div>

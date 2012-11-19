@@ -49,6 +49,16 @@ public class RssLoader {
         catch (IOException | FeedException ex) 
         {            
         }
+        finally
+        {
+            try 
+            {
+                reader.close();
+            } 
+            catch (IOException ex) 
+            {                
+            }
+        }
         
         listE = listE.subList(from, to);
         
