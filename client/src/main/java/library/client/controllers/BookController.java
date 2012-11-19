@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import library.entity.dto.BookDTO;
 import library.entity.enums.BookStatus;
+import library.entity.enums.Department;
 import library.service.BookService;
 import library.utils.aop.validators.LibraryValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,7 +131,7 @@ public class BookController {
     {
         //BookDTO b = bookService.getBookByID(bookID);
         bookService.deleteBook(bookService.getBookByID(bookID));
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/book/");
     }
     
     
@@ -150,8 +151,16 @@ public class BookController {
     @RequestMapping(value="/getJSONList",method= RequestMethod.GET)
     public @ResponseBody String getJSONlist(Locale locale)
     {
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle/messages",locale);
         List<BookDTO> bookz = bookService.getAllBooks();
+       
+        return generateJSONfromList(bookz, locale);
+    
+    }
+    
+    
+    private String generateJSONfromList(List <BookDTO> bookz, Locale locale) {
+        
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle/messages",locale);
         StringBuilder sb = new StringBuilder("{ \"aaData\": [");
         for(int i =0;i<bookz.size();i++)
         {
@@ -192,7 +201,6 @@ public class BookController {
         return sb.toString();        
     }
     
-    
     @RequestMapping("/category/{categoryFilter}/{value}")
     public ModelAndView getCategoryFilter(@PathVariable String categoryFilter,@PathVariable String value)
     {
@@ -206,17 +214,44 @@ public class BookController {
         return new ModelAndView("redirect:/");
     }
     
+    @RequestMapping(value="/getJSONDepartment/{departmentValue}", method= RequestMethod.GET)
     
-    @RequestMapping("/getJSONDepartment/{departmentValue}")
-    public String getJSONByDepartment(@PathVariable String departmentValue,Locale locale)
+    public @ResponseBody String getJSONByDepartment(@PathVariable String departmentValue,Locale locale)
     {
-        // logika vystupu json
+       
+        List<BookDTO> bookz = bookService.getBooksByDepartment(Department.valueOf(departmentValue));
         
         
         
-        return "";
+        
+        return generateJSONfromList(bookz, locale);
     }
     
+    @RequestMapping(value="/getJSONAuthor/{authorValue}", method= RequestMethod.GET)
+    
+    public @ResponseBody String getJSONByAuthor(@PathVariable String authorValue,Locale locale)
+    {
+       
+        List<BookDTO> bookz = bookService.getBooksByAuthor(authorValue);
+        
+        
+        
+        
+        return generateJSONfromList(bookz, locale);
+    }
+    
+    @RequestMapping(value="/getJSONTitle/{titleValue}", method= RequestMethod.GET)
+    
+    public @ResponseBody String getJSONByTitle(@PathVariable String titleValue,Locale locale)
+    {
+       
+        List<BookDTO> bookz = bookService.searchBooksByTitle(titleValue);
+        
+        
+        
+        
+        return generateJSONfromList(bookz, locale);
+    }
     
     /**
      * just in case we want o return all books
