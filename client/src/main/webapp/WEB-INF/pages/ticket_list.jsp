@@ -104,7 +104,9 @@
                         </table><br />   
                         <c:choose>
                             <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
-                        <a href="${pageContext.request.contextPath}/ticket/borrow/${ticket.ticketID}">Poziciat knihy</a> | <a href="${pageContext.request.contextPath}/ticket/return/${ticket.ticketID}">Vratit ticket</a> | 
+                                <a href="${pageContext.request.contextPath}/ticket/delete/${ticket.ticketID}">Zmazat pozicku</a> | 
+                                <a href="${pageContext.request.contextPath}/ticket/borrow/${ticket.ticketID}">Poziciat knihy</a> | 
+                                <a href="${pageContext.request.contextPath}/ticket/return/${ticket.ticketID}">Vratit ticket</a> | 
                             </c:when>
                         </c:choose>
                         <a href="${pageContext.request.contextPath}/ticket/cancel/${ticket.ticketID}" >Zrusit rezervaciu</a> | <a href="#" class="hide">Schovat <img src="<c:url value="/resources/img/arrow_up.gif" />" /></a>

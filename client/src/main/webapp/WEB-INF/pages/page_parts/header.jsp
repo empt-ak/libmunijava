@@ -27,6 +27,11 @@
                 </div>      -->
 
     <div align="right" style="padding: 10px;">
+        <c:choose>
+            <c:when test="${USER != null}">
+                <h3>${USER.realName}</h3> <br />
+            </c:when>
+        </c:choose>
         <a href="${pageContext.request.contextPath}?lang=en"><img src="<c:url value="/resources/img/us-flag.jpg"/>" /></a> 
         <a href="${pageContext.request.contextPath}?lang=sk_SK"><img src="<c:url value="/resources/img/slovak-flag.png"/>" /></a>
     </div>

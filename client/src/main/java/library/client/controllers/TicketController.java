@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- *
+ * tento controller je typicka ukazka naco by bola dobra fascade :]
  * @author emptak
  */
 @Controller
@@ -185,7 +185,7 @@ public class TicketController
     public ModelAndView borrowTicket(@PathVariable Long ticketID,HttpServletRequest request)
     {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if(inSession != null)
+        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {
             TicketDTO ticketDTO = null;
             try
@@ -196,7 +196,7 @@ public class TicketController
             {
             } 
             
-            if(ticketDTO != null && inSession.equals(ticketDTO.getUser()))
+            if(ticketDTO != null)
             { 
                 for(TicketItemDTO t :ticketDTO.getTicketItems())
                 {
@@ -208,18 +208,18 @@ public class TicketController
                 ticketDTO.setDueTime(ticketDTO.getBorrowTime().plusMonths(1));
                 ticketService.updateTicket(ticketDTO);
                 
-                return new ModelAndView("redirect:/ticket/show/mytickets/");
+                return new ModelAndView("redirect:/ticket/show/user/"+ticketDTO.getUser().getUserID().toString());
             }
         }
         
-        return new ModelAndView("index");
+        return new ModelAndView("redirect:/");
     }
     
     @RequestMapping("/return/{ticketID}")
     public ModelAndView returnTicket(@PathVariable Long ticketID,HttpServletRequest request)
     {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if(inSession != null)
+        if(inSession != null  && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {
             TicketDTO ticketDTO = null;
             try
@@ -230,7 +230,7 @@ public class TicketController
             {
             } 
             
-            if(ticketDTO != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
+            if(ticketDTO != null)
             {
                 for(TicketItemDTO t : ticketDTO.getTicketItems())
                 {
@@ -247,7 +247,7 @@ public class TicketController
                 
                 ticketService.updateTicket(ticketDTO); 
                 
-                return new ModelAndView("redirect:/ticket/show/mytickets/");
+                return new ModelAndView("redirect:/ticket/show/user/"+ticketDTO.getUser().getUserID().toString());
             }
         }
         
@@ -299,16 +299,23 @@ public class TicketController
                     ticketService.updateTicket(ticket);
                 }               
             }
+            return new ModelAndView("redirect:/ticket/show/user/"+ticket.getUser().getUserID().toString());
         }      
         
         return new ModelAndView("redirect:/ticket/show/mytickets/");
     }
     
+    /**
+     * mapping for deleting ticket. only if we are administrator then we can delete ticket
+     * @param ticketID to be deleted
+     * @param request servlet request holding session
+     * @return  redirect to /ticket/show/mytickets/
+     */
     @RequestMapping("/delete/{ticketID}")
     public ModelAndView deleteTicket(@PathVariable Long ticketID,HttpServletRequest request)
     {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if(inSession != null)
+        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {
             TicketDTO t = ticketService.getTicketByID(ticketID);
             if(t.getUser().equals(inSession))
@@ -320,7 +327,13 @@ public class TicketController
         return new ModelAndView("redirect:/ticket/show/mytickets/");
     }  
     
-    
+    /**
+     * mapper for canceling ticket. Ticket can be canceled only if it contains only reserved 
+     * otherwise it aint doin nothing,
+     * @param ticketID id of ticket we want to cancel
+     * @param request servlet request holding session
+     * @return redirect to /ticket/show/mytickets/
+     */
     @RequestMapping("/cancel/{ticketID}")
     public ModelAndView cancelTicket(@PathVariable Long ticketID,HttpServletRequest request)
     {
@@ -336,7 +349,8 @@ public class TicketController
             {
             }
             
-            if(t != null)
+            // only if we are owner of ticket or we are administrator, then we can make som changes
+            if(t != null && (t.getUser().equals(inSession) || inSession.getSystemRole().equals("ADMINISTRATOR")))
             {
                 boolean flag = true; // all books are reservation
                 for(TicketItemDTO ti : t.getTicketItems())
@@ -358,12 +372,10 @@ public class TicketController
                         bookService.updateBook(b);
                     }
                 }
-            }
-            
-            return new ModelAndView("redirect:/ticket/show/mytickets/");
+            }          
         }
         
-        return new ModelAndView("index");
+        return new ModelAndView("redirect:/ticket/show/mytickets/");
         
     }
     
