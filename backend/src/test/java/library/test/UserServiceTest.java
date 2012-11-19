@@ -5,6 +5,7 @@
 package library.test;
 
 import java.util.List;
+import library.dao.UserDAO;
 import library.dao.impl.UserDAOImpl;
 import library.entity.User;
 import library.entity.dto.UserDTO;
@@ -36,7 +37,7 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests
     private UserService userService;
     
     @Autowired
-    private UserDAOImpl userDAO;
+    private UserDAO userDAO;
     
     private List<User> users = new java.util.ArrayList<>();
     private List<UserDTO> userDTOs = new java.util.ArrayList<>();
@@ -74,8 +75,8 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests
         //verify(userDAO,times(1)).getUserByID(new Long(1));        
     }
     
-    //@Test
-    //@DirtiesContext
+    @Test
+    @DirtiesContext
     public void testUpdateUser()
     {
         // given
@@ -94,8 +95,8 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests
         assertEquals(result.getRealName(),u.getRealName());        
     }
     
-    //@Test
-    //@DirtiesContext
+    @Test
+    @DirtiesContext
     public void testDeleteUser()
     {
         //given
@@ -112,8 +113,8 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests
     }
     
     
-    //@Test
-    //@DirtiesContext
+    @Test
+    @DirtiesContext
     public void testGetAll()
     {
         // given
@@ -130,8 +131,8 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests
         assertEquals(resultList.size(),temp.size());        
     }
     
-    //@Test
-    //@DirtiesContext
+    @Test
+    @DirtiesContext
     public void testGetUserByUserName()
     {
         //given
@@ -145,8 +146,8 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests
         assertEquals("pinkrain",result.getUsername());
     }
     
-    //@Test
-    //@DirtiesContext
+    @Test
+    @DirtiesContext
     public void testgetUserByRealName()
     {
         //given

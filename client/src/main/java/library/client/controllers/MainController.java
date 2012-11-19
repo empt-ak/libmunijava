@@ -22,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class MainController
 {
     @Autowired
-    UserService userService;
+    private UserService userService;
     
     
     @RequestMapping("/")

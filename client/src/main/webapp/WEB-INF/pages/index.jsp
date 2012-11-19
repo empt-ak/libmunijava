@@ -9,12 +9,8 @@
         <title><spring:message code="label.website.index.title"/></title>
         <link rel="stylesheet" href="<c:url value="/resources/css/main.css" />"><!-- type="text/css"  nepovinne v html 5 -->
         <link rel="stylesheet" href="<c:url value="/resources/css/menu.css" />" />
-        <link rel="stylesheet" href="<c:url value="/resources/css/demo_table.css" />" />
 
-        <script src="<c:url value="/resources/javascript/jQuery.1.8.2.js" />"></script>
-        <script type="text/javascript" language="javascript" src="<c:url value="/resources/javascript/jquery.dataTables.js" />"></script>
-
-
+        <script src="<c:url value="/resources/javascript/jQuery.1.8.2.js" />"></script>        
     </head>
     <body> 
         <!-- wrapper -->
@@ -28,7 +24,7 @@
             <!-- Begin Faux Columns -->
             <div id="faux">
 
-                <h1>ಠ_ಠ</h1>
+                <h1>ಠ_ಠ ( ͡° ͜ ʖ ͡° )</h1>
                 <h3>Ak sa zaregsitrujete a chcete mat admin prava zavolame url s adresou /pa165/makeadmin/vaslogin</h3>
                 <br/>
                 <table border="1">

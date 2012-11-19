@@ -23,7 +23,12 @@
                 <li><a href='#'><span><spring:message code="label.website.navigation.tickets" /></span></a>
                     <ul>
                         <li><a href='${pageContext.request.contextPath}/ticket/create/user/${USER.userID}'><span><spring:message code="label.website.navigation.tickets.create" /></span></a></li>
-                            <li><a href='${pageContext.request.contextPath}/ticket/show/mytickets/'><span><spring:message code="label.website.navigation.showtickets" /></span></a></li>
+                        <li><a href='${pageContext.request.contextPath}/ticket/show/mytickets/'><span><spring:message code="label.website.navigation.showtickets" /></span></a></li>
+                        <!--<c:choose>
+                        <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
+                            <li><a href='${pageContext.request.contextPath}/ticket/editforuser/'><span><spring:message code="label.website.navigation.ticket.edit" /></span></a></li>
+                        </c:when>
+                    </c:choose>   --> 
                     </ul>
                 </li> 
             </c:when>

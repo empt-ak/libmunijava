@@ -34,10 +34,10 @@ import org.springframework.web.servlet.ModelAndView;
 public class BookController {
   
     @Autowired
-    BookService bookService;
+    private BookService bookService;
     
     @Autowired
-    Validator bookValidator;
+    private Validator bookValidator;
     
     @RequestMapping("/")
     public ModelAndView listBooks()
@@ -80,7 +80,6 @@ public class BookController {
         {
             //errors.
         }
-        System.out.println(bookDTO);
         
         if(result.hasErrors())
         {
@@ -265,5 +264,11 @@ public class BookController {
         }
         
         return new ModelAndView("redirect:/book/");
+    }
+    
+    @RequestMapping("/install")
+    public ModelAndView install()
+    {
+       return new ModelAndView(); 
     }
 }

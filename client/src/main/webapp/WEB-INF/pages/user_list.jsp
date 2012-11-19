@@ -19,9 +19,55 @@
             $(document).ready(function() {
                 $('#users').dataTable({
                     "bProcessing": true,
-                    "sAjaxSource": '${pageContext.request.contextPath}/user/getUsersJSON'
+                    "sAjaxSource": '${pageContext.request.contextPath}/user/getUsersJSON',
+                    "aoColumns": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null, { "bSortable": false,
+                            "fnRender": function(oObj) {
+                                return output(oObj.aData[0], oObj.aData[2]);
+                            }
+                        }],
+                    "oLanguage":
+                            {
+                                "sLengthMenu": "<spring:message code="label.datatable.sLengthMenu" />",
+                                "sZeroRecords": "<spring:message code="label.datatable.sZeroRecords" />",
+                                "sInfo": "<spring:message code="label.datatable.sInfo" />",
+                                "sInfoEmpty": "<spring:message code="label.datatable.sInfoEmpty" />",
+                                "sInfoFiltered": "<spring:message code="label.datatable.sInfoFiltered" />",
+                                "sSearch": "<spring:message code="label.datatable.sSearch" />",
+                                "oPaginate":
+                                        {
+                                            "sFirst": "<spring:message code="label.datatable.sFirst" />",
+                                            "sLast": "<spring:message code="label.datatable.sLast" />",
+                                            "sNext": "<spring:message code="label.datatable.sNext" />",
+                                            "sPrevious": "<spring:message code="label.datatable.sPrevious" />"
+                                        }
+                            }
                 });
             });
+            
+            function output(userID,realName)
+            {
+                var output = '<a href="${pageContext.request.contextPath}/user/edit/'+userID+'"><img src="<c:url value="/resources/img/icon_edit.gif" />" /></a>';
+                output += '<a href="${pageContext.request.contextPath}/ticket/show/user/'+userID+'"> <img src="<c:url value="/resources/img/icon_plus.png" />" /> </a>';
+                output += '<a href="#" onClick="confirmDelete('+userID+ ',\''+realName+'\')"> <img src="<c:url value="/resources/img/icon_delete.png" />" /> </a>';
+                return output;
+            }
+            
+            function confirmDelete(id,userRname)
+            {
+                if(confirm("chcet zmazat zaznam"+id+"\nUzivatela : "+userRname))
+                {
+                    document.location = "${pageContext.request.contextPath}/user/delete/" + id;
+                }
+                else
+                {
+                    //kk
+                }
+            }
         </script>
     </head>
     <body> 

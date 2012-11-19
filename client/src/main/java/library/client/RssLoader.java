@@ -40,7 +40,6 @@ public class RssLoader {
         }
         try 
         {
-
             reader = new XmlReader(url);
 
             feed = new SyndFeedInput().build(reader);

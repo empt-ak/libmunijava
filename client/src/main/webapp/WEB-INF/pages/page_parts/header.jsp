@@ -3,12 +3,9 @@
     Created on : Oct 20, 2012, 4:34:22 PM
     Author     : emptak
 --%>
-
-<%@page import="library.entity.dto.UserDTO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<% UserDTO user = (UserDTO) session.getAttribute("USER");%>
 <script>
 
     $(function() {

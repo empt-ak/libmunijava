@@ -13,7 +13,11 @@ import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import library.client.Tools;
+import library.entity.dto.TicketDTO;
+import library.entity.dto.TicketItemDTO;
 import library.entity.dto.UserDTO;
+import library.service.BookService;
+import library.service.TicketService;
 import library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,10 +41,13 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController
 {
     @Autowired
-    Validator userValidator;
+    private Validator userValidator;
     
     @Autowired
-    UserService userService;
+    private UserService userService;
+    
+    @Autowired
+    private TicketService ticketService;
     
     @RequestMapping(value="/register",method= RequestMethod.POST)
     public ModelAndView addUser(@ModelAttribute("userDTO") UserDTO userDTO,BindingResult result, Errors errors)
@@ -152,13 +159,28 @@ public class UserController
     }
     
     @RequestMapping(value="/delete/{userID}",method= RequestMethod.GET)
-    public ModelAndView deleteUser(@PathVariable Long userID)
+    public ModelAndView deleteUser(@PathVariable Long userID,HttpServletRequest request)
     {
-        UserDTO u = new UserDTO();
-        u.setUserID(userID);
-        userService.deleteUser(u);
+        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
+        {
+            UserDTO u = new UserDTO();
+            u.setUserID(userID);
+            List<TicketDTO> tickets = ticketService.getAllTicketsForUser(u);
+            for(TicketDTO t : tickets)
+            {
+                ticketService.deleteTicket(t);
+            }
+            
+            userService.deleteUser(u);
+
+            return new ModelAndView("redirect:/user/");
+            
+        }
         
-        return new ModelAndView("redirect:/user/");
+        return new ModelAndView("redirect:/");
+        
+        
     }
     
     

@@ -8,11 +8,8 @@
         <title><spring:message code="label.website.index.titleAddBook"/></title>
         <link rel="stylesheet" href="<c:url value="/resources/css/main.css" />"><!-- type="text/css"  nepovinne v html 5 -->
         <link rel="stylesheet" href="<c:url value="/resources/css/menu.css" />" />
-        <link rel="stylesheet" href="<c:url value="/resources/css/demo_table.css" />" />
 
         <script src="<c:url value="/resources/javascript/jQuery.1.8.2.js" />"></script>
-        <script type="text/javascript" language="javascript" src="<c:url value="/resources/javascript/jquery.dataTables.js" />"></script>
-
     </head>
     <body> 
         <!-- wrapper -->

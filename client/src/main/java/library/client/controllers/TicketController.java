@@ -38,16 +38,16 @@ public class TicketController
     private static final Logger logger = Logger.getLogger(TicketController.class);    
     
     @Autowired
-    TicketService ticketService;
+    private TicketService ticketService;
     
     @Autowired
-    UserService userService;
+    private UserService userService;
     
     @Autowired
-    TicketItemService ticketItemService;
+    private TicketItemService ticketItemService;
     
     @Autowired
-    BookService bookService;
+    private BookService bookService;
     
     @RequestMapping("/create/user/{userID}")
     public ModelAndView createTicket(@PathVariable Long userID,HttpServletRequest request)
@@ -89,6 +89,33 @@ public class TicketController
         
         
         return new ModelAndView("index");
+    }
+    
+    @RequestMapping(value="/show/user/{userID}")
+    public ModelAndView showTickets(@PathVariable Long userID, HttpServletRequest request)
+    {
+        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
+        {
+            UserDTO targetU = null;
+            try
+            {
+                targetU = userService.getUserByID(userID);
+            }
+            catch(NoResultException nre)
+            {
+                
+            }
+            
+            if(targetU != null)
+            {
+                List<TicketDTO> tickets = ticketService.getAllTicketsForUser(targetU);
+                java.util.Collections.sort(tickets,tComparator);
+                return new ModelAndView("ticket_list","tickets",tickets);
+            }          
+        }
+        
+        return new ModelAndView("redirect:/");
     }
     
     @RequestMapping(value="/add/book/{bookID}")
@@ -203,7 +230,7 @@ public class TicketController
             {
             } 
             
-            if(ticketDTO != null && inSession.equals(ticketDTO.getUser()))
+            if(ticketDTO != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
             {
                 for(TicketItemDTO t : ticketDTO.getTicketItems())
                 {
