@@ -173,7 +173,7 @@ public class UserController
             }
             
             userService.deleteUser(u);
-
+            
             return new ModelAndView("redirect:/user/");
             
         }
