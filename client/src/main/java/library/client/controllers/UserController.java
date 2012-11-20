@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,10 +50,19 @@ public class UserController
     @Autowired
     private TicketService ticketService;
     
+    
+    /**
+     * mapping for user registering. user is registered if he has filled his username realname and password. if user does not have filled any of those fields. his request for registering
+     * is redirected back to form. If all fields are valid, we set his role to default role (USER) and save him inside database. if there is already such a user with desired username, request is redirected
+     * back to register form with proper error.
+     * @param userDTO user saved in form
+     * @param result
+     * @param errors
+     * @return if fields are nonvalid or username already exists redirect back to form, redirect to / otherwise
+     */
     @RequestMapping(value="/register",method= RequestMethod.POST)
     public ModelAndView addUser(@ModelAttribute("userDTO") UserDTO userDTO,BindingResult result, Errors errors)
     {       
-        //System.out.println(userDTO);
         userValidator.validate(userDTO, errors);
         if(result.hasErrors())
         {
@@ -94,17 +104,34 @@ public class UserController
         }           
     }
     
-    
+    /**
+     * requestmapper for registering. 
+     * @return M&V for form with registration
+     */
     @RequestMapping(value="/register",method=RequestMethod.GET)
     public ModelAndView addUser(){ 
        return new ModelAndView("user_add","userDTO",new UserDTO()); 
     }
     
+    
+    /**
+     * @TODO admin only
+     * request mapper for user editing user details. if user edits his profile via editprofile his systemrole is not shown. in this case its shown since administrator
+     * (librarian) can make from any user new librarian, therefore he has to see user role
+     * @param userDTO user with values from form
+     * @param result
+     * @param errors
+     * @return redirect to /user/ (since admin can see all users), or redirect back to form, if any of details are not valid
+     */
     @RequestMapping(value="/edit",method= RequestMethod.POST)
     public ModelAndView editUser(@ModelAttribute("userDTO") UserDTO userDTO,BindingResult result, Errors errors)
     {       
         //System.out.println(userDTO);
         userValidator.validate(userDTO, errors);
+        if(userDTO.getSystemRole() == null || !userDTO.getSystemRole().equals("USER") || !userDTO.getSystemRole().equals("ADMINISTRATOR"))
+        {
+            errors.rejectValue("systemRole", "error.field.systemrole.empty");
+        }
         if(result.hasErrors())
         {            
             return new ModelAndView("user_edit","userDTO",userDTO); 
@@ -112,10 +139,15 @@ public class UserController
         else
         {           
             userService.updateUser(userDTO);
-            return new ModelAndView("index");  
+            return new ModelAndView("redirect:/user/");  
         }           
     }
     
+    /**
+     * Request mapper for user editing form.
+     * @param userID of user we would like to edit
+     * @return M&V user_edit with values of desired user based on his id
+     */
     @RequestMapping(value="/edit/{userID}",method= RequestMethod.GET)
     public ModelAndView editUser(@PathVariable Long userID)
     {
@@ -123,41 +155,75 @@ public class UserController
         return new ModelAndView("user_edit","userDTO",userService.getUserByID(userID));
     }
     
+    /**
+     * RequestMapper for user profile editing. User can edit only his profile therefore three is a check for session. If any of his edited field are not valid, he is redirected back to profile form with
+     * appropiate error message. If success he is redirected back to /
+     * @param userDTO user with values from form
+     * @param result
+     * @param errors
+     * @param request servlet request holding session attribute
+     * @return redirect to /, or back to form if any of fields are not valid
+     */
     @RequestMapping(value="/editprofile/",method= RequestMethod.POST)
-    public ModelAndView editUserProfile(@ModelAttribute("userDTO") UserDTO userDTO,BindingResult result, Errors errors)
+    public ModelAndView editUserProfile(@ModelAttribute("userDTO") UserDTO userDTO,BindingResult result, Errors errors,HttpServletRequest request)
     {       
-        System.out.println(userDTO);
-        userValidator.validate(userDTO, errors);
-        if(result.hasErrors())
-        {            
-            return new ModelAndView("user_profile","userDTO",userDTO); 
+        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+        if(inSession != null)
+        {
+            if(inSession.equals(userDTO))
+            {
+                userValidator.validate(userDTO, errors);
+                if(result.hasErrors())
+                {            
+                    return new ModelAndView("user_profile","userDTO",userDTO); 
+                }
+                else
+                {   
+                   try {
+                        userDTO.setPassword(Tools.SHA1(userDTO.getPassword()));
+                    } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+                        Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try
+                    {
+                        userService.updateUser(userDTO);
+                    }
+                    catch(IllegalArgumentException iae)
+                    {
+                        return new ModelAndView("error/fatal","ERROR_MESSAGE",iae.getCause());
+                    }
+
+                    return new ModelAndView("redirect:/");  
+                }                
+            }
         }
-        else
-        {   
-           try {
-                userDTO.setPassword(Tools.SHA1(userDTO.getPassword()));
-            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
-                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try
-            {
-                userService.updateUser(userDTO);
-            }
-            catch(IllegalArgumentException iae)
-            {
-                return new ModelAndView("error/fatal","ERROR_MESSAGE",iae.getCause());
-            }
-            
-            return new ModelAndView("index");  
-        }           
+        
+        
+        return new ModelAndView("redirect:/");
     }
     
+    /**
+     * @TODO add get profile id/username etc from session & remove this mapping only to /editprofile/ without any
+     * arguments since argument will be passed by session
+     * request mapper for user profile editing. 
+     * @param username
+     * @return 
+     */
     @RequestMapping(value="/editprofile/{username}",method= RequestMethod.GET)
     public ModelAndView editUserProfile(@PathVariable String username)
     {
         return new ModelAndView("user_profile","userDTO",userService.getUserByUsername(username));
     }
     
+    
+    /**
+     * @TODO delete ticketitems too (there are associations
+     * RequestMapper for deleting user from database. User can be deleted only if he does not have any associations with tickets, therefore we need to delete all his tickets.
+     * Only administrator can delete user from database
+     * @param userID
+     * @param request
+     * @return 
+     */
     @RequestMapping(value="/delete/{userID}",method= RequestMethod.GET)
     public ModelAndView deleteUser(@PathVariable Long userID,HttpServletRequest request)
     {
@@ -178,21 +244,27 @@ public class UserController
             
         }
         
-        return new ModelAndView("redirect:/");
-        
-        
+        return new ModelAndView("redirect:/");       
     }
     
     
     
-    
+    /**
+     * @TODO kontrola admin
+     * @return 
+     */
     @RequestMapping("/")
-    public ModelAndView showUsers(){
-        
+    public ModelAndView showUsers()
+    {        
         return new ModelAndView("user_list","USERS",userService.getUsers());
     }
     
     
+    /**
+     * @TODO kontrla admin
+     * requestmapper for obtaining users in JSON format used for datatabels
+     * @return 
+     */
     @RequestMapping("/getUsersJSON")
     @ResponseBody String getUsersJSON()
     {
@@ -228,20 +300,30 @@ public class UserController
         
     }
     
+    /**
+     * Mapping used for user login. 
+     * @return M&V with loginpage
+     */
     @RequestMapping(value="/login/",method= RequestMethod.GET)
     public ModelAndView login()
     {
         return new ModelAndView("loginpage");        
     }
     
-    
+    /**
+     * @TODO wrong attributes
+     * mapping used for user login, his password verification. User is logged in if his password matches with password stored in database. If they match this user
+     * is stored inside session
+     * @param session session
+     * @param request servletrequest holding form attributes
+     * @return redirect to index page
+     */
     @RequestMapping(value="/login/",method= RequestMethod.POST)
     public ModelAndView login(HttpSession session,HttpServletRequest request)
     {
         String username = (String) request.getParameter("username");
         String password = (String) request.getParameter("password");
-        //System.out.println(username);
-        //System.out.println(password);
+        
         try {
             password = Tools.SHA1(password);
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
@@ -258,49 +340,16 @@ public class UserController
         return new ModelAndView("redirect:/");
     }
     
+    /**
+     * mapping used for logout
+     * @param request containing session
+     * @return redirect to /
+     */
     @RequestMapping("/logout/")
-    public ModelAndView logout(HttpSession session,HttpServletRequest request)
+    public ModelAndView logout(HttpServletRequest request)
     {
-//        session.setAttribute("USER", new UserDTO());
-//        session.invalidate();
-        
         request.getSession().invalidate();
         
         return new ModelAndView("redirect:/");
     }
-    
-    
-    
-    
-//    @RequestMapping("/login")
-//    public ModelAndView login(HttpServletRequest request, HttpServletResponse response){
-//        
-//        
-//        return new ModelAndView("index");        
-//    }
-//    
-//    @RequestMapping("/logout")
-//    public ModelAndView logout(HttpServletRequest request, HttpServletResponse response){
-//        
-////        String name = request.getParameter("username");
-////        String password = request.getParameter("password");
-////        for(User u :users){
-////            if(u.getUsername().equals(name) && u.getPassword().equals(password))
-////            {
-////                request.getSession().setAttribute("USER", u);
-////            }
-////        }
-//////        
-////        request.getSession().setAttribute("USER", null);
-////        request.getSession(true);
-//        
-//        
-//        HttpSession session = request.getSession(false);
-//        session.setAttribute("USER", null);
-//        session.invalidate();
-//        
-//        //request.getSession().invalidate();
-//        return new ModelAndView("index");        
-//    }
-    
 }
