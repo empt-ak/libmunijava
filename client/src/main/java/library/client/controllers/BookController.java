@@ -41,7 +41,7 @@ public class BookController {
     private Validator bookValidator;
 
     @RequestMapping("/")
-    public ModelAndView listBooks() {
+    public ModelAndView listBooks() {        
         return new ModelAndView("book_list", "jsonURL", "/getJSONList");
     }
 

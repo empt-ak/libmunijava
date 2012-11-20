@@ -127,7 +127,7 @@
 
                 <div class="clear"></div>   
             </div>
-
+                
             <!-- footer -->
             <%@include file="/WEB-INF/pages/page_parts/footer.jsp" %>      
         </div>

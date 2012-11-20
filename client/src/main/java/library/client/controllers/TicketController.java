@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * tento controller je typicka ukazka naco by bola dobra fascade :]
+ * tento controller je typicka ukazka naco by bola dobra fascade :] a veeela duplicity
  * @author emptak
  */
 @Controller
@@ -49,26 +49,66 @@ public class TicketController
     @Autowired
     private BookService bookService;
     
+    
+    /**
+     * request resolver for creating ticket for specific user by librarian
+     * @param userID user to who we want to create ticket
+     * @param request servlet holding request
+     * @return redirect to /ticket/show/user/{userID} if method flow is in order, redirect to / otherwise
+     */
     @RequestMapping("/create/user/{userID}")
-    public ModelAndView createTicket(@PathVariable Long userID,HttpServletRequest request)
+    public ModelAndView createTicketLib(@PathVariable Long userID,HttpServletRequest request)
     {
         
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if(inSession != null)
+        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {// sme prihlaseny 
-            UserDTO temp = userService.getUserByID(userID);
-            if(inSession.equals(temp))
+            UserDTO temp = null;
+            try
+            {
+                temp = userService.getUserByID(userID);
+            }
+            catch(NoResultException nre)
+            {
+                
+            }
+            
+            if(temp != null)
             {
                 TicketDTO t = new TicketDTO();
                 t.setBorrowTime(new DateTime());
                 t.setDueTime(t.getBorrowTime().plusMonths(1));
                 t.setUser(temp);
                 ticketService.createTicket(t);                
-            }           
+            }
+            return new ModelAndView("redirect:/ticket/show/user/"+userID.toString());
         }
 
+        return new ModelAndView("redirect:/");        
+    }
+    
+    /**
+     * mapping for creating ticket for signed in user
+     * @param request servlet request containing session
+     * @return redirect to /ticket/show/mytickets/
+     */
+    @RequestMapping("/create/")
+    public ModelAndView createTicket(HttpServletRequest request)
+    {
         
-        return new ModelAndView("redirect:/ticket/show/mytickets/");
+        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+        if(inSession != null)
+        {// sme prihlaseny 
+            
+                TicketDTO t = new TicketDTO();
+                t.setBorrowTime(new DateTime());
+                t.setDueTime(t.getBorrowTime().plusMonths(1));
+                t.setUser(inSession);
+                ticketService.createTicket(t);                
+            
+        }
+
+        return new ModelAndView("redirect:/ticket/show/mytickets/");        
     }
     
     //                      /show/mytickets/user/1
@@ -315,16 +355,21 @@ public class TicketController
     public ModelAndView deleteTicket(@PathVariable Long ticketID,HttpServletRequest request)
     {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+        TicketDTO t = null;
         if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {
-            TicketDTO t = ticketService.getTicketByID(ticketID);
-            if(t.getUser().equals(inSession))
+            t = ticketService.getTicketByID(ticketID);
+            
+            ticketService.deleteTicket(t);
+            
+            for(TicketItemDTO tdto : t.getTicketItems())
             {
-                ticketService.deleteTicket(t);
-            }            
+                ticketItemService.deleteTicketItem(tdto);
+            }
+                       
         }
         
-        return new ModelAndView("redirect:/ticket/show/mytickets/");
+        return new ModelAndView("redirect:/ticket/show/user/"+t.getUser().getUserID().toString());
     }  
     
     /**
@@ -370,6 +415,7 @@ public class TicketController
                         b.setBookStatus(BookStatus.AVAILABLE);
                         
                         bookService.updateBook(b);
+                        ticketItemService.deleteTicketItem(ti);
                     }
                 }
             }          

@@ -24,7 +24,8 @@
             <%@include file="/WEB-INF/pages/page_parts/navigation.jsp" %>       
 
             <!-- Begin Faux Columns -->
-            <div id="faux">                
+            <div id="faux">  
+                <br />
                 <c:choose>
                     <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
                         <form:form method="POST" action="${pageContext.request.contextPath}/user/edit/" commandName="userDTO">                    
@@ -41,7 +42,10 @@
                                 <form:password path="password" id="register_input"/><form:errors path="password"/><br />
 
                                 <form:label path="systemRole"><spring:message code="label.website.user.register.field.systemRole"/></form:label>
-                                <form:input path="systemRole" id="register_input"/><form:errors path="systemRole"/><br/>
+                                <form:select path="systemRole" id="register_input">
+                                    <form:option value="ADMINISTRATOR"><spring:message code="user.role.admin"/></form:option>
+                                    <form:option value="USER"><spring:message code="user.role.user"/></form:option>                                        
+                                </form:select><br/>
 
                                 <form:hidden path="userID" />
 
