@@ -65,9 +65,9 @@
                             <div class="show" style="background-color: #d7e291; border-style: dotted; border-width: 1px;">
                                 <table width="100%">
                                     <tr>
-                                        <td>Pozicka c: ${ticket.ticketID}</td>
-                                        <td>Datum pozicania: ${ticket.borrowTime.dayOfMonth}.${ticket.borrowTime.monthOfYear}.${ticket.borrowTime.year}</td>
-                                        <td>Vratit do : ${ticket.dueTime.dayOfMonth}.${ticket.dueTime.monthOfYear}.${ticket.dueTime.year}</td>  
+                                        <td><spring:message code="label.website.ticket.list.field.ticketNumber"/> ${ticket.ticketID}</td>
+                                        <td><spring:message code="label.website.ticket.list.field.borrowTime"/> ${ticket.borrowTime.dayOfMonth}.${ticket.borrowTime.monthOfYear}.${ticket.borrowTime.year}</td>
+                                        <td><spring:message code="label.website.ticket.list.field.returnDate"/> ${ticket.dueTime.dayOfMonth}.${ticket.dueTime.monthOfYear}.${ticket.dueTime.year}</td>  
                                         <td><img src="<c:url value="/resources/img/arrow_down.gif" />" /></td>
                                     </tr>
                                 </table>
@@ -77,9 +77,9 @@
                             <div class="slidingDiv">
                                 <table>
                                     <tr>
-                                        <td>nazov knihy</td>
-                                        <td>autor</td>
-                                        <td>status</td>
+                                        <td><spring:message code ="label.website.ticket.add.field.bookTitle"/></td>
+                                        <td><spring:message code ="label.website.ticket.add.field.author"/></td>
+                                        <td><spring:message code ="label.website.ticket.add.field.status"/></td>
                                         <td></td>
                                     </tr>
                                     <c:forEach var="ticketItem" items="${ticket.ticketItems}">

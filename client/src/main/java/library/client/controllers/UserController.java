@@ -117,10 +117,69 @@ public class UserController
     }
     
     @RequestMapping(value="/edit/{userID}",method= RequestMethod.GET)
-    public ModelAndView editUser(@PathVariable Long userID)
+    public ModelAndView editUser(@PathVariable Long userID, @PathVariable String userName, @PathVariable String realName, HttpServletRequest request)
     {
+        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+        if(inSession != null && inSession.getSystemRole().equals("Administrator")) {
+            UserDTO user = new UserDTO();
+            user.setUserID(userID);
+       
+             try {
+                user.setPassword(Tools.SHA1(user.getPassword()));
+            } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           
+             try {
+             user.setUsername(userName);
+             } catch(IllegalArgumentException iae) {
+                 return new ModelAndView("error/fatal","ERROR_MESSAGE",iae.getCause());
+             }
+             
+             try {
+                 user.setRealName(realName);
+             } catch(IllegalArgumentException iae) {
+                 return new ModelAndView("error/fatal","ERROR_MESSAGE",iae.getCause());
+             }
+             
+             try {
+                userService.updateUser(user);
+            }
+            catch(IllegalArgumentException iae)
+            {
+                return new ModelAndView("error/fatal","ERROR_MESSAGE",iae.getCause());
+            }
+            
+            return new ModelAndView("user_edit","userDTO",userService.getUserByID(userID)); 
+        }           
+             
+              
+    
+        
+        
+         return new ModelAndView("user_edit","userDTO",userService.getUserByID(userID));
+        
         //System.out.println(userID);
-        return new ModelAndView("user_edit","userDTO",userService.getUserByID(userID));
+       
+        
+//         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
+//        {
+//            UserDTO u = new UserDTO();
+//            u.setUserID(userID);
+//            List<TicketDTO> tickets = ticketService.getAllTicketsForUser(u);
+//            for(TicketDTO t : tickets)
+//            {
+//                ticketService.deleteTicket(t);
+//            }
+//            
+//            userService.deleteUser(u);
+//            
+//            return new ModelAndView("redirect:/user/");
+//            
+//        }
+//        
+//        return new ModelAndView("redirect:/");
     }
     
     @RequestMapping(value="/editprofile/",method= RequestMethod.POST)

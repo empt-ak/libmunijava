@@ -85,12 +85,12 @@
                 <table cellpadding="0" cellspacing="0" border="0" class="display" id="users">
                     <thead>
                         <tr>
-                            <th title="ID knihy">ID us</th>
-                            <th>username</th>
-                            <th>rname</th>
-                            <th>pass</th>
-                            <th>role</th>  
-                            <th>act</th>
+                            <th title="ID knihy"><spring:message code ="label.website.user.add.field.IDus"/></th>
+                            <th><spring:message code ="label.website.user.add.field.username"/></th>
+                            <th><spring:message code ="label.website.user.add.field.rname"/></th>
+                            <th><spring:message code ="label.website.user.add.field.pass"/></th>
+                            <th><spring:message code ="label.website.user.add.field.role"/></th>  
+                            <th><spring:message code ="label.website.user.add.field.action"/></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -98,12 +98,12 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th title="ID knihy">ID us</th>
-                            <th>username</th>
-                            <th>rname</th>
-                            <th>pass</th>
-                            <th>role</th> 
-                            <th>act</th>
+                            <th title="ID knihy"><spring:message code ="label.website.user.add.field.IDus"/></th>
+                            <th><spring:message code ="label.website.user.add.field.username"/></th>
+                            <th><spring:message code ="label.website.user.add.field.rname"/></th>
+                            <th><spring:message code ="label.website.user.add.field.pass"/></th>
+                            <th><spring:message code ="label.website.user.add.field.role"/></th>  
+                            <th><spring:message code ="label.website.user.add.field.action"/></th>
                         </tr>
                     </tfoot>
                 </table>
