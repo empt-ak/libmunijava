@@ -59,7 +59,15 @@ public class RssLoader {
             }
         }
         
-        listE = listE.subList(from, to);
+        if(to > listE.size())
+        {
+            listE = listE.subList(from, listE.size()-1);
+        }
+        else
+        {
+            listE = listE.subList(from, to);           
+        }
+        
         
         for(SyndEntry e : listE)
         {           

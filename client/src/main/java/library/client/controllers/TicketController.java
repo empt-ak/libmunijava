@@ -16,6 +16,7 @@ import library.entity.dto.UserDTO;
 import library.entity.enums.BookStatus;
 import library.entity.enums.TicketItemStatus;
 import library.service.BookService;
+import library.service.TicketFascade;
 import library.service.TicketItemService;
 import library.service.TicketService;
 import library.service.UserService;
@@ -48,6 +49,9 @@ public class TicketController
     
     @Autowired
     private BookService bookService;
+    
+    @Autowired
+    private TicketFascade ticketFascade;
     
     
     /**
@@ -164,58 +168,7 @@ public class TicketController
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         if(inSession != null)
         {            
-            BookDTO b = bookService.getBookByID(bookID);            
-            if(b!= null && b.getBookStatus().equals(BookStatus.AVAILABLE))
-            {
-                TicketDTO t = null;
-                try
-                {
-                    t = ticketService.getLastTicketForUser(inSession);                    
-                }
-                catch(NoResultException nre)
-                {
-                    
-                }
-                if(t == null)
-                {// este sme si nikdy nic nepozicali
-                    t = new TicketDTO();
-                    t.setBorrowTime(new DateTime());
-                    t.setDueTime(t.getBorrowTime().plusMonths(1));
-                    t.setUser(inSession);
-                    
-                    TicketItemDTO ti = new TicketItemDTO();
-                    ti.setBook(b);
-                    ti.setTicketItemStatus(TicketItemStatus.RESERVATION);
-                    List<TicketItemDTO> list = new ArrayList<>();
-                    list.add(ti);                    
-                    t.setTicketItems(list);
-                    
-                    b.setBookStatus(BookStatus.NOT_AVAILABLE);
-                    bookService.updateBook(b);
-                    ticketItemService.createTicketItem(ti);
-                    
-                    ticketService.createTicket(t);
-                }
-                else
-                {
-                    List<TicketItemDTO> list = t.getTicketItems();
-                    TicketItemDTO ti = new TicketItemDTO();
-                    ti.setBook(b);
-                    ti.setTicketItemStatus(TicketItemStatus.RESERVATION);
-                    
-                    b.setBookStatus(BookStatus.NOT_AVAILABLE);
-                    bookService.updateBook(b);
-                    
-                    
-                    ticketItemService.createTicketItem(ti);
-                    list.add(ti);
-                    
-                    t.setTicketItems(list);
-                    
-                    ticketService.updateTicket(t);                    
-                    
-                }
-            }            
+            ticketFascade.addBookToTicket(bookID, inSession);                       
         }       
         return new ModelAndView("redirect:/book/");
     }
@@ -227,29 +180,12 @@ public class TicketController
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {
-            TicketDTO ticketDTO = null;
-            try
-            {
-                ticketDTO = ticketService.getTicketByID(ticketID);
-            }
-            catch(NoResultException nre)
-            {
-            } 
+            ticketFascade.borrowTicket(ticketID);
             
-            if(ticketDTO != null)
-            { 
-                for(TicketItemDTO t :ticketDTO.getTicketItems())
-                {
-                    t.setTicketItemStatus(TicketItemStatus.BORROWED);
-                    ticketItemService.updateTicketItem(t);
-                }
-                
-                ticketDTO.setBorrowTime(new DateTime());
-                ticketDTO.setDueTime(ticketDTO.getBorrowTime().plusMonths(1));
-                ticketService.updateTicket(ticketDTO);
-                
-                return new ModelAndView("redirect:/ticket/show/user/"+ticketDTO.getUser().getUserID().toString());
-            }
+            TicketDTO t = ticketService.getTicketByID(ticketID);
+           
+            return new ModelAndView("redirect:/ticket/show/user/"+t.getUser().getUserID().toString());
+            
         }
         
         return new ModelAndView("redirect:/");
@@ -261,34 +197,12 @@ public class TicketController
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         if(inSession != null  && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {
-            TicketDTO ticketDTO = null;
-            try
-            {
-                ticketDTO = ticketService.getTicketByID(ticketID);
-            }
-            catch(NoResultException nre)
-            {
-            } 
+            ticketFascade.returnTicket(ticketID);
+                
+            TicketDTO t = ticketService.getTicketByID(ticketID);
             
-            if(ticketDTO != null)
-            {
-                for(TicketItemDTO t : ticketDTO.getTicketItems())
-                {
-                    t.setTicketItemStatus(TicketItemStatus.RETURNED);
-                    ticketItemService.updateTicketItem(t);
-                    
-                    BookDTO b = bookService.getBookByID(t.getBook().getBookID());
-                    b.setBookStatus(BookStatus.AVAILABLE);
-                    
-                    bookService.updateBook(b);
-                }
-                
-                ticketDTO.setReturnTime(new DateTime());
-                
-                ticketService.updateTicket(ticketDTO); 
-                
-                return new ModelAndView("redirect:/ticket/show/user/"+ticketDTO.getUser().getUserID().toString());
-            }
+            return new ModelAndView("redirect:/ticket/show/user/"+t.getUser().getUserID().toString());
+            
         }
         
         return new ModelAndView("index");       
@@ -300,46 +214,11 @@ public class TicketController
     {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         
-        if(inSession != null)
+        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {            
-            TicketDTO ticket = null;
-            try
-            {
-                ticket = ticketService.getTicketByID(ticketID);
-            }
-            catch(NoResultException nre)
-            {
-            }           
-            
-            if(ticket != null && ticket.getUser().equals(inSession))
-            {// ticket je prihlaseneho uzivatela                
-                boolean allBooksReturned = true;
-                for(TicketItemDTO ticketItemDTO : ticket.getTicketItems())
-                {                    
-                    if(ticketItemDTO.getTicketItemID().equals(ticketItemID))
-                    {                        
-                        ticketItemDTO.setTicketItemStatus(TicketItemStatus.RETURNED);
-                        BookDTO b = ticketItemDTO.getBook();
-                        b.setBookStatus(BookStatus.AVAILABLE);
-                        
-                        bookService.updateBook(b);                        
-                        ticketItemService.updateTicketItem(ticketItemDTO);                        
-                    }
-                    
-                    if(!ticketItemDTO.getTicketItemStatus().equals(TicketItemStatus.RETURNED) || !ticketItemDTO.getTicketItemStatus().equals(TicketItemStatus.RETURNED_DAMAGED))
-                    {// kniha nie je vratena ok, alebo vratena poskodena tym padom nie je vratena
-                        allBooksReturned = false;
-                    }
-                }
-                
-                // ak su vsetky knihy vratene oznacime si cas vratenia poslednej knihy
-                if(allBooksReturned)
-                {
-                    ticket.setReturnTime(new DateTime());
-                    ticketService.updateTicket(ticket);
-                }               
-            }
-            return new ModelAndView("redirect:/ticket/show/user/"+ticket.getUser().getUserID().toString());
+            ticketFascade.returnBookInTicketItem(ticketItemID, ticketID);
+            TicketDTO t = ticketService.getTicketByID(ticketID);
+            return new ModelAndView("redirect:/ticket/show/user/"+t.getUser().getUserID().toString());
         }      
         
         return new ModelAndView("redirect:/ticket/show/mytickets/");
@@ -355,21 +234,16 @@ public class TicketController
     public ModelAndView deleteTicket(@PathVariable Long ticketID,HttpServletRequest request)
     {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        TicketDTO t = null;
+        
         if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {
-            t = ticketService.getTicketByID(ticketID);
-            
-            ticketService.deleteTicket(t);
-            
-            for(TicketItemDTO tdto : t.getTicketItems())
-            {
-                ticketItemService.deleteTicketItem(tdto);
-            }
+            ticketFascade.deleteTicket(ticketID);
                        
+            TicketDTO t = ticketService.getTicketByID(ticketID);
+            return new ModelAndView("redirect:/ticket/show/user/"+t.getUser().getUserID().toString());
         }
         
-        return new ModelAndView("redirect:/ticket/show/user/"+t.getUser().getUserID().toString());
+        return new ModelAndView("redirect:/");
     }  
     
     /**
@@ -385,6 +259,7 @@ public class TicketController
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         if(inSession != null)
         {
+            
             TicketDTO t = null;
             try
             {
@@ -397,27 +272,7 @@ public class TicketController
             // only if we are owner of ticket or we are administrator, then we can make som changes
             if(t != null && (t.getUser().equals(inSession) || inSession.getSystemRole().equals("ADMINISTRATOR")))
             {
-                boolean flag = true; // all books are reservation
-                for(TicketItemDTO ti : t.getTicketItems())
-                {
-                    if(!ti.getTicketItemStatus().equals(TicketItemStatus.RESERVATION))
-                    {
-                        flag = false;
-                    }
-                }
-                
-                if(flag)
-                {
-                    ticketService.deleteTicket(t);
-                    for(TicketItemDTO ti : t.getTicketItems())
-                    {
-                        BookDTO b = ti.getBook();
-                        b.setBookStatus(BookStatus.AVAILABLE);
-                        
-                        bookService.updateBook(b);
-                        ticketItemService.deleteTicketItem(ti);
-                    }
-                }
+                ticketFascade.deleteTicket(ticketID);
             }          
         }
         

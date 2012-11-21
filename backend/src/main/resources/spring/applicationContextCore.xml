@@ -82,6 +82,9 @@
     <bean id="userService" class="library.service.impl.UserServiceImpl" />
     
     
+    <bean id="ticketFascade" class="library.service.impl.TicketFascadeImpl" /> 
+    
+    
     <bean id="mapper" class="org.dozer.DozerBeanMapper">
         <property name="mappingFiles">
             <list>
