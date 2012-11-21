@@ -15,12 +15,14 @@ body
 {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
+    background-image: url('../img/background.png');
 }
 
 #wrapper 
 { 
     margin: 0 auto;
     width: 902px;
+    background-color:rgb(255,255,255);
 }
 
 #faux 
@@ -34,16 +36,9 @@ body
 #header 
 {
     color: #333;
-    width: 902px;
-/*    padding: 10px;*/
     height: 200px;
-    margin: 10px 0px 5px 0px;
-    background: #d7e291;
-    background-image: url('../img/header2.png');
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    /* background: #d7e291 url(images/header.gif); */
+    text-align:center;
+    background-image: url('../img/background.png');
 }
 
 .header-div{

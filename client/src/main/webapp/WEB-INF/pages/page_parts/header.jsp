@@ -13,6 +13,8 @@
     <!--            <div align="left">
                     <h1><a><span><spring:message code="label.website.header.headerLibrary" /></span></a></h1>
                 </div>      -->
+    
+    <img src="<%=request.getContextPath()%>/resources/css/images/header-image.jpg" />  
 
     <div class="header-div">
         <c:choose>
