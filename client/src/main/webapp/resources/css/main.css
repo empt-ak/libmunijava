@@ -36,14 +36,21 @@ body
 #header 
 {
     color: #333;
-    height: 200px;
     text-align:center;
     background-image: url('../img/background.png');
+    height:400px;
+    display: block;
+}
+
+#main_header_image{
+    height:250px;
+    margin-left: -725px;
 }
 
 .header-div{
     text-align: right;
-    padding: 10px;
+    padding:10px;
+    margin-top: -100px;
 }
 
 #panel_menu 
