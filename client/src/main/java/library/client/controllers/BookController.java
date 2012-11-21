@@ -41,46 +41,54 @@ public class BookController {
     private Validator bookValidator;
 
     @RequestMapping("/")
-    public ModelAndView listBooks() {        
+    public ModelAndView listBooks() {
         return new ModelAndView("book_list", "jsonURL", "/getJSONList");
     }
 
-    
     /**
-     * @TODO admin check from session
-     * Request mapper for saving book
+     * @TODO admin check from session Request mapper for saving book
      * @param bookDTO book containing values from form
-     * @param result 
+     * @param result
      * @param errors
      * @return redirect to form on any error redirect to /book/ otherwise
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ModelAndView saveBook(@ModelAttribute("bookDTO") BookDTO bookDTO, BindingResult result, Errors errors) {
-        bookValidator.validate(bookDTO, errors);
-        if (result.hasErrors()) {
-            return new ModelAndView("book_add", "bookDTO", bookDTO);
-        } else {
-            bookDTO.setBookStatus(BookStatus.AVAILABLE);
-            bookService.createBook(bookDTO);
-            return new ModelAndView("redirect:/book/");
+    public ModelAndView saveBook(@ModelAttribute("bookDTO") BookDTO bookDTO, BindingResult result, Errors errors, HttpServletRequest request) {
+
+        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) {
+
+            bookValidator.validate(bookDTO, errors);
+            if (result.hasErrors()) {
+                return new ModelAndView("book_add", "bookDTO", bookDTO);
+            } else {
+
+
+                bookDTO.setBookStatus(BookStatus.AVAILABLE);
+                bookService.createBook(bookDTO);
+                return new ModelAndView("redirect:/book/");
+            }
+
+
         }
+        return new ModelAndView("redirect:/");
     }
 
     /**
-     * request mapper for saving book. method can be called by anyone since we have check in jsp page and if user is not admin
-     * access denied is shown
+     * request mapper for saving book. method can be called by anyone since we
+     * have check in jsp page and if user is not admin access denied is shown
+     *
      * @return M&V book_add
      */
     @RequestMapping(value = "/save", method = RequestMethod.GET)
     public ModelAndView saveBook() {
         return new ModelAndView("book_add", "bookDTO", new BookDTO());
     }
-    
-    
-    
+
     /**
-     * request mapper for book editing. method can be called by anyone since we have check in jsp page and if
-     * user is not admin access denied is shown
+     * request mapper for book editing. method can be called by anyone since we
+     * have check in jsp page and if user is not admin access denied is shown
+     *
      * @param bookID id of book that we want to edit
      * @return M&V book_edit
      */
@@ -89,36 +97,43 @@ public class BookController {
         return new ModelAndView("book_edit", "bookDTO", bookService.getBookByID(bookID));
     }
 
-    
     /**
-     * @TODO admin check
-     * Request mapper for editing book. only admin can edit book so we check his rights as first
-     * then rest of method can proceed
+     * @TODO admin check Request mapper for editing book. only admin can edit
+     * book so we check his rights as first then rest of method can proceed
      * @param bookDTO book containing form values
      * @param result
      * @param errors
-     * @return redirect to M&V with set values from previous attempt (if any error ocures), redirect to /book/ otherwise
+     * @return redirect to M&V with set values from previous attempt (if any
+     * error ocures), redirect to /book/ otherwise
      */
     @RequestMapping(value = "/edit/", method = RequestMethod.POST)
-    public ModelAndView editBook(@ModelAttribute("bookDTO") BookDTO bookDTO, BindingResult result, Errors errors) {
-        bookValidator.validate(bookDTO, errors);
-        if (!LibraryValidator.isValidID(bookDTO.getBookID())) {
-            //errors.
+    public ModelAndView editBook(@ModelAttribute("bookDTO") BookDTO bookDTO, BindingResult result, Errors errors, HttpServletRequest request) {
+
+        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) {
+
+            bookValidator.validate(bookDTO, errors);
+            if (!LibraryValidator.isValidID(bookDTO.getBookID())) {
+                //errors.
+            }
+
+            if (result.hasErrors()) {
+                return new ModelAndView("book_edit", "bookDTO", bookDTO);
+            } else {
+                bookService.updateBook(bookDTO);
+                return new ModelAndView("redirect:/book/");
+            }
         }
 
-        if (result.hasErrors()) {
-            return new ModelAndView("book_edit", "bookDTO", bookDTO);
-        } else {
-            bookService.updateBook(bookDTO);
-            return new ModelAndView("redirect:/book/");
-        }
+        return new ModelAndView("redirect:/");
     }
 
-    
     /**
-     * Request mapper for showing book details. Book can be showed by anyone therefore no check is needed
+     * Request mapper for showing book details. Book can be showed by anyone
+     * therefore no check is needed
+     *
      * @param bookID
-     * @return 
+     * @return
      */
     @RequestMapping("/show/{bookID}")
     public ModelAndView showBook(@PathVariable Long bookID) {
@@ -135,10 +150,10 @@ public class BookController {
         }
     }
 
-    
     /**
-     * Request mapping for book deleting. only administrator can delete book so we need check if logged user is 
-     * administrator.
+     * Request mapping for book deleting. only administrator can delete book so
+     * we need check if logged user is administrator.
+     *
      * @param bookID
      * @param request
      * @return redirect to /book/ or redirect to / if admin is not logged in
@@ -159,8 +174,6 @@ public class BookController {
 
         return new ModelAndView("redirect:/");
     }
-
-    
 
     /**
      * metoda vlozi url pre JSON ktoru si stranka zavola
@@ -185,7 +198,9 @@ public class BookController {
 
     /**
      * Request mapper for getting all books from database in form of json.
-     * @param locale current session locale for translating enums inside class {status, department}
+     *
+     * @param locale current session locale for translating enums inside class
+     * {status, department}
      * @return json containing all books
      */
     @RequestMapping(value = "/getJSONList", method = RequestMethod.GET)
@@ -195,11 +210,11 @@ public class BookController {
 
         return generateJSONfromList(bookz, locale);
 
-    }   
-    
-    
+    }
+
     /**
      * Request mapper for obtaining all books based on department from database
+     *
      * @param departmentValue department from which we want books
      * @param locale current locale session for enums
      * @return json containing all books from given department
@@ -222,7 +237,9 @@ public class BookController {
     }
 
     /**
-     * Request mapper for obtaining all books written by specific author from database.
+     * Request mapper for obtaining all books written by specific author from
+     * database.
+     *
      * @param authorValue name of author whose books we want to get
      * @param locale current locale session for enums
      * @return json containing all books writen by specific author
@@ -239,9 +256,9 @@ public class BookController {
         return generateJSONfromList(bookz, locale);
     }
 
-    
     /**
      * Request mapper for obtaining all books from database based on book title.
+     *
      * @param titleValue title of book
      * @param locale current locale for session
      * @return json containing all books with given title
@@ -259,7 +276,7 @@ public class BookController {
     }
 
     /**
-     * Request mapper for reseting all books, all books are set to AVAILABLE. 
+     * Request mapper for reseting all books, all books are set to AVAILABLE.
      * just in case we want to reset all books
      *
      * @return redirect to /book/
@@ -276,7 +293,8 @@ public class BookController {
     }
 
     /**
-     * Method builds json String from given list of books. Datatables requeres following patter
+     * Method builds json String from given list of books. Datatables requeres
+     * following patter
      * <pre>
      * { "aaData" :[
      * ["bookID1" ,"bookTitle1", "bookAuthor1","bookDepartment1","bookAvailability1",""],
@@ -284,12 +302,13 @@ public class BookController {
      * ...
      * ["bookIDn" ,"bookTitlen", "bookAuthorn","bookDepartmentn","bookAvailability2",""]
      * ]}
-     * 
+     *
      * last _column_ is empty since we have in table one more column for actions like delete, show details, edit or add to ticket
+     *
      * @param bookz list of books from which we want to generate json format
      * @param locale locale for enums
      * @return json String build from list of books
-     */   
+     */
     private String generateJSONfromList(List<BookDTO> bookz, Locale locale) {
 
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle/messages", locale);
