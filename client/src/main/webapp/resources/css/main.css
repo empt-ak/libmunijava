@@ -43,8 +43,8 @@ body
 }
 
 #main_header_image{
-    height:250px;
-    margin-left: -725px;
+    height: 200px;
+    margin: 20px 725px 0px 0px
 }
 
 .header-div{

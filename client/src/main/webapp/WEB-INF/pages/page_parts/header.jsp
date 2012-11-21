@@ -17,6 +17,7 @@
     <img id="main_header_image" src="<%=request.getContextPath()%>/resources/img/header-image.png" />  
 
     <div class="header-div">
+        
         <c:choose>
             <c:when test="${USER != null}">
                 <h3>${USER.realName}</h3> <br />
