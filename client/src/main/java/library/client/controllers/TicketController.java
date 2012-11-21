@@ -235,12 +235,14 @@ public class TicketController
     {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         
+        Long temp = null;
         if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {
+            temp = ticketService.getTicketByID(ticketID).getUser().getUserID();
             ticketFascade.deleteTicket(ticketID);
-                       
             TicketDTO t = ticketService.getTicketByID(ticketID);
-            return new ModelAndView("redirect:/ticket/show/user/"+t.getUser().getUserID().toString());
+            
+            return new ModelAndView("redirect:/ticket/show/user/"+String.valueOf(temp));
         }
         
         return new ModelAndView("redirect:/");

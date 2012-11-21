@@ -185,6 +185,9 @@ public class TicketFascadeImpl implements TicketFascade
             for(TicketItem ti : t.getTicketItems())
             {
                 ticketItemDAO.deleteTicketItem(ti);
+                Book b = ti.getBook();
+                b.setBookStatus(BookStatus.AVAILABLE);
+                bookDAO.updateBook(b);
             }            
         }
     }
@@ -199,6 +202,7 @@ public class TicketFascadeImpl implements TicketFascade
             if(!ti.getTicketItemStatus().equals(TicketItemStatus.RESERVATION))
             {
                 flag = false;
+                break;
             }
         }
 

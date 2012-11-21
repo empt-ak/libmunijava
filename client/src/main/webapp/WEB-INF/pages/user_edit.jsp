@@ -45,7 +45,7 @@
                                 <form:select path="systemRole" id="register_input">
                                     <form:option value="ADMINISTRATOR"><spring:message code="user.role.admin"/></form:option>
                                     <form:option value="USER"><spring:message code="user.role.user"/></form:option>                                        
-                                </form:select><br/>
+                                </form:select><form:errors path="systemRole"/><br/>
 
                                 <form:hidden path="userID" />
 
