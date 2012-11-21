@@ -46,6 +46,11 @@ body
     /* background: #d7e291 url(images/header.gif); */
 }
 
+.header-div{
+    text-align: right;
+    padding: 10px;
+}
+
 #panel_menu 
 {
     color: #333;
@@ -142,6 +147,7 @@ fieldset
     padding: 1em;
     font:110%/1 sans-serif;
 }
+
 label 
 {
     float:left;
@@ -150,4 +156,21 @@ label
     padding-top:0.2em;
     text-align:right;
     font-weight:bold;
+}
+
+.slidingDiv 
+{                
+    background-color: #d7e291;
+    padding:20px;
+    margin-top:10px;
+    border-bottom:5px solid #333333;
+    display: none;
+}​​
+
+#ffs
+{
+    background-color: #d7e291;
+    padding:20px;
+    margin-top:10px;
+    border-bottom:5px solid #333333;
 }

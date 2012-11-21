@@ -13,8 +13,6 @@
         <script src="<c:url value="/resources/javascript/jQuery.1.8.2.js" />"></script>
         <script type="text/javascript" language="javascript" src="<c:url value="/resources/javascript/jquery.dataTables.js" />"></script>
 
-
-
         <script>
             var oTable;
             $(document).ready(function() {

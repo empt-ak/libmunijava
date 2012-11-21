@@ -12,39 +12,8 @@
 
         <script src="<c:url value="/resources/javascript/jQuery.1.8.2.js" />"></script>
         <script type="text/javascript" language="javascript" src="<c:url value="/resources/javascript/jquery.dataTables.js" />"></script>
-
-        <style>            
-            .slidingDiv {                
-                background-color: #d7e291;
-                padding:20px;
-                margin-top:10px;
-                border-bottom:5px solid #333333;
-                display: none;
-            }​​
-
-            #ffs
-            {
-                background-color: #d7e291;
-                padding:20px;
-                margin-top:10px;
-                border-bottom:5px solid #333333;
-            }
-        </style>
-
-
-        <script>
-            $(document).ready(function() {
-                $('.show').click(function() {
-                    $(this).next('div').slideDown();
-                    $(this).hide();
-                });
-
-                $('.hide').click(function() {
-                    $(this).parent().slideUp();
-                    $(this).parent().prev('.show').show();
-                });
-            });
-        </script>     
+        <script type="text/javascript" language="javascript" src="<c:url value="/resources/javascript/loan_slider.js" />"></script>
+       
     </head>
     <body> 
         <!-- wrapper -->

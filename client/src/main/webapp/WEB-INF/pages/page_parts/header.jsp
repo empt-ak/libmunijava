@@ -6,27 +6,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<script>
 
-    $(function() {
-        $('form').each(function() {
-            $('input').keypress(function(e) {
-                // Enter pressed?
-                if (e.which == 10 || e.which == 13) {
-                    this.form.submit();
-                }
-            });
+<script type="text/javascript" language="javascript" src="<c:url value="/resources/javascript/form_submit.js" />"></script>
 
-            //$('input[type=submit]').hide();
-        });
-    });
-</script>  
 <div id="header"> 
     <!--            <div align="left">
                     <h1><a><span><spring:message code="label.website.header.headerLibrary" /></span></a></h1>
                 </div>      -->
 
-    <div align="right" style="padding: 10px;">
+    <div class="header-div">
         <c:choose>
             <c:when test="${USER != null}">
                 <h3>${USER.realName}</h3> <br />

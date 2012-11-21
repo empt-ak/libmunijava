@@ -32,7 +32,7 @@
                         <td><a href="${pageContext.request.contextPath}/book/category/title/${book.title}">zobrazit tituly s podobnym nazvom</a></td>
                     </tr>
                     <tr>
-                        <td>autoor</td>
+                        <td>autor</td>
                         <td>${book.author}</td>
                         <td><a href="${pageContext.request.contextPath}/book/category/author/${book.author}">zobrazit knihy od tohto autora</a></td>
                     </tr>
