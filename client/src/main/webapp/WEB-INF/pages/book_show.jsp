@@ -25,29 +25,30 @@
                 
                 ${book}
                     ${error}
-                <table>
-                    <tr>
+                <table id="book_detail">
+                    <thead>
+                        <tr>
                         <td>nazov knihy</td>
-                        <td>${book.title}</td>
-                        <td><a href="${pageContext.request.contextPath}/book/category/title/${book.title}">zobrazit tituly s podobnym nazvom</a></td>
-                    </tr>
-                    <tr>
                         <td>autor</td>
-                        <td>${book.author}</td>
-                        <td><a href="${pageContext.request.contextPath}/book/category/author/${book.author}">zobrazit knihy od tohto autora</a></td>
-                    </tr>
-                    <tr>
                         <td>oddelenie</td>
-                        <td>${book.department}</td>
-                        <td><a href="${pageContext.request.contextPath}/book/category/department/${book.department}"> knihy z tohto oddelenia</a></td>
-                    </tr>
-                    <tr>
                         <td>dostupnost</td>
-                        <td colspan="2">ee</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>${book.title}</td>
+                        <td>${book.author}</td>
+                        <td>${book.department}</td>
+                        <td>ee</td>
                     </tr>
+                   
+                    </tbody>
                 </table>
-
-                <div class="clear"></div>
+                    <ul id="book_options">
+                       <li> <a href="${pageContext.request.contextPath}/book/category/title/${book.title}">zobrazit tituly s podobnym nazvom</a> </li>
+                       <li>  <a href="${pageContext.request.contextPath}/book/category/author/${book.author}">zobrazit knihy od tohto autora</a> </li>
+                       <li>  <a href="${pageContext.request.contextPath}/book/category/department/${book.department}"> knihy z tohto oddelenia</a></li>
+                    </ul>
 
             </div>	
 

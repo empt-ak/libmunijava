@@ -40,9 +40,6 @@
                 </fieldset>
             </form:form>
 
-
-            <div class="clear"></div>
-
         </div>	
 
         <!-- footer -->

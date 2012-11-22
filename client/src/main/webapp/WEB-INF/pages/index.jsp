@@ -24,13 +24,12 @@
             <!-- Begin Faux Columns -->
             <div id="faux">
 
-                <h1>ಠ_ಠ ( ͡° ͜ ʖ ͡° )</h1>
-                <h3>Ak sa zaregsitrujete a chcete mat admin prava zavolame url s adresou /pa165/makeadmin/vaslogin</h3>
+                <h1>Library  &mdash; projekt z PA165</h1>
+                
+                - ak sa zaregsitrujete a chcete mat admin prava zadajte url adresu <b>/pa165/makeadmin/vaslogin</b>
+                
                 <br/>
-               
 
-
-                <div class="clear"></div>
 
             </div>	
 

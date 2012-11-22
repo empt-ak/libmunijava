@@ -25,12 +25,15 @@
             <%@include file="/WEB-INF/pages/page_parts/navigation.jsp" %>       
 
             <!-- Begin Faux Columns -->
-            <div id="faux">                
+            <div id="faux">  
+                
+                <a class="pridat" href='${pageContext.request.contextPath}/ticket/create/'><span><spring:message code="label.website.navigation.tickets.create" /></span></a>
+                
+                <div id="tickets">
                 <c:choose>
                     <c:when test="${tickets.size() > 0}">
                         <c:forEach var="ticket" items="${tickets}">
                             <!-- hlavicka pozicky -->
-                            <br />
                             <div class="show" style="background-color: #d7e291; border-style: dotted; border-width: 1px;">
                                 <table width="100%">
                                     <tr>
@@ -40,7 +43,7 @@
                                         <td><img src="<c:url value="/resources/img/arrow_down.gif" />" /></td>
                                     </tr>
                                 </table>
-                            </div> 
+                            </div>
 
                             <!-- telo pozicky -->
                             <div class="slidingDiv">
@@ -49,7 +52,10 @@
                                         <td><spring:message code ="label.website.ticket.add.field.bookTitle"/></td>
                                         <td><spring:message code ="label.website.ticket.add.field.author"/></td>
                                         <td><spring:message code ="label.website.ticket.add.field.status"/></td>
-                                        <td></td>
+                                         <c:if test="${USER.systemRole == 'ADMINISTRATOR'}"> 
+                                            <td></td>
+                                         </c:if>
+                                        
                                     </tr>
                                     <c:forEach var="ticketItem" items="${ticket.ticketItems}">
                                         <tr>
@@ -63,9 +69,6 @@
                                                 <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
                                                     <td><a href="${pageContext.request.contextPath}/ticket/return/${ticket.ticketID}/ticketitem/${ticketItem.ticketItemID}">Vratit knihu</a></td>
                                                 </c:when>
-                                                <c:otherwise>
-                                                    <td></td>
-                                                </c:otherwise>
                                             </c:choose>
 
                                         </tr>
@@ -85,17 +88,15 @@
                                                                     <td><a href="#" class="hide">Hide</a></td>    
                                                                 </tr>
                                                             </table>-->
-                            </div> <br/>  
+                                
+                            </div> 
                         </c:forEach>
                     </c:when>
                     <c:otherwise>
                         <h3><spring:message code="label.website.ticket.notickets" /> <a href="${pageContext.request.contextPath}/ticket/create/"><spring:message code="label.website.byclick" /></a>.</h3>
                     </c:otherwise>
-                </c:choose>
-
-
-                <div class="clear"></div>         
-
+                </c:choose>     
+                </div>
             </div>	
 
             <!-- footer -->

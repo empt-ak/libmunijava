@@ -51,7 +51,6 @@
                         <spring:message code="error.website.accessdenied"/>
                     </c:otherwise>
                 </c:choose>
-                <div class="clear"></div>
 
             </div>	
 

@@ -21,11 +21,11 @@
                     "sAjaxSource": '${pageContext.request.contextPath}/book${jsonURL}',
 //                    "sPaginationType": "full_numbers",
                     "aoColumns": [
+                        {"sWidth": 51},
                         null,
                         null,
-                        null,
-                        null,
-                        null, { "bSortable": false,
+                        {"sWidth": 80},
+                        {"sWidth": 80}, { "bSortable": false, "sWidth": 50,
                             "fnRender": function(oObj) {
                                 return output(oObj.aData[0], oObj.aData[1], oObj.aData[2]);
                             }
@@ -111,6 +111,8 @@
                     </thead>
                     <tbody>
                     </tbody>
+                    
+                    <!-- Naco tu mame tfood
                     <tfoot>
                         <tr>
                             <th title="ID knihy"><spring:message code="label.website.book.bookID" /></th>
@@ -121,9 +123,10 @@
                             <th><spring:message code="label.website.action" /></th>
                         </tr>
                     </tfoot>
+                    -->
+                    
                 </table>
 
-                <div class="clear"></div>   
             </div>
                 
             <!-- footer -->

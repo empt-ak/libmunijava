@@ -22,9 +22,26 @@
             <c:when test="${USER != null}">
                 <h3>${USER.realName}</h3> <br />
             </c:when>
+                <c:otherwise>
+            <h3>&nbsp;</h3> <br />
+        </c:otherwise>
         </c:choose>
         <a href="${pageContext.request.contextPath}?lang=en"><img src="<c:url value="/resources/img/us-flag.jpg"/>" /></a> 
         <a href="${pageContext.request.contextPath}?lang=sk_SK"><img src="<c:url value="/resources/img/slovak-flag.png"/>" /></a>
     </div>
+    
+    <div class="log_button">
+        <c:choose>
+        <c:when test="${USER == null}">
+            <a href='${pageContext.request.contextPath}/user/login/'><span><spring:message code="label.website.navigation.login" /></span></a>
+        </c:when>
+        <c:otherwise>
+            <a href='${pageContext.request.contextPath}/user/logout/'><span><spring:message code="label.website.navigation.logout" /></span></a>
+        </c:otherwise>
+        </c:choose>
+        </div>
+    
+    
+    
 </div>
 

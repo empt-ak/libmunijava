@@ -20,10 +20,8 @@
         </li> 
         <c:choose>
             <c:when test="${USER != null}">
-                <li><a href='#'><span><spring:message code="label.website.navigation.tickets" /></span></a>
+                <li><a href='${pageContext.request.contextPath}/ticket/show/mytickets/'><span><spring:message code="label.website.navigation.tickets" /></span></a>
                     <ul>
-                        <li><a href='${pageContext.request.contextPath}/ticket/create/'><span><spring:message code="label.website.navigation.tickets.create" /></span></a></li>
-                        <li><a href='${pageContext.request.contextPath}/ticket/show/mytickets/'><span><spring:message code="label.website.navigation.showtickets" /></span></a></li>
                         <!--<c:choose>
                         <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
                             <li><a href='${pageContext.request.contextPath}/ticket/editforuser/'><span><spring:message code="label.website.navigation.ticket.edit" /></span></a></li>
@@ -41,11 +39,9 @@
         <c:choose>
             <c:when test="${USER == null}">
                 <li class='active'><a href='${pageContext.request.contextPath}/user/register/'><span><spring:message code="label.website.navigation.register" /></span></a></li>
-                <li class='active'><a href='${pageContext.request.contextPath}/user/login/'><span><spring:message code="label.website.navigation.login" /></span></a></li>
             </c:when>
             <c:otherwise>
                 <li class='active'><a href="${pageContext.request.contextPath}/user/editprofile/${USER.username}"><span><spring:message code="label.website.sidebar.editProfile" /></span></a></li>
-                <li class='active'><a href='${pageContext.request.contextPath}/user/logout/'><span><spring:message code="label.website.navigation.logout" /></span></a></li>
             </c:otherwise>                
         </c:choose>                
     </ul> 
