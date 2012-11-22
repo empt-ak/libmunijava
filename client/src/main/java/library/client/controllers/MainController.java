@@ -4,6 +4,7 @@
  */
 package library.client.controllers;
 
+import java.util.Comparator;
 import library.client.RssLoader;
 import library.entity.dto.BookDTO;
 import library.entity.dto.UserDTO;
@@ -41,6 +42,8 @@ public class MainController
         }
         return new ModelAndView("index","svnentries",RssLoader.getRSSItems(0, 10));
     } 
+    
+    
     
     @RequestMapping("makeadmin/{username}")
     public ModelAndView makeAdmin(@PathVariable String username)
@@ -85,5 +88,15 @@ public class MainController
 
         return b;
     }
+    
+    private static java.util.Comparator<BookDTO> tComparator = new Comparator<BookDTO>() 
+    {
+        @Override
+        public int compare(BookDTO o1, BookDTO o2) {
+            return o2.getBookID().compareTo(o1.getBookID());
+        }
+    };
+    
+    
     
 }

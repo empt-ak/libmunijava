@@ -23,8 +23,6 @@
             <!-- Begin Faux Columns -->
             <div id="faux">
                 
-                ${book}
-                    ${error}
                 <table id="book_detail">
                     <thead>
                         <tr>

@@ -5,6 +5,8 @@
 package library.client.controllers;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import javax.persistence.NoResultException;
@@ -15,6 +17,7 @@ import library.entity.enums.BookStatus;
 import library.entity.enums.Department;
 import library.service.BookService;
 import library.utils.aop.validators.LibraryValidator;
+import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -264,8 +267,7 @@ public class BookController {
      * @return json containing all books with given title
      */
     @RequestMapping(value = "/getJSONTitle/{titleValue}", method = RequestMethod.GET)
-    public @ResponseBody
-    String getJSONByTitle(@PathVariable String titleValue, Locale locale) {
+    public @ResponseBody String getJSONByTitle(@PathVariable String titleValue, Locale locale) {
         List<BookDTO> bookz = new ArrayList<>();
 
         if (titleValue != null) {
@@ -290,6 +292,21 @@ public class BookController {
         }
 
         return new ModelAndView("redirect:/book/");
+    }
+    
+    /**
+     * request mapper for book editing. method can be called by anyone since we
+     * have check in jsp page and if user is not admin access denied is shown
+     *
+     * @param bookID id of book that we want to edit
+     * @return M&V book_edit
+     */
+    @RequestMapping(value = "/getlastbooks/", method = RequestMethod.GET)
+      public @ResponseBody String getlastBooks(Locale locale) {
+        List<BookDTO> b = bookService.getAllBooks();
+        Collections.sort(b,bComparator);
+        b = b.subList(0, 4);
+        return generateJSONfromBooks(b, locale);
     }
 
     /**
@@ -355,4 +372,75 @@ public class BookController {
 
         return sb.toString();
     }
+    
+    /**
+     * Method builds json String from given list of books. Datatables requeres
+     * following patter
+     * <pre>
+     * { "aaData" :[
+     * ["bookID1" ,"bookTitle1", "bookAuthor1","bookDepartment1","bookAvailability1",""],
+     * ["bookID2" ,"bookTitle2", "bookAuthor2","bookDepartment2","bookAvailability2",""],
+     * ...
+     * ["bookIDn" ,"bookTitlen", "bookAuthorn","bookDepartmentn","bookAvailability2",""]
+     * ]}
+     *
+     * last _column_ is empty since we have in table one more column for actions like delete, show details, edit or add to ticket
+     *
+     * @param bookz list of books from which we want to generate json format
+     * @param locale locale for enums
+     * @return json String build from list of books
+     */
+    private String generateJSONfromBooks(List<BookDTO> bookz, Locale locale) {
+
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle/messages", locale);
+        StringBuilder sb = new StringBuilder("{ \"aaData\": [");
+        for (int i = 0; i < bookz.size(); i++) {
+            BookDTO b = bookz.get(i);
+
+            sb.append("\r\n").append("[\"");
+            sb.append(b.getTitle());
+            sb.append("\",\"");
+            sb.append(b.getAuthor());
+            sb.append("\",\"");
+            switch (b.getDepartment()) {
+                case ADULT:
+                    sb.append(bundle.getString("book.department.adult"));
+                    break;
+                case KIDS:
+                    sb.append(bundle.getString("book.department.kids"));
+                    break;
+                case SCIENTIFIC:
+                    sb.append(bundle.getString("book.department.scientific"));
+                    break;
+            }
+            sb.append("\",\"");
+            switch (b.getBookStatus()) {
+                case AVAILABLE:
+                    sb.append(bundle.getString("book.bookstatus.available"));
+                    break;
+                case NOT_AVAILABLE:
+                    sb.append(bundle.getString("book.bookstatus.unavailable"));
+                    break;
+            }
+
+            if (i < bookz.size() - 1) {
+                sb.append("\"],");
+            } else {
+                sb.append("\"]");
+            }
+        }
+        sb.append("\r\n] }");
+
+        return sb.toString();
+    }
+    
+    
+    
+    private static java.util.Comparator<BookDTO> bComparator = new Comparator<BookDTO>() 
+    {
+        @Override
+        public int compare(BookDTO o1, BookDTO o2) {
+            return o2.getBookID().compareTo(o1.getBookID());
+        }
+    };
 }

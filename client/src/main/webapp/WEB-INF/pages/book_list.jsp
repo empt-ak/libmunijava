@@ -112,7 +112,7 @@
                     <tbody>
                     </tbody>
                     
-                    <!-- Naco tu mame tfood
+
                     <tfoot>
                         <tr>
                             <th title="ID knihy"><spring:message code="label.website.book.bookID" /></th>
@@ -123,7 +123,7 @@
                             <th><spring:message code="label.website.action" /></th>
                         </tr>
                     </tfoot>
-                    -->
+                    
                     
                 </table>
 
