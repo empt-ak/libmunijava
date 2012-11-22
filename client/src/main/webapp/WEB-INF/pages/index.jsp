@@ -22,7 +22,7 @@
                     "bFilter":false,
                     "bPaginate":false,
                     "bInfo":false,
-                    "sAjaxSource": '${pageContext.request.contextPath}/book/getlastbooks/',
+                    "sAjaxSource": '${pageContext.request.contextPath}/book/getJSONlastbooks',
 //                    "sPaginationType": "full_numbers",
                     "aoColumns": [
                         null,

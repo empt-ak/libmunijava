@@ -40,7 +40,7 @@ public class MainController
         {
             install();            
         }
-        return new ModelAndView("index","svnentries",RssLoader.getRSSItems(0, 10));
+        return new ModelAndView("index");
     } 
     
     
@@ -75,8 +75,7 @@ public class MainController
         bookService.createBook(createBook("The Grand Design", "Stephen Hawking", Department.SCIENTIFIC, BookStatus.AVAILABLE));
         bookService.createBook(createBook("Spring Security 3", "Peter Mularien", Department.SCIENTIFIC, BookStatus.AVAILABLE));
         bookService.createBook(createBook("Tri gaštanové kone", "Margita Figuli", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Spring Security", "Peter Mularien", Department.SCIENTIFIC, BookStatus.AVAILABLE));
-        
+        bookService.createBook(createBook("Spring Security", "Peter Mularien", Department.SCIENTIFIC, BookStatus.AVAILABLE));        
     }
     
     private BookDTO createBook(String title, String author, Department department, BookStatus status) {
@@ -88,15 +87,4 @@ public class MainController
 
         return b;
     }
-    
-    private static java.util.Comparator<BookDTO> tComparator = new Comparator<BookDTO>() 
-    {
-        @Override
-        public int compare(BookDTO o1, BookDTO o2) {
-            return o2.getBookID().compareTo(o1.getBookID());
-        }
-    };
-    
-    
-    
 }

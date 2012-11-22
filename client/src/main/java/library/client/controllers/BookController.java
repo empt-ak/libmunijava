@@ -17,7 +17,6 @@ import library.entity.enums.BookStatus;
 import library.entity.enums.Department;
 import library.service.BookService;
 import library.utils.aop.validators.LibraryValidator;
-import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -36,7 +35,8 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/book")
-public class BookController {
+public class BookController 
+{
 
     @Autowired
     private BookService bookService;
@@ -44,7 +44,8 @@ public class BookController {
     private Validator bookValidator;
 
     @RequestMapping("/")
-    public ModelAndView listBooks() {
+    public ModelAndView listBooks() 
+    {
         return new ModelAndView("book_list", "jsonURL", "/getJSONList");
     }
 
@@ -56,23 +57,22 @@ public class BookController {
      * @return redirect to form on any error redirect to /book/ otherwise
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ModelAndView saveBook(@ModelAttribute("bookDTO") BookDTO bookDTO, BindingResult result, Errors errors, HttpServletRequest request) {
-
+    public ModelAndView saveBook(@ModelAttribute("bookDTO") BookDTO bookDTO, BindingResult result, Errors errors, HttpServletRequest request) 
+    {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) {
-
+        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
+        {
             bookValidator.validate(bookDTO, errors);
-            if (result.hasErrors()) {
+            if (result.hasErrors()) 
+            {
                 return new ModelAndView("book_add", "bookDTO", bookDTO);
-            } else {
-
-
+            } 
+            else 
+            {
                 bookDTO.setBookStatus(BookStatus.AVAILABLE);
                 bookService.createBook(bookDTO);
                 return new ModelAndView("redirect:/book/");
             }
-
-
         }
         return new ModelAndView("redirect:/");
     }
@@ -84,7 +84,8 @@ public class BookController {
      * @return M&V book_add
      */
     @RequestMapping(value = "/save", method = RequestMethod.GET)
-    public ModelAndView saveBook() {
+    public ModelAndView saveBook() 
+    {
         return new ModelAndView("book_add", "bookDTO", new BookDTO());
     }
 
@@ -96,7 +97,8 @@ public class BookController {
      * @return M&V book_edit
      */
     @RequestMapping(value = "/edit/{bookID}", method = RequestMethod.GET)
-    public ModelAndView editBook(@PathVariable Long bookID) {
+    public ModelAndView editBook(@PathVariable Long bookID) 
+    {
         return new ModelAndView("book_edit", "bookDTO", bookService.getBookByID(bookID));
     }
 
@@ -110,19 +112,23 @@ public class BookController {
      * error ocures), redirect to /book/ otherwise
      */
     @RequestMapping(value = "/edit/", method = RequestMethod.POST)
-    public ModelAndView editBook(@ModelAttribute("bookDTO") BookDTO bookDTO, BindingResult result, Errors errors, HttpServletRequest request) {
-
+    public ModelAndView editBook(@ModelAttribute("bookDTO") BookDTO bookDTO, BindingResult result, Errors errors, HttpServletRequest request) 
+    {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) {
-
+        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
+        {
             bookValidator.validate(bookDTO, errors);
-            if (!LibraryValidator.isValidID(bookDTO.getBookID())) {
+            if (!LibraryValidator.isValidID(bookDTO.getBookID())) 
+            {
                 //errors.
             }
 
-            if (result.hasErrors()) {
+            if (result.hasErrors()) 
+            {
                 return new ModelAndView("book_edit", "bookDTO", bookDTO);
-            } else {
+            } 
+            else 
+            {
                 bookService.updateBook(bookDTO);
                 return new ModelAndView("redirect:/book/");
             }
@@ -139,16 +145,22 @@ public class BookController {
      * @return
      */
     @RequestMapping("/show/{bookID}")
-    public ModelAndView showBook(@PathVariable Long bookID) {
+    public ModelAndView showBook(@PathVariable Long bookID) 
+    {
         BookDTO b = null;
-        try {
+        try 
+        {
             b = bookService.getBookByID(bookID);
-        } catch (NoResultException nre) {
+        } 
+        catch (NoResultException nre) 
+        {
         }
-        if (b != null) {
-
+        if (b != null) 
+        {
             return new ModelAndView("book_show", "book", b);
-        } else {
+        } 
+        else 
+        {
             return new ModelAndView("book_show", "error", "notfound");
         }
     }
@@ -162,10 +174,12 @@ public class BookController {
      * @return redirect to /book/ or redirect to / if admin is not logged in
      */
     @RequestMapping("/delete/{bookID}")
-    public ModelAndView deleteBook(@PathVariable Long bookID, HttpServletRequest request) {
+    public ModelAndView deleteBook(@PathVariable Long bookID, HttpServletRequest request) 
+    {
 
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) {
+        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
+        {
             BookDTO book = new BookDTO();
             book.setBookID(bookID);
 
@@ -186,8 +200,10 @@ public class BookController {
      * @return m&v pre dany input
      */
     @RequestMapping("/category/{categoryFilter}/{value}")
-    public ModelAndView getCategoryFilter(@PathVariable String categoryFilter, @PathVariable String value) {
-        switch (categoryFilter) {
+    public ModelAndView getCategoryFilter(@PathVariable String categoryFilter, @PathVariable String value) 
+    {
+        switch (categoryFilter) 
+        {
             case "department":
                 return new ModelAndView("book_list", "jsonURL", "/getJSONDepartment/" + value);
             case "author":
@@ -208,10 +224,11 @@ public class BookController {
      */
     @RequestMapping(value = "/getJSONList", method = RequestMethod.GET)
     public @ResponseBody
-    String getJSONlist(Locale locale) {
+    String getJSONlist(Locale locale) 
+    {
         List<BookDTO> bookz = bookService.getAllBooks();
 
-        return generateJSONfromList(bookz, locale);
+        return generateJSONfromList(bookz, locale,false);
 
     }
 
@@ -224,17 +241,24 @@ public class BookController {
      */
     @RequestMapping(value = "/getJSONDepartment/{departmentValue}", method = RequestMethod.GET)
     public @ResponseBody
-    String getJSONByDepartment(@PathVariable String departmentValue, Locale locale) {
+    String getJSONByDepartment(@PathVariable String departmentValue, Locale locale) 
+    {
         Department d = null;
-        try {
+        try 
+        {
             d = Department.valueOf(departmentValue.toUpperCase());
-        } catch (IllegalArgumentException iae) {
+        } 
+        catch (IllegalArgumentException iae) 
+        {
         }
 
-        if (d != null) {
-            return generateJSONfromList(bookService.getBooksByDepartment(d), locale);
-        } else {
-            return generateJSONfromList(new ArrayList<BookDTO>(), locale);
+        if (d != null) 
+        {
+            return generateJSONfromList(bookService.getBooksByDepartment(d), locale,false);
+        } 
+        else 
+        {
+            return generateJSONfromList(new ArrayList<BookDTO>(), locale,false);
         }
 
     }
@@ -249,14 +273,16 @@ public class BookController {
      */
     @RequestMapping(value = "/getJSONAuthor/{authorValue}", method = RequestMethod.GET)
     public @ResponseBody
-    String getJSONByAuthor(@PathVariable String authorValue, Locale locale) {
+    String getJSONByAuthor(@PathVariable String authorValue, Locale locale) 
+    {
         List<BookDTO> bookz = new ArrayList<>();
 
-        if (authorValue != null) {
+        if (authorValue != null) 
+        {
             bookz = bookService.getBooksByAuthor(authorValue);
         }
 
-        return generateJSONfromList(bookz, locale);
+        return generateJSONfromList(bookz, locale,false);
     }
 
     /**
@@ -267,14 +293,32 @@ public class BookController {
      * @return json containing all books with given title
      */
     @RequestMapping(value = "/getJSONTitle/{titleValue}", method = RequestMethod.GET)
-    public @ResponseBody String getJSONByTitle(@PathVariable String titleValue, Locale locale) {
+    public @ResponseBody String getJSONByTitle(@PathVariable String titleValue, Locale locale) 
+    {
         List<BookDTO> bookz = new ArrayList<>();
 
-        if (titleValue != null) {
+        if (titleValue != null) 
+        {
             bookz = bookService.searchBooksByTitle(titleValue);
         }
 
-        return generateJSONfromList(bookz, locale);
+        return generateJSONfromList(bookz, locale,false);
+    }
+    
+     /**
+     * request mapper for obtaining last 5 books from database. this is used by main
+     * (index) page
+     *
+     * @param locale locale holding current locale that is used for enums
+     * @return string value of last 5 books in json format
+     */
+    @RequestMapping(value = "/getJSONlastbooks", method = RequestMethod.GET)
+      public @ResponseBody String getlastBooks(Locale locale) 
+    {
+        List<BookDTO> b = bookService.getAllBooks();
+        Collections.sort(b,bComparator);
+        b = b.subList(0, 5);
+        return generateJSONfromList(b, locale,true);
     }
 
     /**
@@ -284,9 +328,11 @@ public class BookController {
      * @return redirect to /book/
      */
     @RequestMapping("/reset/")
-    public ModelAndView resetBooks() {
+    public ModelAndView resetBooks() 
+    {
         List<BookDTO> bookz = bookService.getAllBooks();
-        for (BookDTO b : bookz) {
+        for (BookDTO b : bookz) 
+        {
             b.setBookStatus(BookStatus.AVAILABLE);
             bookService.updateBook(b);
         }
@@ -294,19 +340,32 @@ public class BookController {
         return new ModelAndView("redirect:/book/");
     }
     
-    /**
-     * request mapper for book editing. method can be called by anyone since we
-     * have check in jsp page and if user is not admin access denied is shown
-     *
-     * @param bookID id of book that we want to edit
-     * @return M&V book_edit
-     */
-    @RequestMapping(value = "/getlastbooks/", method = RequestMethod.GET)
-      public @ResponseBody String getlastBooks(Locale locale) {
-        List<BookDTO> b = bookService.getAllBooks();
-        Collections.sort(b,bComparator);
-        b = b.subList(0, 4);
-        return generateJSONfromBooks(b, locale);
+    @Deprecated
+    @RequestMapping("/install/")
+    public void install()
+    {
+        if(bookService.getAllBooks().isEmpty())
+        {
+            installScript();
+        }        
+    }
+    
+   
+    
+    private void installScript()
+    {
+        bookService.createBook(createBook("Emma", "Jane Austen", Department.ADULT, BookStatus.AVAILABLE));
+        bookService.createBook(createBook("Pride & Prejudice", "Jane Austen", Department.ADULT, BookStatus.AVAILABLE));
+        bookService.createBook(createBook("Sense and Sensibility", "Jane Austen", Department.ADULT, BookStatus.AVAILABLE));
+        bookService.createBook(createBook("Harry Potter and the Philosophers Stone", "J.K. Rowling", Department.ADULT, BookStatus.AVAILABLE));
+        bookService.createBook(createBook("Harry Potter and the Chamber of Secrets", "J.K. Rowling", Department.ADULT, BookStatus.AVAILABLE));
+        bookService.createBook(createBook("Harry Potter and the Prisoner of Azkaban", "J.K. Rowling", Department.ADULT, BookStatus.AVAILABLE));
+        bookService.createBook(createBook("On the Generalized Theory of Gravitation", "Albert Einstein", Department.SCIENTIFIC, BookStatus.AVAILABLE));
+        bookService.createBook(createBook("čerešnička", "ľščťžýáíéúäň", Department.ADULT, BookStatus.AVAILABLE));
+        bookService.createBook(createBook("The Grand Design", "Stephen Hawking", Department.SCIENTIFIC, BookStatus.AVAILABLE));
+        bookService.createBook(createBook("Spring Security 3", "Peter Mularien", Department.SCIENTIFIC, BookStatus.AVAILABLE));
+        bookService.createBook(createBook("Tri gaštanové kone", "Margita Figuli", Department.ADULT, BookStatus.AVAILABLE));
+        bookService.createBook(createBook("Spring Security", "Peter Mularien", Department.SCIENTIFIC, BookStatus.AVAILABLE));        
     }
 
     /**
@@ -319,28 +378,35 @@ public class BookController {
      * ...
      * ["bookIDn" ,"bookTitlen", "bookAuthorn","bookDepartmentn","bookAvailability2",""]
      * ]}
-     *
+     * </pre>
      * last _column_ is empty since we have in table one more column for actions like delete, show details, edit or add to ticket
      *
+     * if reduced is true first and last column is omitted
+     * 
      * @param bookz list of books from which we want to generate json format
      * @param locale locale for enums
+     * @param reduced if true first and last column is omitted
      * @return json String build from list of books
      */
-    private String generateJSONfromList(List<BookDTO> bookz, Locale locale) {
-
+    private String generateJSONfromList(List<BookDTO> bookz, Locale locale,boolean reduced) 
+    {
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle/messages", locale);
         StringBuilder sb = new StringBuilder("{ \"aaData\": [");
         for (int i = 0; i < bookz.size(); i++) {
             BookDTO b = bookz.get(i);
 
             sb.append("\r\n").append("[\"");
-            sb.append(b.getBookID());
-            sb.append("\",\"");
+            if(!reduced)
+            {
+                sb.append(b.getBookID());
+                sb.append("\",\"");                
+            }            
             sb.append(b.getTitle());
             sb.append("\",\"");
             sb.append(b.getAuthor());
             sb.append("\",\"");
-            switch (b.getDepartment()) {
+            switch (b.getDepartment()) 
+            {
                 case ADULT:
                     sb.append(bundle.getString("book.department.adult"));
                     break;
@@ -352,7 +418,8 @@ public class BookController {
                     break;
             }
             sb.append("\",\"");
-            switch (b.getBookStatus()) {
+            switch (b.getBookStatus())
+            {
                 case AVAILABLE:
                     sb.append(bundle.getString("book.bookstatus.available"));
                     break;
@@ -360,86 +427,40 @@ public class BookController {
                     sb.append(bundle.getString("book.bookstatus.unavailable"));
                     break;
             }
-            sb.append("\",\"");
+            if(!reduced)
+            {
+                sb.append("\",\"");
+            }            
 
-            if (i < bookz.size() - 1) {
+            if (i < bookz.size() - 1) 
+            {
                 sb.append("\"],");
-            } else {
+            } 
+            else 
+            {
                 sb.append("\"]");
             }
         }
         sb.append("\r\n] }");
 
         return sb.toString();
+    }  
+    
+    private BookDTO createBook(String title, String author, Department department, BookStatus status) {
+        BookDTO b = new BookDTO();
+        b.setTitle(title);
+        b.setAuthor(author);
+        b.setDepartment(department);
+        b.setBookStatus(status);
+
+        return b;
     }
-    
-    /**
-     * Method builds json String from given list of books. Datatables requeres
-     * following patter
-     * <pre>
-     * { "aaData" :[
-     * ["bookID1" ,"bookTitle1", "bookAuthor1","bookDepartment1","bookAvailability1",""],
-     * ["bookID2" ,"bookTitle2", "bookAuthor2","bookDepartment2","bookAvailability2",""],
-     * ...
-     * ["bookIDn" ,"bookTitlen", "bookAuthorn","bookDepartmentn","bookAvailability2",""]
-     * ]}
-     *
-     * last _column_ is empty since we have in table one more column for actions like delete, show details, edit or add to ticket
-     *
-     * @param bookz list of books from which we want to generate json format
-     * @param locale locale for enums
-     * @return json String build from list of books
-     */
-    private String generateJSONfromBooks(List<BookDTO> bookz, Locale locale) {
-
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle/messages", locale);
-        StringBuilder sb = new StringBuilder("{ \"aaData\": [");
-        for (int i = 0; i < bookz.size(); i++) {
-            BookDTO b = bookz.get(i);
-
-            sb.append("\r\n").append("[\"");
-            sb.append(b.getTitle());
-            sb.append("\",\"");
-            sb.append(b.getAuthor());
-            sb.append("\",\"");
-            switch (b.getDepartment()) {
-                case ADULT:
-                    sb.append(bundle.getString("book.department.adult"));
-                    break;
-                case KIDS:
-                    sb.append(bundle.getString("book.department.kids"));
-                    break;
-                case SCIENTIFIC:
-                    sb.append(bundle.getString("book.department.scientific"));
-                    break;
-            }
-            sb.append("\",\"");
-            switch (b.getBookStatus()) {
-                case AVAILABLE:
-                    sb.append(bundle.getString("book.bookstatus.available"));
-                    break;
-                case NOT_AVAILABLE:
-                    sb.append(bundle.getString("book.bookstatus.unavailable"));
-                    break;
-            }
-
-            if (i < bookz.size() - 1) {
-                sb.append("\"],");
-            } else {
-                sb.append("\"]");
-            }
-        }
-        sb.append("\r\n] }");
-
-        return sb.toString();
-    }
-    
-    
     
     private static java.util.Comparator<BookDTO> bComparator = new Comparator<BookDTO>() 
     {
         @Override
-        public int compare(BookDTO o1, BookDTO o2) {
+        public int compare(BookDTO o1, BookDTO o2) 
+        {
             return o2.getBookID().compareTo(o1.getBookID());
         }
     };

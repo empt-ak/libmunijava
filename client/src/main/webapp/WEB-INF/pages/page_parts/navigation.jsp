@@ -41,7 +41,7 @@
                 <li class='active'><a href='${pageContext.request.contextPath}/user/register/'><span><spring:message code="label.website.navigation.register" /></span></a></li>
             </c:when>
             <c:otherwise>
-                <li class='active'><a href="${pageContext.request.contextPath}/user/editprofile/${USER.username}"><span><spring:message code="label.website.sidebar.editProfile" /></span></a></li>
+                <li class='active'><a href="${pageContext.request.contextPath}/user/editprofile/"><span><spring:message code="label.website.sidebar.editProfile" /></span></a></li>
             </c:otherwise>                
         </c:choose>                
     </ul> 

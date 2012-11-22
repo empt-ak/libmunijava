@@ -62,8 +62,7 @@ public class TicketController
      */
     @RequestMapping("/create/user/{userID}")
     public ModelAndView createTicketLib(@PathVariable Long userID,HttpServletRequest request)
-    {
-        
+    {        
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {// sme prihlaseny 
@@ -98,8 +97,7 @@ public class TicketController
      */
     @RequestMapping("/create/")
     public ModelAndView createTicket(HttpServletRequest request)
-    {
-        
+    {        
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         if(inSession != null)
         {// sme prihlaseny 

@@ -25,7 +25,7 @@
                         null,
                         null,
                         null,
-                        null, { "bSortable": false,
+                        null, {"bSortable": false,
                             "fnRender": function(oObj) {
                                 return output(oObj.aData[0], oObj.aData[2]);
                             }
@@ -48,26 +48,36 @@
                             }
                 });
             });
-            
-            function output(userID,realName)
+
+            function output(userID, realName)
             {
-                var output = '<a href="${pageContext.request.contextPath}/user/edit/'+userID+'"><img src="<c:url value="/resources/img/icon_edit.gif" />" /></a>';
-                output += '<a href="${pageContext.request.contextPath}/ticket/show/user/'+userID+'"> <img src="<c:url value="/resources/img/icon_plus.png" />" /> </a>';
-                output += '<a href="#" onClick="confirmDelete('+userID+ ',\''+realName+'\')"> <img src="<c:url value="/resources/img/icon_delete.png" />" /> </a>';
+                var output = '';
+                <c:choose>
+                    <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
+                        output += '<a href="${pageContext.request.contextPath}/user/edit/' + userID + '"><img src="<c:url value="/resources/img/icon_edit.gif" />" /></a>';
+                        output += '<a href="${pageContext.request.contextPath}/ticket/show/user/' + userID + '"> <img src="<c:url value="/resources/img/icon_plus.png" />" /> </a>';
+                        output += '<a href="#" onClick="confirmDelete(' + userID + ',\'' + realName + '\')"> <img src="<c:url value="/resources/img/icon_delete.png" />" /> </a>';
+                    </c:when>
+                </c:choose>
+
                 return output;
             }
-            
-            function confirmDelete(id,userRname)
-            {
-                if(confirm("chcet zmazat zaznam"+id+"\nUzivatela : "+userRname))
-                {
-                    document.location = "${pageContext.request.contextPath}/user/delete/" + id;
-                }
-                else
-                {
-                    //kk
-                }
-            }
+
+            <c:choose>
+                <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
+                    function confirmDelete(id, userRname)
+                    {
+                        if (confirm("chcet zmazat zaznam" + id + "\nUzivatela : " + userRname))
+                        {
+                            document.location = "${pageContext.request.contextPath}/user/delete/" + id;
+                        }
+                        else
+                        {
+                            //kk
+                        }
+                    }
+                </c:when>
+            </c:choose>
         </script>
     </head>
     <body> 
@@ -98,7 +108,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th title="ID knihy"><spring:message code ="label.website.user.add.field.IDus"/></th>
+                            <th><spring:message code ="label.website.user.add.field.IDus"/></th>
                             <th><spring:message code ="label.website.user.add.field.username"/></th>
                             <th><spring:message code ="label.website.user.add.field.rname"/></th>
                             <th><spring:message code ="label.website.user.add.field.pass"/></th>

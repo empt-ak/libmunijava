@@ -7,8 +7,6 @@ package library.client.controllers;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -36,7 +34,8 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController 
+{
 
     @Autowired
     private Validator userValidator;
@@ -111,7 +110,6 @@ public class UserController {
     }
 
     /**
-     * @TODO admin only request mapper for user editing user details. if user
      * edits his profile via editprofile his systemrole is not shown. in this
      * case its shown since administrator (librarian) can make from any user new
      * librarian, therefore he has to see user role
@@ -130,8 +128,6 @@ public class UserController {
             userValidator.validate(userDTO, errors);
             if (userDTO.getSystemRole() == null || !(!userDTO.getSystemRole().equals("USER") ^ !userDTO.getSystemRole().equals("ADMINISTRATOR"))) 
             {
-                System.out.println(errors.toString());
-                System.out.println(userDTO);
                 errors.rejectValue("systemRole", "error.field.systemrole.empty");
             }
             if (result.hasErrors()) 
@@ -219,16 +215,24 @@ public class UserController {
     }
 
     /**
-     * @TODO add get profile id/username etc from session & remove this mapping
-     * only to /editprofile/ without any arguments since argument will be passed
-     * by session request mapper for user profile editing.
-     * @param username
-     * @return
+     * Request mapper for editing user profile. if we are logged in we pass our session attribute to service layer which will return 
+     * user from database (we may changed something and it has not been reflected in session) and show form with logged in user values.
+     * if we are not logged in redirect to / is performed
+     * @param request servlet request holding session 
+     * @return M&V user_profile if user is logged in with userDTO object, redirect to / otherwise
      */
-    @RequestMapping(value = "/editprofile/{username}", method = RequestMethod.GET)
-    public ModelAndView editUserProfile(@PathVariable String username) 
+    @RequestMapping(value = "/editprofile/", method = RequestMethod.GET)
+    public ModelAndView editUserProfile(HttpServletRequest request) 
     {
-        return new ModelAndView("user_profile", "userDTO", userService.getUserByUsername(username));
+        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+        if(inSession != null)
+        {
+            return new ModelAndView("user_profile", "userDTO", userService.getUserByUsername(inSession.getUsername()));
+        }
+        else
+        {
+            return new ModelAndView("redirect:/");
+        }        
     }
 
     /**
@@ -257,15 +261,15 @@ public class UserController {
             userService.deleteUser(u);
 
             return new ModelAndView("redirect:/user/");
-
         }
 
         return new ModelAndView("redirect:/");
     }
 
     /**
-     * @TODO kontrola admin
-     * @return
+     * Request mapper for root /user/ call. 
+     * @param request holding session
+     * @return M&V user_list or redirect to / if we are not logged in as administrator
      */
     @RequestMapping("/")
     public ModelAndView showUsers(HttpServletRequest request) 
@@ -273,16 +277,30 @@ public class UserController {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
         {        
-            return new ModelAndView("user_list", "USERS", userService.getUsers());
+            return new ModelAndView("user_list");
         }
         
         return new ModelAndView("redirect:/");
     }
 
     /**
-     * @TODO kontrla admin requestmapper for obtaining users in JSON format used
-     * for datatabels
-     * @return
+     * Request mapper for obtaiing users in JSON format. if we are logged in and we are administrator
+     * we retrieve all users and format them into following JSON format:
+     * <pre>
+     * { "aaData" :[
+     * ["userID","username","hashedpassword","userRole",""],
+     * ["userID1","username1","hashedpassword1","userRole1",""],
+     * ["userID2","username2","hashedpassword2","userRole2",""],
+     * ...
+     * ["userID"n,"usernamen","hashedpasswordn","userRolen",""]
+     * ]}
+     * </pre>
+     * 
+     * we have to generate one more colum (last) so we can create extra column for actions if we are
+     * not an administrator we generate empty string
+     * 
+     * @param request servlet request holding session
+     * @return all users in JSON format or empty string
      */
     @RequestMapping("/getUsersJSON")
     @ResponseBody
@@ -363,7 +381,6 @@ public class UserController {
         {
             session.setAttribute("USER", user);
         }
-        //session.setAttribute("USER", this);
 
         return new ModelAndView("redirect:/");
     }
