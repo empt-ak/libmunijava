@@ -26,8 +26,8 @@
             <h3>&nbsp;</h3> <br />
         </c:otherwise>
         </c:choose>
-        <a href="${pageContext.request.contextPath}?lang=en"><img src="<c:url value="/resources/img/us-flag.jpg"/>" /></a> 
-        <a href="${pageContext.request.contextPath}?lang=sk_SK"><img src="<c:url value="/resources/img/slovak-flag.png"/>" /></a>
+        <a href="<spring:url value="?lang=en"/>"><img src="<c:url value="/resources/img/us-flag.jpg"/>" /></a> 
+        <a href="<spring:url value="?lang=sk_SK"/>"><img src="<c:url value="/resources/img/slovak-flag.png"/>" /></a>
     </div>
     
     <div class="log_button">
