@@ -317,7 +317,7 @@ public class BookController
     {
         List<BookDTO> b = bookService.getAllBooks();
         Collections.sort(b,bComparator);
-        b = b.subList(0, 5);
+        b = b.subList(0, Math.min(b.size(), 5));
         return generateJSONfromList(b, locale,true);
     }
 
