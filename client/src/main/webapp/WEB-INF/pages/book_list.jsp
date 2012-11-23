@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE HTML>
@@ -50,18 +50,17 @@
             });
 
             function output(recordID, bookTitle, author)
-            {
-//                alert(recordID+bookTitle+author);                
-                var text = '<a href="${pageContext.request.contextPath}/book/show/' + recordID + '"><img src="<c:url value="/resources/img/icon_more.jpg" />" alt="<spring:message code="label.website.navigation.viewdetails" />" /></a> &nbsp;';
+            {              
+                var text = '<a href="${pageContext.request.contextPath}/book/show/' + recordID + '" title="<spring:message code="label.website.book.list.tooltip.details" />"><img src="<c:url value="/resources/img/icon_more.jpg" />" alt="<spring:message code="label.website.navigation.viewdetails" />" /></a> &nbsp;';
             <c:choose>
                 <c:when test="${USER != null}">
-                    text += '<a href="${pageContext.request.contextPath}/ticket/add/book/' + recordID + '"><img src="<c:url value="/resources/img/icon_plus.png" />" alt="<spring:message code="label.website.navigation.addbooktoticket" />" /></a> &nbsp;'
+                    text += '<a href="${pageContext.request.contextPath}/ticket/add/book/' + recordID + '" title="<spring:message code="label.website.book.list.tooltip.create" />"><img src="<c:url value="/resources/img/icon_plus.png" />" alt="<spring:message code="label.website.navigation.addbooktoticket" />" /></a> &nbsp;'
                 </c:when>
             </c:choose>
             <c:choose>
                 <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
-                    text += '<a href="${pageContext.request.contextPath}/book/edit/' + recordID + '"><img src="<c:url value="/resources/img/icon_edit.gif" />" alt="<spring:message code="label.website.book.add.updatebutton" />" /></a> &nbsp;'
-                    text += '<a href="#" onClick="confirmDelete(' + recordID + ',\'' + bookTitle + '\',\'' + author + '\')"><img src="<c:url value="/resources/img/icon_delete.png" />" alt="<spring:message code="label.website.book.list.deletebook" />" /></a>';
+                    text += '<a href="${pageContext.request.contextPath}/book/edit/' + recordID + '" title="<spring:message code="label.website.book.list.tooltip.edit" />"><img src="<c:url value="/resources/img/icon_edit.gif" />" alt="<spring:message code="label.website.book.add.updatebutton" />" /></a> &nbsp;'
+                    text += '<a href="#" onClick="confirmDelete(' + recordID + ',\'' + bookTitle + '\',\'' + author + '\')" title="<spring:message code="label.website.book.list.tooltip.delete" />"><img src="<c:url value="/resources/img/icon_delete.png" />" alt="<spring:message code="label.website.book.list.deletebook" />" /></a>';
                 </c:when>
             </c:choose>
 
@@ -71,7 +70,7 @@
                 <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
                 function confirmDelete(id, bookTitle, author)
                 {
-                    if (confirm("<spring:message code="confirm.delete.book" /> " + id + ", \n<spring:message code="book.book" />: " + bookTitle + " <spring:message code="book.writtenby" /> \"" + author + "\" ?"))
+                    if (confirm("<spring:message code="confirm.delete.entry" /> " + id + ", \n<spring:message code="book.book" />: " + bookTitle + " <spring:message code="book.writtenby" /> \"" + author + "\" ?"))
                     {
                         document.location = "${pageContext.request.contextPath}/book/delete/" + id;
                     }
@@ -101,11 +100,11 @@
                 <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
                     <thead>
                         <tr>
-                            <th title="ID knihy"><spring:message code="label.website.book.bookID" /></th>
-                            <th><spring:message code="label.website.book.add.field.booktitle" /></th>
-                            <th><spring:message code="label.website.book.add.field.booktauthor" /></th>
-                            <th><spring:message code="label.website.book.add.field.bookdepartment" /></th>
-                            <th><spring:message code="label.website.book.edit.field.availability" /></th>
+                            <th title="<spring:message code="label.website.book.list.tooltip.sort.id" />"><spring:message code="label.website.book.bookID" /></th>
+                            <th title="<spring:message code="label.website.book.list.tooltip.sort.title" />"><spring:message code="label.website.book.add.field.booktitle" /></th>
+                            <th title="<spring:message code="label.website.book.list.tooltip.sort.author" />"><spring:message code="label.website.book.add.field.booktauthor" /></th>
+                            <th title="<spring:message code="label.website.book.list.tooltip.sort.department" />"><spring:message code="label.website.book.add.field.bookdepartment" /></th>
+                            <th title="<spring:message code="label.website.book.list.tooltip.sort.availability" />"><spring:message code="label.website.book.edit.field.availability" /></th>
                             <th><spring:message code="label.website.action" /></th>
                         </tr>
                     </thead>
@@ -115,11 +114,11 @@
 
                     <tfoot>
                         <tr>
-                            <th title="ID knihy"><spring:message code="label.website.book.bookID" /></th>
-                            <th><spring:message code="label.website.book.add.field.booktitle" /></th>
-                            <th><spring:message code="label.website.book.add.field.booktauthor" /></th>
-                            <th><spring:message code="label.website.book.add.field.bookdepartment" /></th>
-                            <th><spring:message code="label.website.book.edit.field.availability" /></th>
+                            <th title="<spring:message code="label.website.book.list.tooltip.sort.id" />"><spring:message code="label.website.book.bookID" /></th>
+                            <th title="<spring:message code="label.website.book.list.tooltip.sort.title" />"><spring:message code="label.website.book.add.field.booktitle" /></th>
+                            <th title="<spring:message code="label.website.book.list.tooltip.sort.author" />"><spring:message code="label.website.book.add.field.booktauthor" /></th>
+                            <th title="<spring:message code="label.website.book.list.tooltip.sort.department" />"><spring:message code="label.website.book.add.field.bookdepartment" /></th>
+                            <th title="<spring:message code="label.website.book.list.tooltip.sort.availability" />"><spring:message code="label.website.book.edit.field.availability" /></th>
                             <th><spring:message code="label.website.action" /></th>
                         </tr>
                     </tfoot>

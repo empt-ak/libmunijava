@@ -22,12 +22,14 @@ import library.service.TicketFascade;
 import org.dozer.Mapper;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Emptak
  */
+@Service
 public class TicketFascadeImpl implements TicketFascade
 {
     

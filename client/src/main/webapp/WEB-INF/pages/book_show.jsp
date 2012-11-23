@@ -22,31 +22,47 @@
 
             <!-- Begin Faux Columns -->
             <div id="faux">
-                
+
                 <table id="book_detail">
                     <thead>
                         <tr>
-                        <td>nazov knihy</td>
-                        <td>autor</td>
-                        <td>oddelenie</td>
-                        <td>dostupnost</td>
+                            <td><spring:message code="label.website.book.add.field.booktitle" /></td>
+                            <td><spring:message code="label.website.book.add.field.booktauthor" /></td>
+                            <td><spring:message code="label.website.book.add.field.bookdepartment" /></td>
+                            <td><spring:message code="label.website.book.edit.field.availability" /></td>
                         </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>${book.title}</td>
-                        <td>${book.author}</td>
-                        <td>${book.department}</td>
-                        <td>ee</td>
-                    </tr>
-                   
+                        <tr>
+                            <td>${book.title}</td>
+                            <td>${book.author}</td>
+                            <c:choose>
+                                <c:when test="${book.department == 'ADULT'}">
+                                    <td><spring:message code="book.department.adult" /></td>
+                                </c:when>
+                                <c:when test="${book.department == 'KIDS'}">
+                                    <td><spring:message code="book.department.kids" /></td>
+                                </c:when>
+                                <c:when test="${book.department == 'SCIENTIFIC'}">
+                                    <td><spring:message code="book.department.scientific" /></td>
+                                </c:when>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${book.bookStatus == 'AVAILABLE'}">
+                                    <td><spring:message code="book.bookstatus.available" /></td>
+                                </c:when>
+                                <c:when test="${book.bookStatus == 'NOT_AVAILABLE'}">
+                                    <td><spring:message code="book.bookstatus.unavailable" /></td>
+                                </c:when>
+                            </c:choose>
+                        </tr>                   
                     </tbody>
                 </table>
-                    <ul id="book_options">
-                       <li> <a href="${pageContext.request.contextPath}/book/category/title/${book.title}">zobrazit tituly s podobnym nazvom</a> </li>
-                       <li>  <a href="${pageContext.request.contextPath}/book/category/author/${book.author}">zobrazit knihy od tohto autora</a> </li>
-                       <li>  <a href="${pageContext.request.contextPath}/book/category/department/${book.department}"> knihy z tohto oddelenia</a></li>
-                    </ul>
+                <ul id="book_options">
+                    <li><a href="${pageContext.request.contextPath}/book/category/title/${book.title}"><spring:message code="label.website.book.show.similartitle" /></a> </li>
+                    <li><a href="${pageContext.request.contextPath}/book/category/author/${book.author}"><spring:message code="label.website.book.show.similarauthor" /></a> </li>
+                    <li><a href="${pageContext.request.contextPath}/book/category/department/${book.department}"><spring:message code="label.website.book.show.similardepartment" /></a></li>
+                </ul>
 
             </div>	
 
