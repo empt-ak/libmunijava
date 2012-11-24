@@ -119,8 +119,10 @@ public class TicketFascadeImpl implements TicketFascade
              
         for(TicketItem ti :t.getTicketItems())
         {
-            ti.setTicketItemStatus(TicketItemStatus.BORROWED);
-            ticketItemDAO.updateTicketItem(ti);
+            if (ti.getBook().getBookStatus().equals(BookStatus.AVAILABLE)) {
+                ti.setTicketItemStatus(TicketItemStatus.BORROWED);
+                ticketItemDAO.updateTicketItem(ti);
+            }
         }
 
         t.setBorrowTime(new DateTime());
@@ -139,12 +141,14 @@ public class TicketFascadeImpl implements TicketFascade
         {
             for(TicketItem ti:t.getTicketItems())
             {
-                ti.setTicketItemStatus(TicketItemStatus.RETURNED);
-                ticketItemDAO.updateTicketItem(ti);
-                
-                Book b = ti.getBook();
-                b.setBookStatus(BookStatus.AVAILABLE);
-                bookDAO.updateBook(b);
+                if (!ti.getTicketItemStatus().equals(TicketItemStatus.RETURNED_DAMAGED)) {
+                    ti.setTicketItemStatus(TicketItemStatus.RETURNED);
+                    ticketItemDAO.updateTicketItem(ti);
+
+                    Book b = ti.getBook();
+                    b.setBookStatus(BookStatus.AVAILABLE);
+                    bookDAO.updateBook(b);
+                }
             }
             
             t.setReturnTime(new DateTime());
