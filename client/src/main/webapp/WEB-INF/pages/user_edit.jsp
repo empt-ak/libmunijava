@@ -7,7 +7,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title><spring:message code="label.website.index.userProfileEditTitle"/></title>
+        <title><spring:message code="label.website.title.user.details"/></title>
         <link rel="stylesheet" href="<c:url value="/resources/css/main.css" />"><!-- type="text/css"  nepovinne v html 5 -->
         <link rel="stylesheet" href="<c:url value="/resources/css/menu.css" />" />
 

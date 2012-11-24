@@ -19,6 +19,7 @@ import library.entity.dto.UserDTO;
 import library.entity.enums.BookStatus;
 import library.entity.enums.TicketItemStatus;
 import library.service.TicketFascade;
+import library.utils.aop.validators.LibraryValidator;
 import org.dozer.Mapper;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,12 @@ public class TicketFascadeImpl implements TicketFascade
     
     @Override
     @Transactional
-    public void addBookToTicket(Long bookID, UserDTO userDTO) throws IllegalArgumentException {
+    public void addBookToTicket(Long bookID, UserDTO userDTO) throws IllegalArgumentException, NoResultException
+    {
+        if(LibraryValidator.isNull(userDTO))
+        {
+            throw new IllegalArgumentException("ERROR: user is null");
+        }
         User u = mapper.map(userDTO, User.class);
         Book b = bookDAO.getBookByID(bookID);            
         if(b.getBookStatus().equals(BookStatus.AVAILABLE))
@@ -107,7 +113,8 @@ public class TicketFascadeImpl implements TicketFascade
 
     @Override
     @Transactional
-    public void borrowTicket(Long ticketID) throws IllegalArgumentException {
+    public void borrowTicket(Long ticketID) throws IllegalArgumentException, NoResultException
+    {
         Ticket t = ticketDAO.getTicketByID(ticketID);
              
         for(TicketItem ti :t.getTicketItems())
@@ -123,7 +130,7 @@ public class TicketFascadeImpl implements TicketFascade
 
     @Override
     @Transactional
-    public void returnTicket(Long ticketID) throws IllegalArgumentException 
+    public void returnTicket(Long ticketID) throws IllegalArgumentException, NoResultException
     {
         Ticket t = ticketDAO.getTicketByID(ticketID);
        
@@ -147,7 +154,8 @@ public class TicketFascadeImpl implements TicketFascade
 
     @Override
     @Transactional
-    public void returnBookInTicketItem(Long ticketItemID, Long ticketID,boolean isDamaged) throws IllegalArgumentException {
+    public void returnBookInTicketItem(Long ticketItemID, Long ticketID,boolean isDamaged) throws IllegalArgumentException, NoResultException 
+    {
         Ticket t = ticketDAO.getTicketByID(ticketID);
         boolean allBooksReturned = true;
         for(TicketItem ticketItemDTO : t.getTicketItems())
@@ -190,7 +198,8 @@ public class TicketFascadeImpl implements TicketFascade
 
     @Override
     @Transactional
-    public void deleteTicket(Long ticketID) throws IllegalArgumentException {
+    public void deleteTicket(Long ticketID) throws IllegalArgumentException, NoResultException
+    {
         Ticket t = ticketDAO.getTicketByID(ticketID);
         
         if(t != null)
@@ -212,7 +221,8 @@ public class TicketFascadeImpl implements TicketFascade
 
     @Override
     @Transactional
-    public void cancelTicket(Long ticketID) throws IllegalArgumentException {
+    public void cancelTicket(Long ticketID) throws IllegalArgumentException, NoResultException
+    {
         Ticket t = ticketDAO.getTicketByID(ticketID);
         boolean flag = true; // all books are reservation
         for(TicketItem ti : t.getTicketItems())

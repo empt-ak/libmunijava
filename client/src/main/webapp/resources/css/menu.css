@@ -22,7 +22,7 @@
     padding:0px;
 }
 .cssmenu li a{
-    background:#505050  url('images/seperator.gif') bottom right no-repeat;
+    background:#505050  url('../img/seperator.gif') bottom right no-repeat;
     color:#cccccc;
     display:block;
     font-weight:normal;
@@ -34,11 +34,11 @@
 }
 
 .cssmenu li a:first-child{
-    background:#505050  url('images/seperator.gif') bottom left no-repeat;
+    background:#505050  url('../img/seperator.gif') bottom left no-repeat;
 }
 
 .cssmenu li a:hover, .cssmenu ul li:hover a{
-    background: #2580a2 url('images/hover.gif') bottom center no-repeat;
+    background: #2580a2 url('../img/hover.gif') bottom center no-repeat;
     color:#FFFFFF;
     text-decoration:none;
 }
@@ -60,7 +60,7 @@
 
 }
 .cssmenu li li {
-    background:url('images/sub_sep.gif') bottom left no-repeat;
+    background:url('../img/sub_sep.gif') bottom left no-repeat;
     display:block;
     float:none;
     margin:0px;
@@ -81,7 +81,7 @@
     text-align:left;
 }
 .cssmenu li ul a:hover, .cssmenu li ul li:hover a{
-    background:#2580a2 url('images/hover_sub.gif') center left no-repeat;
+    background:#2580a2 url('../img/hover_sub.gif') center left no-repeat;
     border:0px;
     color:#ffffff;
     text-decoration:none;
