@@ -51,16 +51,16 @@
 
             function output(recordID, bookTitle, author)
             {              
-                var text = '<a href="${pageContext.request.contextPath}/book/show/' + recordID + '" title="<spring:message code="label.website.book.list.tooltip.details" />"><img src="<c:url value="/resources/img/icon_more.jpg" />" alt="<spring:message code="label.website.navigation.viewdetails" />" /></a> &nbsp;';
+                var text = '<a href="${pageContext.request.contextPath}/book/show/' + recordID + '" title="<spring:message code="label.website.book.list.tooltip.details" />"><img src="<c:url value="/resources/img/icons20x20/65.png" />" alt="<spring:message code="label.website.navigation.viewdetails" />" /></a> &nbsp;';
             <c:choose>
                 <c:when test="${USER != null}">
-                    text += '<a href="${pageContext.request.contextPath}/ticket/add/book/' + recordID + '" title="<spring:message code="label.website.book.list.tooltip.create" />"><img src="<c:url value="/resources/img/icon_plus.png" />" alt="<spring:message code="label.website.navigation.addbooktoticket" />" /></a> &nbsp;'
+                    text += '<a href="${pageContext.request.contextPath}/ticket/add/book/' + recordID + '" title="<spring:message code="label.website.book.list.tooltip.create" />"><img src="<c:url value="/resources/img/icons20x20/22.png" />" alt="<spring:message code="label.website.navigation.addbooktoticket" />" /></a> &nbsp;'
                 </c:when>
             </c:choose>
             <c:choose>
                 <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
-                    text += '<a href="${pageContext.request.contextPath}/book/edit/' + recordID + '" title="<spring:message code="label.website.book.list.tooltip.edit" />"><img src="<c:url value="/resources/img/icon_edit.gif" />" alt="<spring:message code="label.website.book.add.updatebutton" />" /></a> &nbsp;'
-                    text += '<a href="#" onClick="confirmDelete(' + recordID + ',\'' + bookTitle + '\',\'' + author + '\')" title="<spring:message code="label.website.book.list.tooltip.delete" />"><img src="<c:url value="/resources/img/icon_delete.png" />" alt="<spring:message code="label.website.book.list.deletebook" />" /></a>';
+                    text += '<a href="${pageContext.request.contextPath}/book/edit/' + recordID + '" title="<spring:message code="label.website.book.list.tooltip.edit" />"><img src="<c:url value="/resources/img/icons20x20/96.png" />" alt="<spring:message code="label.website.book.add.updatebutton" />" /></a> &nbsp;'
+                    text += '<a href="#" onClick="confirmDelete(' + recordID + ',\'' + bookTitle + '\',\'' + author + '\')" title="<spring:message code="label.website.book.list.tooltip.delete" />"><img src="<c:url value="/resources/img/icons20x20/33.png" />" alt="<spring:message code="label.website.book.list.deletebook" />" /></a>';
                 </c:when>
             </c:choose>
 

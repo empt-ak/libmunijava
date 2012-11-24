@@ -147,18 +147,30 @@ public class TicketFascadeImpl implements TicketFascade
 
     @Override
     @Transactional
-    public void returnBookInTicketItem(Long ticketItemID, Long ticketID) throws IllegalArgumentException {
+    public void returnBookInTicketItem(Long ticketItemID, Long ticketID,boolean isDamaged) throws IllegalArgumentException {
         Ticket t = ticketDAO.getTicketByID(ticketID);
         boolean allBooksReturned = true;
         for(TicketItem ticketItemDTO : t.getTicketItems())
         {                    
             if(ticketItemDTO.getTicketItemID().equals(ticketItemID))
-            {                        
-                ticketItemDTO.setTicketItemStatus(TicketItemStatus.RETURNED);
-                Book b = ticketItemDTO.getBook();
-                b.setBookStatus(BookStatus.AVAILABLE);
+            {
+                if(isDamaged)
+                {
+                    ticketItemDTO.setTicketItemStatus(TicketItemStatus.RETURNED_DAMAGED);
+                    Book b = ticketItemDTO.getBook();
+                    b.setBookStatus(BookStatus.NOT_AVAILABLE);
 
-                bookDAO.updateBook(b);                        
+                    bookDAO.updateBook(b);  
+                }
+                else
+                {
+                    ticketItemDTO.setTicketItemStatus(TicketItemStatus.RETURNED);
+                    Book b = ticketItemDTO.getBook();
+                    b.setBookStatus(BookStatus.AVAILABLE);
+
+                    bookDAO.updateBook(b);                    
+                }               
+                       
                 ticketItemDAO.updateTicketItem(ticketItemDTO);                        
             }
 
@@ -188,8 +200,12 @@ public class TicketFascadeImpl implements TicketFascade
             {
                 ticketItemDAO.deleteTicketItem(ti);
                 Book b = ti.getBook();
-                b.setBookStatus(BookStatus.AVAILABLE);
-                bookDAO.updateBook(b);
+                // poskodena kniha ostane poskodena preto ju neupravime, upravime tie ktore su v poriadku tj nie DAMAGED
+                if(!ti.getTicketItemStatus().equals(TicketItemStatus.RETURNED_DAMAGED))
+                {
+                    b.setBookStatus(BookStatus.AVAILABLE);
+                    bookDAO.updateBook(b);                    
+                }                
             }            
         }
     }

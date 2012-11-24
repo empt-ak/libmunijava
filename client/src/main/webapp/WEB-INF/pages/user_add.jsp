@@ -9,8 +9,8 @@
         <title><spring:message code="label.website.index.userRegistrationTitle"/></title>
         <link rel="stylesheet" href="<c:url value="/resources/css/main.css" />"><!-- type="text/css"  nepovinne v html 5 -->
         <link rel="stylesheet" href="<c:url value="/resources/css/menu.css" />" />
-
-        <script src="<c:url value="/resources/javascript/jQuery.1.8.2.js" />"></script>
+      
+        <script src="<c:url value="/resources/javascript/jQuery.1.8.2.js" />"></script>        
     </head>
     <!-- wrapper -->
     <div id="wrapper">
@@ -28,7 +28,7 @@
                     <%-- todo formatovanie errov :] --%>
                     <legend><spring:message code="label.website.user.register.formheader" /></legend>                    
                     <form:label path="username"><spring:message code="label.website.user.register.field.username"/></form:label>
-                    <form:input path="username" id="register_input"/> <form:errors path="username"/><br />
+                    <form:input path="username" id="register_input"/><form:errors path="username"/><br />
 
                     <form:label path="realName"><spring:message code="label.website.user.register.field.realname"/></form:label>
                     <form:input path="realName" id="register_input"/><form:errors path="realName"/><br/>

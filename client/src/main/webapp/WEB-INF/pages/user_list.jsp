@@ -54,9 +54,9 @@
                 var output = '';
                 <c:choose>
                     <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
-                        output += '<a href="${pageContext.request.contextPath}/user/edit/' + userID + '"><img src="<c:url value="/resources/img/icon_edit.gif" />" /></a>';
-                        output += '<a href="${pageContext.request.contextPath}/ticket/show/user/' + userID + '"> <img src="<c:url value="/resources/img/icon_plus.png" />" /> </a>';
-                        output += '<a href="#" onClick="confirmDelete(' + userID + ',\'' + realName + '\')"> <img src="<c:url value="/resources/img/icon_delete.png" />" /> </a>';
+                        output += '<a href="${pageContext.request.contextPath}/user/edit/' + userID + '" title="<spring:message code="label.website.user.list.tooltip.edit" />"><img src="<c:url value="/resources/img/icons20x20/96.png" />" /></a>';
+                        output += '<a href="${pageContext.request.contextPath}/ticket/show/user/' + userID + '" title="<spring:message code="label.website.user.list.tooltip.ticketshow" />"> <img src="<c:url value="/resources/img/icons20x20/52.png" />" /> </a>';
+                        output += '<a href="#" onClick="confirmDelete(' + userID + ',\'' + realName + '\')" title="<spring:message code="label.website.user.list.tooltip.delete" />"> <img src="<c:url value="/resources/img/icons20x20/33.png" />" /> </a>';
                     </c:when>
                 </c:choose>
 
@@ -91,33 +91,38 @@
 
             <!-- Begin Faux Columns -->
             <div id="faux">
+                <c:choose>
+                    <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
+                        <table cellpadding="0" cellspacing="0" border="0" class="display" id="users">
+                            <thead>
+                                <tr>
+                                    <th title="ID knihy"><spring:message code ="label.website.user.add.field.IDus"/></th>
+                                    <th><spring:message code ="label.website.user.add.field.username"/></th>
+                                    <th><spring:message code ="label.website.user.add.field.rname"/></th>
+                                    <th><spring:message code ="label.website.user.add.field.pass"/></th>
+                                    <th><spring:message code ="label.website.user.add.field.role"/></th>  
+                                    <th><spring:message code ="label.website.user.add.field.action"/></th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                <table cellpadding="0" cellspacing="0" border="0" class="display" id="users">
-                    <thead>
-                        <tr>
-                            <th title="ID knihy"><spring:message code ="label.website.user.add.field.IDus"/></th>
-                            <th><spring:message code ="label.website.user.add.field.username"/></th>
-                            <th><spring:message code ="label.website.user.add.field.rname"/></th>
-                            <th><spring:message code ="label.website.user.add.field.pass"/></th>
-                            <th><spring:message code ="label.website.user.add.field.role"/></th>  
-                            <th><spring:message code ="label.website.user.add.field.action"/></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th><spring:message code ="label.website.user.add.field.IDus"/></th>
-                            <th><spring:message code ="label.website.user.add.field.username"/></th>
-                            <th><spring:message code ="label.website.user.add.field.rname"/></th>
-                            <th><spring:message code ="label.website.user.add.field.pass"/></th>
-                            <th><spring:message code ="label.website.user.add.field.role"/></th>  
-                            <th><spring:message code ="label.website.user.add.field.action"/></th>
-                        </tr>
-                    </tfoot>
-                </table>
-
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th><spring:message code ="label.website.user.add.field.IDus"/></th>
+                                    <th><spring:message code ="label.website.user.add.field.username"/></th>
+                                    <th><spring:message code ="label.website.user.add.field.rname"/></th>
+                                    <th><spring:message code ="label.website.user.add.field.pass"/></th>
+                                    <th><spring:message code ="label.website.user.add.field.role"/></th>  
+                                    <th><spring:message code ="label.website.user.add.field.action"/></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </c:when>
+                    <c:otherwise>
+                        <spring:message code="error.website.accessdenied"/>
+                    </c:otherwise>
+                </c:choose>
             </div>	
 
             <!-- footer -->

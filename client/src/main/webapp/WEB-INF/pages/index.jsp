@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="<c:url value="/resources/css/menu.css" />" />
         <link rel="stylesheet" href="<c:url value="/resources/css/demo_table.css" />" />
 
-        <script src="<c:url value="/resources/javascript/jQuery.1.8.2.js" />"></script>  
+        <script src="<c:url value="/resources/javascript/jQuery.1.8.2.js" />"></script>
         <script type="text/javascript" language="javascript" src="<c:url value="/resources/javascript/jquery.dataTables.js" />"></script>
         
         <script>
@@ -46,8 +46,9 @@
                                             "sPrevious": "<spring:message code="label.datatable.sPrevious" />"
                                         }
                             }
-                });
+                });                
             });
+            
                     </script>
         
     </head>

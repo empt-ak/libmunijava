@@ -207,14 +207,15 @@ public class TicketController
     }
     
     
-    @RequestMapping("/return/{ticketID}/ticketitem/{ticketItemID}")
-    public ModelAndView returnBookForTicket(@PathVariable Long ticketID,@PathVariable Long ticketItemID,HttpServletRequest request)
+    @RequestMapping("/return/{ticketID}/ticketitem/{ticketItemID}/damaged/{isDamaged}")
+    public ModelAndView returnBookForTicket(@PathVariable Long ticketID,@PathVariable Long ticketItemID,
+                                            @PathVariable Boolean isDamaged, HttpServletRequest request)
     {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         
         if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {            
-            ticketFascade.returnBookInTicketItem(ticketItemID, ticketID);
+            ticketFascade.returnBookInTicketItem(ticketItemID, ticketID,isDamaged);
             TicketDTO t = ticketService.getTicketByID(ticketID);
             return new ModelAndView("redirect:/ticket/show/user/"+t.getUser().getUserID().toString());
         }      
