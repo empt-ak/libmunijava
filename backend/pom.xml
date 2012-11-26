@@ -224,7 +224,11 @@
             <version>10.9.1.0</version>
             <type>jar</type>
         </dependency>
-        
-        
+        <dependency>
+            <groupId>cz.muni.pa165</groupId>
+            <artifactId>library_api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 </project>
