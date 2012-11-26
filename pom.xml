@@ -10,6 +10,7 @@
   <modules>
       <module>backend</module>
       <module>client</module>
+      <module>api</module>
   </modules>
   
   <developers>
