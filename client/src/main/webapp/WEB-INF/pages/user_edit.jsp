@@ -33,13 +33,13 @@
                                 <%-- todo formatovanie errov :] --%>
                                 <legend><spring:message code="label.website.user.editprofile.formheader" /></legend>                    
                                 <form:label path="username"><spring:message code="label.website.user.register.field.username"/></form:label>
-                                <form:input path="username" id="register_input" readonly="true"/> <form:errors path="username" id="error" element="div"/><br />
+                                <form:input path="username" id="register_input" readonly="true"/> <form:errors path="username"/><br />
 
                                 <form:label path="realName"><spring:message code="label.website.user.register.field.realname"/></form:label>
-                                <form:input path="realName" id="register_input"/><form:errors path="realName" id="error" element="div"/><br/>
+                                <form:input path="realName" id="register_input"/><form:errors path="realName"/><br/>
 
                                 <form:label path="password"><spring:message code="label.website.user.register.field.password"/></form:label>
-                                <form:password path="password" id="register_input"/><form:errors path="password" id ="error" element="div"/><br />
+                                <form:password path="password" id="register_input"/><form:errors path="password"/><br />
 
                                 <form:label path="systemRole"><spring:message code="label.website.user.register.field.systemRole"/></form:label>
                                 <form:select path="systemRole" id="register_input">

@@ -70,7 +70,7 @@ color: rgb(30,40,40);
 .header-div{
     text-align: right;
     padding:10px;
-    margin-top: -200px;
+    margin-top: -120px;
 }
 
 #panel_menu 
@@ -132,22 +132,13 @@ color: rgb(30,40,40);
 #register_input
 {
     padding-left: 5px;
+    width:245px;
     display:block;
     border: 1px solid #999;
     height: 25px;
     -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
     -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);    
-}
-
-fieldset input
-{
-    width:245px;
-}
-
-fieldset select
-{
-     width:250px;
 }
 
 #register_button 
@@ -189,7 +180,7 @@ fieldset label
     float:left;
     width:25%;
     margin-right:0.5em;
-    padding-top:5px;
+    padding-top:0.2em;
     text-align:right;
     font-weight:bold;
 }
@@ -375,22 +366,22 @@ padding: 15px 0px 15px 0px;
 }
 
 .log_button {
-    margin:75px -790px 0px 0px;
-    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #616161), color-stop(1, #727272) );
-    background:-moz-linear-gradient( center top, #616161 5%, #727272 100% );
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#616161', endColorstr='#727272');
-    background-color:#505050;
-    -moz-border-radius:6px;
-    -webkit-border-radius:6px;
-    border-radius:6px;
-    border:1px solid #dcdcdc;
-    display:inline-block;
-    color:#cccccc;
-    font-family:arial;
-    font-size:13px;
-    font-weight:bold;
-    padding:6px 13px;
-    text-decoration:none;
+    margin:20px -790px 0px 0px;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #616161), color-stop(1, #727272) );
+	background:-moz-linear-gradient( center top, #616161 5%, #727272 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#616161', endColorstr='#727272');
+	background-color:#505050;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	color:#cccccc;
+	font-family:arial;
+	font-size:13px;
+	font-weight:bold;
+	padding:6px 13px;
+	text-decoration:none;
 }.log_button:hover {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #727272), color-stop(1, #616161) );
 	background:-moz-linear-gradient( center top, #727272 5%, #616161 100% );
@@ -442,3 +433,4 @@ padding: 15px 0px 15px 0px;
 	color:#cccccc;
     text-decoration: none;
 }
+

@@ -30,11 +30,11 @@
                                 <%-- todo formatovanie errov :] --%>
                                 <legend><spring:message code="label.website.book.add.formheader" /></legend>                    
                                 <form:label path="title"><spring:message code="label.website.book.add.field.booktitle"/></form:label>
-                                <form:input path="title" id="register_input"/> <form:errors path="title" id="error" element="div"/><br />
+                                <form:input path="title" id="register_input"/> <form:errors path="title" id="error"/><br />
                                 <form:hidden path="bookID" />
 
                                 <form:label path="author"><spring:message code="label.website.book.add.field.booktauthor"/></form:label>
-                                <form:input path="author" id="register_input"/><form:errors path="author" id="error" element="div"/><br/>
+                                <form:input path="author" id="register_input"/><form:errors path="author" id="error"/><br/>
 
 
                                 <form:label path="department"><spring:message code="label.website.book.add.field.bookdepartment"/></form:label>
