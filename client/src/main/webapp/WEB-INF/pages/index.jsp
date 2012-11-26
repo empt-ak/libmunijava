@@ -64,13 +64,13 @@
             <!-- Begin Faux Columns -->
             <div id="faux">
 
-                <h1>Library  &mdash; projekt z PA165</h1>
+                <h1><spring:message code="label.website.title.index"/></h1>
                 
                 - ak sa zaregsitrujete a chcete mat admin prava zadajte url adresu <b>/pa165/makeadmin/vaslogin</b>
                 
                 <br/>
                 
-                <h2 id="last_books"> Posledných 5 pridaných kníh do knižnice:</h2>
+                <h2 id="last_books"> <spring:message code="label.website.table.header.index" /></h2>
                 
                     <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
                     <thead>

@@ -16,15 +16,15 @@
     <div class="header-div">
         <c:choose>
             <c:when test="${USER != null}">
-                <h3>Prihlaseny ako: ${USER.realName}</h3> <br />
+                <h3>${USER.realName}</h3>
                 <c:choose>
                     <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
-                         <spring:message code="user.role.admin" /> <br/>
+                         <spring:message code="user.role.admin" /> <br/><br/>
                     </c:when>
                 </c:choose>
             </c:when>
             <c:otherwise>
-                <h3>&nbsp;</h3> <br />
+                <h1>&nbsp;</h1> <br />
             </c:otherwise>
         </c:choose>
         <a href="<spring:url value="?lang=en"/>"><img src="<c:url value="/resources/img/us-flag.jpg"/>" /></a> 
