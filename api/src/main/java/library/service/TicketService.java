@@ -53,17 +53,7 @@ public interface TicketService {
      * @throws IllegalArgumentException if user is null
      */
     TicketDTO getLastTicketForUser(UserDTO user) throws IllegalArgumentException;
-    
-    /**
-     * method return tickets between given period of time for given user
-     * @param from start time since we want tickets
-     * @param to end time until we want books
-     * @param user user whom tickets we want
-     * @return list from given period for given user
-     * @throws IllegalArgumentException if any of paramters are null.
-     */
-    List<TicketDTO> getTicketsInPeriodForUser(DateTime from, DateTime to,UserDTO user) throws IllegalArgumentException;
-    
+        
     /**
      * method returns all tickets for given user
      * @param user of whom tickets we want

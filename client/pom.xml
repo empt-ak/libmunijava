@@ -23,9 +23,9 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>cz.muni.pa165</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>library_api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -45,7 +45,6 @@
             <version>${org.springframework-version}</version>
         </dependency>
         
-        <!-- http://www.mkyong.com/jsf2/java-lang-classnotfoundexception-javax-servlet-jsp-jstl-core-config/ -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>

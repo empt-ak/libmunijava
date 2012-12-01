@@ -59,9 +59,9 @@ public class TicketItemDAOTest
     {
         // now we need some books for various testing
         books = new ArrayList<>(3);
-        BookDTO b1 = createBook("pepazdepa", "ach jaj", Department.ADULT, BookStatus.AVAILABLE);
-        BookDTO b2 = createBook("pepazdepa", "xexe", Department.ADULT, BookStatus.AVAILABLE);
-        BookDTO b3 = createBook("pepazdepa", "hlavninadrazi", Department.ADULT, BookStatus.AVAILABLE);
+        BookDTO b1 = TestUtils.createBookDTONoID("pepazdepa", "ach jaj", Department.ADULT, BookStatus.AVAILABLE);
+        BookDTO b2 = TestUtils.createBookDTONoID("pepazdepa", "xexe", Department.ADULT, BookStatus.AVAILABLE);
+        BookDTO b3 = TestUtils.createBookDTONoID("pepazdepa", "hlavninadrazi", Department.ADULT, BookStatus.AVAILABLE);
         books.add(b1);
         books.add(b2);
         books.add(b3);        
@@ -71,16 +71,16 @@ public class TicketItemDAOTest
         
         //now lets create some ticketitems
         correct = new ArrayList<>(3);
-        TicketItemDTO cti1 = createTicketItem(b1, TicketItemStatus.BORROWED);
-        TicketItemDTO cti2 = createTicketItem(b2, TicketItemStatus.BORROWED);
-        TicketItemDTO cti3 = createTicketItem(b3, TicketItemStatus.RETURNED);
+        TicketItemDTO cti1 = TestUtils.createTicketItemDTONoID(b1, TicketItemStatus.BORROWED);
+        TicketItemDTO cti2 = TestUtils.createTicketItemDTONoID(b2, TicketItemStatus.BORROWED);
+        TicketItemDTO cti3 = TestUtils.createTicketItemDTONoID(b3, TicketItemStatus.RETURNED);
         correct.add(cti1);
         correct.add(cti2);
         correct.add(cti3);
         
         incorrect = new ArrayList<>(2);
-        TicketItemDTO wti1 = createTicketItem(null, TicketItemStatus.BORROWED);
-        TicketItemDTO wti2 = createTicketItem(b3, null);        
+        TicketItemDTO wti1 = TestUtils.createTicketItemDTONoID(null, TicketItemStatus.BORROWED);
+        TicketItemDTO wti2 = TestUtils.createTicketItemDTONoID(b3, null);        
         incorrect.add(wti1);
         incorrect.add(wti2);
     }
@@ -270,11 +270,11 @@ public class TicketItemDAOTest
         ticketItemService.createTicketItem(correct.get(1));
         ticketItemService.createTicketItem(correct.get(2));
         
-        UserDTO cUser = createUser("heslo", "realnemeno", "USER", "login");
+        UserDTO cUser = TestUtils.createUserDTONoID("heslo", "realnemeno", "USER", "login");
         userService.createUser(cUser);
         
         
-        TicketDTO ticket = createTicket(cUser, new DateTime(2012, 10, 7, 12, 00), new ArrayList<>(correct));
+        TicketDTO ticket = TestUtils.createTicketDTONoID(cUser, new DateTime(2012, 10, 7, 12, 00), new ArrayList<>(correct));
         ticketService.createTicket(ticket);
         
         List<TicketItemDTO> returned = null;
@@ -311,47 +311,6 @@ public class TicketItemDAOTest
         assertEquals("There should be 3 ticketitems",3,returned.size());
         assertDeepEquals(correct, returned);
         
-    }
-    
-    private TicketDTO createTicket(UserDTO user, DateTime borrowtime, ArrayList<TicketItemDTO> ticketItems)
-    {
-        TicketDTO t = new TicketDTO();
-        t.setUser(user);
-        t.setBorrowTime(borrowtime);
-        t.setDueTime(borrowtime.plusDays(3));
-        t.setTicketItems(ticketItems);
-        
-        return t;
-    }
-    
-    private UserDTO createUser(String password,String realname,String systemRole,String username)
-    {
-        UserDTO u = new UserDTO();
-        u.setPassword(password);
-        u.setRealName(realname);
-        u.setSystemRole(systemRole);
-        u.setUsername(username);
-        return u;
-    }
-    
-    private TicketItemDTO createTicketItem(BookDTO b,TicketItemStatus status)
-    {
-        TicketItemDTO ti = new TicketItemDTO();
-        ti.setBook(b);
-        ti.setTicketItemStatus(status);
-        
-        return ti;
-    }
-    
-    private BookDTO createBook(String author, String title, Department department, BookStatus status)
-    {
-        BookDTO b = new BookDTO();
-        b.setAuthor(author);
-        b.setTitle(title);
-        b.setDepartment(department);
-        b.setBookStatus(status);
-        
-        return b;
     }
     
     private void assertDeepEquals(TicketItemDTO expected, TicketItemDTO actual)

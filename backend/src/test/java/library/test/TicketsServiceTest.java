@@ -55,48 +55,48 @@ public class TicketsServiceTest extends AbstractJUnit4SpringContextTests {
     @Before
     public void init() {
         List<BookDTO> books = new ArrayList<>(3);
-        books.add(createBookDTO(new Long(1), "pepazdepa", "ach jaj", Department.ADULT, BookStatus.AVAILABLE));
-        books.add(createBookDTO(new Long(2), "pepazdepa", "xexe", Department.ADULT, BookStatus.AVAILABLE));
-        books.add(createBookDTO(new Long(3), "pepazdepa", "hlavninadrazi", Department.ADULT, BookStatus.AVAILABLE));
+        books.add(TestUtils.createBookDTO(new Long(1), "pepazdepa", "ach jaj", Department.ADULT, BookStatus.AVAILABLE));
+        books.add(TestUtils.createBookDTO(new Long(2), "pepazdepa", "xexe", Department.ADULT, BookStatus.AVAILABLE));
+        books.add(TestUtils.createBookDTO(new Long(3), "pepazdepa", "hlavninadrazi", Department.ADULT, BookStatus.AVAILABLE));
 
         List<Book> booksDAO = new ArrayList<>(3);
-        booksDAO.add(createBook(new Long(1), "pepazdepa", "ach jaj", Department.ADULT, BookStatus.AVAILABLE));
-        booksDAO.add(createBook(new Long(2), "pepazdepa", "xexe", Department.ADULT, BookStatus.AVAILABLE));
-        booksDAO.add(createBook(new Long(3), "pepazdepa", "hlavninadrazi", Department.ADULT, BookStatus.AVAILABLE));
+        booksDAO.add(TestUtils.createBook(new Long(1), "pepazdepa", "ach jaj", Department.ADULT, BookStatus.AVAILABLE));
+        booksDAO.add(TestUtils.createBook(new Long(2), "pepazdepa", "xexe", Department.ADULT, BookStatus.AVAILABLE));
+        booksDAO.add(TestUtils.createBook(new Long(3), "pepazdepa", "hlavninadrazi", Department.ADULT, BookStatus.AVAILABLE));
 
 
 
         //now lets create some ticketitems
         correctTicketItems = new ArrayList<>(3);
-        correctTicketItems.add(createTicketItemDTO(new Long(1), books.get(0), TicketItemStatus.BORROWED));
-        correctTicketItems.add(createTicketItemDTO(new Long(2), books.get(1), TicketItemStatus.BORROWED));
-        correctTicketItems.add(createTicketItemDTO(new Long(3), books.get(2), TicketItemStatus.RETURNED));
+        correctTicketItems.add(TestUtils.createTicketItemDTO(new Long(1), books.get(0), TicketItemStatus.BORROWED));
+        correctTicketItems.add(TestUtils.createTicketItemDTO(new Long(2), books.get(1), TicketItemStatus.BORROWED));
+        correctTicketItems.add(TestUtils.createTicketItemDTO(new Long(3), books.get(2), TicketItemStatus.RETURNED));
 
         correctTicketItemDAOS = new ArrayList<>(3);
-        correctTicketItemDAOS.add(createTicketItem(new Long(1), booksDAO.get(0), TicketItemStatus.BORROWED));
-        correctTicketItemDAOS.add(createTicketItem(new Long(2), booksDAO.get(1), TicketItemStatus.BORROWED));
-        correctTicketItemDAOS.add(createTicketItem(new Long(3), booksDAO.get(2), TicketItemStatus.RETURNED));
+        correctTicketItemDAOS.add(TestUtils.createTicketItem(new Long(1), booksDAO.get(0), TicketItemStatus.BORROWED));
+        correctTicketItemDAOS.add(TestUtils.createTicketItem(new Long(2), booksDAO.get(1), TicketItemStatus.BORROWED));
+        correctTicketItemDAOS.add(TestUtils.createTicketItem(new Long(3), booksDAO.get(2), TicketItemStatus.RETURNED));
 
 
         correctUSERS = new ArrayList<>(2);
-        correctUSERS.add(createUserDTO(new Long(1), "heslo1", "realnemeno1", "USER", "login1"));
-        correctUSERS.add(createUserDTO(new Long(2), "heslo2", "realnemeno2", "USER", "login2"));
+        correctUSERS.add(TestUtils.createUserDTO(new Long(1), "heslo1", "realnemeno1", "USER", "login1"));
+        correctUSERS.add(TestUtils.createUserDTO(new Long(2), "heslo2", "realnemeno2", "USER", "login2"));
 
         correctUserDAOS = new ArrayList<>(2);
-        correctUserDAOS.add(createUser(new Long(1), "heslo1", "realnemeno1", "USER", "login1"));
-        correctUserDAOS.add(createUser(new Long(2), "heslo2", "realnemeno2", "USER", "login2"));
+        correctUserDAOS.add(TestUtils.createUser(new Long(1), "heslo1", "realnemeno1", "USER", "login1"));
+        correctUserDAOS.add(TestUtils.createUser(new Long(2), "heslo2", "realnemeno2", "USER", "login2"));
 
 
         correctTickets = new ArrayList<>(3);
-        correctTickets.add(createTicketDTO(new Long(1), correctUSERS.get(0), new DateTime(2012, 10, 7, 12, 00), correctTicketItems));
-        correctTickets.add(createTicketDTO(new Long(2), correctUSERS.get(1), new DateTime(2012, 10, 8, 12, 30), correctTicketItems));
-        correctTickets.add(createTicketDTO(new Long(3), correctUSERS.get(1), new DateTime(2012, 10, 11, 12, 30), correctTicketItems));
+        correctTickets.add(TestUtils.createTicketDTO(new Long(1), correctUSERS.get(0), new DateTime(2012, 10, 7, 12, 00), correctTicketItems));
+        correctTickets.add(TestUtils.createTicketDTO(new Long(2), correctUSERS.get(1), new DateTime(2012, 10, 8, 12, 30), correctTicketItems));
+        correctTickets.add(TestUtils.createTicketDTO(new Long(3), correctUSERS.get(1), new DateTime(2012, 10, 11, 12, 30), correctTicketItems));
 
 
         correctTicketDAOS = new ArrayList<>(3);
-        correctTicketDAOS.add(createTicket(new Long(1), correctUserDAOS.get(0), new DateTime(2012, 10, 7, 12, 00), correctTicketItemDAOS));
-        correctTicketDAOS.add(createTicket(new Long(2), correctUserDAOS.get(1), new DateTime(2012, 10, 8, 12, 30), correctTicketItemDAOS));
-        correctTicketDAOS.add(createTicket(new Long(3), correctUserDAOS.get(1), new DateTime(2012, 10, 11, 12, 30), correctTicketItemDAOS));
+        correctTicketDAOS.add(TestUtils.createTicket(new Long(1), correctUserDAOS.get(0), new DateTime(2012, 10, 7, 12, 00), correctTicketItemDAOS));
+        correctTicketDAOS.add(TestUtils.createTicket(new Long(2), correctUserDAOS.get(1), new DateTime(2012, 10, 8, 12, 30), correctTicketItemDAOS));
+        correctTicketDAOS.add(TestUtils.createTicket(new Long(3), correctUserDAOS.get(1), new DateTime(2012, 10, 11, 12, 30), correctTicketItemDAOS));
     }    
    
 
@@ -185,127 +185,5 @@ public class TicketsServiceTest extends AbstractJUnit4SpringContextTests {
         for (int i = 0; i < 3; i++) {
             assertEquals(testExpectedTicketsDTO.get(i), correctTickets.get(i));
         }
-    }
-
-    @Test
-    @DirtiesContext
-    public void testGetTicketsInPeriodForUser() {
-
-        for (TicketDTO t : correctTickets) {
-            ticketService.createTicket(t);
-        }
-
-        for (Ticket t : correctTicketDAOS) {
-            ticketDAO.createTicket(t);
-        }
-
-        List<TicketDTO> expectedTicketsDTO = new ArrayList<>(2);
-        List<Ticket> expectedTickets = new ArrayList<>(2);
-
-        expectedTicketsDTO.add(correctTickets.get(0));
-        expectedTicketsDTO.add(correctTickets.get(1));
-
-        expectedTickets.add(correctTicketDAOS.get(0));
-        expectedTickets.add(correctTicketDAOS.get(1));
-
-
-
-        when(ticketDAO.getTicketsInPeriodForUser(new DateTime(2012, 10, 5, 12, 00),
-                new DateTime(2012, 10, 9, 12, 30), correctUserDAOS.get(0))).thenReturn(expectedTickets);
-
-
-
-        List<TicketDTO> testExpectedTicketsDTO = new ArrayList<>(2);
-
-
-        testExpectedTicketsDTO = ticketService.getTicketsInPeriodForUser(new DateTime(2012, 10, 5, 12, 00),
-                new DateTime(2012, 10, 9, 12, 30), correctUSERS.get(0));
-
-        for (int i = 0; i < 2; i++) {
-            assertEquals(testExpectedTicketsDTO.get(i), expectedTicketsDTO.get(i));
-
-        }
-    }
-
-    private TicketDTO createTicketDTO(Long id, UserDTO user, DateTime borrowtime, List<TicketItemDTO> ticketItems) {
-        TicketDTO t = new TicketDTO();
-        t.setTicketID(id);
-        t.setUser(user);
-        t.setBorrowTime(borrowtime);
-        t.setTicketItems(ticketItems);
-        t.setDueTime(t.getBorrowTime().plusMonths(1));
-
-        return t;
-    }
-
-    private Ticket createTicket(Long id, User user, DateTime borrowtime, List<TicketItem> ticketItems) {
-        Ticket t = new Ticket();
-        t.setTicketID(id);
-        t.setUser(user);
-        t.setBorrowTime(borrowtime);
-        t.setTicketItems(ticketItems);
-        t.setDueTime(t.getBorrowTime().plusMonths(1));
-        
-        return t;
-    }
-
-    private UserDTO createUserDTO(Long id, String password, String realname, String systemRole, String username) {
-        UserDTO u = new UserDTO();
-        u.setUserID(id);
-        u.setPassword(password);
-        u.setRealName(realname);
-        u.setSystemRole(systemRole);
-        u.setUsername(username);
-        return u;
-    }
-
-    private User createUser(Long id, String password, String realname, String systemRole, String username) {
-        User u = new User();
-        u.setUserID(id);
-        u.setPassword(password);
-        u.setRealName(realname);
-        u.setSystemRole(systemRole);
-        u.setUsername(username);
-        return u;
-    }
-
-    private TicketItemDTO createTicketItemDTO(Long id, BookDTO b, TicketItemStatus status) {
-        TicketItemDTO ti = new TicketItemDTO();
-        ti.setTicketItemID(id);
-        ti.setBook(b);
-        ti.setTicketItemStatus(status);
-
-        return ti;
-    }
-
-    private TicketItem createTicketItem(Long id, Book b, TicketItemStatus status) {
-        TicketItem ti = new TicketItem();
-        ti.setTicketItemID(id);
-        ti.setBook(b);
-        ti.setTicketItemStatus(status);
-
-        return ti;
-    }
-
-    private BookDTO createBookDTO(Long id, String author, String title, Department department, BookStatus status) {
-        BookDTO b = new BookDTO();
-        b.setBookID(id);
-        b.setAuthor(author);
-        b.setTitle(title);
-        b.setDepartment(department);
-        b.setBookStatus(status);
-
-        return b;
-    }
-
-    private Book createBook(Long id, String author, String title, Department department, BookStatus status) {
-        Book b = new Book();
-        b.setBookID(id);
-        b.setAuthor(author);
-        b.setTitle(title);
-        b.setDepartment(department);
-        b.setBookStatus(status);
-
-        return b;
     }
 }

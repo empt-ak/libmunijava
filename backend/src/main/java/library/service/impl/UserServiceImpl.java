@@ -31,15 +31,13 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void createUser(UserDTO userDTO) throws IllegalArgumentException {
         if (userDTO == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("ERROR: given user is null");
         } // mapper nesmie dostat ako source null
         User user = mapper.map(userDTO, User.class);
         userDAO.createUser(user);
         
-        if(user != null) //fu dozer
-        {   // treba nastavit ID pretoze DTO nie je manazovany factory
-            userDTO.setUserID(user.getUserID());
-        } 
+        userDTO.setUserID(user.getUserID());
+        
     }
 
     @Override
@@ -51,7 +49,6 @@ public class UserServiceImpl implements UserService {
         } else {
             return null;
         }
-
     }
 
     @Override
@@ -70,7 +67,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUser(UserDTO userDTO) throws IllegalArgumentException {
         if (userDTO == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("ERROR: Given user is null");
         }
         userDAO.updateUser(mapper.map(userDTO, User.class));
     }
@@ -79,7 +76,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteUser(UserDTO userDTO) throws IllegalArgumentException {
         if (userDTO == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("ERROR: Given user is null");
         }
         User user = mapper.map(userDTO, User.class);
         userDAO.deleteUser(user);

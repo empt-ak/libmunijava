@@ -35,28 +35,27 @@ public class BookServiceImpl implements BookService
     @Transactional
     public void createBook(BookDTO bookDTO) throws IllegalArgumentException 
     {
-            if(bookDTO == null)
-            {
-                throw new IllegalArgumentException("ERROR: method argument for method createBook cannot be null");            
-            }
-            Book book = mapper.map(bookDTO, Book.class);
-            bookDAO.createBook(book);
-            if (book != null) {
-                bookDTO.setBookID(book.getBookID());
-            }
+        if(bookDTO == null)
+        {
+            throw new IllegalArgumentException("ERROR: method argument for method createBook cannot be null");            
+        }
+        Book book = mapper.map(bookDTO, Book.class);
+        bookDAO.createBook(book);
+        
+        bookDTO.setBookID(book.getBookID());        
     }
 
     @Override
     @Transactional
     public void updateBook(BookDTO bookDTO) throws IllegalArgumentException 
     {      
-            if(bookDTO == null)
-            {
-                throw new IllegalArgumentException("ERROR: method argument for method updateBook cannot be null"); 
-            }
-            Book book = mapper.map(bookDTO, Book.class);
-            
-            bookDAO.updateBook(book);        
+        if(bookDTO == null)
+        {
+            throw new IllegalArgumentException("ERROR: method argument for method updateBook cannot be null"); 
+        }
+        Book book = mapper.map(bookDTO, Book.class);
+
+        bookDAO.updateBook(book);        
     }
 
     @Override
@@ -84,8 +83,7 @@ public class BookServiceImpl implements BookService
         else
         {
             return null;
-        }
-        
+        }        
     }
 
     @Override
@@ -131,7 +129,7 @@ public class BookServiceImpl implements BookService
     @Transactional(readOnly=true)
     public List<BookDTO> getBooksByDepartment(Department department) throws IllegalArgumentException 
     {
-        if(department == null){throw new IllegalArgumentException(); }
+        if(department == null){throw new IllegalArgumentException("ERROR: Given department is null"); }
         List<BookDTO> books = new ArrayList<>();
         List<Book> booksDO = bookDAO.getBooksByDepartment(department);
         for(Book bDO : booksDO)

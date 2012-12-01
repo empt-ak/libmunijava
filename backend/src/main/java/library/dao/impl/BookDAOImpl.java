@@ -36,12 +36,6 @@ public class BookDAOImpl implements BookDAO {
     public void deleteBook(Book book) throws IllegalArgumentException {
         Book thisBook = entityManager.find(Book.class, book.getBookID());
         if (thisBook != null) {
-            // TOTO je blbost nie ? ved ked je uz v db netreba cekovat ci je ok...
-//            if (ValidationUtils.testBookIsCorrect(thisBook)) {
-//                entityManager.remove(thisBook);
-//            } else {
-//                throw new IllegalArgumentException("Sent book is missing (or has incorrect) required values!");
-//            }
             entityManager.remove(thisBook);
         }
     }

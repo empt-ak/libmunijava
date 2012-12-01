@@ -40,20 +40,20 @@ public class UserDAOTest
     @Before
     public void init(){
         correctUsers = new ArrayList<>();
-        UserDTO cu = createUser("heslo1", "realny1", "USER", "uziv1");
-        UserDTO cu2 = createUser("heslo2", "realny2", "USER", "uziv2");
-        UserDTO cu3 = createUser("heslo3", "realny3", "ADMINISTRATOR", "uziv3");
-        UserDTO cu4 = createUser("heslo4", "realny4", "USER", "uziv4");
+        UserDTO cu = TestUtils.createUserDTONoID("heslo1", "realny1", "USER", "uziv1");
+        UserDTO cu2 = TestUtils.createUserDTONoID("heslo2", "realny2", "USER", "uziv2");
+        UserDTO cu3 = TestUtils.createUserDTONoID("heslo3", "realny3", "ADMINISTRATOR", "uziv3");
+        UserDTO cu4 = TestUtils.createUserDTONoID("heslo4", "realny4", "USER", "uziv4");
         correctUsers.add(cu);
         correctUsers.add(cu2);
         correctUsers.add(cu3);
         correctUsers.add(cu4);
         
         wrongUsers = new ArrayList<>();
-        UserDTO wu = createUser(null, "r_zly1", "USER", "uz_zly1");
-        UserDTO wu2 = createUser("h_zly2", null, "USER", "uz_zly2");
-        UserDTO wu3 = createUser("h_zly3", "r_zly3", null, "uz_zly3");
-        UserDTO wu4 = createUser("h_zly4", "r_zly4", "ADMINISTRATOR", null);
+        UserDTO wu = TestUtils.createUserDTONoID(null, "r_zly1", "USER", "uz_zly1");
+        UserDTO wu2 = TestUtils.createUserDTONoID("h_zly2", null, "USER", "uz_zly2");
+        UserDTO wu3 = TestUtils.createUserDTONoID("h_zly3", "r_zly3", null, "uz_zly3");
+        UserDTO wu4 = TestUtils.createUserDTONoID("h_zly4", "r_zly4", "ADMINISTRATOR", null);
         wrongUsers.add(wu);
         wrongUsers.add(wu2);
         wrongUsers.add(wu3);
@@ -296,17 +296,6 @@ public class UserDAOTest
         assertTrue("This user has not been found",list.contains(correctUsers.get(1)));
         assertTrue("This user has not been found",list.contains(correctUsers.get(2)));
     }
-
-    
-    
-    private UserDTO createUser(String password,String realname,String systemRole,String username){
-        UserDTO u = new UserDTO();
-        u.setPassword(password);
-        u.setRealName(realname);
-        u.setSystemRole(systemRole);
-        u.setUsername(username);
-        return u;
-    }
     
     private void assertDeepEquals(UserDTO expected, UserDTO actual){
         assertEquals("Passwords are not same",expected.getPassword(),actual.getPassword());
@@ -321,8 +310,6 @@ public class UserDAOTest
             assertEquals("Real names are not same",expected.get(i).getRealName(),actual.get(i).getRealName());
             assertEquals("Usernames are not same",expected.get(i).getUsername(),actual.get(i).getUsername());
             assertEquals("System roles are not same",expected.get(i).getSystemRole(),actual.get(i).getSystemRole());
-        }
-        
+        }        
     }
-
 }

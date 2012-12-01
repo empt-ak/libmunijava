@@ -43,14 +43,14 @@ public class BookServiceTest extends AbstractJUnit4SpringContextTests {
     @Before
     public void init() {
         listDTOS = new ArrayList<>(3);
-        listDTOS.add(createBookDTO(new Long(1),"pepazdepa", "ach jaj", Department.ADULT, BookStatus.AVAILABLE));
-        listDTOS.add(createBookDTO(new Long(2),"pepazdepa", "xexe", Department.KIDS, BookStatus.AVAILABLE));
-        listDTOS.add(createBookDTO(null,"pepazdepa", "hlavninadrazi", Department.ADULT, BookStatus.AVAILABLE));
+        listDTOS.add(TestUtils.createBookDTO(new Long(1),"pepazdepa", "ach jaj", Department.ADULT, BookStatus.AVAILABLE));
+        listDTOS.add(TestUtils.createBookDTO(new Long(2),"pepazdepa", "xexe", Department.KIDS, BookStatus.AVAILABLE));
+        listDTOS.add(TestUtils.createBookDTO(null,"pepazdepa", "hlavninadrazi", Department.ADULT, BookStatus.AVAILABLE));
 
         listDAOS = new ArrayList<>(3);
-        listDAOS.add(createBook(new Long(1), "pepazdepa", "ach jaj", Department.ADULT, BookStatus.AVAILABLE));
-        listDAOS.add(createBook(new Long(2), "pepazdepa", "xexe", Department.KIDS, BookStatus.AVAILABLE));
-        listDAOS.add(createBook(null, "pepazdepa", "hlavninadrazi", Department.ADULT, BookStatus.AVAILABLE));
+        listDAOS.add(TestUtils.createBook(new Long(1), "pepazdepa", "ach jaj", Department.ADULT, BookStatus.AVAILABLE));
+        listDAOS.add(TestUtils.createBook(new Long(2), "pepazdepa", "xexe", Department.KIDS, BookStatus.AVAILABLE));
+        listDAOS.add(TestUtils.createBook(null, "pepazdepa", "hlavninadrazi", Department.ADULT, BookStatus.AVAILABLE));
     }
 
 
@@ -138,7 +138,7 @@ public class BookServiceTest extends AbstractJUnit4SpringContextTests {
         List<BookDTO> tempDTO = new ArrayList<>();
         tempDTO.add(listDTOS.get(0));
         tempDTO.add(listDTOS.get(1));
-        tempDTO.add(createBookDTO(new Long(4),"stvrtya", "stvrtynazov", Department.ADULT, BookStatus.AVAILABLE));
+        tempDTO.add(TestUtils.createBookDTO(new Long(4),"stvrtya", "stvrtynazov", Department.ADULT, BookStatus.AVAILABLE));
         
         List<Book> tempDAOz = new ArrayList<>();
         tempDAOz.add(listDAOS.get(0));
@@ -201,31 +201,6 @@ public class BookServiceTest extends AbstractJUnit4SpringContextTests {
         //then
         assertEquals(1, resultList.size());
         assertEquals(new Long(2), temp.get(0).getBookID());
-        
-
-    }
-
-
-    private BookDTO createBookDTO(Long id,String author, String title, Department department, BookStatus status) {
-        BookDTO b = new BookDTO();
-        b.setBookID(id);
-        b.setAuthor(author);
-        b.setTitle(title);
-        b.setDepartment(department);
-        b.setBookStatus(status);
-
-        return b;
-    }
-
-    private Book createBook(Long id, String author, String title, Department department, BookStatus status) {
-        Book b = new Book();
-        b.setBookID(id);
-        b.setTitle(title);
-        b.setAuthor(author);
-        b.setDepartment(department);
-        b.setBookStatus(status);
-
-        return b;
     }
     
     private void equalsWithoutID(BookDTO b1,BookDTO b2)
