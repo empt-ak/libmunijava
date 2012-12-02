@@ -3,6 +3,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
         xmlns:p="http://www.springframework.org/schema/p"
         xmlns:tx="http://www.springframework.org/schema/tx" 
+        xmlns:jaxws="http://cxf.apache.org/jaxws"
         xmlns:context="http://www.springframework.org/schema/context"
         xmlns:sec="http://www.springframework.org/schema/security"
         xmlns:aop="http://www.springframework.org/schema/aop"
@@ -15,12 +16,24 @@
                             http://www.springframework.org/schema/tx 
                             http://www.springframework.org/schema/tx/spring-tx.xsd
                             http://www.springframework.org/schema/aop 
-                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                            http://cxf.apache.org/jaxws 
+                            http://cxf.apache.org/schemas/jaxws.xsd">
     
     <context:annotation-config />
     
-    <bean id="bookService" class="library.service.impl.BookServiceImpl" />
+    <jaxws:endpoint 
+	  id="bookWebServiceEndpoint" 
+	  implementor="library.webservice.impl.BookWebServiceImpl" 
+	  address="http://localhost:9000/pa165/services/wsdl/BookWebService" />
     
-    <bean id="userService" class="library.service.impl.UserServiceImpl" />
+    <jaxws:endpoint 
+	  id="userWebServiceEndpoint" 
+	  implementor="library.webservice.impl.UserWebServiceImpl" 
+	  address="http://localhost:9000/pa165/services/wsdl/UserWebService" />
+    
+    <bean id="bookWebService" class="library.webservice.impl.BookWebServiceImpl" />
+    
+    <bean id="userWebService" class="library.webservice.impl.UserWebServiceImpl" />
     
 </beans>

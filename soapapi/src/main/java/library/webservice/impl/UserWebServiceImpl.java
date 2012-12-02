@@ -22,31 +22,31 @@ public class UserWebServiceImpl implements UserWebService {
     private UserService userService;
     
     public void createUser(UserDTO user) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        userService.createUser(user);
     }
 
     public void updateUser(UserDTO user) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        userService.updateUser(user);
     }
 
     public void deleteUser(UserDTO user) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        userService.deleteUser(user);
     }
 
     public UserDTO getUserByID(Long id) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return userService.getUserByID(id);
     }
 
     public UserDTO getUserByUsername(String username) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return userService.getUserByUsername(username);
     }
 
     public List<UserDTO> findUserByRealName(String name) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return userService.findUserByRealName(name);
     }
 
     public List<UserDTO> getUsers() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return userService.getUsers();
     }
     
 }

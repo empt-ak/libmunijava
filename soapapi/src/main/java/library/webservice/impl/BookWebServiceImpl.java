@@ -23,35 +23,35 @@ public class BookWebServiceImpl implements BookWebService {
     private BookService bookService;
 
     public void createBook(BookDTO book) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        bookService.createBook(book);
     }
 
     public void updateBook(BookDTO book) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        bookService.updateBook(book);
     }
 
     public void deleteBook(BookDTO book) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        bookService.deleteBook(book);
     }
 
     public BookDTO getBookByID(Long id) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return bookService.getBookByID(id);
     }
 
     public List<BookDTO> getAllBooks() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return bookService.getAllBooks();
     }
 
     public List<BookDTO> getBooksByAuthor(String authorName) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return bookService.getBooksByAuthor(authorName);
     }
 
     public List<BookDTO> searchBooksByTitle(String title) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return bookService.searchBooksByTitle(title);
     }
 
     public List<BookDTO> getBooksByDepartment(Department department) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return bookService.getBooksByDepartment(department);
     }
     
 }
