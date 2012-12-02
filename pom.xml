@@ -12,6 +12,7 @@
       <module>client</module>
       <module>api</module>
       <module>client_gui</module>
+      <module>soapapi</module>
   </modules>
   
   <developers>
