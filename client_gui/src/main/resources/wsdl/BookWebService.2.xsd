@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.3-b01-. --><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://webservice.library/" targetNamespace="http://webservice.library/" version="1.0">
+
+<xs:element name="createBook" type="tns:createBook"/>
+
+<xs:element name="createBookResponse" type="tns:createBookResponse"/>
+
+<xs:element name="deleteBook" type="tns:deleteBook"/>
+
+<xs:element name="deleteBookResponse" type="tns:deleteBookResponse"/>
+
+<xs:element name="getAllBooks" type="tns:getAllBooks"/>
+
+<xs:element name="getAllBooksResponse" type="tns:getAllBooksResponse"/>
+
+<xs:element name="getBookByID" type="tns:getBookByID"/>
+
+<xs:element name="getBookByIDResponse" type="tns:getBookByIDResponse"/>
+
+<xs:element name="getBooksByAuthor" type="tns:getBooksByAuthor"/>
+
+<xs:element name="getBooksByAuthorResponse" type="tns:getBooksByAuthorResponse"/>
+
+<xs:element name="getBooksByDepartment" type="tns:getBooksByDepartment"/>
+
+<xs:element name="getBooksByDepartmentResponse" type="tns:getBooksByDepartmentResponse"/>
+
+<xs:element name="searchBooksByTitle" type="tns:searchBooksByTitle"/>
+
+<xs:element name="searchBooksByTitleResponse" type="tns:searchBooksByTitleResponse"/>
+
+<xs:element name="updateBook" type="tns:updateBook"/>
+
+<xs:element name="updateBookResponse" type="tns:updateBookResponse"/>
+
+<xs:complexType name="getAllBooks">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getAllBooksResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:bookDTO"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="bookDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="author" type="xs:string"/>
+<xs:element minOccurs="0" name="bookID" type="xs:long"/>
+<xs:element minOccurs="0" name="bookStatus" type="tns:bookStatus"/>
+<xs:element minOccurs="0" name="department" type="tns:department"/>
+<xs:element minOccurs="0" name="title" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createBook">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="tns:bookDTO"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="createBookResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="searchBooksByTitle">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="searchBooksByTitleResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:bookDTO"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateBook">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="tns:bookDTO"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateBookResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getBookByID">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:long"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getBookByIDResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:bookDTO"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteBook">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="tns:bookDTO"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteBookResponse">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="getBooksByDepartment">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="tns:department"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getBooksByDepartmentResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:bookDTO"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getBooksByAuthor">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getBooksByAuthorResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:bookDTO"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:simpleType name="bookStatus">
+<xs:restriction base="xs:string">
+<xs:enumeration value="AVAILABLE"/>
+<xs:enumeration value="NOT_AVAILABLE"/>
+</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="department">
+<xs:restriction base="xs:string">
+<xs:enumeration value="ADULT"/>
+<xs:enumeration value="KIDS"/>
+<xs:enumeration value="SCIENTIFIC"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:schema>

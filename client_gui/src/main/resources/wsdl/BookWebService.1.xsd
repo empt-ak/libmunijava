@@ -1,252 +1,89 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://webservice.library/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="BookWebService" targetNamespace="http://webservice.library/">
-  <wsdl:types>
-<xs:schema xmlns:tns="http://webservice.library/" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://webservice.library/">
-  <xs:element name="createBook" type="tns:createBook"/>
-  <xs:element name="createBookResponse" type="tns:createBookResponse"/>
-  <xs:element name="deleteBook" type="tns:deleteBook"/>
-  <xs:element name="deleteBookResponse" type="tns:deleteBookResponse"/>
-  <xs:element name="getAllBooks" type="tns:getAllBooks"/>
-  <xs:element name="getAllBooksResponse" type="tns:getAllBooksResponse"/>
-  <xs:element name="getBookByID" type="tns:getBookByID"/>
-  <xs:element name="getBookByIDResponse" type="tns:getBookByIDResponse"/>
-  <xs:element name="getBooksByAuthor" type="tns:getBooksByAuthor"/>
-  <xs:element name="getBooksByAuthorResponse" type="tns:getBooksByAuthorResponse"/>
-  <xs:element name="getBooksByDepartment" type="tns:getBooksByDepartment"/>
-  <xs:element name="getBooksByDepartmentResponse" type="tns:getBooksByDepartmentResponse"/>
-  <xs:element name="searchBooksByTitle" type="tns:searchBooksByTitle"/>
-  <xs:element name="searchBooksByTitleResponse" type="tns:searchBooksByTitleResponse"/>
-  <xs:element name="updateBook" type="tns:updateBook"/>
-  <xs:element name="updateBookResponse" type="tns:updateBookResponse"/>
-  <xs:complexType name="createBook">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="arg0" type="tns:bookDTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="bookDTO">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="author" type="xs:string"/>
-      <xs:element minOccurs="0" name="bookID" type="xs:long"/>
-      <xs:element minOccurs="0" name="bookStatus" type="tns:bookStatus"/>
-      <xs:element minOccurs="0" name="department" type="tns:department"/>
-      <xs:element minOccurs="0" name="title" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="createBookResponse">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getBooksByAuthor">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getBooksByAuthorResponse">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:bookDTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="searchBooksByTitle">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="searchBooksByTitleResponse">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:bookDTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="deleteBook">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="arg0" type="tns:bookDTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="deleteBookResponse">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="updateBook">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="arg0" type="tns:bookDTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="updateBookResponse">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getBooksByDepartment">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="arg0" type="tns:department"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getBooksByDepartmentResponse">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:bookDTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getAllBooks">
-    <xs:sequence/>
-  </xs:complexType>
-  <xs:complexType name="getAllBooksResponse">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:bookDTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getBookByID">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="arg0" type="xs:long"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="getBookByIDResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="tns:bookDTO"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:simpleType name="bookStatus">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="AVAILABLE"/>
-      <xs:enumeration value="NOT_AVAILABLE"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:simpleType name="department">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="ADULT"/>
-      <xs:enumeration value="KIDS"/>
-      <xs:enumeration value="SCIENTIFIC"/>
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:element name="IllegalArgumentException" type="tns:IllegalArgumentException"/>
-  <xs:complexType name="IllegalArgumentException">
-    <xs:sequence/>
-  </xs:complexType>
-</xs:schema>
-  </wsdl:types>
-  <wsdl:message name="getBookByIDResponse">
-    <wsdl:part element="ns1:getBookByIDResponse" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAllBooks">
-    <wsdl:part element="ns1:getAllBooks" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getBooksByAuthor">
-    <wsdl:part element="ns1:getBooksByAuthor" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="searchBooksByTitleResponse">
-    <wsdl:part element="ns1:searchBooksByTitleResponse" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getAllBooksResponse">
-    <wsdl:part element="ns1:getAllBooksResponse" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteBookResponse">
-    <wsdl:part element="ns1:deleteBookResponse" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="updateBook">
-    <wsdl:part element="ns1:updateBook" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="searchBooksByTitle">
-    <wsdl:part element="ns1:searchBooksByTitle" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="createBook">
-    <wsdl:part element="ns1:createBook" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="IllegalArgumentException">
-    <wsdl:part element="ns1:IllegalArgumentException" name="IllegalArgumentException">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="createBookResponse">
-    <wsdl:part element="ns1:createBookResponse" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getBooksByAuthorResponse">
-    <wsdl:part element="ns1:getBooksByAuthorResponse" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getBooksByDepartment">
-    <wsdl:part element="ns1:getBooksByDepartment" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="deleteBook">
-    <wsdl:part element="ns1:deleteBook" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getBookByID">
-    <wsdl:part element="ns1:getBookByID" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="updateBookResponse">
-    <wsdl:part element="ns1:updateBookResponse" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getBooksByDepartmentResponse">
-    <wsdl:part element="ns1:getBooksByDepartmentResponse" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
-  <wsdl:portType name="BookWebService">
-    <wsdl:operation name="createBook">
-      <wsdl:input message="ns1:createBook" name="createBook">
-    </wsdl:input>
-      <wsdl:output message="ns1:createBookResponse" name="createBookResponse">
-    </wsdl:output>
-      <wsdl:fault message="ns1:IllegalArgumentException" name="IllegalArgumentException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getBooksByAuthor">
-      <wsdl:input message="ns1:getBooksByAuthor" name="getBooksByAuthor">
-    </wsdl:input>
-      <wsdl:output message="ns1:getBooksByAuthorResponse" name="getBooksByAuthorResponse">
-    </wsdl:output>
-      <wsdl:fault message="ns1:IllegalArgumentException" name="IllegalArgumentException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="searchBooksByTitle">
-      <wsdl:input message="ns1:searchBooksByTitle" name="searchBooksByTitle">
-    </wsdl:input>
-      <wsdl:output message="ns1:searchBooksByTitleResponse" name="searchBooksByTitleResponse">
-    </wsdl:output>
-      <wsdl:fault message="ns1:IllegalArgumentException" name="IllegalArgumentException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="deleteBook">
-      <wsdl:input message="ns1:deleteBook" name="deleteBook">
-    </wsdl:input>
-      <wsdl:output message="ns1:deleteBookResponse" name="deleteBookResponse">
-    </wsdl:output>
-      <wsdl:fault message="ns1:IllegalArgumentException" name="IllegalArgumentException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="updateBook">
-      <wsdl:input message="ns1:updateBook" name="updateBook">
-    </wsdl:input>
-      <wsdl:output message="ns1:updateBookResponse" name="updateBookResponse">
-    </wsdl:output>
-      <wsdl:fault message="ns1:IllegalArgumentException" name="IllegalArgumentException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getBooksByDepartment">
-      <wsdl:input message="ns1:getBooksByDepartment" name="getBooksByDepartment">
-    </wsdl:input>
-      <wsdl:output message="ns1:getBooksByDepartmentResponse" name="getBooksByDepartmentResponse">
-    </wsdl:output>
-      <wsdl:fault message="ns1:IllegalArgumentException" name="IllegalArgumentException">
-    </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="getAllBooks">
-      <wsdl:input message="ns1:getAllBooks" name="getAllBooks">
-    </wsdl:input>
-      <wsdl:output message="ns1:getAllBooksResponse" name="getAllBooksResponse">
-    </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="getBookByID">
-      <wsdl:input message="ns1:getBookByID" name="getBookByID">
-    </wsdl:input>
-      <wsdl:output message="ns1:getBookByIDResponse" name="getBookByIDResponse">
-    </wsdl:output>
-      <wsdl:fault message="ns1:IllegalArgumentException" name="IllegalArgumentException">
-    </wsdl:fault>
-    </wsdl:operation>
-  </wsdl:portType>
-</wsdl:definitions>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.3-b01-. --><!-- Generated by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.3-b01-. --><definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://webservice.library/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://webservice.library/">
+<types>
+<xsd:schema>
+<xsd:import namespace="http://webservice.library/" schemaLocation="BookWebService.2.xsd"/>
+</xsd:schema>
+</types>
+<message name="createBook">
+<part element="tns:createBook" name="parameters"/>
+</message>
+<message name="createBookResponse">
+<part element="tns:createBookResponse" name="parameters"/>
+</message>
+<message name="updateBook">
+<part element="tns:updateBook" name="parameters"/>
+</message>
+<message name="updateBookResponse">
+<part element="tns:updateBookResponse" name="parameters"/>
+</message>
+<message name="deleteBook">
+<part element="tns:deleteBook" name="parameters"/>
+</message>
+<message name="deleteBookResponse">
+<part element="tns:deleteBookResponse" name="parameters"/>
+</message>
+<message name="getBookByID">
+<part element="tns:getBookByID" name="parameters"/>
+</message>
+<message name="getBookByIDResponse">
+<part element="tns:getBookByIDResponse" name="parameters"/>
+</message>
+<message name="getAllBooks">
+<part element="tns:getAllBooks" name="parameters"/>
+</message>
+<message name="getAllBooksResponse">
+<part element="tns:getAllBooksResponse" name="parameters"/>
+</message>
+<message name="getBooksByAuthor">
+<part element="tns:getBooksByAuthor" name="parameters"/>
+</message>
+<message name="getBooksByAuthorResponse">
+<part element="tns:getBooksByAuthorResponse" name="parameters"/>
+</message>
+<message name="searchBooksByTitle">
+<part element="tns:searchBooksByTitle" name="parameters"/>
+</message>
+<message name="searchBooksByTitleResponse">
+<part element="tns:searchBooksByTitleResponse" name="parameters"/>
+</message>
+<message name="getBooksByDepartment">
+<part element="tns:getBooksByDepartment" name="parameters"/>
+</message>
+<message name="getBooksByDepartmentResponse">
+<part element="tns:getBooksByDepartmentResponse" name="parameters"/>
+</message>
+<portType name="BookWebService">
+<operation name="createBook">
+<input xmlns:ns1="http://www.w3.org/2007/05/addressing/metadata" message="tns:createBook" ns1:Action="http://webservice.library/BookWebService/createBookRequest"/>
+<output xmlns:ns2="http://www.w3.org/2007/05/addressing/metadata" message="tns:createBookResponse" ns2:Action="http://webservice.library/BookWebService/createBookResponse"/>
+</operation>
+<operation name="updateBook">
+<input xmlns:ns3="http://www.w3.org/2007/05/addressing/metadata" message="tns:updateBook" ns3:Action="http://webservice.library/BookWebService/updateBookRequest"/>
+<output xmlns:ns4="http://www.w3.org/2007/05/addressing/metadata" message="tns:updateBookResponse" ns4:Action="http://webservice.library/BookWebService/updateBookResponse"/>
+</operation>
+<operation name="deleteBook">
+<input xmlns:ns5="http://www.w3.org/2007/05/addressing/metadata" message="tns:deleteBook" ns5:Action="http://webservice.library/BookWebService/deleteBookRequest"/>
+<output xmlns:ns6="http://www.w3.org/2007/05/addressing/metadata" message="tns:deleteBookResponse" ns6:Action="http://webservice.library/BookWebService/deleteBookResponse"/>
+</operation>
+<operation name="getBookByID">
+<input xmlns:ns7="http://www.w3.org/2007/05/addressing/metadata" message="tns:getBookByID" ns7:Action="http://webservice.library/BookWebService/getBookByIDRequest"/>
+<output xmlns:ns8="http://www.w3.org/2007/05/addressing/metadata" message="tns:getBookByIDResponse" ns8:Action="http://webservice.library/BookWebService/getBookByIDResponse"/>
+</operation>
+<operation name="getAllBooks">
+<input xmlns:ns9="http://www.w3.org/2007/05/addressing/metadata" message="tns:getAllBooks" ns9:Action="http://webservice.library/BookWebService/getAllBooksRequest"/>
+<output xmlns:ns10="http://www.w3.org/2007/05/addressing/metadata" message="tns:getAllBooksResponse" ns10:Action="http://webservice.library/BookWebService/getAllBooksResponse"/>
+</operation>
+<operation name="getBooksByAuthor">
+<input xmlns:ns11="http://www.w3.org/2007/05/addressing/metadata" message="tns:getBooksByAuthor" ns11:Action="http://webservice.library/BookWebService/getBooksByAuthorRequest"/>
+<output xmlns:ns12="http://www.w3.org/2007/05/addressing/metadata" message="tns:getBooksByAuthorResponse" ns12:Action="http://webservice.library/BookWebService/getBooksByAuthorResponse"/>
+</operation>
+<operation name="searchBooksByTitle">
+<input xmlns:ns13="http://www.w3.org/2007/05/addressing/metadata" message="tns:searchBooksByTitle" ns13:Action="http://webservice.library/BookWebService/searchBooksByTitleRequest"/>
+<output xmlns:ns14="http://www.w3.org/2007/05/addressing/metadata" message="tns:searchBooksByTitleResponse" ns14:Action="http://webservice.library/BookWebService/searchBooksByTitleResponse"/>
+</operation>
+<operation name="getBooksByDepartment">
+<input xmlns:ns15="http://www.w3.org/2007/05/addressing/metadata" message="tns:getBooksByDepartment" ns15:Action="http://webservice.library/BookWebService/getBooksByDepartmentRequest"/>
+<output xmlns:ns16="http://www.w3.org/2007/05/addressing/metadata" message="tns:getBooksByDepartmentResponse" ns16:Action="http://webservice.library/BookWebService/getBooksByDepartmentResponse"/>
+</operation>
+</portType>
+</definitions>
