@@ -6,7 +6,8 @@ package library.models;
 
 import java.util.ArrayList;
 import java.util.List;
-import library.entity.dto.UserDTO;
+import library.webservice.UserDTO;
+
 
 /**
  *

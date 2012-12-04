@@ -4,11 +4,16 @@
  */
 package library.gui;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import library.gui.edit.EditBookDialog;
 import library.models.BookTableModel;
 import library.models.UserTableModel;
 import library.webservice.BookWebService;
+import library.webservice.IllegalArgumentException_Exception;
+import library.webservice.UserWebService;
 import library.webservice.impl.BookWebServiceImplService;
+import library.webservice.impl.UserWebServiceImplService;
 
 
 /**
@@ -19,7 +24,8 @@ public class MainFrame extends javax.swing.JFrame {
 
    // private static final ApplicationContext appContext = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
     
-    BookWebService bws = new BookWebServiceImplService().getBookWebServiceImplPort();
+    BookWebService bws = null;
+    UserWebService uws = null;
     
     
     /**
@@ -27,6 +33,7 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+        connect();
         myInit();
     }
 
@@ -45,8 +52,8 @@ public class MainFrame extends javax.swing.JFrame {
         jTableBooks = new javax.swing.JTable();
         jLabelSearchByTitle = new javax.swing.JLabel();
         jLabelSearchByAuthor = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jTextFieldBookTitle = new javax.swing.JTextField();
+        jTextFieldBookAuthor = new javax.swing.JTextField();
         jButtonSearchByTitle = new javax.swing.JButton();
         jButtonSearchByAuthor = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox();
@@ -89,19 +96,45 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabelSearchByAuthor.setText(bundle.getString("gui.frame.books.search.byauthor")); // NOI18N
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldBookTitle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jTextFieldBookTitleActionPerformed(evt);
+            }
+        });
+        jTextFieldBookTitle.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldBookTitleKeyPressed(evt);
+            }
+        });
+
+        jTextFieldBookAuthor.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldBookAuthorKeyPressed(evt);
             }
         });
 
         jButtonSearchByTitle.setText(bundle.getString("gui.frame.button.search")); // NOI18N
+        jButtonSearchByTitle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSearchByTitleActionPerformed(evt);
+            }
+        });
 
         jButtonSearchByAuthor.setText(bundle.getString("gui.frame.button.search")); // NOI18N
+        jButtonSearchByAuthor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSearchByAuthorActionPerformed(evt);
+            }
+        });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jButtonResetBooksTable.setText(bundle.getString("gui.frame.button.refresh")); // NOI18N
+        jButtonResetBooksTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonResetBooksTableActionPerformed(evt);
+            }
+        });
 
         jLabelFilterByDepartment.setText(bundle.getString("gui.frame.books.filterby")); // NOI18N
 
@@ -120,6 +153,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         jButtonDeleteBook.setText(bundle.getString("gui.frame.books.button.delete")); // NOI18N
+        jButtonDeleteBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteBookActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelBooksLayout = new javax.swing.GroupLayout(jPanelBooks);
         jPanelBooks.setLayout(jPanelBooksLayout);
@@ -138,8 +176,8 @@ public class MainFrame extends javax.swing.JFrame {
                                     .addComponent(jLabelSearchByTitle))
                                 .addGap(51, 51, 51)
                                 .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField1)
-                                    .addComponent(jTextField2)
+                                    .addComponent(jTextFieldBookTitle)
+                                    .addComponent(jTextFieldBookAuthor)
                                     .addComponent(jComboBox1, 0, 173, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,13 +201,13 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelSearchByTitle)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldBookTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonSearchByTitle)
                     .addComponent(jButtonResetBooksTable))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelSearchByAuthor)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldBookAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonSearchByAuthor)
                     .addComponent(jButtonCreateBook))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -347,9 +385,9 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jTextFieldBookTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBookTitleActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jTextFieldBookTitleActionPerformed
 
     private void jButtonCreateBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateBookActionPerformed
         
@@ -364,6 +402,64 @@ public class MainFrame extends javax.swing.JFrame {
         System.out.println(bws);
         ebd.setVisible(true);
     }//GEN-LAST:event_jButtonEditBookActionPerformed
+
+    private void jButtonResetBooksTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetBooksTableActionPerformed
+        getBTM().addBooks(bws.getAllBooks());
+        jTextFieldBookAuthor.setText("");
+        jTextFieldBookTitle.setText("");
+    }//GEN-LAST:event_jButtonResetBooksTableActionPerformed
+
+    private void jButtonDeleteBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteBookActionPerformed
+        try 
+        {
+            bws.deleteBook(getBTM().getBookAt(jTableBooks.getSelectedRow()));
+        } 
+        catch (IllegalArgumentException_Exception ex) 
+        {
+            System.out.println(ex.getMessage());
+        }
+        getBTM().addBooks(bws.getAllBooks());
+        getBTM().refresh();
+    }//GEN-LAST:event_jButtonDeleteBookActionPerformed
+
+    private void jButtonSearchByTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchByTitleActionPerformed
+        try {
+            getBTM().addBooks(bws.searchBooksByTitle(jTextFieldBookTitle.getText()));
+        } catch (IllegalArgumentException_Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_jButtonSearchByTitleActionPerformed
+
+    private void jButtonSearchByAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchByAuthorActionPerformed
+        try {
+            getBTM().addBooks(bws.getBooksByAuthor(jTextFieldBookAuthor.getText()));
+        } catch (IllegalArgumentException_Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_jButtonSearchByAuthorActionPerformed
+
+    private void jTextFieldBookTitleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBookTitleKeyPressed
+        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER)
+        {
+            try {
+                getBTM().addBooks(bws.searchBooksByTitle(jTextFieldBookTitle.getText()));
+            } catch (IllegalArgumentException_Exception ex) {
+                System.err.println(ex.getMessage());
+            }
+        }
+           
+    }//GEN-LAST:event_jTextFieldBookTitleKeyPressed
+
+    private void jTextFieldBookAuthorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBookAuthorKeyPressed
+        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER)
+        {
+            try {
+                getBTM().addBooks(bws.getBooksByAuthor(jTextFieldBookAuthor.getText()));
+            } catch (IllegalArgumentException_Exception ex) {
+                System.err.println(ex.getMessage());
+            }            
+        }
+    }//GEN-LAST:event_jTextFieldBookAuthorKeyPressed
 
     /**
      * @param args the command line arguments
@@ -436,8 +532,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTableBooks;
     private javax.swing.JTable jTableUsers;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextFieldBookAuthor;
+    private javax.swing.JTextField jTextFieldBookTitle;
     private javax.swing.JTextField jTextFieldSearchByRealName;
     // End of variables declaration//GEN-END:variables
 
@@ -452,8 +548,30 @@ public class MainFrame extends javax.swing.JFrame {
         return (BookTableModel) jTableBooks.getModel();
     }
     
+    private UserTableModel getUTM()
+    {
+        return (UserTableModel) jTableUsers.getModel();
+    }
+    
     private void myInit()
     {
         getBTM().addBooks(bws.getAllBooks());
+        getUTM().addUsers(uws.getUsers());
+    }
+    
+    private void connect()
+    {
+        // prerobit na java.net.ConnectException
+        try
+        {
+            bws = new BookWebServiceImplService().getBookWebServiceImplPort();
+            uws = new UserWebServiceImplService().getUserWebServiceImplPort();
+        }
+        catch(Exception e)
+        {
+            javax.swing.JOptionPane.showMessageDialog(null, "Unable to install editor pane");
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
     }
 }

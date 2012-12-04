@@ -93,8 +93,8 @@
                                       </Group>
                                       <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="jTextField1" max="32767" attributes="0"/>
-                                          <Component id="jTextField2" max="32767" attributes="0"/>
+                                          <Component id="jTextFieldBookTitle" max="32767" attributes="0"/>
+                                          <Component id="jTextFieldBookAuthor" max="32767" attributes="0"/>
                                           <Component id="jComboBox1" pref="173" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
@@ -129,14 +129,14 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabelSearchByTitle" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldBookTitle" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonSearchByTitle" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonResetBooksTable" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabelSearchByAuthor" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jTextFieldBookAuthor" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonSearchByAuthor" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonCreateBook" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -192,12 +192,16 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField1">
+            <Component class="javax.swing.JTextField" name="jTextFieldBookTitle">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldBookTitleActionPerformed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldBookTitleKeyPressed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField2">
+            <Component class="javax.swing.JTextField" name="jTextFieldBookAuthor">
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextFieldBookAuthorKeyPressed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonSearchByTitle">
               <Properties>
@@ -205,6 +209,9 @@
                   <ResourceString bundle="Messages.properties" key="gui.frame.button.search" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSearchByTitleActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButtonSearchByAuthor">
               <Properties>
@@ -212,6 +219,9 @@
                   <ResourceString bundle="Messages.properties" key="gui.frame.button.search" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSearchByAuthorActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="jComboBox1">
               <Properties>
@@ -231,6 +241,9 @@
                   <ResourceString bundle="Messages.properties" key="gui.frame.button.refresh" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonResetBooksTableActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabelFilterByDepartment">
               <Properties>
@@ -265,6 +278,9 @@
                   <ResourceString bundle="Messages.properties" key="gui.frame.books.button.delete" replaceFormat="java.util.ResourceBundle.getBundle(&quot;{bundleNameSlashes}&quot;).getString(&quot;{key}&quot;)"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonDeleteBookActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
