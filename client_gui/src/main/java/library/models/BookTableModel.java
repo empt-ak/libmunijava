@@ -7,7 +7,11 @@ package library.models;
 
 import java.util.ArrayList;
 import java.util.List;
-import library.entity.dto.BookDTO;
+
+
+import library.webservice.BookDTO;
+import library.webservice.BookStatus;
+import library.webservice.Department;
 
 /**
  *
@@ -17,6 +21,20 @@ public class BookTableModel extends javax.swing.table.AbstractTableModel
 {
     private List<BookDTO> books = new ArrayList<>();
     java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("Messages");
+    
+    
+    public BookTableModel()
+    {
+        BookDTO b = new BookDTO();
+        b.setAuthor("dominik");
+        b.setBookID(new Long(1));
+        b.setBookStatus(BookStatus.AVAILABLE);
+        b.setDepartment(Department.ADULT);
+        b.setTitle("knizka");
+        
+        
+        this.books.add(b);
+    }
     
     public void addBook(BookDTO b)
     {
@@ -40,6 +58,11 @@ public class BookTableModel extends javax.swing.table.AbstractTableModel
     public void refresh()
     {
         fireTableDataChanged();
+    }
+    
+    public void clear()
+    {
+        this.books.clear();
     }
 
     @Override
@@ -80,7 +103,8 @@ public class BookTableModel extends javax.swing.table.AbstractTableModel
         }
     }
     
-    
-    
-    
+    public BookDTO getBookAtRow(int index)
+    {
+        return books.get(index);
+    }   
 }

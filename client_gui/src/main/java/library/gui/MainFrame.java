@@ -4,8 +4,12 @@
  */
 package library.gui;
 
+import library.gui.edit.EditBookDialog;
 import library.models.BookTableModel;
 import library.models.UserTableModel;
+import library.webservice.BookWebService;
+import library.webservice.impl.BookWebServiceImplService;
+
 
 /**
  *
@@ -15,12 +19,15 @@ public class MainFrame extends javax.swing.JFrame {
 
    // private static final ApplicationContext appContext = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
     
+    BookWebService bws = new BookWebServiceImplService().getBookWebServiceImplPort();
+    
     
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
+        myInit();
     }
 
     /**
@@ -35,7 +42,7 @@ public class MainFrame extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanelBooks = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableBooks = new javax.swing.JTable();
         jLabelSearchByTitle = new javax.swing.JLabel();
         jLabelSearchByAuthor = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -53,13 +60,20 @@ public class MainFrame extends javax.swing.JFrame {
         jTextFieldSearchByRealName = new javax.swing.JTextField();
         jButtonUserSearch = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jTableUsers = new javax.swing.JTable();
         jButtonUserTableRefresh = new javax.swing.JButton();
         jButtonDeleteUser = new javax.swing.JButton();
         jButtonEditUser = new javax.swing.JButton();
         jButtonCreateUser = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -68,8 +82,8 @@ public class MainFrame extends javax.swing.JFrame {
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("Messages"); // NOI18N
         setTitle(bundle.getString("gui.frame.title.main")); // NOI18N
 
-        jTable1.setModel(new BookTableModel());
-        jScrollPane1.setViewportView(jTable1);
+        jTableBooks.setModel(new BookTableModel());
+        jScrollPane1.setViewportView(jTableBooks);
 
         jLabelSearchByTitle.setText(bundle.getString("gui.frame.books.search.bytitle")); // NOI18N
 
@@ -92,8 +106,18 @@ public class MainFrame extends javax.swing.JFrame {
         jLabelFilterByDepartment.setText(bundle.getString("gui.frame.books.filterby")); // NOI18N
 
         jButtonCreateBook.setText(bundle.getString("gui.frame.books.button.create")); // NOI18N
+        jButtonCreateBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCreateBookActionPerformed(evt);
+            }
+        });
 
         jButtonEditBook.setText(bundle.getString("gui.frame.books.button.edit")); // NOI18N
+        jButtonEditBook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditBookActionPerformed(evt);
+            }
+        });
 
         jButtonDeleteBook.setText(bundle.getString("gui.frame.books.button.delete")); // NOI18N
 
@@ -156,7 +180,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonDeleteBook)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -166,8 +190,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         jButtonUserSearch.setText(bundle.getString("gui.frame.button.search")); // NOI18N
 
-        jTable2.setModel(new UserTableModel());
-        jScrollPane2.setViewportView(jTable2);
+        jTableUsers.setModel(new UserTableModel());
+        jScrollPane2.setViewportView(jTableUsers);
 
         jButtonUserTableRefresh.setText(bundle.getString("gui.frame.button.refresh")); // NOI18N
 
@@ -222,21 +246,75 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jButtonCreateUser)
                     .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab(bundle.getString("gui.frame.tabbed.users"), jPanelUsers); // NOI18N
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable2);
+
+        jButton2.setText("jButton2");
+
+        jButton3.setText("jButton3");
+
+        jButton4.setText("jButton4");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 519, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 542, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab(bundle.getString("gui.frame.tabbed.tickets"), jPanel1); // NOI18N
@@ -272,6 +350,20 @@ public class MainFrame extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jButtonCreateBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateBookActionPerformed
+        
+    }//GEN-LAST:event_jButtonCreateBookActionPerformed
+
+    private void jButtonEditBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditBookActionPerformed
+        int index = jTableBooks.getSelectedRow();
+        
+        
+        EditBookDialog ebd = new EditBookDialog(this, false);
+        ebd.setReq(getBTM().getBookAt(index), bws,getBTM());
+        System.out.println(bws);
+        ebd.setVisible(true);
+    }//GEN-LAST:event_jButtonEditBookActionPerformed
 
     /**
      * @param args the command line arguments
@@ -310,6 +402,9 @@ public class MainFrame extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButtonCreateBook;
     private javax.swing.JButton jButtonCreateUser;
     private javax.swing.JButton jButtonDeleteBook;
@@ -334,11 +429,31 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelUsers;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTableBooks;
+    private javax.swing.JTable jTableUsers;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextFieldSearchByRealName;
     // End of variables declaration//GEN-END:variables
+
+//    private UserTableModel getUTM()
+//    {
+//        return (UserTableModel) jTableBooks.getModel();
+//    }
+    
+    
+    private BookTableModel getBTM()
+    {
+        return (BookTableModel) jTableBooks.getModel();
+    }
+    
+    private void myInit()
+    {
+        getBTM().addBooks(bws.getAllBooks());
+    }
 }
