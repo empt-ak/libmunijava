@@ -40,9 +40,9 @@ public class BookDAOTest {
     @Before
     public void init() {
         correctBooks = new ArrayList<>();
-        BookDTO cb1 = TestUtils.createBookDTONoID("autor1","nazov1", Department.SCIENTIFIC, BookStatus.AVAILABLE);
-        BookDTO cb2 = TestUtils.createBookDTONoID("autor2","nazov2", Department.ADULT, BookStatus.AVAILABLE);
-        BookDTO cb3 = TestUtils.createBookDTONoID("autor3","nazov3", Department.KIDS, BookStatus.AVAILABLE);
+        BookDTO cb1 = createBook("nazov1", "autor1", Department.SCIENTIFIC, BookStatus.AVAILABLE);
+        BookDTO cb2 = createBook("nazov2", "autor2", Department.ADULT, BookStatus.AVAILABLE);
+        BookDTO cb3 = createBook("nazov3", "autor3", Department.KIDS, BookStatus.AVAILABLE);
 
         correctBooks.add(cb1);
         correctBooks.add(cb2);
@@ -51,9 +51,9 @@ public class BookDAOTest {
 
 
         wrongBooks = new ArrayList<>();
-        BookDTO wb1 = TestUtils.createBookDTONoID("autor1",null, Department.SCIENTIFIC, BookStatus.AVAILABLE);
-        BookDTO wb2 = TestUtils.createBookDTONoID(null,"nazov2", Department.ADULT, BookStatus.AVAILABLE);
-        BookDTO wb3 = TestUtils.createBookDTONoID("autor3", "nazov3", null, BookStatus.AVAILABLE);
+        BookDTO wb1 = createBook(null, "autor1", Department.SCIENTIFIC, BookStatus.AVAILABLE);
+        BookDTO wb2 = createBook("nazov2", null, Department.ADULT, BookStatus.AVAILABLE);
+        BookDTO wb3 = createBook("nazov3", "autor3", null, BookStatus.AVAILABLE);
         wrongBooks.add(wb1);
         wrongBooks.add(wb2);
         wrongBooks.add(wb3);
@@ -335,6 +335,16 @@ public class BookDAOTest {
         assertEquals("Search did not return correct number of books", 1, list.size());
         assertTrue("This book has not been found", list.contains(correctBooks.get(0)));
 
+    }
+
+    private BookDTO createBook(String title, String author, Department department, BookStatus status) {
+        BookDTO b = new BookDTO();
+        b.setTitle(title);
+        b.setAuthor(author);
+        b.setDepartment(department);
+        b.setBookStatus(status);
+
+        return b;
     }
 
     private void assertDeepEquals(BookDTO expected, BookDTO actual) {

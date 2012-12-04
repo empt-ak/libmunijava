@@ -7,6 +7,7 @@ package library.dao;
 import java.util.List;
 import library.entity.Ticket;
 import library.entity.User;
+import org.joda.time.DateTime;
 
 /**
  *
@@ -49,7 +50,17 @@ public interface TicketDAO {
      * @return last ticket for given user
      * @throws IllegalArgumentException if user is null
      */
-    Ticket getLastTicketForUser(User user) throws IllegalArgumentException;    
+    Ticket getLastTicketForUser(User user) throws IllegalArgumentException;
+    
+    /**
+     * method return tickets between given period of time for given user
+     * @param from start time since we want tickets
+     * @param to end time until we want books
+     * @param user user whom tickets we want
+     * @return list from given period for given user
+     * @throws IllegalArgumentException if any of paramters are null.
+     */
+    List<Ticket> getTicketsInPeriodForUser(DateTime from, DateTime to,User user) throws IllegalArgumentException;
     
     /**
      * method returns all tickets for given user

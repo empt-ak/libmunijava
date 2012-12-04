@@ -33,8 +33,7 @@
     <!-- importneme appcontext z backendu -->
     <import resource="classpath*:/spring/applicationContext.xml" />
     
-    <import resource="classpath*:/spring/spring-ws-soap.xml" />
-     
+    
     <!--    http://stackoverflow.com/a/9401900-->
     <mvc:interceptors>
         <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">

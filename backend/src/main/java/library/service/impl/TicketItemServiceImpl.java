@@ -33,23 +33,27 @@ public class TicketItemServiceImpl implements TicketItemService {
     @Override
     @Transactional
     public void createTicketItem(TicketItemDTO ticketItemDTO) throws IllegalArgumentException {
-        if(ticketItemDTO == null){throw new IllegalArgumentException("ERROR: Given ticketitem is null"); }
+        if(ticketItemDTO == null){throw new IllegalArgumentException(); }
         TicketItem ticketItem = mapper.map(ticketItemDTO, TicketItem.class);
         ticketItemDAO.createTicketItem(ticketItem);
-        ticketItemDTO.setTicketItemID(ticketItem.getTicketItemID());
+        if(ticketItem != null)
+        {
+            ticketItemDTO.setTicketItemID(ticketItem.getTicketItemID());
+        }
+        
     }
 
     @Override
     @Transactional
     public void updateTicketItem(TicketItemDTO ticketItemDTO) throws IllegalArgumentException {
-        if(ticketItemDTO == null){throw new IllegalArgumentException("ERROR: Given ticketitem is null"); }
+        if(ticketItemDTO == null){throw new IllegalArgumentException(); }
         ticketItemDAO.updateTicketItem(mapper.map(ticketItemDTO, TicketItem.class));
     }
 
     @Override
     @Transactional
     public void deleteTicketItem(TicketItemDTO ticketItemDTO) throws IllegalArgumentException {
-        if(ticketItemDTO == null){throw new IllegalArgumentException("ERROR: Given ticketitem is null"); }
+        if(ticketItemDTO == null){throw new IllegalArgumentException(); }
         ticketItemDAO.deleteTicketItem(mapper.map(ticketItemDTO, TicketItem.class));
     }
 
@@ -68,7 +72,7 @@ public class TicketItemServiceImpl implements TicketItemService {
     @Override
     @Transactional(readOnly=true)
     public List<TicketItemDTO> getTicketItemsByTicket(TicketDTO ticketDTO) throws IllegalArgumentException {
-        if(ticketDTO == null){ throw new IllegalArgumentException("ERROR: Given ticket is null");}
+        if(ticketDTO == null){ throw new IllegalArgumentException();}
         List<TicketItem> ticketItems = ticketItemDAO.getTicketItemsByTicket(mapper.map(ticketDTO, Ticket.class));
         List<TicketItemDTO> ticketItemDTOs = new ArrayList<>();
         for(TicketItem tio : ticketItems)

@@ -6,6 +6,7 @@ package library.test;
 
 import java.util.List;
 import library.dao.UserDAO;
+import library.dao.impl.UserDAOImpl;
 import library.entity.User;
 import library.entity.dto.UserDTO;
 import library.service.UserService;
@@ -46,16 +47,16 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests
     {
         for(int i =1;i<5;i++)
         {
-            userDTOs.add(TestUtils.createUserDTO(new Long(i),"heslo"+i, "rname"+i, "USER", "username"+i));
-            users.add(TestUtils.createUser(new Long(i), "heslo"+i, "rname"+i, "USER", "username"+i));            
+            userDTOs.add(createUserDTO(new Long(i),"heslo"+i, "rname"+i, "USER", "username"+i));
+            users.add(createUser(new Long(i), "heslo"+i, "rname"+i, "USER", "username"+i));            
         }
         //specialny na create
-        userDTOs.add(TestUtils.createUserDTO(null,"npas", "n_name", "USER", "nlogin"));
-        users.add(TestUtils.createUser(null, "npas", "n_name", "USER", "nlogin")); 
+        userDTOs.add(createUserDTO(null,"npas", "n_name", "USER", "nlogin"));
+        users.add(createUser(null, "npas", "n_name", "USER", "nlogin")); 
         
         // specialny na vyhladavanie
-        userDTOs.add(TestUtils.createUserDTO(new Long(7),"hEsLo", "Andrejko", "USER", "pinkrain"));
-        users.add(TestUtils.createUser(new Long(7), "hEsLo", "Andrejko", "USER", "pinkrain")); 
+        userDTOs.add(createUserDTO(new Long(7),"hEsLo", "Andrejko", "USER", "pinkrain"));
+        users.add(createUser(new Long(7), "hEsLo", "Andrejko", "USER", "pinkrain")); 
     }
     
     @Test
@@ -170,5 +171,25 @@ public class UserServiceTest extends AbstractJUnit4SpringContextTests
     private boolean hasInName(String value, String input)
     {
         return input.contains(value.subSequence(0, value.length()));
+    }
+    
+    private UserDTO createUserDTO(Long id,String password,String realname,String systemRole,String username){
+        UserDTO u = new UserDTO();
+        u.setUserID(id);
+        u.setPassword(password);
+        u.setRealName(realname);
+        u.setSystemRole(systemRole);
+        u.setUsername(username);
+        return u;
+    }
+    
+    private User createUser(Long id,String password,String realname,String systemRole,String username){
+        User u = new User();
+        u.setUserID(id);
+        u.setPassword(password);
+        u.setRealName(realname);
+        u.setSystemRole(systemRole);
+        u.setUsername(username);
+        return u;
     }
 }
