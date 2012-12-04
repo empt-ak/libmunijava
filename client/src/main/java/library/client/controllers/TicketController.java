@@ -4,17 +4,12 @@
  */
 package library.client.controllers;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
-import library.entity.dto.BookDTO;
 import library.entity.dto.TicketDTO;
-import library.entity.dto.TicketItemDTO;
 import library.entity.dto.UserDTO;
-import library.entity.enums.BookStatus;
-import library.entity.enums.TicketItemStatus;
 import library.service.BookService;
 import library.service.TicketFascade;
 import library.service.TicketItemService;
