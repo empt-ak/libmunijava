@@ -1,0 +1,104 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package library.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+import library.dao.UserDAO;
+import library.entity.User;
+import library.entity.dto.UserDTO;
+import library.service.UserService;
+import org.dozer.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ *
+ * @author Gaspar
+ */
+@Service
+public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private UserDAO userDAO;
+    @Autowired
+    private Mapper mapper;
+
+    @Override
+    @Transactional
+    public void createUser(UserDTO userDTO) throws IllegalArgumentException {
+        if (userDTO == null) {
+            throw new IllegalArgumentException();
+        } // mapper nesmie dostat ako source null
+        User user = mapper.map(userDTO, User.class);
+        userDAO.createUser(user);
+        
+        if(user != null) //fu dozer
+        {   // treba nastavit ID pretoze DTO nie je manazovany factory
+            userDTO.setUserID(user.getUserID());
+        } 
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserDTO getUserByID(Long ID) throws IllegalArgumentException {
+        User user = userDAO.getUserByID(ID);
+        if (user != null) {
+            return mapper.map(userDAO.getUserByID(ID), UserDTO.class);
+        } else {
+            return null;
+        }
+
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserDTO> getUsers() {
+        List<UserDTO> userDTOs = new ArrayList<>();
+        List<User> users = userDAO.getUsers();
+        for (User u : users) {
+            userDTOs.add(mapper.map(u, UserDTO.class));
+        }
+
+        return userDTOs;
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(UserDTO userDTO) throws IllegalArgumentException {
+        if (userDTO == null) {
+            throw new IllegalArgumentException();
+        }
+        userDAO.updateUser(mapper.map(userDTO, User.class));
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(UserDTO userDTO) throws IllegalArgumentException {
+        if (userDTO == null) {
+            throw new IllegalArgumentException();
+        }
+        User user = mapper.map(userDTO, User.class);
+        userDAO.deleteUser(user);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserDTO getUserByUsername(String username) throws IllegalArgumentException {
+        return mapper.map(userDAO.getUserByUsername(username), UserDTO.class);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserDTO> findUserByRealName(String name) throws IllegalArgumentException {
+        List<UserDTO> userDTOs = new ArrayList<>();
+        List<User> users = userDAO.findUserByRealName(name);
+        for (User u : users) {
+            userDTOs.add(mapper.map(u, UserDTO.class));
+        }
+        return userDTOs;
+    }
+}
