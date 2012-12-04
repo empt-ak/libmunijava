@@ -68,9 +68,9 @@ public class XsdDownloader {
 //		}
 //		String xsdUrl = args[0];
 //		String filePrefix = args[1];
-        String xsdUrl1 = "http://localhost:9000/pa165/services/wsdl/UserWebService?wsdl";
+        String xsdUrl1 = "http://localhost:8080/pa165/services/wsdl/UserWebService?wsdl";
         String filePrefix1 = "UserWebService";
-        String xsdUrl2 = "http://localhost:9000/pa165/services/wsdl/BookWebService?wsdl";
+        String xsdUrl2 = "http://localhost:8080/pa165/services/wsdl/BookWebService?wsdl";
         String filePrefix2 = "BookWebService";
         XsdDownloader xsdDownloader1 = new XsdDownloader();
         xsdDownloader1.setDownloadPrefix(filePrefix1);
