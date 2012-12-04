@@ -28,7 +28,7 @@ public class TicketServiceImpl implements TicketService {
     private TicketDAO ticketDAO;
     
     @Autowired
-    Mapper mapper;
+    private Mapper mapper;
 
     @Override
     @Transactional

@@ -35,19 +35,19 @@ public class TicketFascadeImpl implements TicketFascade
 {
     
     @Autowired
-    UserDAO userDAO;
+    private UserDAO userDAO;
     
     @Autowired
-    BookDAO bookDAO;
+    private BookDAO bookDAO;
     
     @Autowired
-    TicketDAO ticketDAO;
+    private TicketDAO ticketDAO;
     
     @Autowired
-    TicketItemDAO ticketItemDAO;
+    private TicketItemDAO ticketItemDAO;
     
     @Autowired
-    Mapper mapper;
+    private Mapper mapper;
     
     @Override
     @Transactional
