@@ -10,7 +10,6 @@ import library.gui.edit.EditBookDialog;
 import library.models.BookTableModel;
 import library.models.UserTableModel;
 import library.webservice.BookWebService;
-import library.webservice.IllegalArgumentException_Exception;
 import library.webservice.UserWebService;
 import library.webservice.impl.BookWebServiceImplService;
 import library.webservice.impl.UserWebServiceImplService;
@@ -414,7 +413,7 @@ public class MainFrame extends javax.swing.JFrame {
         {
             bws.deleteBook(getBTM().getBookAt(jTableBooks.getSelectedRow()));
         } 
-        catch (IllegalArgumentException_Exception ex) 
+        catch (IllegalArgumentException ex) 
         {
             System.out.println(ex.getMessage());
         }
@@ -425,7 +424,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButtonSearchByTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchByTitleActionPerformed
         try {
             getBTM().addBooks(bws.searchBooksByTitle(jTextFieldBookTitle.getText()));
-        } catch (IllegalArgumentException_Exception ex) {
+        } catch (IllegalArgumentException ex) {
             System.err.println(ex.getMessage());
         }
     }//GEN-LAST:event_jButtonSearchByTitleActionPerformed
@@ -433,7 +432,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButtonSearchByAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchByAuthorActionPerformed
         try {
             getBTM().addBooks(bws.getBooksByAuthor(jTextFieldBookAuthor.getText()));
-        } catch (IllegalArgumentException_Exception ex) {
+        } catch (IllegalArgumentException ex) {
             System.err.println(ex.getMessage());
         }
     }//GEN-LAST:event_jButtonSearchByAuthorActionPerformed
@@ -443,7 +442,7 @@ public class MainFrame extends javax.swing.JFrame {
         {
             try {
                 getBTM().addBooks(bws.searchBooksByTitle(jTextFieldBookTitle.getText()));
-            } catch (IllegalArgumentException_Exception ex) {
+            } catch (IllegalArgumentException ex) {
                 System.err.println(ex.getMessage());
             }
         }
@@ -455,7 +454,7 @@ public class MainFrame extends javax.swing.JFrame {
         {
             try {
                 getBTM().addBooks(bws.getBooksByAuthor(jTextFieldBookAuthor.getText()));
-            } catch (IllegalArgumentException_Exception ex) {
+            } catch (IllegalArgumentException ex) {
                 System.err.println(ex.getMessage());
             }            
         }
