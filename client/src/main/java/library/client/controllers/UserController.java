@@ -236,13 +236,10 @@ public class UserController
     }
 
     /**
-     * @TODO delete ticketitems too (there are associations RequestMapper for
-     * deleting user from database. User can be deleted only if he does not have
-     * any associations with tickets, therefore we need to delete all his
-     * tickets. Only administrator can delete user from database
-     * @param userID
-     * @param request
-     * @return
+     * Requestmapper for deleting user from database. Only administrator can delete user from database
+     * @param userID to be deleted
+     * @param request holding session
+     * @return redirect to /user/ or / if administrator is not logged in
      */
     @RequestMapping(value = "/delete/{userID}", method = RequestMethod.GET)
     public ModelAndView deleteUser(@PathVariable Long userID, HttpServletRequest request) 
@@ -355,8 +352,7 @@ public class UserController
     }
 
     /**
-     * @TODO wrong attributes mapping used for user login, his password
-     * verification. User is logged in if his password matches with password
+     * RequestMapper for loging in. User is logged in if his password matches with password
      * stored in database. If they match this user is stored inside session
      * @param session session
      * @param request servletrequest holding form attributes

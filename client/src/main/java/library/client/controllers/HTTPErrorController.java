@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HTTPErrorController 
 {
+    /**
+     * method used when error 404 occurs
+     * @return 404 error page
+     */
     @RequestMapping(value="/errors/404.html")
     public String handle404()
     {

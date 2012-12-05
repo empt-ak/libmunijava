@@ -12,7 +12,7 @@
                             
                             
     <!-- not strictly necessary for this example, but still useful, see http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/mvc.html#mvc-ann-controller for more information -->
-    <context:component-scan base-package="library.client.controllers" />
+    <context:component-scan base-package="library.controllers" />
     
     
 
@@ -26,6 +26,7 @@
     
     <bean id="userValidator" class="library.client.validators.UserValidator" />
     <bean id="bookValidator" class="library.client.validators.BookValidator" />
+    <bean id="installer" class="library.client.Installer" />
     
 <!--    <bean id="userDetailsProvider" class="library.client.UserDetailsProvider"/> -->
     
@@ -47,11 +48,7 @@
         <property name="defaultLocale" value="sk_SK"/>
     </bean>
  
-    <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-<!--        <property name="interceptors">
-            <ref bean="localeChangeInterceptor" />
-        </property>-->
-    </bean>
+    <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
     
     <mvc:annotation-driven /> 
                             

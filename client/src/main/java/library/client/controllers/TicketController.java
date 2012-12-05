@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import library.entity.dto.TicketDTO;
 import library.entity.dto.UserDTO;
 import library.service.BookService;
-import library.service.TicketFascade;
+import library.service.TicketFacade;
 import library.service.TicketItemService;
 import library.service.TicketService;
 import library.service.UserService;
@@ -24,14 +24,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * tento controller je typicka ukazka naco by bola dobra fascade :] a veeela duplicity
+ * 
  * @author emptak
  */
 @Controller
 @RequestMapping("/ticket")
 public class TicketController 
-{
-    private static final Logger logger = Logger.getLogger(TicketController.class);    
+{  
     
     @Autowired
     private TicketService ticketService;
@@ -40,13 +39,7 @@ public class TicketController
     private UserService userService;
     
     @Autowired
-    private TicketItemService ticketItemService;
-    
-    @Autowired
-    private BookService bookService;
-    
-    @Autowired
-    private TicketFascade ticketFascade;
+    private TicketFacade ticketFacade;
     
     
     /**
@@ -86,7 +79,7 @@ public class TicketController
     }
     
     /**
-     * mapping for creating ticket for signed in user
+     * Mapping for creating ticket for signed in user.
      * @param request servlet request containing session
      * @return redirect to /ticket/show/mytickets/
      */
@@ -108,7 +101,11 @@ public class TicketController
         return new ModelAndView("redirect:/ticket/show/mytickets/");        
     }
     
-    //                      /show/mytickets/user/1
+    /**
+     * Request mapper for showing tickets for signed user.
+     * @param request holding session
+     * @return list of tickets or redirect to /
+     */
     @RequestMapping(value="/show/mytickets/")
     public ModelAndView viewTicketsForUser(HttpServletRequest request)
     {
@@ -125,9 +122,15 @@ public class TicketController
         }
         
         
-        return new ModelAndView("index");
+        return new ModelAndView("redirect:/");
     }
     
+    /**
+     * Request mapper for showing tickets for given user
+     * @param userID of user whose tickets we want to show
+     * @param request request holding session
+     * @return list of tickets for given user or redirect to /
+     */
     @RequestMapping(value="/show/user/{userID}")
     public ModelAndView showTickets(@PathVariable Long userID, HttpServletRequest request)
     {
@@ -155,25 +158,36 @@ public class TicketController
         return new ModelAndView("redirect:/");
     }
     
+    /**
+     * Request resolver for adding ticket for last ticket.
+     * @param bookID to be inserted inside ticket
+     * @param request holding session
+     * @return redirect to list of books /book/
+     */
     @RequestMapping(value="/add/book/{bookID}")
     public ModelAndView addBookToTicket(@PathVariable Long bookID,HttpServletRequest request)
     {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         if(inSession != null)
         {            
-            ticketFascade.addBookToTicket(bookID, inSession);                       
+            ticketFacade.addBookToTicket(bookID, inSession);                       
         }       
         return new ModelAndView("redirect:/book/");
     }
     
-    
+    /**
+     * Method used for borrowing all books inside ticket. See {@link library.service.TicketFacade#borrowTicket(java.lang.Long) } for more info.
+     * @param ticketID to be borrowed
+     * @param request holding session
+     * @return redirect to view where user tickets are shown, redirect to / when logged user is not administrator
+     */
     @RequestMapping("/borrow/{ticketID}")
     public ModelAndView borrowTicket(@PathVariable Long ticketID,HttpServletRequest request)
     {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {
-            ticketFascade.borrowTicket(ticketID);
+            ticketFacade.borrowTicket(ticketID);
             
             TicketDTO t = ticketService.getTicketByID(ticketID);
            
@@ -184,13 +198,19 @@ public class TicketController
         return new ModelAndView("redirect:/");
     }
     
+    /**
+     * RequestMapper for returning ticket. It returns all books inside ticket. See {@link library.service.TicketFacade#returnTicket(java.lang.Long) } for more information.
+     * @param ticketID to be returned
+     * @param request holding session
+     * @return  redirect to users ticket list, or to / otherwise
+     */
     @RequestMapping("/return/{ticketID}")
     public ModelAndView returnTicket(@PathVariable Long ticketID,HttpServletRequest request)
     {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         if(inSession != null  && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {
-            ticketFascade.returnTicket(ticketID);
+            ticketFacade.returnTicket(ticketID);
                 
             TicketDTO t = ticketService.getTicketByID(ticketID);
             
@@ -201,7 +221,14 @@ public class TicketController
         return new ModelAndView("index");       
     }
     
-    
+    /**
+     * Requestmapper for returning books for given ticket. See {@link library.service.TicketFacade#returnBookInTicketItem(java.lang.Long, java.lang.Long, boolean) } for more information.
+     * @param ticketID to be returned
+     * @param ticketItemID ticketitem holding book
+     * @param isDamaged flag if returned book is damaged or not
+     * @param request holding session
+     * @return redirect to list of users ticket or to mytickets otherwise
+     */
     @RequestMapping("/return/{ticketID}/ticketitem/{ticketItemID}/damaged/{isDamaged}")
     public ModelAndView returnBookForTicket(@PathVariable Long ticketID,@PathVariable Long ticketItemID,
                                             @PathVariable Boolean isDamaged, HttpServletRequest request)
@@ -210,7 +237,7 @@ public class TicketController
         
         if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {            
-            ticketFascade.returnBookInTicketItem(ticketItemID, ticketID,isDamaged);
+            ticketFacade.returnBookInTicketItem(ticketItemID, ticketID,isDamaged);
             TicketDTO t = ticketService.getTicketByID(ticketID);
             return new ModelAndView("redirect:/ticket/show/user/"+t.getUser().getUserID().toString());
         }      
@@ -233,8 +260,7 @@ public class TicketController
         if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {
             temp = ticketService.getTicketByID(ticketID).getUser().getUserID();
-            ticketFascade.deleteTicket(ticketID);
-            TicketDTO t = ticketService.getTicketByID(ticketID);
+            ticketFacade.deleteTicket(ticketID);
             
             return new ModelAndView("redirect:/ticket/show/user/"+String.valueOf(temp));
         }
@@ -254,8 +280,7 @@ public class TicketController
     {
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         if(inSession != null)
-        {
-            
+        {            
             TicketDTO t = null;
             try
             {
@@ -268,7 +293,7 @@ public class TicketController
             // only if we are owner of ticket or we are administrator, then we can make som changes
             if(t != null && (t.getUser().equals(inSession) || inSession.getSystemRole().equals("ADMINISTRATOR")))
             {
-                ticketFascade.deleteTicket(ticketID);
+                ticketFacade.deleteTicket(ticketID);
             }          
         }
         

@@ -4,6 +4,10 @@
  */
 package library.client.controllers;
 
+import javax.annotation.PostConstruct;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import library.client.Installer;
 import library.entity.dto.BookDTO;
 import library.entity.dto.UserDTO;
 import library.entity.enums.BookStatus;
@@ -25,24 +29,33 @@ import org.springframework.web.servlet.ModelAndView;
 public class MainController
 {
     @Autowired
-    private UserService userService;
+    private UserService userService; 
     
     @Autowired
-    private BookService bookService;
-    
+    private Installer installer;
     
     @RequestMapping("/")
     public ModelAndView show() throws Exception 
     {
-        if(bookService.getAllBooks().isEmpty())
-        {
-            install();            
-        }
         return new ModelAndView("index");
-    } 
+    }
+
+    /**
+     * Method used for setting up database. It uses @PostConstruct annotation which is registered to spring
+     * and after initializing entire bean all methods with this annotation are called. This comes handy when we
+     * run application for the first run since we use in-memory database that is cleaned with each start of 
+     * application server.
+     */
+    @PostConstruct
+    public void install(){
+        installer.firstRun();
+    }
     
-    
-    
+    /**
+     * Method makes admin from user with specified username
+     * @param username username of user from who we want to make admin
+     * @return redirect to :/ whether user exists or not
+     */
     @RequestMapping("makeadmin/{username}")
     public ModelAndView makeAdmin(@PathVariable String username)
     {
@@ -54,35 +67,5 @@ public class MainController
         }
         
         return new ModelAndView("redirect:/");
-    }
-    
-    
-    
-    
-    
-    private void install()
-    {
-        bookService.createBook(createBook("Emma", "Jane Austen", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Pride & Prejudice", "Jane Austen", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Sense and Sensibility", "Jane Austen", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Harry Potter and the Philosophers Stone", "J.K. Rowling", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Harry Potter and the Chamber of Secrets", "J.K. Rowling", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Harry Potter and the Prisoner of Azkaban", "J.K. Rowling", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("On the Generalized Theory of Gravitation", "Albert Einstein", Department.SCIENTIFIC, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("čerešnička", "ľščťžýáíéúäň", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("The Grand Design", "Stephen Hawking", Department.SCIENTIFIC, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Spring Security 3", "Peter Mularien", Department.SCIENTIFIC, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Tri gaštanové kone", "Margita Figuli", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Spring Security", "Peter Mularien", Department.SCIENTIFIC, BookStatus.AVAILABLE));        
-    }
-    
-    private BookDTO createBook(String title, String author, Department department, BookStatus status) {
-        BookDTO b = new BookDTO();
-        b.setTitle(title);
-        b.setAuthor(author);
-        b.setDepartment(department);
-        b.setBookStatus(status);
-
-        return b;
     }
 }

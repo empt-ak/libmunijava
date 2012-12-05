@@ -51,10 +51,4 @@ public class Tools {
 
         return buf.toString();
     }
-    
-    private void a()
-    {
-        DateTime d = new DateTime();
-        //d.g
-    }
 }

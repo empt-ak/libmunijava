@@ -18,7 +18,7 @@ import library.entity.User;
 import library.entity.dto.UserDTO;
 import library.entity.enums.BookStatus;
 import library.entity.enums.TicketItemStatus;
-import library.service.TicketFascade;
+import library.service.TicketFacade;
 import library.utils.aop.validators.LibraryValidator;
 import org.dozer.Mapper;
 import org.joda.time.DateTime;
@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Emptak
  */
 @Service
-public class TicketFascadeImpl implements TicketFascade
+public class TicketFacadeImpl implements TicketFacade
 {
     
     @Autowired

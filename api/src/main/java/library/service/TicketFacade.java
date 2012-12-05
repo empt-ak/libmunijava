@@ -11,7 +11,7 @@ import library.entity.dto.UserDTO;
  *
  * @author Emptak
  */
-public interface TicketFascade 
+public interface TicketFacade 
 {
     /**
      * Method used for adding book to ticket. In first step we retrieve user and book from database. Book should have its status set to AVAILABLE

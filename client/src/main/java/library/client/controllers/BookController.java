@@ -49,8 +49,7 @@ public class BookController
         return new ModelAndView("book_list", "jsonURL", "/getJSONList");
     }
 
-    /**
-     * @TODO admin check from session Request mapper for saving book
+    /**     
      * @param bookDTO book containing values from form
      * @param result
      * @param errors
@@ -103,7 +102,6 @@ public class BookController
     }
 
     /**
-     * @TODO admin check Request mapper for editing book. only admin can edit
      * book so we check his rights as first then rest of method can proceed
      * @param bookDTO book containing form values
      * @param result
@@ -229,7 +227,6 @@ public class BookController
         List<BookDTO> bookz = bookService.getAllBooks();
 
         return generateJSONfromList(bookz, locale,false);
-
     }
 
     /**
@@ -260,7 +257,6 @@ public class BookController
         {
             return generateJSONfromList(new ArrayList<BookDTO>(), locale,false);
         }
-
     }
 
     /**
@@ -340,33 +336,6 @@ public class BookController
         return new ModelAndView("redirect:/book/");
     }
     
-    @Deprecated
-    @RequestMapping("/install/")
-    public void install()
-    {
-        if(bookService.getAllBooks().isEmpty())
-        {
-            installScript();
-        }        
-    }
-    
-   
-    
-    private void installScript()
-    {
-        bookService.createBook(createBook("Emma", "Jane Austen", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Pride & Prejudice", "Jane Austen", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Sense and Sensibility", "Jane Austen", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Harry Potter and the Philosophers Stone", "J.K. Rowling", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Harry Potter and the Chamber of Secrets", "J.K. Rowling", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Harry Potter and the Prisoner of Azkaban", "J.K. Rowling", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("On the Generalized Theory of Gravitation", "Albert Einstein", Department.SCIENTIFIC, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("čerešnička", "ľščťžýáíéúäň", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("The Grand Design", "Stephen Hawking", Department.SCIENTIFIC, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Spring Security 3", "Peter Mularien", Department.SCIENTIFIC, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Tri gaštanové kone", "Margita Figuli", Department.ADULT, BookStatus.AVAILABLE));
-        bookService.createBook(createBook("Spring Security", "Peter Mularien", Department.SCIENTIFIC, BookStatus.AVAILABLE));        
-    }
 
     /**
      * Method builds json String from given list of books. Datatables requeres
@@ -444,17 +413,7 @@ public class BookController
         sb.append("\r\n] }");
 
         return sb.toString();
-    }  
-    
-    private BookDTO createBook(String title, String author, Department department, BookStatus status) {
-        BookDTO b = new BookDTO();
-        b.setTitle(title);
-        b.setAuthor(author);
-        b.setDepartment(department);
-        b.setBookStatus(status);
-
-        return b;
-    }
+    }   
     
     private static java.util.Comparator<BookDTO> bComparator = new Comparator<BookDTO>() 
     {
