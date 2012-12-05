@@ -1,21 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>cz.muni.pa165</groupId>
-  <artifactId>library_project</artifactId>  
-  <version>1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>libraryProject</name>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>cz.muni.pa165</groupId>
+    <artifactId>library_project</artifactId>  
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>libraryProject</name>
+    <url>http://code.google.com/p/libmunijava/</url>
   
-  <modules>
-      <module>backend</module>
-      <module>client</module>
-      <module>api</module>
-      <module>client_gui</module>
-      <module>soapapi</module>
-  </modules>
+    <modules>
+        <module>backend</module>
+        <module>client</module>
+        <module>api</module>
+        <module>client_gui</module>
+        <module>soapapi</module>
+    </modules>
   
-  <developers>
+    <developers>
         <developer>
             <id>1</id>
             <name>Dominik Szalai [359775] - emptak</name>
@@ -56,7 +57,7 @@
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
-            </plugin>
+            </plugin>            
         </plugins>
     </build>
     <properties>

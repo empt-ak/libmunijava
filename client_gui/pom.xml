@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
      
     <name>library_client_gui</name>
-    <url>http://maven.apache.org</url>    
+      
        
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -38,20 +38,14 @@
             <version>${cxf.version}</version>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>cz.muni.pa165</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>library_api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>cz.muni.pa165</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>library_soapapi</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
        
@@ -107,6 +101,18 @@
                     <outputDirectory>
                         ${project.build.directory}
                     </outputDirectory>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <mainClass>library.gui.MainFrame</mainClass>
+<!--                    <arguments>
+                        <argument></argument>
+                    </arguments>-->
                 </configuration>
             </plugin>
         </plugins>

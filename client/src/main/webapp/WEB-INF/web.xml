@@ -4,13 +4,9 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0"> 
 
-       
-        
-
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>
-            <!--            /WEB-INF/securityContext.xml-->
+        <param-value>            
             /WEB-INF/applicationContext.xml
         </param-value>
     </context-param>
@@ -31,12 +27,6 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     
-<!--    <servlet>
-        <servlet-name>installer</servlet-name>
-        <servlet-class>library.client.Installer</servlet-class>
-        <load-on-startup>2</load-on-startup>
-    </servlet>-->
-	
     <servlet-mapping>
         <servlet-name>springmvc</servlet-name>
         <url-pattern>/</url-pattern>
@@ -69,7 +59,4 @@
         <filter-name>encoding-filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    
-   
- 
 </web-app>

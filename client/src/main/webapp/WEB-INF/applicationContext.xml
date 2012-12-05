@@ -28,8 +28,6 @@
     <bean id="bookValidator" class="library.client.validators.BookValidator" />
     <bean id="installer" class="library.client.Installer" />
     
-<!--    <bean id="userDetailsProvider" class="library.client.UserDetailsProvider"/> -->
-    
  
     <!-- importneme appcontext z backendu -->
     <import resource="classpath*:/spring/applicationContext.xml" />

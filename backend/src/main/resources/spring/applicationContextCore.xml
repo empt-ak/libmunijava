@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xmlns:p="http://www.springframework.org/schema/p"
         xmlns:tx="http://www.springframework.org/schema/tx" 
         xmlns:context="http://www.springframework.org/schema/context"
-        xmlns:sec="http://www.springframework.org/schema/security"
         xmlns:aop="http://www.springframework.org/schema/aop"
         xsi:schemaLocation="http://www.springframework.org/schema/beans 
                             http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                             http://www.springframework.org/schema/context 
                             http://www.springframework.org/schema/context/spring-context-3.0.xsd
-                            http://www.springframework.org/schema/security	
-                            http://www.springframework.org/schema/security/spring-security-3.1.xsd
                             http://www.springframework.org/schema/tx 
                             http://www.springframework.org/schema/tx/spring-tx.xsd
                             http://www.springframework.org/schema/aop 
                             http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 			
-<!--    <context:spring-configured />-->
+
     <context:annotation-config />
     <tx:annotation-driven transaction-manager="transactionManager" />
     
@@ -28,15 +24,7 @@
     <bean id="ticketItemAspect" class="library.utils.aop.AspectDAOTicketItemScanner" />
     <bean id="ticketAspect" class="library.utils.aop.AspectDAOTicketScanner" />
     
-    
-<!--    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-            <list>
-                <value>/config/jdbc.properties</value>
-            </list>
-        </property>
-        <property name="ignoreUnresolvablePlaceholders" value="true" />
-    </bean>-->
+
     
     <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${hibernate.connection.driver_class}" />
@@ -59,15 +47,12 @@
     </bean>
     
         
-    <context:component-scan base-package="library" />
-        <!--<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />-->
-    <!--</context:component-scan>-->
+    <context:component-scan base-package="library" /> 
     
     <bean class="org.springframework.orm.jpa.JpaTransactionManager" id="transactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
     
-    <!--<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>-->
     
     <bean id="bookDAO" class="library.dao.impl.BookDAOImpl" />
     <bean id="bookService" class="library.service.impl.BookServiceImpl" />    

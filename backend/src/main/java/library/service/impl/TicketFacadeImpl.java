@@ -32,11 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class TicketFacadeImpl implements TicketFacade
-{
-    
-    @Autowired
-    private UserDAO userDAO;
-    
+{    
     @Autowired
     private BookDAO bookDAO;
     

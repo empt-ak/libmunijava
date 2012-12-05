@@ -3,39 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cz.muni.pa165</groupId>
-    <artifactId>library</artifactId>
+    <artifactId>library_backend</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <developers>
-        <developer>
-            <id>1</id>
-            <name>Dominik Szalai [359775] - emptak</name>
-            <email>emptulik@gmail.com</email>            
-        </developer>
-        <developer>
-            <id>2</id>
-            <name>Peter Nemček [256476]</name>
-            <email>nemusko@gmail.com</email>
-        </developer>
-        <developer>
-            <id>3</id>
-            <name>Andrej Gajdoš [359234]</name>
-            <email>agajdy@gmail.com</email>
-        </developer>
-        <developer>
-            <id>4</id>
-            <name>Andrej Gašpar [359880]</name>
-            <email>gaspar.andrej@gmail.com</email>
-        </developer>
-    </developers>
-    
-    <description>
-        Vytvorte informačný systém pre knižnicu, ktorý bude evidovať jednotlivé knihy v oddeleniach, 
-        zákazníkov knižnice a jednotlivé pôžičky každého zákazníka. IS by mal viesť evidenciu všetkých kníh a zákazníkov. 
-        Takisto by mal byť systém schopný viesť evidenciu, ktorý zákazník si aké knihy a v akom období vypožičal. 
-        Ďalej by mal byť systém schopný zaznamenávať údaje, ktorú knihu mali ktorí zákazníci vypožičanú a v akom stave ju vrátili. 
-        Počítajte s tým, že jeden zákazník si na jednu pôžičku môže požičať viac kníh.    
-    </description>
-    
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -46,8 +15,8 @@
         <org.hibernate-version>4.1.7.Final</org.hibernate-version>
     </properties>
     
-    <name>library</name>
-    <url>http://maven.apache.org</url>
+    <name>library_backend</name>
+    
     <build>
         <plugins>
             <plugin>
@@ -224,10 +193,11 @@
             <version>10.9.1.0</version>
             <type>jar</type>
         </dependency>
+        
         <dependency>
-            <groupId>cz.muni.pa165</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>library_api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
             <type>jar</type>
         </dependency>
     </dependencies>
