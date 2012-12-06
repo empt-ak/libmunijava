@@ -26,11 +26,11 @@ public class BookTableModel extends javax.swing.table.AbstractTableModel
     public BookTableModel()
     {
         BookDTO b = new BookDTO();
-        b.setAuthor("dominik");
+        b.setAuthor("ERROR");
         b.setBookID(new Long(1));
         b.setBookStatus(BookStatus.AVAILABLE);
         b.setDepartment(Department.ADULT);
-        b.setTitle("knizka");
+        b.setTitle("DATABASE");
         
         
         this.books.add(b);

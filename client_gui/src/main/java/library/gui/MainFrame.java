@@ -4,17 +4,12 @@
  */
 package library.gui;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.net.ConnectException;
 import library.gui.edit.EditBookDialog;
 import library.models.BookTableModel;
 import library.models.DepartmentBoxModel;
 import library.models.UserTableModel;
-import library.webservice.BookWebService;
 import library.webservice.Department;
-import library.webservice.UserWebService;
-import library.webservice.impl.BookWebServiceImplService;
-import library.webservice.impl.UserWebServiceImplService;
 
 
 /**
@@ -25,8 +20,7 @@ public class MainFrame extends javax.swing.JFrame {
 
    // private static final ApplicationContext appContext = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
     
-    BookWebService bws = null;
-    UserWebService uws = null;
+    private ConnectionHolder conn = null;
     
     
     /**
@@ -34,7 +28,6 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
-        connect();
         myInit();
     }
 
@@ -318,13 +311,29 @@ public class MainFrame extends javax.swing.JFrame {
         
         
         EditBookDialog ebd = new EditBookDialog(this, false);
-        ebd.setReq(getBTM().getBookAt(index), bws,getBTM());
-        System.out.println(bws);
+        try
+        {
+            ebd.setReq(getBTM().getBookAt(index), conn,getBTM());
+        }
+        catch(NullPointerException ex)
+        {
+            System.err.println(ex.getMessage());
+        }
+        
         ebd.setVisible(true);
     }//GEN-LAST:event_jButtonEditBookActionPerformed
 
     private void jButtonResetBooksTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetBooksTableActionPerformed
-        getBTM().addBooks(bws.getAllBooks());
+        try
+        {
+            getBTM().addBooks(conn.getBws().getAllBooks());            
+        }
+        catch(ConnectException | NullPointerException ex)
+        {
+            System.err.println(ex.getMessage());
+        }
+        
+        
         jTextFieldBookAuthor.setText("");
         jTextFieldBookTitle.setText("");
     }//GEN-LAST:event_jButtonResetBooksTableActionPerformed
@@ -332,28 +341,34 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButtonDeleteBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteBookActionPerformed
         try 
         {
-            bws.deleteBook(getBTM().getBookAt(jTableBooks.getSelectedRow()));
-        } 
-        catch (IllegalArgumentException ex) 
-        {
-            System.out.println(ex.getMessage());
+            conn.getBws().deleteBook(getBTM().getBookAt(jTableBooks.getSelectedRow()));
+            getBTM().addBooks(conn.getBws().getAllBooks());
+            getBTM().refresh();
         }
-        getBTM().addBooks(bws.getAllBooks());
-        getBTM().refresh();
+        catch(ConnectException | NullPointerException | IllegalArgumentException ex)
+        {
+            System.err.println(ex.getMessage());
+        }  
     }//GEN-LAST:event_jButtonDeleteBookActionPerformed
 
     private void jButtonSearchByTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchByTitleActionPerformed
-        try {
-            getBTM().addBooks(bws.searchBooksByTitle(jTextFieldBookTitle.getText()));
-        } catch (IllegalArgumentException ex) {
+        try 
+        {
+            getBTM().addBooks(conn.getBws().searchBooksByTitle(jTextFieldBookTitle.getText()));
+        }
+        catch(ConnectException | NullPointerException | IllegalArgumentException ex)
+        {
             System.err.println(ex.getMessage());
         }
     }//GEN-LAST:event_jButtonSearchByTitleActionPerformed
 
     private void jButtonSearchByAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchByAuthorActionPerformed
-        try {
-            getBTM().addBooks(bws.getBooksByAuthor(jTextFieldBookAuthor.getText()));
-        } catch (IllegalArgumentException ex) {
+        try 
+        {
+            getBTM().addBooks(conn.getBws().getBooksByAuthor(jTextFieldBookAuthor.getText()));
+        } 
+        catch(ConnectException | NullPointerException | IllegalArgumentException ex)
+        {
             System.err.println(ex.getMessage());
         }
     }//GEN-LAST:event_jButtonSearchByAuthorActionPerformed
@@ -361,9 +376,12 @@ public class MainFrame extends javax.swing.JFrame {
     private void jTextFieldBookTitleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBookTitleKeyPressed
         if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER)
         {
-            try {
-                getBTM().addBooks(bws.searchBooksByTitle(jTextFieldBookTitle.getText()));
-            } catch (IllegalArgumentException ex) {
+            try 
+            {
+                getBTM().addBooks(conn.getBws().searchBooksByTitle(jTextFieldBookTitle.getText()));
+            }
+            catch(ConnectException | NullPointerException | IllegalArgumentException ex)
+            {
                 System.err.println(ex.getMessage());
             }
         }
@@ -373,9 +391,12 @@ public class MainFrame extends javax.swing.JFrame {
     private void jTextFieldBookAuthorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBookAuthorKeyPressed
         if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER)
         {
-            try {
-                getBTM().addBooks(bws.getBooksByAuthor(jTextFieldBookAuthor.getText()));
-            } catch (IllegalArgumentException ex) {
+            try 
+            {
+                getBTM().addBooks(conn.getBws().getBooksByAuthor(jTextFieldBookAuthor.getText()));
+            }
+            catch(ConnectException | NullPointerException | IllegalArgumentException ex)
+            {
                 System.err.println(ex.getMessage());
             }            
         }
@@ -384,11 +405,11 @@ public class MainFrame extends javax.swing.JFrame {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         try
         {
-            getBTM().addBooks(bws.getBooksByDepartment(Department.valueOf(jComboBox1.getModel().getSelectedItem().toString())));
+            getBTM().addBooks(conn.getBws().getBooksByDepartment(Department.valueOf(jComboBox1.getModel().getSelectedItem().toString())));
         }
-        catch(IllegalArgumentException iae)
+        catch(ConnectException | NullPointerException | IllegalArgumentException ex)
         {
-            System.err.println(iae.getMessage());
+            System.err.println(ex.getMessage());
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
@@ -402,26 +423,29 @@ public class MainFrame extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            if(Tools.isWin())
+            {
+                javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            }
+            else
+            {
+                javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+            }
+            
 //            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
 //                if ("Motif".equals(info.getName())) {
 //                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
 //                    break;
 //                }
 //            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new MainFrame().setVisible(true);
             }
@@ -469,24 +493,29 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void myInit()
     {
-        getBTM().addBooks(bws.getAllBooks());
-        getUTM().addUsers(uws.getUsers());
+        boolean connSucc = true;
         
-        
-    }
-    
-    private void connect()
-    {
         try
         {
-            bws = new BookWebServiceImplService().getBookWebServiceImplPort();
-            uws = new UserWebServiceImplService().getUserWebServiceImplPort();
+            conn = new ConnectionHolder();
         }
-        catch(Exception e)
+        catch(ConnectException ex)
         {
-            javax.swing.JOptionPane.showMessageDialog(null, "Unable to install editor pane");
-            System.err.println(e.getMessage());
-            System.exit(1);
+            System.err.println(ex.getMessage());
+            connSucc = false;
         }
+        if(connSucc)
+        {
+            try
+            {
+                getBTM().addBooks(conn.getBws().getAllBooks());
+                getUTM().addUsers(conn.getUws().getUsers());            
+            }
+            catch(ConnectException | NullPointerException ex)
+            {
+                System.err.println(ex.getMessage());
+            }            
+        }
+        
     }
 }

@@ -5,6 +5,8 @@
 package library.gui.edit;
 
 
+import java.net.ConnectException;
+import library.gui.ConnectionHolder;
 import library.models.BookTableModel;
 import library.webservice.BookDTO;
 import library.webservice.BookStatus;
@@ -19,13 +21,13 @@ import library.webservice.Department;
 public class EditBookDialog extends javax.swing.JDialog {
 
     private BookDTO bookDTO;
-    private BookWebService bws;
+    private ConnectionHolder holder;
     private BookTableModel btm;
     
-    public void setReq(BookDTO bookDTO,BookWebService bws,BookTableModel btm)
+    public void setReq(BookDTO bookDTO,ConnectionHolder holder,BookTableModel btm)
     {
         this.bookDTO = bookDTO;
-        this.bws = bws;
+        this.holder = holder;
         this.btm = btm;
         
         myInit();
@@ -60,7 +62,15 @@ public class EditBookDialog extends javax.swing.JDialog {
     private void updateModel()
     {
         btm.clear();
-        btm.addBooks(bws.getAllBooks());
+        try
+        {
+            btm.addBooks(holder.getBws().getAllBooks());            
+        }
+        catch(ConnectException ce)
+        {
+            System.err.println(ce.getMessage());
+        }
+        
     }
     
     /**
@@ -91,7 +101,7 @@ public class EditBookDialog extends javax.swing.JDialog {
         jTextFieldBookAuthor = new javax.swing.JTextField();
         jTextFieldBookDepatment = new javax.swing.JTextField();
         jTextFieldBookStatus = new javax.swing.JTextField();
-        jButtonCreate = new javax.swing.JButton();
+        jButtonEdit = new javax.swing.JButton();
         jButtonReset = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -125,10 +135,10 @@ public class EditBookDialog extends javax.swing.JDialog {
 
         jTextFieldBookStatus.setText("ERROR: VALUE NOT LOADED");
 
-        jButtonCreate.setText(bundle.getString("gui.button.edit")); // NOI18N
-        jButtonCreate.addActionListener(new java.awt.event.ActionListener() {
+        jButtonEdit.setText(bundle.getString("gui.button.edit")); // NOI18N
+        jButtonEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCreateActionPerformed(evt);
+                jButtonEditActionPerformed(evt);
             }
         });
 
@@ -153,7 +163,7 @@ public class EditBookDialog extends javax.swing.JDialog {
                                 .addGap(16, 16, 16)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jButtonCreate)
+                                        .addComponent(jButtonEdit)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jButtonReset)
                                         .addGap(0, 0, Short.MAX_VALUE))
@@ -198,7 +208,7 @@ public class EditBookDialog extends javax.swing.JDialog {
                     .addComponent(jTextFieldBookStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCreate)
+                    .addComponent(jButtonEdit)
                     .addComponent(jButtonReset))
                 .addContainerGap(84, Short.MAX_VALUE))
         );
@@ -210,22 +220,22 @@ public class EditBookDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldBookAuthorActionPerformed
 
-    private void jButtonCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateActionPerformed
+    private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
         
         valuesToObject();
         
         try
         {
-            bws.updateBook(bookDTO);
+            holder.getBws().updateBook(bookDTO);
             updateModel();
             dispose();
             
         }
-        catch(Exception e)
+        catch(ConnectException | IllegalArgumentException | NullPointerException e)
         {
             System.err.println(e.getMessage());
         }        
-    }//GEN-LAST:event_jButtonCreateActionPerformed
+    }//GEN-LAST:event_jButtonEditActionPerformed
 
     /**
      * @param args the command line arguments
@@ -269,7 +279,7 @@ public class EditBookDialog extends javax.swing.JDialog {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonCreate;
+    private javax.swing.JButton jButtonEdit;
     private javax.swing.JButton jButtonReset;
     private javax.swing.JLabel jLabelBookAuthor;
     private javax.swing.JLabel jLabelBookEditTitle;
