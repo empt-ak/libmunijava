@@ -20,7 +20,6 @@ public class UserDAOImpl implements UserDAO
 {
     @PersistenceContext
     private EntityManager entityManager;
-    private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(UserDAOImpl.class);
 
     @Override
     public void createUser(User user) throws IllegalArgumentException 
@@ -37,7 +36,8 @@ public class UserDAOImpl implements UserDAO
     @Override
     public List<User> findUserByRealName(String name) throws IllegalArgumentException 
     {        
-        return entityManager.createQuery("SELECT u FROM User u WHERE u.realName LIKE :realName", User.class).setParameter("realName", "%" + name + "%").getResultList();
+        return entityManager.createQuery("SELECT u FROM User u WHERE u.realName LIKE :realName", User.class)
+                .setParameter("realName", "%" + name + "%").getResultList();
     }
 
     @Override
@@ -66,7 +66,8 @@ public class UserDAOImpl implements UserDAO
     @Override
     public User getUserByUsername(String username) throws IllegalArgumentException 
     {        
-        return entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class).setParameter("username", username).getSingleResult();
+        return entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+                .setParameter("username", username).getSingleResult();
     }
 
 }

@@ -34,9 +34,9 @@ locations = "file:src/main/resources/spring/applicationContext-mock.xml")
 public class BookServiceTest extends AbstractJUnit4SpringContextTests {
 
     @Autowired
-    BookService bookService;
+    private BookService bookService;
     @Autowired
-    BookDAO bookDAO;
+    private BookDAO bookDAO;
     private List<BookDTO> listDTOS;
     private List<Book> listDAOS;
 

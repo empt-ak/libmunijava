@@ -51,23 +51,7 @@ class DAOUserValidator
             throw new IllegalArgumentException("ERROR: Given user does not have set its username");
         }
         
-        // trochu prasacina :] mozno to ide urobit jednoduchsie
-        boolean hasRole = false;
-        
-        if(!hasRole && user.getSystemRole() != null)
-        {
-            switch (user.getSystemRole()) 
-            {                
-                case "USER":
-                    hasRole = true;
-                    break;
-                case "ADMINISTRATOR":
-                    hasRole = true;
-                    break;
-            }            
-        }
-        
-        if(!hasRole)
+        if(user.getSystemRole() == null || !(user.getSystemRole().equals("USER") ^ user.getSystemRole().equals("ADMINISTRATOR")))
         {
             throw new IllegalArgumentException("ERROR: Given user does not have set its system role");
         }

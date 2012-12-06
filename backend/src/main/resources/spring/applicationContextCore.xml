@@ -18,7 +18,7 @@
     <tx:annotation-driven transaction-manager="transactionManager" />
     
     
-    <aop:aspectj-autoproxy />
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
     <bean id="bookAspect" class="library.utils.aop.AspectDAOBookScanner" />
     <bean id="userAspect" class="library.utils.aop.AspectDAOUserScanner" />
     <bean id="ticketItemAspect" class="library.utils.aop.AspectDAOTicketItemScanner" />
