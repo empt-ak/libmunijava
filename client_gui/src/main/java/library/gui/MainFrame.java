@@ -6,6 +6,7 @@ package library.gui;
 
 import java.net.ConnectException;
 import library.gui.edit.EditBookDialog;
+import library.gui.edit.NewBookDialog;
 import library.models.BookTableModel;
 import library.models.DepartmentBoxModel;
 import library.models.UserTableModel;
@@ -66,7 +67,6 @@ public class MainFrame extends javax.swing.JFrame {
         jButtonDeleteUser = new javax.swing.JButton();
         jButtonEditUser = new javax.swing.JButton();
         jButtonCreateUser = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("Messages"); // NOI18N
@@ -227,8 +227,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         jButtonCreateUser.setText(bundle.getString("gui.frame.user.button.user.create")); // NOI18N
 
-        jButton1.setText(bundle.getString("gui.frame.user.button.user.tickets")); // NOI18N
-
         javax.swing.GroupLayout jPanelUsersLayout = new javax.swing.GroupLayout(jPanelUsers);
         jPanelUsers.setLayout(jPanelUsersLayout);
         jPanelUsersLayout.setHorizontalGroup(
@@ -239,8 +237,6 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jScrollPane2)
                     .addGroup(jPanelUsersLayout.createSequentialGroup()
                         .addComponent(jButtonUserTableRefresh)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonCreateUser)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -269,8 +265,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jButtonUserTableRefresh)
                     .addComponent(jButtonDeleteUser)
                     .addComponent(jButtonEditUser)
-                    .addComponent(jButtonCreateUser)
-                    .addComponent(jButton1))
+                    .addComponent(jButtonCreateUser))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
                 .addContainerGap())
@@ -303,13 +298,22 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldBookTitleActionPerformed
 
     private void jButtonCreateBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateBookActionPerformed
+       
+        NewBookDialog newBook = new NewBookDialog(this, false);
+        
+        //newBook.setRequiredElements((TableEventModel) jTable2.getModel(), cal, cmi, emi);
+        
+        newBook.setVisible(true);
+        
+        
+        
         
     }//GEN-LAST:event_jButtonCreateBookActionPerformed
 
     private void jButtonEditBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditBookActionPerformed
         int index = jTableBooks.getSelectedRow();
         
-        
+        if (index != -1){
         EditBookDialog ebd = new EditBookDialog(this, false);
         try
         {
@@ -321,6 +325,10 @@ public class MainFrame extends javax.swing.JFrame {
         }
         
         ebd.setVisible(true);
+        }
+        else {
+            Tools.createErrorDialog("Please select book in table");
+        }
     }//GEN-LAST:event_jButtonEditBookActionPerformed
 
     private void jButtonResetBooksTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetBooksTableActionPerformed
@@ -339,16 +347,25 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonResetBooksTableActionPerformed
 
     private void jButtonDeleteBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteBookActionPerformed
-        try 
-        {
-            conn.getBws().deleteBook(getBTM().getBookAt(jTableBooks.getSelectedRow()));
-            getBTM().addBooks(conn.getBws().getAllBooks());
-            getBTM().refresh();
+        int index = jTableBooks.getSelectedRow();
+        
+        if (index != -1){
+        
+            try 
+            {
+                conn.getBws().deleteBook(getBTM().getBookAt(index));
+                getBTM().addBooks(conn.getBws().getAllBooks());
+                getBTM().refresh();
+            }
+            catch(ConnectException | NullPointerException | IllegalArgumentException ex)
+            {
+                System.err.println(ex.getMessage());
+            }  
+            
         }
-        catch(ConnectException | NullPointerException | IllegalArgumentException ex)
-        {
-            System.err.println(ex.getMessage());
-        }  
+        else {
+            Tools.createErrorDialog("Please select book in table");
+        }
     }//GEN-LAST:event_jButtonDeleteBookActionPerformed
 
     private void jButtonSearchByTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchByTitleActionPerformed
@@ -452,7 +469,6 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCreateBook;
     private javax.swing.JButton jButtonCreateUser;
     private javax.swing.JButton jButtonDeleteBook;
