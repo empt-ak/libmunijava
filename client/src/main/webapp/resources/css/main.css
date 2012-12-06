@@ -223,6 +223,9 @@ padding: 5px 15px;
 {
     border-bottom:1px solid grey;
     text-align: center;
+    background-color: rgb(200, 207, 150);
+    border-top-left-radius:6px;
+    border-top-right-radius:6px;
 }
 
 .slidingDiv table
@@ -233,8 +236,8 @@ padding: 5px 15px;
   -moz-box-shadow: 0 0 6px #959595 inset;
   -webkit-box-shadow: 0px 0px 6px #959595 inset; /* Saf3.0+, Chrome */
   box-shadow: 0px 0px 6px #959595 inset; /* Opera 10.5, IE9 */
-  border: 1px solid grey;
   background-color: #dfe7a7;
+  border-collapse: collapse;
 }
 
 .slidingDiv 
@@ -287,36 +290,41 @@ padding: 5px 15px;
 
 #book_detail
 {
-margin: 45px 15px 15px 15px;
+width: 800px;
+margin: 0px auto;
 -moz-border-radius: 6px;
 -webkit-border-radius: 6px;
 border-radius: 6px;
 -moz-box-shadow: 0 0 6px #959595 inset;
 -webkit-box-shadow: 0px 0px 6px rgb(149, 149, 149) inset;
 box-shadow: 0px 0px 6px rgb(149, 149, 149) inset;
-border: 1px solid grey;
 background-color: rgb(223, 231, 167);
+margin-top: 45px;
+border-collapse: collapse;
 }
 
 #book_detail thead
 {
     text-align: center;
+    background-color: rgb(200, 207, 150);
 }
 
-#book_detail tbody tr:first-child td
-{
-    border-top:1px solid grey;
-    text-align: center;
+#book_detail th{
+    border-bottom: 1px solid grey;
+    padding: 15px 15px;
+   border-top-left-radius:6px;
+    border-top-right-radius:6px;
 }
 
-#book_detail thead tr td
+#book_detail tr td
 {
-padding: 5px 15px;
+padding: 15px 15px;
+text-align: center;
 }
 
-#book_detail tbody tr td
+#book_detail tbody td
 {
-padding: 15px 0px 15px 0px;
+border-bottom: 1px solid grey;
 }
 
 #book_options
@@ -391,6 +399,7 @@ padding: 15px 0px 15px 0px;
     font-weight:bold;
     padding:6px 13px;
     text-decoration:none;
+    cursor: pointer;
 }.log_button:hover {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #727272), color-stop(1, #616161) );
 	background:-moz-linear-gradient( center top, #727272 5%, #616161 100% );
@@ -428,6 +437,7 @@ padding: 15px 0px 15px 0px;
 	font-weight:bold;
 	padding:6px 13px;
 	text-decoration:none;
+        cursor:pointer;
 }.all_books:hover {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #727272), color-stop(1, #616161) );
 	background:-moz-linear-gradient( center top, #727272 5%, #616161 100% );

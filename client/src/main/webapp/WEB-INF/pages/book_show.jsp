@@ -43,10 +43,10 @@
                 <table id="book_detail">
                     <thead>
                         <tr>
-                            <td><spring:message code="label.website.book.add.field.booktitle" /></td>
-                            <td><spring:message code="label.website.book.add.field.booktauthor" /></td>
-                            <td><spring:message code="label.website.book.add.field.bookdepartment" /></td>
-                            <td><spring:message code="label.website.book.edit.field.availability" /></td>
+                            <th><spring:message code="label.website.book.add.field.booktitle" /></th>
+                            <th><spring:message code="label.website.book.add.field.booktauthor" /></th>
+                            <th><spring:message code="label.website.book.add.field.bookdepartment" /></th>
+                            <th><spring:message code="label.website.book.edit.field.availability" /></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,9 +76,9 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td style="padding: 5px"> <a href="${pageContext.request.contextPath}/book/category/title/${book.title}"><spring:message code="label.website.book.show.similartitle" /></a></td>
-                            <td style="padding: 5px"><a href="${pageContext.request.contextPath}/book/category/author/${book.author}"><spring:message code="label.website.book.show.similarauthor" /></a></td>
-                            <td style="padding: 5px"><a href="${pageContext.request.contextPath}/book/category/department/${book.department}"><spring:message code="label.website.book.show.similardepartment" /></a></td>
+                            <td> <a href="${pageContext.request.contextPath}/book/category/title/${book.title}"><spring:message code="label.website.book.show.similartitle" /></a></td>
+                            <td><a href="${pageContext.request.contextPath}/book/category/author/${book.author}"><spring:message code="label.website.book.show.similarauthor" /></a></td>
+                            <td><a href="${pageContext.request.contextPath}/book/category/department/${book.department}"><spring:message code="label.website.book.show.similardepartment" /></a></td>
                                 <c:choose>
                                     <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
                                     <td style="padding-left: 20px"><a href="${pageContext.request.contextPath}/book/edit/${book.bookID}" title="<spring:message code="label.website.book.list.tooltip.edit" />"><img src="<c:url value="/resources/img/icons20x20/96.png" />" alt="<spring:message code="label.website.book.add.updatebutton" />" /></a>

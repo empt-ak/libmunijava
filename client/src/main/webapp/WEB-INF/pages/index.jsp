@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
 <html>
@@ -12,6 +13,7 @@
 
         <script src="<c:url value="/resources/javascript/jQuery.1.8.2.js" />"></script>
         <script type="text/javascript" language="javascript" src="<c:url value="/resources/javascript/jquery.dataTables.js" />"></script>
+        <script type="text/javascript" language="javascript" src="<c:url value="/resources/javascript/clickable_div.js" />"></script>
         
         <script>
             var oTable;

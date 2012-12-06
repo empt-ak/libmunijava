@@ -8,6 +8,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <script type="text/javascript" language="javascript" src="<c:url value="/resources/javascript/form_submit.js" />"></script>
+<script type="text/javascript" language="javascript" src="<c:url value="/resources/javascript/clickable_div.js" />"></script>
 
 <div id="header"> 
 
@@ -34,7 +35,7 @@
     <div class="log_button">
         <c:choose>
             <c:when test="${USER == null}">
-                <a href='${pageContext.request.contextPath}/user/login/'><span><spring:message code="label.website.navigation.login" /></span></a>
+                <a href='${pageContext.request.contextPath}/user/login/'><spring:message code="label.website.navigation.login" /></a>
             </c:when>
             <c:otherwise>
                 <a href='${pageContext.request.contextPath}/user/logout/'><span><spring:message code="label.website.navigation.logout" /></span></a>
