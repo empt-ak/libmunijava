@@ -4,11 +4,69 @@
  */
 package library.gui.edit;
 
+import java.net.ConnectException;
+import library.gui.ConnectionHolder;
+import library.models.UserTableModel;
+import library.webservice.UserDTO;
+
+
 /**
  *
  * @author Andrej
  */
 public class EditUserDialog extends javax.swing.JDialog {
+    
+    private UserDTO userDTO;
+    private ConnectionHolder holder;
+    private UserTableModel utm;
+    
+    public void setReq(UserDTO userDTO,ConnectionHolder holder,UserTableModel utm)
+    {
+        this.userDTO = userDTO;
+        this.holder = holder;
+        this.utm = utm;
+        
+        myInit();
+    }
+   
+    private void myInit()
+    {
+        jTextFieldUsername.setText(userDTO.getUsername());
+        jTextFieldRealName.setText(userDTO.getRealName());
+        jTextFieldRole.setText(userDTO.getSystemRole());
+        jTextFieldPassword.setText(userDTO.getPassword());      
+    }
+    
+    private void valuesToObject()
+    {
+        try
+        {
+            userDTO.setUsername(jTextFieldUsername.getText());
+            userDTO.setRealName(jTextFieldRealName.getText());
+            userDTO.setSystemRole(jTextFieldRole.getText());
+            userDTO.setPassword(jTextFieldPassword.getText());            
+        }
+        catch(Exception e)
+        {
+            System.err.println(e.getMessage());
+        }
+        
+        System.out.println("==from form obtained following book:"+userDTO);
+    }
+    
+    private void updateModel()
+    {
+        utm.clear();
+        try
+        {
+            utm.addUsers(holder.getUws().getUsers());            
+        }
+        catch(ConnectException ce)
+        {
+            System.err.println(ce.getMessage());
+        }
+        
+    }
 
     /**
      * Creates new form EditUserDialog
@@ -16,7 +74,7 @@ public class EditUserDialog extends javax.swing.JDialog {
     public EditUserDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.setTitle("Edit user");
+        this.setTitle(java.util.ResourceBundle.getBundle("Messages").getString("gui.frame.user.button.user.edit"));
     }
 
     /**
@@ -28,21 +86,148 @@ public class EditUserDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabelStatus = new javax.swing.JLabel();
+        jTextFieldRealName = new javax.swing.JTextField();
+        jLabelBookEditTitle = new javax.swing.JLabel();
+        jTextFieldRole = new javax.swing.JTextField();
+        jLabelBookTitle = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jTextFieldUsername = new javax.swing.JTextField();
+        jButtonReset = new javax.swing.JButton();
+        jLabelBookAuthor = new javax.swing.JLabel();
+        jTextFieldPassword = new javax.swing.JTextField();
+        jLabelDepartment = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("Messages"); // NOI18N
+        jLabelStatus.setText(bundle.getString("gui.user.systemrole")); // NOI18N
+
+        jTextFieldRealName.setText(bundle.getString("gui.field.error")); // NOI18N
+        jTextFieldRealName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldRealNameActionPerformed(evt);
+            }
+        });
+
+        jLabelBookEditTitle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabelBookEditTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelBookEditTitle.setText(bundle.getString("gui.frame.user.button.user.edit")); // NOI18N
+
+        jTextFieldRole.setText(bundle.getString("gui.field.error")); // NOI18N
+
+        jLabelBookTitle.setText(bundle.getString("gui.user.username")); // NOI18N
+
+        jButton1.setText(bundle.getString("gui.button.edit")); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jTextFieldUsername.setText(bundle.getString("gui.field.error")); // NOI18N
+
+        jButtonReset.setText(bundle.getString("gui.button.reset")); // NOI18N
+        jButtonReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonResetActionPerformed(evt);
+            }
+        });
+
+        jLabelBookAuthor.setText(bundle.getString("gui.user.realname")); // NOI18N
+
+        jTextFieldPassword.setText(bundle.getString("gui.field.error")); // NOI18N
+
+        jLabelDepartment.setText(bundle.getString("gui.user.password")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelBookEditTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelBookTitle)
+                                    .addComponent(jLabelDepartment)
+                                    .addComponent(jLabelStatus))
+                                .addGap(20, 20, 20))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabelBookAuthor)
+                                .addGap(18, 18, 18)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldRole)
+                            .addComponent(jTextFieldPassword)
+                            .addComponent(jTextFieldRealName)
+                            .addComponent(jTextFieldUsername))
+                        .addGap(19, 19, 19)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(145, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(27, 27, 27)
+                .addComponent(jButtonReset)
+                .addGap(116, 116, 116))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jLabelBookEditTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelBookTitle))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldRealName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelBookAuthor))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelDepartment))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelStatus))
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonReset)
+                    .addComponent(jButton1))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextFieldRealNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldRealNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldRealNameActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        valuesToObject();
+        
+        try
+        {
+            holder.getUws().updateUser(userDTO);
+            updateModel();
+            dispose();
+            
+        }
+        catch(ConnectException | IllegalArgumentException | NullPointerException e)
+        {
+            System.err.println(e.getMessage());
+        }  
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButtonResetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -86,5 +271,16 @@ public class EditUserDialog extends javax.swing.JDialog {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonReset;
+    private javax.swing.JLabel jLabelBookAuthor;
+    private javax.swing.JLabel jLabelBookEditTitle;
+    private javax.swing.JLabel jLabelBookTitle;
+    private javax.swing.JLabel jLabelDepartment;
+    private javax.swing.JLabel jLabelStatus;
+    private javax.swing.JTextField jTextFieldPassword;
+    private javax.swing.JTextField jTextFieldRealName;
+    private javax.swing.JTextField jTextFieldRole;
+    private javax.swing.JTextField jTextFieldUsername;
     // End of variables declaration//GEN-END:variables
 }

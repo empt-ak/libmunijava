@@ -32,6 +32,15 @@ public class UserTableModel extends javax.swing.table.AbstractTableModel
         refresh();
     }
     
+    public UserDTO getUserAt(int index)
+    {
+        return users.get(index);
+    }
+    
+    public void clear()
+    {
+        this.users.clear();
+    }
     
     public void refresh()
     {
@@ -74,8 +83,5 @@ public class UserTableModel extends javax.swing.table.AbstractTableModel
             default : throw new IllegalArgumentException("no such column");
         }
     }
-    
-    
-    
-    
+
 }

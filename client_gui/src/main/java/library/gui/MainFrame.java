@@ -6,6 +6,7 @@ package library.gui;
 
 import java.net.ConnectException;
 import library.gui.edit.EditBookDialog;
+import library.gui.edit.EditUserDialog;
 import library.gui.edit.NewBookDialog;
 import library.models.BookTableModel;
 import library.models.DepartmentBoxModel;
@@ -79,11 +80,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabelSearchByAuthor.setText(bundle.getString("gui.frame.books.search.byauthor")); // NOI18N
 
-        jTextFieldBookTitle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldBookTitleActionPerformed(evt);
-            }
-        });
         jTextFieldBookTitle.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextFieldBookTitleKeyPressed(evt);
@@ -154,59 +150,68 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanelBooksLayout.createSequentialGroup()
                 .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelBooksLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonDeleteBook, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelBooksLayout.createSequentialGroup()
-                                .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelFilterByDepartment)
-                                    .addComponent(jLabelSearchByAuthor)
-                                    .addComponent(jLabelSearchByTitle))
-                                .addGap(51, 51, 51)
-                                .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextFieldBookTitle)
-                                    .addComponent(jTextFieldBookAuthor)
-                                    .addComponent(jComboBox1, 0, 173, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
+                                .addComponent(jLabelSearchByTitle)
+                                .addGap(37, 37, 37))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBooksLayout.createSequentialGroup()
+                                .addContainerGap()
                                 .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBooksLayout.createSequentialGroup()
-                                        .addComponent(jButtonSearchByAuthor)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonCreateBook, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jButtonEditBook, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBooksLayout.createSequentialGroup()
-                                        .addComponent(jButtonSearchByTitle)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonResetBooksTable, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(jLabelSearchByAuthor)
+                                    .addComponent(jLabelFilterByDepartment))
+                                .addGap(18, 18, 18)))
+                        .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldBookTitle)
+                            .addComponent(jTextFieldBookAuthor)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonSearchByAuthor, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButtonSearchByTitle, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButtonEditBook, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                            .addComponent(jButtonDeleteBook, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                            .addComponent(jButtonCreateBook, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanelBooksLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 499, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
+                            .addGroup(jPanelBooksLayout.createSequentialGroup()
+                                .addComponent(jButtonResetBooksTable, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
         jPanelBooksLayout.setVerticalGroup(
             jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBooksLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelSearchByTitle)
-                    .addComponent(jTextFieldBookTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonSearchByTitle)
-                    .addComponent(jButtonResetBooksTable))
+                .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelBooksLayout.createSequentialGroup()
+                        .addComponent(jButtonCreateBook)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonEditBook)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonDeleteBook))
+                    .addGroup(jPanelBooksLayout.createSequentialGroup()
+                        .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldBookTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonSearchByTitle)
+                            .addComponent(jLabelSearchByTitle))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldBookAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonSearchByAuthor)
+                            .addComponent(jLabelSearchByAuthor))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabelFilterByDepartment))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(jButtonResetBooksTable)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelSearchByAuthor)
-                    .addComponent(jTextFieldBookAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonSearchByAuthor)
-                    .addComponent(jButtonCreateBook))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelFilterByDepartment)
-                    .addComponent(jButtonEditBook))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonDeleteBook)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -215,17 +220,42 @@ public class MainFrame extends javax.swing.JFrame {
         jLabelRealName.setText(bundle.getString("gui.user.realname")); // NOI18N
 
         jButtonUserSearch.setText(bundle.getString("gui.frame.button.search")); // NOI18N
+        jButtonUserSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUserSearchActionPerformed(evt);
+            }
+        });
 
         jTableUsers.setModel(new UserTableModel());
         jScrollPane2.setViewportView(jTableUsers);
 
         jButtonUserTableRefresh.setText(bundle.getString("gui.frame.button.refresh")); // NOI18N
+        jButtonUserTableRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonUserTableRefreshActionPerformed(evt);
+            }
+        });
 
         jButtonDeleteUser.setText(bundle.getString("gui.frame.user.button.user.delete")); // NOI18N
+        jButtonDeleteUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteUserActionPerformed(evt);
+            }
+        });
 
         jButtonEditUser.setText(bundle.getString("gui.frame.user.button.user.edit")); // NOI18N
+        jButtonEditUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditUserActionPerformed(evt);
+            }
+        });
 
         jButtonCreateUser.setText(bundle.getString("gui.frame.user.button.user.create")); // NOI18N
+        jButtonCreateUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCreateUserActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelUsersLayout = new javax.swing.GroupLayout(jPanelUsers);
         jPanelUsers.setLayout(jPanelUsersLayout);
@@ -234,22 +264,21 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanelUsersLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addGroup(jPanelUsersLayout.createSequentialGroup()
-                        .addComponent(jButtonUserTableRefresh)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsersLayout.createSequentialGroup()
+                        .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelUsersLayout.createSequentialGroup()
+                                .addComponent(jLabelRealName)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextFieldSearchByRealName, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonUserSearch))
+                            .addComponent(jButtonUserTableRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonCreateUser)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonEditUser)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonDeleteUser))
-                    .addGroup(jPanelUsersLayout.createSequentialGroup()
-                        .addComponent(jLabelRealName)
-                        .addGap(18, 18, 18)
-                        .addComponent(jTextFieldSearchByRealName, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonUserSearch)
-                        .addGap(0, 8, Short.MAX_VALUE)))
+                        .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButtonCreateUser, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+                            .addComponent(jButtonEditUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonDeleteUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanelUsersLayout.setVerticalGroup(
@@ -259,15 +288,16 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelRealName)
                     .addComponent(jTextFieldSearchByRealName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonUserSearch))
-                .addGap(38, 38, 38)
+                    .addComponent(jButtonUserSearch)
+                    .addComponent(jButtonCreateUser))
+                .addGap(9, 9, 9)
+                .addComponent(jButtonEditUser)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonUserTableRefresh)
-                    .addComponent(jButtonDeleteUser)
-                    .addComponent(jButtonEditUser)
-                    .addComponent(jButtonCreateUser))
+                    .addComponent(jButtonDeleteUser))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -277,10 +307,7 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane1)
-                .addContainerGap())
+            .addComponent(jTabbedPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,20 +320,11 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFieldBookTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBookTitleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldBookTitleActionPerformed
-
     private void jButtonCreateBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateBookActionPerformed
        
         NewBookDialog newBook = new NewBookDialog(this, false);
-        
-        //newBook.setRequiredElements((TableEventModel) jTable2.getModel(), cal, cmi, emi);
-        
+        newBook.setReq(conn, getBTM());
         newBook.setVisible(true);
-        
-        
-        
         
     }//GEN-LAST:event_jButtonCreateBookActionPerformed
 
@@ -327,7 +345,7 @@ public class MainFrame extends javax.swing.JFrame {
         ebd.setVisible(true);
         }
         else {
-            Tools.createErrorDialog("Please select book in table");
+            Tools.createErrorDialog(java.util.ResourceBundle.getBundle("Messages").getString("gui.dialog.book.error"));
         }
     }//GEN-LAST:event_jButtonEditBookActionPerformed
 
@@ -340,7 +358,6 @@ public class MainFrame extends javax.swing.JFrame {
         {
             System.err.println(ex.getMessage());
         }
-        
         
         jTextFieldBookAuthor.setText("");
         jTextFieldBookTitle.setText("");
@@ -364,7 +381,7 @@ public class MainFrame extends javax.swing.JFrame {
             
         }
         else {
-            Tools.createErrorDialog("Please select book in table");
+            Tools.createErrorDialog(java.util.ResourceBundle.getBundle("Messages").getString("gui.dialog.book.error"));
         }
     }//GEN-LAST:event_jButtonDeleteBookActionPerformed
 
@@ -429,6 +446,78 @@ public class MainFrame extends javax.swing.JFrame {
             System.err.println(ex.getMessage());
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButtonCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateUserActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonCreateUserActionPerformed
+
+    private void jButtonEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditUserActionPerformed
+        int index = jTableUsers.getSelectedRow();
+        
+        if (index != -1){
+            EditUserDialog eud = new EditUserDialog(this, false);
+            try
+            {
+                eud.setReq(getUTM().getUserAt(index), conn,getUTM());
+            }
+            catch(NullPointerException ex)
+            {
+                System.err.println(ex.getMessage());
+            }
+
+            eud.setVisible(true);
+            }
+        else {
+            Tools.createErrorDialog(java.util.ResourceBundle.getBundle("Messages").getString("gui.dialog.user.error"));
+        }
+    }//GEN-LAST:event_jButtonEditUserActionPerformed
+
+    private void jButtonUserTableRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUserTableRefreshActionPerformed
+    
+        try
+        {
+            getUTM().addUsers(conn.getUws().getUsers());            
+        }
+        catch(ConnectException | NullPointerException ex)
+        {
+            System.err.println(ex.getMessage());
+        }
+        
+        jTextFieldSearchByRealName.setText("");
+    }//GEN-LAST:event_jButtonUserTableRefreshActionPerformed
+
+    private void jButtonDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteUserActionPerformed
+       int index = jTableUsers.getSelectedRow();
+        
+        if (index != -1){
+        
+            try 
+            {
+                conn.getUws().deleteUser(getUTM().getUserAt(index));
+                getUTM().addUsers(conn.getUws().getUsers());
+                getUTM().refresh();
+            }
+            catch(ConnectException | NullPointerException | IllegalArgumentException ex)
+            {
+                System.err.println(ex.getMessage());
+            }  
+            
+        }
+        else {
+            Tools.createErrorDialog(java.util.ResourceBundle.getBundle("Messages").getString("gui.dialog.user.error"));
+        }
+    }//GEN-LAST:event_jButtonDeleteUserActionPerformed
+
+    private void jButtonUserSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUserSearchActionPerformed
+      try 
+        {
+            getUTM().addUsers(conn.getUws().findUserByRealName(jTextFieldSearchByRealName.getText()));
+        } 
+        catch(ConnectException | NullPointerException | IllegalArgumentException ex)
+        {
+            System.err.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_jButtonUserSearchActionPerformed
 
     /**
      * @param args the command line arguments

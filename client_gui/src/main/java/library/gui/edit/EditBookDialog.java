@@ -59,6 +59,7 @@ public class EditBookDialog extends javax.swing.JDialog {
         
         System.out.println("==from form obtained following book:"+bookDTO);
     }
+    
     private void updateModel()
     {
         btm.clear();
@@ -79,7 +80,7 @@ public class EditBookDialog extends javax.swing.JDialog {
     public EditBookDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.setTitle("Edit book");
+        this.setTitle(java.util.ResourceBundle.getBundle("Messages").getString("gui.frame.books.button.edit"));
     }
 
     /**
@@ -109,9 +110,9 @@ public class EditBookDialog extends javax.swing.JDialog {
 
         jLabelBookEditTitle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelBookEditTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelBookEditTitle.setText("Edit book");
-
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("Messages"); // NOI18N
+        jLabelBookEditTitle.setText(bundle.getString("gui.frame.books.button.edit")); // NOI18N
+
         jLabelBookID.setText(bundle.getString("gui.book.bookid")); // NOI18N
 
         jLabelBookTitle.setText(bundle.getString("gui.book.title")); // NOI18N
@@ -122,25 +123,25 @@ public class EditBookDialog extends javax.swing.JDialog {
 
         jLabelStatus.setText(bundle.getString("gui.book.availability")); // NOI18N
 
-        jTextFieldBookID.setText("ERROR: VALUE NOT LOADED");
+        jTextFieldBookID.setText(bundle.getString("gui.field.error")); // NOI18N
         jTextFieldBookID.setEnabled(false);
 
-        jTextFieldBookTitle.setText("ERROR: VALUE NOT LOADED");
+        jTextFieldBookTitle.setText(bundle.getString("gui.field.error")); // NOI18N
 
-        jTextFieldBookAuthor.setText("ERROR: VALUE NOT LOADED");
-        jTextFieldBookAuthor.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldBookAuthor.setText(bundle.getString("gui.field.error")); // NOI18N
+
+        jTextFieldBookDepatment.setText(bundle.getString("gui.field.error")); // NOI18N
+
+        jTextFieldBookStatus.setText(bundle.getString("gui.field.error")); // NOI18N
+
+        jButtonReset.setText(bundle.getString("gui.button.reset")); // NOI18N
+        jButtonReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldBookAuthorActionPerformed(evt);
+                jButtonResetActionPerformed(evt);
             }
         });
 
-        jTextFieldBookDepatment.setText("ERROR: VALUE NOT LOADED");
-
-        jTextFieldBookStatus.setText("ERROR: VALUE NOT LOADED");
-
-        jButtonReset.setText(bundle.getString("gui.button.reset")); // NOI18N
-
-        jButton1.setText("Edit");
+        jButton1.setText(bundle.getString("gui.button.edit")); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -219,10 +220,6 @@ public class EditBookDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextFieldBookAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBookAuthorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldBookAuthorActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
              
         valuesToObject();
@@ -239,6 +236,10 @@ public class EditBookDialog extends javax.swing.JDialog {
             System.err.println(e.getMessage());
         }  
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButtonResetActionPerformed
 
     /**
      * @param args the command line arguments

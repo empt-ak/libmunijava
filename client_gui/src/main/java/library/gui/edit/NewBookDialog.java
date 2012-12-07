@@ -4,11 +4,59 @@
  */
 package library.gui.edit;
 
+import java.net.ConnectException;
+import library.gui.ConnectionHolder;
+import library.models.BookTableModel;
+import library.webservice.BookDTO;
+import library.webservice.BookStatus;
+import library.webservice.Department;
+
 /**
  *
  * @author Andrej
  */
 public class NewBookDialog extends javax.swing.JDialog {
+    
+    private BookDTO bookDTO = new BookDTO();
+    private ConnectionHolder holder;
+    private BookTableModel btm;
+    
+    public void setReq(ConnectionHolder holder,BookTableModel btm)
+    {
+        this.holder = holder;
+        this.btm = btm; 
+    }
+    
+    private void valuesToObject()
+    {
+        try
+        {
+            bookDTO.setAuthor(jTextFieldBookAuthor.getText());
+            bookDTO.setBookStatus(BookStatus.valueOf(jTextFieldBookStatus.getText()));
+            bookDTO.setDepartment(Department.valueOf(jTextFieldBookDepatment.getText()));
+            bookDTO.setTitle(jTextFieldBookTitle.getText());            
+        }
+        catch(Exception e)
+        {
+            System.err.println(e.getMessage());
+        }
+        
+        System.out.println("==from form obtained following book:"+bookDTO);
+    }
+    
+    private void updateModel()
+    {
+        btm.clear();
+        try
+        {
+            btm.addBooks(holder.getBws().getAllBooks());            
+        }
+        catch(ConnectException ce)
+        {
+            System.err.println(ce.getMessage());
+        }
+        
+    }
 
     /**
      * Creates new form NewBookDialog
@@ -16,7 +64,7 @@ public class NewBookDialog extends javax.swing.JDialog {
     public NewBookDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.setTitle("Add book");
+        this.setTitle(java.util.ResourceBundle.getBundle("Messages").getString("gui.frame.books.button.create"));
     }
 
     /**
@@ -42,25 +90,30 @@ public class NewBookDialog extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jButton1.setText("Create");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("Messages"); // NOI18N
+        jButton1.setText(bundle.getString("gui.button.create")); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("Messages"); // NOI18N
         jButtonReset.setText(bundle.getString("gui.button.reset")); // NOI18N
+        jButtonReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonResetActionPerformed(evt);
+            }
+        });
+
+        jTextFieldBookDepatment.setText(bundle.getString("gui.field.error")); // NOI18N
+
+        jTextFieldBookStatus.setText(bundle.getString("gui.field.error")); // NOI18N
 
         jLabelBookEditTitle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelBookEditTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelBookEditTitle.setText("Create book");
+        jLabelBookEditTitle.setText(bundle.getString("gui.frame.books.button.create")); // NOI18N
 
-        jTextFieldBookAuthor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldBookAuthorActionPerformed(evt);
-            }
-        });
+        jTextFieldBookAuthor.setText(bundle.getString("gui.field.error")); // NOI18N
 
         jLabelStatus.setText(bundle.getString("gui.book.availability")); // NOI18N
 
@@ -69,6 +122,8 @@ public class NewBookDialog extends javax.swing.JDialog {
         jLabelBookAuthor.setText(bundle.getString("gui.book.author")); // NOI18N
 
         jLabelBookTitle.setText(bundle.getString("gui.book.title")); // NOI18N
+
+        jTextFieldBookTitle.setText(bundle.getString("gui.field.error")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -137,13 +192,24 @@ public class NewBookDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        valuesToObject();
+        
+        try
+        {
+            holder.getBws().createBook(bookDTO);
+            updateModel();
+            dispose();   
+        }
+        catch(ConnectException | IllegalArgumentException | NullPointerException e)
+        {
+            System.err.println(e.getMessage());
+        }  
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jTextFieldBookAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldBookAuthorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldBookAuthorActionPerformed
+    private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButtonResetActionPerformed
 
     /**
      * @param args the command line arguments

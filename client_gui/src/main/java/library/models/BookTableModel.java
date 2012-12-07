@@ -7,8 +7,6 @@ package library.models;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 import library.webservice.BookDTO;
 import library.webservice.BookStatus;
 import library.webservice.Department;
