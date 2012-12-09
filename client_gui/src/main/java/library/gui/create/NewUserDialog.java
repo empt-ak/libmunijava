@@ -2,84 +2,39 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package library.gui.edit;
+package library.gui.create;
 
+import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
-import javax.swing.DefaultComboBoxModel;
+import java.security.NoSuchAlgorithmException;
 import library.gui.ConnectionHolder;
-import library.models.BookTableModel;
-import library.webservice.BookDTO;
-import library.webservice.BookStatus;
-import library.webservice.Department;
+import library.gui.tools.Tools;
+import library.gui.models.UserRoleBoxModel;
+import library.gui.models.UserTableModel;
+import library.webservice.UserDTO;
 
 /**
  *
- * @author Andrej
+ * @author Andrej,Emptak
  */
-public class NewBookDialog extends javax.swing.JDialog {
+public class NewUserDialog extends javax.swing.JDialog {
     
-    private BookDTO bookDTO = new BookDTO();
+    private UserDTO userDTO = new UserDTO();
     private ConnectionHolder holder;
-    private BookTableModel btm;
+    private UserTableModel utm;
     
-    DefaultComboBoxModel modelAva = new DefaultComboBoxModel(new String[] {
-            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.availability.yes"),
-            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.availability.no"), 
-         });
-    
-    DefaultComboBoxModel modelDep = new DefaultComboBoxModel(new String[] {
-            "",
-            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.department.adult"),
-            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.department.kids"), 
-            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.department.science")
-         });
-    
-    public void setReq(ConnectionHolder holder,BookTableModel btm)
+    public void setReq(ConnectionHolder holder,UserTableModel utm)
     {
         this.holder = holder;
-        this.btm = btm; 
-    }
-    
-    private void valuesToObject()
-    {
-        try
-        {
-            bookDTO.setAuthor(jTextFieldBookAuthor.getText());
-            bookDTO.setBookStatus(BookStatus.valueOf(jComboBoxAvailability.getSelectedItem().toString()));
-            bookDTO.setDepartment(Department.valueOf(jComboBoxDepartment.getSelectedItem().toString()));
-            bookDTO.setTitle(jTextFieldBookTitle.getText());            
-        }
-        catch(Exception e)
-        {
-            System.err.println(e.getMessage());
-        }
-        
-        System.out.println("==from form obtained following book:"+bookDTO);
-    }
-    
-    private void updateModel()
-    {
-        btm.clear();
-        try
-        {
-            btm.addBooks(holder.getBws().getAllBooks());            
-        }
-        catch(ConnectException ce)
-        {
-            System.err.println(ce.getMessage());
-        }
-        
+        this.utm = utm;
     }
 
     /**
-     * Creates new form NewBookDialog
+     * Creates new form NewUserDialog
      */
-    public NewBookDialog(java.awt.Frame parent, boolean modal) {
+    public NewUserDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
-        this.setTitle(java.util.ResourceBundle.getBundle("Messages").getString("gui.frame.books.button.create"));
-        jComboBoxAvailability.setModel(modelAva);
-        jComboBoxDepartment.setModel(modelDep);
+        initComponents();        
     }
 
     /**
@@ -91,27 +46,36 @@ public class NewBookDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabelBookTitle = new javax.swing.JLabel();
+        jLabelBookAuthor = new javax.swing.JLabel();
+        jLabelDepartment = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jTextFieldUsername = new javax.swing.JTextField();
         jButtonReset = new javax.swing.JButton();
         jLabelBookEditTitle = new javax.swing.JLabel();
-        jTextFieldBookAuthor = new javax.swing.JTextField();
+        jTextFieldRealName = new javax.swing.JTextField();
         jLabelStatus = new javax.swing.JLabel();
-        jLabelDepartment = new javax.swing.JLabel();
-        jLabelBookAuthor = new javax.swing.JLabel();
-        jLabelBookTitle = new javax.swing.JLabel();
-        jTextFieldBookTitle = new javax.swing.JTextField();
-        jComboBoxDepartment = new javax.swing.JComboBox();
-        jComboBoxAvailability = new javax.swing.JComboBox();
+        jComboBox1 = new javax.swing.JComboBox();
+        jPasswordField1 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("Messages"); // NOI18N
+        setTitle(bundle.getString("gui.frame.user.button.user.create")); // NOI18N
+
+        jLabelBookTitle.setText(bundle.getString("gui.user.username")); // NOI18N
+
+        jLabelBookAuthor.setText(bundle.getString("gui.user.realname")); // NOI18N
+
+        jLabelDepartment.setText(bundle.getString("gui.user.password")); // NOI18N
+
         jButton1.setText(bundle.getString("gui.button.create")); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jTextFieldUsername.setText(bundle.getString("gui.field.error")); // NOI18N
 
         jButtonReset.setText(bundle.getString("gui.button.reset")); // NOI18N
         jButtonReset.addActionListener(new java.awt.event.ActionListener() {
@@ -122,17 +86,13 @@ public class NewBookDialog extends javax.swing.JDialog {
 
         jLabelBookEditTitle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelBookEditTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelBookEditTitle.setText(bundle.getString("gui.frame.books.button.create")); // NOI18N
+        jLabelBookEditTitle.setText(bundle.getString("gui.frame.user.button.user.create")); // NOI18N
 
-        jTextFieldBookAuthor.setText(bundle.getString("gui.field.error")); // NOI18N
+        jTextFieldRealName.setText(bundle.getString("gui.field.error")); // NOI18N
 
-        jLabelStatus.setText(bundle.getString("gui.book.availability")); // NOI18N
+        jLabelStatus.setText(bundle.getString("gui.user.systemrole")); // NOI18N
 
-        jLabelDepartment.setText(bundle.getString("gui.book.department")); // NOI18N
-
-        jLabelBookAuthor.setText(bundle.getString("gui.book.author")); // NOI18N
-
-        jLabelBookTitle.setText(bundle.getString("gui.book.title")); // NOI18N
+        jComboBox1.setModel(new UserRoleBoxModel());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -145,21 +105,20 @@ public class NewBookDialog extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabelBookTitle)
-                                    .addComponent(jLabelBookAuthor))
-                                .addGap(34, 34, 34)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldBookTitle)
-                                    .addComponent(jTextFieldBookAuthor)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabelDepartment)
                                     .addComponent(jLabelStatus))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBoxAvailability, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBoxDepartment, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addGap(20, 20, 20))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabelBookAuthor)
+                                .addGap(18, 18, 18)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldRealName)
+                            .addComponent(jTextFieldUsername)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPasswordField1))
                         .addGap(19, 19, 19)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -176,25 +135,25 @@ public class NewBookDialog extends javax.swing.JDialog {
                 .addComponent(jLabelBookEditTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelBookTitle)
-                    .addComponent(jTextFieldBookTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelBookTitle))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelBookAuthor)
-                    .addComponent(jTextFieldBookAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldRealName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelBookAuthor))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelDepartment)
-                    .addComponent(jComboBoxDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelStatus)
-                    .addComponent(jComboBoxAvailability, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonReset)
                     .addComponent(jButton1))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         pack();
@@ -205,22 +164,24 @@ public class NewBookDialog extends javax.swing.JDialog {
         
         try
         {
-            holder.getBws().createBook(bookDTO);
+            holder.getUws().createUser(userDTO);
             updateModel();
+            System.out.print("==Following user has been saved:");
+            Tools.printEntity(this.userDTO);
             dispose();   
         }
         catch(ConnectException | IllegalArgumentException | NullPointerException e)
         {
             System.err.println(e.getMessage());
+            Tools.createErrorDialog(e.getMessage());
         }  
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
-        jTextFieldBookAuthor.setText("");
-        jComboBoxAvailability.setSelectedIndex(0);
-        jComboBoxDepartment.setSelectedIndex(0);
-        jTextFieldBookTitle.setText("");
+        jTextFieldUsername.setText("");
+        jTextFieldRealName.setText("");
+        jComboBox1.setSelectedIndex(0);
+        jPasswordField1.setText("");
     }//GEN-LAST:event_jButtonResetActionPerformed
 
     /**
@@ -240,20 +201,20 @@ public class NewBookDialog extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewBookDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewUserDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewBookDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewUserDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewBookDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewUserDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewBookDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NewUserDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                NewBookDialog dialog = new NewBookDialog(new javax.swing.JFrame(), true);
+                NewUserDialog dialog = new NewUserDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -267,14 +228,58 @@ public class NewBookDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonReset;
-    private javax.swing.JComboBox jComboBoxAvailability;
-    private javax.swing.JComboBox jComboBoxDepartment;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabelBookAuthor;
     private javax.swing.JLabel jLabelBookEditTitle;
     private javax.swing.JLabel jLabelBookTitle;
     private javax.swing.JLabel jLabelDepartment;
     private javax.swing.JLabel jLabelStatus;
-    private javax.swing.JTextField jTextFieldBookAuthor;
-    private javax.swing.JTextField jTextFieldBookTitle;
+    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JTextField jTextFieldRealName;
+    private javax.swing.JTextField jTextFieldUsername;
     // End of variables declaration//GEN-END:variables
+
+    private String passwordFromField()
+    {
+        StringBuilder sb = new StringBuilder();
+        for(int i =0;i<jPasswordField1.getPassword().length;i++)
+        {
+            sb.append(jPasswordField1.getPassword()[i]);
+        }
+        
+        return sb.toString();
+    }
+    
+    
+    
+    private void valuesToObject()
+    {
+        userDTO.setUsername(jTextFieldUsername.getText());
+        userDTO.setRealName(jTextFieldRealName.getText());
+        userDTO.setSystemRole(jComboBox1.getSelectedItem().toString());
+        try
+        {
+            
+            userDTO.setPassword(Tools.SHA1(passwordFromField()));            
+        }
+        catch(NoSuchAlgorithmException | UnsupportedEncodingException ex)
+        {
+            System.err.println(ex.getMessage());
+        }
+        
+        System.out.println("==from form obtained following book:"+userDTO);
+    }
+    
+    private void updateModel()
+    {
+        utm.clear();
+        try
+        {
+            utm.addUsers(holder.getUws().getUsers());            
+        }
+        catch(ConnectException ce)
+        {
+            System.err.println(ce.getMessage());
+        }        
+    }
 }

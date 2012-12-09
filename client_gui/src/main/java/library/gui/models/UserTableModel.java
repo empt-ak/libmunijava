@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package library.models;
+package library.gui.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,16 @@ public class UserTableModel extends javax.swing.table.AbstractTableModel
     List<UserDTO> users = new ArrayList<>();
     java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("Messages");
     
+    public UserTableModel()
+    {
+        UserDTO u = new UserDTO();
+        u.setUsername("DATABASE");
+        u.setRealName("ERROR");
+        u.setUserID(new Long(-1));
+        u.setSystemRole("ERROR");
+        
+        this.users.add(u);
+    }
     
     public void addUser(UserDTO user)
     {

@@ -4,20 +4,21 @@
  */
 package library.gui;
 
+import library.gui.tools.Tools;
 import java.net.ConnectException;
 import library.gui.edit.EditBookDialog;
 import library.gui.edit.EditUserDialog;
-import library.gui.edit.NewBookDialog;
-import library.gui.edit.NewUserDialog;
-import library.models.BookTableModel;
-import library.models.DepartmentBoxModel;
-import library.models.UserTableModel;
+import library.gui.create.NewBookDialog;
+import library.gui.create.NewUserDialog;
+import library.gui.models.BookTableModel;
+import library.gui.models.DepartmentBoxModel;
+import library.gui.models.UserTableModel;
 import library.webservice.Department;
 
 
 /**
  *
- * @author Emptak
+ * @author Emptak,Andrej
  */
 public class MainFrame extends javax.swing.JFrame {
 

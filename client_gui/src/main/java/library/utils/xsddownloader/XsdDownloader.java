@@ -31,6 +31,10 @@ import org.xml.sax.SAXException;
  *  Po spusteni serveru sa touto krasnou utilitkou da vygenerovat aktualne .xsd
  *  credit: https://www.everit.biz/web/guest/blog/-/blogs/downloading-wsdl-files-for-offline-use
  */
+/**
+ * 
+ * @author Nemko
+ */
 public class XsdDownloader {
 
     public static class XsdNameSpaceContext implements NamespaceContext {

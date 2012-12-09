@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package library.models;
+package library.gui.models;
 
 import library.webservice.Department;
 

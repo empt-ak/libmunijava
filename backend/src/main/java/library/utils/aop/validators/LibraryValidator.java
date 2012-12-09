@@ -29,10 +29,17 @@ public class LibraryValidator
             User u = (User) o;
             switch(operation)
             {
-                case CREATE: DAOUserValidator.validateOnSave(u); break;
-                case UPDATE: DAOUserValidator.validateOnUpdate(u); break;
-                case DELETE: DAOUserValidator.validateOnDelete(u); break;
-                default: throw new IllegalArgumentException();
+                case CREATE: 
+                    DAOUserValidator.validateOnSave(u); 
+                    break;
+                case UPDATE: 
+                    DAOUserValidator.validateOnUpdate(u); 
+                    break;
+                case DELETE: 
+                    DAOUserValidator.validateOnDelete(u); 
+                    break;
+                default: 
+                    throw new IllegalArgumentException();
             }
         }
         else if(clazz.equals(Book.class))
@@ -40,10 +47,17 @@ public class LibraryValidator
             Book b = (Book)o;
             switch(operation)
             {
-                case CREATE: DAOBookValidator.validateOnSave(b); break;
-                case UPDATE: DAOBookValidator.validateOnUpdate(b); break;
-                case DELETE: DAOBookValidator.validateOnDelete(b); break;
-                default: throw new IllegalArgumentException();
+                case CREATE: 
+                    DAOBookValidator.validateOnSave(b); 
+                    break;
+                case UPDATE: 
+                    DAOBookValidator.validateOnUpdate(b); 
+                    break;
+                case DELETE: 
+                    DAOBookValidator.validateOnDelete(b); 
+                    break;
+                default: 
+                    throw new IllegalArgumentException();
             }
         }
         else if(clazz.equals(TicketItem.class))
@@ -51,10 +65,17 @@ public class LibraryValidator
             TicketItem ti = (TicketItem) o;
             switch(operation)
             {
-                case CREATE: DAOTicketItemValidator.validateOnSave(ti); break;
-                case UPDATE: DAOTicketItemValidator.validateOnUpdate(ti); break;
-                case DELETE: DAOTicketItemValidator.validateOnDelete(ti); break;
-                default: throw new IllegalArgumentException();
+                case CREATE: 
+                    DAOTicketItemValidator.validateOnSave(ti); 
+                    break;
+                case UPDATE: 
+                    DAOTicketItemValidator.validateOnUpdate(ti); 
+                    break;
+                case DELETE: 
+                    DAOTicketItemValidator.validateOnDelete(ti); 
+                    break;
+                default: 
+                    throw new IllegalArgumentException();
             }
         }
         else if(clazz.equals(Ticket.class))
@@ -62,10 +83,17 @@ public class LibraryValidator
             Ticket t = (Ticket)o;
             switch(operation)
             {
-                case CREATE: DAOTicketValidator.validateOnSave(t); break;
-                case UPDATE: DAOTicketValidator.validateOnUpdate(t); break;
-                case DELETE: DAOTicketValidator.validateOnDelete(t); break;
-                default: throw new IllegalArgumentException();
+                case CREATE: 
+                    DAOTicketValidator.validateOnSave(t); 
+                    break;
+                case UPDATE: 
+                    DAOTicketValidator.validateOnUpdate(t); 
+                    break;
+                case DELETE: 
+                    DAOTicketValidator.validateOnDelete(t); 
+                    break;
+                default: 
+                    throw new IllegalArgumentException();
             }
         }
         else

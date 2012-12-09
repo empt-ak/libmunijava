@@ -6,81 +6,63 @@ package library.gui.edit;
 
 
 import java.net.ConnectException;
-import javax.swing.DefaultComboBoxModel;
+import javax.xml.ws.soap.SOAPFaultException;
 import library.gui.ConnectionHolder;
-import library.models.BookTableModel;
+import library.gui.tools.Memento;
+import library.gui.tools.Tools;
+import library.gui.models.BookAvailabilityBoxModel;
+import library.gui.models.BookTableModel;
+import library.gui.models.DepartmentBoxModel;
 import library.webservice.BookDTO;
 import library.webservice.BookStatus;
-import library.webservice.BookWebService;
 import library.webservice.Department;
 
 
 /**
  *
- * @author Emptak
+ * @author Emptak,Andrej
  */
 public class EditBookDialog extends javax.swing.JDialog {
 
     private BookDTO bookDTO;
-    private BookDTO resetBookDTO;
     private ConnectionHolder holder;
     private BookTableModel btm;
+    private Memento<BookDTO> memento = new Memento<>();
     
-    DefaultComboBoxModel modelAva = new DefaultComboBoxModel(new String[] {
-            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.availability.yes"),
-            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.availability.no"), 
-         });
-    
-    DefaultComboBoxModel modelDep = new DefaultComboBoxModel(new String[] {
-            "",
-            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.department.adult"),
-            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.department.kids"), 
-            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.department.science")
-         });
     
     public void setReq(BookDTO bookDTO,ConnectionHolder holder,BookTableModel btm)
     {
         this.bookDTO = bookDTO;
-        this.resetBookDTO = bookDTO;
         this.holder = holder;
         this.btm = btm;
-        myInit();
-    }
-   
-    private void myInit()
-    {
-        jTextFieldBookAuthor.setText(bookDTO.getAuthor());
-        
-        int index = modelAva.getIndexOf(bookDTO.getBookStatus().toString());
-        if(index != -1 ) { 
-            jComboBoxAvailability.setSelectedIndex(index); 
-        }
-        
-        index = modelDep.getIndexOf(bookDTO.getDepartment().toString());
-        if(index != -1 ) { 
-            jComboBoxDepartment.setSelectedIndex(index); 
-        }
-
-        jTextFieldBookID.setText(bookDTO.getBookID().toString());
-        jTextFieldBookTitle.setText(bookDTO.getTitle());        
+        memento.setState(bookDTO);
+        valuesFromObject(bookDTO);
     }
     
-    private void valuesToObject()
+    /**
+     * Takes values from combo boxes text fields into given object
+     * @param b 
+     */
+    private void valuesToObject(BookDTO b)
     {
-        try
-        {
-            bookDTO.setAuthor(jTextFieldBookAuthor.getText());
-            bookDTO.setBookID(new Long(jTextFieldBookID.getText()));
-            bookDTO.setBookStatus(BookStatus.valueOf(jComboBoxAvailability.getSelectedItem().toString()));
-            bookDTO.setDepartment(Department.valueOf(jComboBoxDepartment.getSelectedItem().toString()));
-            bookDTO.setTitle(jTextFieldBookTitle.getText());            
-        }
-        catch(Exception e)
-        {
-            System.err.println(e.getMessage());
-        }
-        
-        System.out.println("==from form obtained following book:"+bookDTO);
+        b.setAuthor(jTextFieldBookAuthor.getText());
+        b.setBookID(new Long(jTextFieldBookID.getText()));
+        b.setBookStatus(BookStatus.valueOf(jComboBoxAvailability.getSelectedItem().toString()));
+        b.setDepartment(Department.valueOf(jComboBoxDepartment.getSelectedItem().toString()));
+        b.setTitle(jTextFieldBookTitle.getText());     
+    }
+    
+    /**
+     * Sets values into comboboxes and textfields from given object
+     * @param b 
+     */
+    private void valuesFromObject(BookDTO b)
+    {
+        jTextFieldBookID.setText(b.getBookID().toString());
+        jTextFieldBookTitle.setText(b.getTitle());
+        jTextFieldBookAuthor.setText(b.getAuthor());
+        jComboBoxAvailability.setSelectedItem(b.getBookStatus());
+        jComboBoxAvailability.setSelectedItem(b.getDepartment());
     }
     
     private void updateModel()
@@ -93,8 +75,7 @@ public class EditBookDialog extends javax.swing.JDialog {
         catch(ConnectException ce)
         {
             System.err.println(ce.getMessage());
-        }
-        
+        }        
     }
     
     /**
@@ -102,10 +83,7 @@ public class EditBookDialog extends javax.swing.JDialog {
      */
     public EditBookDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();
-        this.setTitle(java.util.ResourceBundle.getBundle("Messages").getString("gui.frame.books.button.edit"));
-        jComboBoxAvailability.setModel(modelAva);
-        jComboBoxDepartment.setModel(modelDep);
+        initComponents(); 
     }
 
     /**
@@ -132,10 +110,11 @@ public class EditBookDialog extends javax.swing.JDialog {
         jComboBoxDepartment = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("Messages"); // NOI18N
+        setTitle(bundle.getString("gui.frame.books.button.edit")); // NOI18N
 
         jLabelBookEditTitle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelBookEditTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("Messages"); // NOI18N
         jLabelBookEditTitle.setText(bundle.getString("gui.frame.books.button.edit")); // NOI18N
 
         jLabelBookID.setText(bundle.getString("gui.book.bookid")); // NOI18N
@@ -168,6 +147,10 @@ public class EditBookDialog extends javax.swing.JDialog {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jComboBoxAvailability.setModel(new BookAvailabilityBoxModel());
+
+        jComboBoxDepartment.setModel(new DepartmentBoxModel());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -243,36 +226,26 @@ public class EditBookDialog extends javax.swing.JDialog {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
              
-        valuesToObject();
+        valuesToObject(this.bookDTO);
         
         try
         {
-            holder.getBws().updateBook(bookDTO);
+            holder.getBws().updateBook(this.bookDTO);
             updateModel();
-            dispose();
-            
+            System.out.print("==Following book has been updated:");
+            Tools.printEntity(bookDTO);
+            dispose();            
         }
-        catch(ConnectException | IllegalArgumentException | NullPointerException e)
+        catch(ConnectException | SOAPFaultException | IllegalArgumentException | NullPointerException e)
         {
             System.err.println(e.getMessage());
+            Tools.createErrorDialog(e.getMessage());
         }  
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
-        jTextFieldBookAuthor.setText(resetBookDTO.getAuthor());
-        jTextFieldBookID.setText(resetBookDTO.getBookID().toString());
-        jTextFieldBookTitle.setText(resetBookDTO.getTitle());
-        
-        int index = modelAva.getIndexOf(resetBookDTO.getBookStatus().toString());
-        if(index != -1 ) { 
-            jComboBoxAvailability.setSelectedIndex(index); 
-        }
-        
-        index = modelDep.getIndexOf(resetBookDTO.getDepartment().toString());
-        if(index != -1 ) { 
-            jComboBoxDepartment.setSelectedIndex(index); 
-        }
-        
+        this.bookDTO = memento.getFirstState();
+        valuesFromObject(this.bookDTO);        
     }//GEN-LAST:event_jButtonResetActionPerformed
 
     /**

@@ -4,6 +4,7 @@
  */
 package library.gui;
 
+import library.gui.tools.Tools;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -79,7 +80,7 @@ public class ConnectionHolder
     }
     
     /**
-     * Method used for checking if web service on specified port and adress is running.
+     * Method used for checking if web service on specified port and address is running.
      * taken from http://singztechmusings.wordpress.com/2011/05/26/java-how-to-check-if-a-web-page-exists-and-is-available/
      * 
      * @param targetUrl url to be checked
