@@ -5,6 +5,7 @@
 package library.gui.edit;
 
 import java.net.ConnectException;
+import javax.swing.DefaultComboBoxModel;
 import library.gui.ConnectionHolder;
 import library.models.UserTableModel;
 import library.webservice.UserDTO;
@@ -19,6 +20,13 @@ public class NewUserDialog extends javax.swing.JDialog {
     private ConnectionHolder holder;
     private UserTableModel utm;
     
+    DefaultComboBoxModel model = new DefaultComboBoxModel(new String[] {
+            "",
+            java.util.ResourceBundle.getBundle("Messages").getString("gui.user.systemrole.user"),
+            java.util.ResourceBundle.getBundle("Messages").getString("gui.user.systemrole.lib"), 
+            java.util.ResourceBundle.getBundle("Messages").getString("gui.user.systemrole.admin")
+         });
+    
     public void setReq(ConnectionHolder holder,UserTableModel utm)
     {
         this.holder = holder;
@@ -31,7 +39,7 @@ public class NewUserDialog extends javax.swing.JDialog {
         {
             userDTO.setUsername(jTextFieldUsername.getText());
             userDTO.setRealName(jTextFieldRealName.getText());
-            userDTO.setSystemRole(jTextFieldRole.getText());
+            userDTO.setSystemRole(jComboBox1.getSelectedItem().toString());
             userDTO.setPassword(jTextFieldPassword.getText());            
         }
         catch(Exception e)
@@ -63,6 +71,7 @@ public class NewUserDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setTitle(java.util.ResourceBundle.getBundle("Messages").getString("gui.frame.user.button.user.create"));
+        jComboBox1.setModel(model);
     }
 
     /**
@@ -81,10 +90,10 @@ public class NewUserDialog extends javax.swing.JDialog {
         jTextFieldUsername = new javax.swing.JTextField();
         jButtonReset = new javax.swing.JButton();
         jTextFieldPassword = new javax.swing.JTextField();
-        jTextFieldRole = new javax.swing.JTextField();
         jLabelBookEditTitle = new javax.swing.JLabel();
         jTextFieldRealName = new javax.swing.JTextField();
         jLabelStatus = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -112,8 +121,6 @@ public class NewUserDialog extends javax.swing.JDialog {
         });
 
         jTextFieldPassword.setText(bundle.getString("gui.field.error")); // NOI18N
-
-        jTextFieldRole.setText(bundle.getString("gui.field.error")); // NOI18N
 
         jLabelBookEditTitle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelBookEditTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -144,10 +151,10 @@ public class NewUserDialog extends javax.swing.JDialog {
                                 .addComponent(jLabelBookAuthor)
                                 .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldRole)
                             .addComponent(jTextFieldPassword)
                             .addComponent(jTextFieldRealName)
-                            .addComponent(jTextFieldUsername))
+                            .addComponent(jTextFieldUsername)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(19, 19, 19)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -176,8 +183,8 @@ public class NewUserDialog extends javax.swing.JDialog {
                     .addComponent(jLabelDepartment))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelStatus))
+                    .addComponent(jLabelStatus)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonReset)
@@ -204,7 +211,10 @@ public class NewUserDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
-        this.dispose();
+        jTextFieldUsername.setText("");
+        jTextFieldRealName.setText("");
+        jComboBox1.setSelectedIndex(0);
+        jTextFieldPassword.setText(""); 
     }//GEN-LAST:event_jButtonResetActionPerformed
 
     /**
@@ -251,6 +261,7 @@ public class NewUserDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonReset;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabelBookAuthor;
     private javax.swing.JLabel jLabelBookEditTitle;
     private javax.swing.JLabel jLabelBookTitle;
@@ -258,7 +269,6 @@ public class NewUserDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabelStatus;
     private javax.swing.JTextField jTextFieldPassword;
     private javax.swing.JTextField jTextFieldRealName;
-    private javax.swing.JTextField jTextFieldRole;
     private javax.swing.JTextField jTextFieldUsername;
     // End of variables declaration//GEN-END:variables
 }

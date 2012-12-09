@@ -5,6 +5,7 @@
 package library.gui.edit;
 
 import java.net.ConnectException;
+import javax.swing.DefaultComboBoxModel;
 import library.gui.ConnectionHolder;
 import library.models.UserTableModel;
 import library.webservice.UserDTO;
@@ -17,12 +18,21 @@ import library.webservice.UserDTO;
 public class EditUserDialog extends javax.swing.JDialog {
     
     private UserDTO userDTO;
+    private UserDTO resetUserDTO;
     private ConnectionHolder holder;
     private UserTableModel utm;
+    
+    DefaultComboBoxModel model = new DefaultComboBoxModel(new String[] {
+            "",
+            java.util.ResourceBundle.getBundle("Messages").getString("gui.user.systemrole.user"),
+            java.util.ResourceBundle.getBundle("Messages").getString("gui.user.systemrole.lib"), 
+            java.util.ResourceBundle.getBundle("Messages").getString("gui.user.systemrole.admin")
+         });
     
     public void setReq(UserDTO userDTO,ConnectionHolder holder,UserTableModel utm)
     {
         this.userDTO = userDTO;
+        this.resetUserDTO = userDTO;
         this.holder = holder;
         this.utm = utm;
         
@@ -33,7 +43,12 @@ public class EditUserDialog extends javax.swing.JDialog {
     {
         jTextFieldUsername.setText(userDTO.getUsername());
         jTextFieldRealName.setText(userDTO.getRealName());
-        jTextFieldRole.setText(userDTO.getSystemRole());
+        
+        int index = model.getIndexOf(userDTO.getSystemRole());
+        if(index != -1 ) { 
+            jComboBox1.setSelectedIndex(index); 
+        }
+        
         jTextFieldPassword.setText(userDTO.getPassword());      
     }
     
@@ -43,7 +58,7 @@ public class EditUserDialog extends javax.swing.JDialog {
         {
             userDTO.setUsername(jTextFieldUsername.getText());
             userDTO.setRealName(jTextFieldRealName.getText());
-            userDTO.setSystemRole(jTextFieldRole.getText());
+            userDTO.setSystemRole(jComboBox1.getSelectedItem().toString());
             userDTO.setPassword(jTextFieldPassword.getText());            
         }
         catch(Exception e)
@@ -75,6 +90,7 @@ public class EditUserDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setTitle(java.util.ResourceBundle.getBundle("Messages").getString("gui.frame.user.button.user.edit"));
+        jComboBox1.setModel(model);
     }
 
     /**
@@ -89,7 +105,6 @@ public class EditUserDialog extends javax.swing.JDialog {
         jLabelStatus = new javax.swing.JLabel();
         jTextFieldRealName = new javax.swing.JTextField();
         jLabelBookEditTitle = new javax.swing.JLabel();
-        jTextFieldRole = new javax.swing.JTextField();
         jLabelBookTitle = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jTextFieldUsername = new javax.swing.JTextField();
@@ -97,6 +112,7 @@ public class EditUserDialog extends javax.swing.JDialog {
         jLabelBookAuthor = new javax.swing.JLabel();
         jTextFieldPassword = new javax.swing.JTextField();
         jLabelDepartment = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -113,8 +129,6 @@ public class EditUserDialog extends javax.swing.JDialog {
         jLabelBookEditTitle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelBookEditTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelBookEditTitle.setText(bundle.getString("gui.frame.user.button.user.edit")); // NOI18N
-
-        jTextFieldRole.setText(bundle.getString("gui.field.error")); // NOI18N
 
         jLabelBookTitle.setText(bundle.getString("gui.user.username")); // NOI18N
 
@@ -161,10 +175,10 @@ public class EditUserDialog extends javax.swing.JDialog {
                                 .addComponent(jLabelBookAuthor)
                                 .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldRole)
                             .addComponent(jTextFieldPassword)
                             .addComponent(jTextFieldRealName)
-                            .addComponent(jTextFieldUsername))
+                            .addComponent(jTextFieldUsername)
+                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(19, 19, 19)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -193,8 +207,8 @@ public class EditUserDialog extends javax.swing.JDialog {
                     .addComponent(jLabelDepartment))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelStatus))
+                    .addComponent(jLabelStatus)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonReset)
@@ -226,7 +240,15 @@ public class EditUserDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
-        this.dispose();
+        jTextFieldUsername.setText(resetUserDTO.getUsername());
+        jTextFieldRealName.setText(resetUserDTO.getRealName());
+        
+        int index = model.getIndexOf(resetUserDTO.getSystemRole());
+        if(index != -1 ) { 
+            jComboBox1.setSelectedIndex(index); 
+        }
+        
+        jTextFieldPassword.setText(resetUserDTO.getPassword()); 
     }//GEN-LAST:event_jButtonResetActionPerformed
 
     /**
@@ -273,6 +295,7 @@ public class EditUserDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonReset;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabelBookAuthor;
     private javax.swing.JLabel jLabelBookEditTitle;
     private javax.swing.JLabel jLabelBookTitle;
@@ -280,7 +303,6 @@ public class EditUserDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabelStatus;
     private javax.swing.JTextField jTextFieldPassword;
     private javax.swing.JTextField jTextFieldRealName;
-    private javax.swing.JTextField jTextFieldRole;
     private javax.swing.JTextField jTextFieldUsername;
     // End of variables declaration//GEN-END:variables
 }

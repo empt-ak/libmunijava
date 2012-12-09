@@ -6,6 +6,7 @@ package library.gui.edit;
 
 
 import java.net.ConnectException;
+import javax.swing.DefaultComboBoxModel;
 import library.gui.ConnectionHolder;
 import library.models.BookTableModel;
 import library.webservice.BookDTO;
@@ -21,24 +22,46 @@ import library.webservice.Department;
 public class EditBookDialog extends javax.swing.JDialog {
 
     private BookDTO bookDTO;
+    private BookDTO resetBookDTO;
     private ConnectionHolder holder;
     private BookTableModel btm;
+    
+    DefaultComboBoxModel modelAva = new DefaultComboBoxModel(new String[] {
+            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.availability.yes"),
+            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.availability.no"), 
+         });
+    
+    DefaultComboBoxModel modelDep = new DefaultComboBoxModel(new String[] {
+            "",
+            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.department.adult"),
+            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.department.kids"), 
+            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.department.science")
+         });
     
     public void setReq(BookDTO bookDTO,ConnectionHolder holder,BookTableModel btm)
     {
         this.bookDTO = bookDTO;
+        this.resetBookDTO = bookDTO;
         this.holder = holder;
         this.btm = btm;
-        
         myInit();
     }
    
     private void myInit()
     {
         jTextFieldBookAuthor.setText(bookDTO.getAuthor());
-        jTextFieldBookDepatment.setText(bookDTO.getDepartment().toString());
+        
+        int index = modelAva.getIndexOf(bookDTO.getBookStatus().toString());
+        if(index != -1 ) { 
+            jComboBoxAvailability.setSelectedIndex(index); 
+        }
+        
+        index = modelDep.getIndexOf(bookDTO.getDepartment().toString());
+        if(index != -1 ) { 
+            jComboBoxDepartment.setSelectedIndex(index); 
+        }
+
         jTextFieldBookID.setText(bookDTO.getBookID().toString());
-        jTextFieldBookStatus.setText(bookDTO.getBookStatus().toString());
         jTextFieldBookTitle.setText(bookDTO.getTitle());        
     }
     
@@ -48,8 +71,8 @@ public class EditBookDialog extends javax.swing.JDialog {
         {
             bookDTO.setAuthor(jTextFieldBookAuthor.getText());
             bookDTO.setBookID(new Long(jTextFieldBookID.getText()));
-            bookDTO.setBookStatus(BookStatus.valueOf(jTextFieldBookStatus.getText()));
-            bookDTO.setDepartment(Department.valueOf(jTextFieldBookDepatment.getText()));
+            bookDTO.setBookStatus(BookStatus.valueOf(jComboBoxAvailability.getSelectedItem().toString()));
+            bookDTO.setDepartment(Department.valueOf(jComboBoxDepartment.getSelectedItem().toString()));
             bookDTO.setTitle(jTextFieldBookTitle.getText());            
         }
         catch(Exception e)
@@ -81,6 +104,8 @@ public class EditBookDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setTitle(java.util.ResourceBundle.getBundle("Messages").getString("gui.frame.books.button.edit"));
+        jComboBoxAvailability.setModel(modelAva);
+        jComboBoxDepartment.setModel(modelDep);
     }
 
     /**
@@ -101,10 +126,10 @@ public class EditBookDialog extends javax.swing.JDialog {
         jTextFieldBookID = new javax.swing.JTextField();
         jTextFieldBookTitle = new javax.swing.JTextField();
         jTextFieldBookAuthor = new javax.swing.JTextField();
-        jTextFieldBookDepatment = new javax.swing.JTextField();
-        jTextFieldBookStatus = new javax.swing.JTextField();
         jButtonReset = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jComboBoxAvailability = new javax.swing.JComboBox();
+        jComboBoxDepartment = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -130,10 +155,6 @@ public class EditBookDialog extends javax.swing.JDialog {
 
         jTextFieldBookAuthor.setText(bundle.getString("gui.field.error")); // NOI18N
 
-        jTextFieldBookDepatment.setText(bundle.getString("gui.field.error")); // NOI18N
-
-        jTextFieldBookStatus.setText(bundle.getString("gui.field.error")); // NOI18N
-
         jButtonReset.setText(bundle.getString("gui.button.reset")); // NOI18N
         jButtonReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -156,16 +177,16 @@ public class EditBookDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelBookEditTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelDepartment)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelDepartment)
+                                    .addComponent(jLabelStatus))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldBookDepatment, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelStatus)
-                                .addGap(16, 16, 16)
-                                .addComponent(jTextFieldBookStatus))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBoxAvailability, 0, 261, Short.MAX_VALUE)
+                                    .addComponent(jComboBoxDepartment, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabelBookID)
@@ -179,7 +200,7 @@ public class EditBookDialog extends javax.swing.JDialog {
                         .addGap(19, 19, 19)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(112, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(27, 27, 27)
                 .addComponent(jButtonReset)
@@ -204,17 +225,17 @@ public class EditBookDialog extends javax.swing.JDialog {
                     .addComponent(jTextFieldBookAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelDepartment)
-                    .addComponent(jTextFieldBookDepatment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelDepartment))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelStatus)
-                    .addComponent(jTextFieldBookStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(38, 38, 38)
+                    .addComponent(jComboBoxAvailability, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelStatus))
+                .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonReset)
                     .addComponent(jButton1))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
@@ -238,7 +259,20 @@ public class EditBookDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
-        this.dispose();
+        jTextFieldBookAuthor.setText(resetBookDTO.getAuthor());
+        jTextFieldBookID.setText(resetBookDTO.getBookID().toString());
+        jTextFieldBookTitle.setText(resetBookDTO.getTitle());
+        
+        int index = modelAva.getIndexOf(resetBookDTO.getBookStatus().toString());
+        if(index != -1 ) { 
+            jComboBoxAvailability.setSelectedIndex(index); 
+        }
+        
+        index = modelDep.getIndexOf(resetBookDTO.getDepartment().toString());
+        if(index != -1 ) { 
+            jComboBoxDepartment.setSelectedIndex(index); 
+        }
+        
     }//GEN-LAST:event_jButtonResetActionPerformed
 
     /**
@@ -285,6 +319,8 @@ public class EditBookDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonReset;
+    private javax.swing.JComboBox jComboBoxAvailability;
+    private javax.swing.JComboBox jComboBoxDepartment;
     private javax.swing.JLabel jLabelBookAuthor;
     private javax.swing.JLabel jLabelBookEditTitle;
     private javax.swing.JLabel jLabelBookID;
@@ -292,9 +328,7 @@ public class EditBookDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabelDepartment;
     private javax.swing.JLabel jLabelStatus;
     private javax.swing.JTextField jTextFieldBookAuthor;
-    private javax.swing.JTextField jTextFieldBookDepatment;
     private javax.swing.JTextField jTextFieldBookID;
-    private javax.swing.JTextField jTextFieldBookStatus;
     private javax.swing.JTextField jTextFieldBookTitle;
     // End of variables declaration//GEN-END:variables
 }

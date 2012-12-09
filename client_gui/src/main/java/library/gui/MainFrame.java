@@ -8,6 +8,7 @@ import java.net.ConnectException;
 import library.gui.edit.EditBookDialog;
 import library.gui.edit.EditUserDialog;
 import library.gui.edit.NewBookDialog;
+import library.gui.edit.NewUserDialog;
 import library.models.BookTableModel;
 import library.models.DepartmentBoxModel;
 import library.models.UserTableModel;
@@ -448,7 +449,9 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButtonCreateUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateUserActionPerformed
-        // TODO add your handling code here:
+        NewUserDialog newBook = new NewUserDialog(this, false);
+        newBook.setReq(conn, getUTM());
+        newBook.setVisible(true);
     }//GEN-LAST:event_jButtonCreateUserActionPerformed
 
     private void jButtonEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditUserActionPerformed

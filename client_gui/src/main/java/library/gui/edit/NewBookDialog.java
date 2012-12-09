@@ -5,6 +5,7 @@
 package library.gui.edit;
 
 import java.net.ConnectException;
+import javax.swing.DefaultComboBoxModel;
 import library.gui.ConnectionHolder;
 import library.models.BookTableModel;
 import library.webservice.BookDTO;
@@ -21,6 +22,18 @@ public class NewBookDialog extends javax.swing.JDialog {
     private ConnectionHolder holder;
     private BookTableModel btm;
     
+    DefaultComboBoxModel modelAva = new DefaultComboBoxModel(new String[] {
+            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.availability.yes"),
+            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.availability.no"), 
+         });
+    
+    DefaultComboBoxModel modelDep = new DefaultComboBoxModel(new String[] {
+            "",
+            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.department.adult"),
+            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.department.kids"), 
+            java.util.ResourceBundle.getBundle("Messages").getString("gui.book.department.science")
+         });
+    
     public void setReq(ConnectionHolder holder,BookTableModel btm)
     {
         this.holder = holder;
@@ -32,8 +45,8 @@ public class NewBookDialog extends javax.swing.JDialog {
         try
         {
             bookDTO.setAuthor(jTextFieldBookAuthor.getText());
-            bookDTO.setBookStatus(BookStatus.valueOf(jTextFieldBookStatus.getText()));
-            bookDTO.setDepartment(Department.valueOf(jTextFieldBookDepatment.getText()));
+            bookDTO.setBookStatus(BookStatus.valueOf(jComboBoxAvailability.getSelectedItem().toString()));
+            bookDTO.setDepartment(Department.valueOf(jComboBoxDepartment.getSelectedItem().toString()));
             bookDTO.setTitle(jTextFieldBookTitle.getText());            
         }
         catch(Exception e)
@@ -65,6 +78,8 @@ public class NewBookDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setTitle(java.util.ResourceBundle.getBundle("Messages").getString("gui.frame.books.button.create"));
+        jComboBoxAvailability.setModel(modelAva);
+        jComboBoxDepartment.setModel(modelDep);
     }
 
     /**
@@ -78,8 +93,6 @@ public class NewBookDialog extends javax.swing.JDialog {
 
         jButton1 = new javax.swing.JButton();
         jButtonReset = new javax.swing.JButton();
-        jTextFieldBookDepatment = new javax.swing.JTextField();
-        jTextFieldBookStatus = new javax.swing.JTextField();
         jLabelBookEditTitle = new javax.swing.JLabel();
         jTextFieldBookAuthor = new javax.swing.JTextField();
         jLabelStatus = new javax.swing.JLabel();
@@ -87,6 +100,8 @@ public class NewBookDialog extends javax.swing.JDialog {
         jLabelBookAuthor = new javax.swing.JLabel();
         jLabelBookTitle = new javax.swing.JLabel();
         jTextFieldBookTitle = new javax.swing.JTextField();
+        jComboBoxDepartment = new javax.swing.JComboBox();
+        jComboBoxAvailability = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -105,10 +120,6 @@ public class NewBookDialog extends javax.swing.JDialog {
             }
         });
 
-        jTextFieldBookDepatment.setText(bundle.getString("gui.field.error")); // NOI18N
-
-        jTextFieldBookStatus.setText(bundle.getString("gui.field.error")); // NOI18N
-
         jLabelBookEditTitle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelBookEditTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelBookEditTitle.setText(bundle.getString("gui.frame.books.button.create")); // NOI18N
@@ -123,8 +134,6 @@ public class NewBookDialog extends javax.swing.JDialog {
 
         jLabelBookTitle.setText(bundle.getString("gui.book.title")); // NOI18N
 
-        jTextFieldBookTitle.setText(bundle.getString("gui.field.error")); // NOI18N
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -136,25 +145,25 @@ public class NewBookDialog extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelDepartment)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldBookDepatment, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelStatus)
-                                .addGap(16, 16, 16)
-                                .addComponent(jTextFieldBookStatus))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabelBookTitle)
                                     .addComponent(jLabelBookAuthor))
                                 .addGap(34, 34, 34)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldBookAuthor)
-                                    .addComponent(jTextFieldBookTitle))))
+                                    .addComponent(jTextFieldBookTitle)
+                                    .addComponent(jTextFieldBookAuthor)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelDepartment)
+                                    .addComponent(jLabelStatus))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBoxAvailability, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBoxDepartment, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addGap(19, 19, 19)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(131, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(27, 27, 27)
                 .addComponent(jButtonReset)
@@ -176,11 +185,11 @@ public class NewBookDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelDepartment)
-                    .addComponent(jTextFieldBookDepatment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelStatus)
-                    .addComponent(jTextFieldBookStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxAvailability, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonReset)
@@ -208,7 +217,10 @@ public class NewBookDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButtonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetActionPerformed
-        this.dispose();
+        jTextFieldBookAuthor.setText("");
+        jComboBoxAvailability.setSelectedIndex(0);
+        jComboBoxDepartment.setSelectedIndex(0);
+        jTextFieldBookTitle.setText("");
     }//GEN-LAST:event_jButtonResetActionPerformed
 
     /**
@@ -255,14 +267,14 @@ public class NewBookDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonReset;
+    private javax.swing.JComboBox jComboBoxAvailability;
+    private javax.swing.JComboBox jComboBoxDepartment;
     private javax.swing.JLabel jLabelBookAuthor;
     private javax.swing.JLabel jLabelBookEditTitle;
     private javax.swing.JLabel jLabelBookTitle;
     private javax.swing.JLabel jLabelDepartment;
     private javax.swing.JLabel jLabelStatus;
     private javax.swing.JTextField jTextFieldBookAuthor;
-    private javax.swing.JTextField jTextFieldBookDepatment;
-    private javax.swing.JTextField jTextFieldBookStatus;
     private javax.swing.JTextField jTextFieldBookTitle;
     // End of variables declaration//GEN-END:variables
 }
