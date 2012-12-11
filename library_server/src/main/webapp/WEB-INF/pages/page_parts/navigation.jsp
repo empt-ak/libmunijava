@@ -44,6 +44,6 @@
                 <li class='active'><a href="${pageContext.request.contextPath}/user/editprofile/"><span><spring:message code="label.website.sidebar.editProfile" /></span></a></li>
             </c:otherwise>                
         </c:choose>
-        <li class='active'><a href="<spring:url value="/services/"/>"><span><spring:message code="label.website.navigation.services" /></span></a></li>
+        <li class='active'><a href="<spring:url value="/service/"/>"><span><spring:message code="label.website.navigation.services" /></span></a></li>
     </ul> 
 </div>

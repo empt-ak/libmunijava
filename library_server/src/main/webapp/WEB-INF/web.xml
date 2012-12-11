@@ -8,17 +8,22 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>            
             /WEB-INF/applicationContext.xml
+            classpath:META-INF/cxf/cxf.xml
+            classpath:META-INF/cxf/cxf-servlet.xml 
         </param-value>
     </context-param>
     
     <servlet>
-        <servlet-name>jaxws-servlet</servlet-name>
-        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
+        <servlet-name>CXFServlet</servlet-name>
+        <servlet-class>
+            org.apache.cxf.transport.servlet.CXFServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup> 
     </servlet>
- 
+
     <servlet-mapping>
-        <servlet-name>jaxws-servlet</servlet-name>
-        <url-pattern>/services/wsdl/*</url-pattern>
+        <servlet-name>CXFServlet</servlet-name>
+        <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
 	
     <servlet>

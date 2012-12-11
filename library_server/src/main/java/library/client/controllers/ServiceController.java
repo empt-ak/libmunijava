@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Nemko
  */
 @Controller
-@RequestMapping("/services")
+@RequestMapping("/service")
 public class ServiceController {
     
     @Autowired
@@ -27,7 +27,7 @@ public class ServiceController {
     
     @RequestMapping("/")
     public ModelAndView index() {
-        return new ModelAndView("services");     
+        return new ModelAndView("service");     
     } 
     
 }

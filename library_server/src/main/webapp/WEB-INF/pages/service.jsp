@@ -28,6 +28,9 @@
                 
                 </br>
                 
+                <h2><a href="<spring:url value="http://localhost:8080/pa165/services/" />">
+                    <spring:message code="label.website.service.available.all"/></a></h2> </br></br>
+                
                 <h2><spring:message code="label.website.service.available.wsdl"/></h2> </br></br>
 
                 <a href="<spring:url value="http://localhost:8080/pa165/services/wsdl/BookWebService?wsdl" />">BookWebService</a></br></br>
