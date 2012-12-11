@@ -9,11 +9,11 @@
     <url>http://code.google.com/p/libmunijava/</url>
   
     <modules>
-        <module>backend</module>
-        <module>client</module>
-        <module>api</module>
-        <module>client_gui</module>
-        <module>soapapi</module>
+        <module>library_backend</module>
+        <module>library_server</module>
+        <module>library_api</module>
+        <module>library_client_gui</module>
+        <module>library_soapapi</module>
     </modules>
   
     <developers>
