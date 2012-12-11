@@ -4,8 +4,6 @@
         xmlns:p="http://www.springframework.org/schema/p"
         xmlns:tx="http://www.springframework.org/schema/tx" 
         xmlns:jaxws="http://cxf.apache.org/jaxws"
-        xmlns:ws="http://jax-ws.dev.java.net/spring/core"
-        xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
         xmlns:context="http://www.springframework.org/schema/context"
         xmlns:sec="http://www.springframework.org/schema/security"
         xmlns:aop="http://www.springframework.org/schema/aop"
@@ -20,25 +18,22 @@
                             http://www.springframework.org/schema/aop 
                             http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
                             http://cxf.apache.org/jaxws 
-                            http://cxf.apache.org/schemas/jaxws.xsd
-                            http://jax-ws.dev.java.net/spring/core
-                            http://jax-ws.dev.java.net/spring/core.xsd
-                            http://jax-ws.dev.java.net/spring/servlet
-                            http://jax-ws.dev.java.net/spring/servlet.xsd">
+                            http://cxf.apache.org/schemas/jaxws.xsd">
     
     <context:annotation-config />
     
-    <wss:binding url="/services/wsdl/BookWebService">
-        <wss:service>
-            <ws:service bean="#bookWebService"/>
-        </wss:service>
-    </wss:binding>
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
     
-    <wss:binding url="/services/wsdl/UserWebService">
-        <wss:service>
-            <ws:service bean="#userWebService"/>
-        </wss:service>
-    </wss:binding>
+    <jaxws:endpoint 
+	  id="bookWebServiceEndpoint" 
+	  implementor="library.webservice.impl.BookWebServiceImpl" 
+	  address="/wsdl/BookWebService" />
+    
+    <jaxws:endpoint 
+	  id="userWebServiceEndpoint" 
+	  implementor="library.webservice.impl.UserWebServiceImpl" 
+	  address="/wsdl/UserWebService" />
  
     <!-- Web service methods -->
     <bean id="bookWebService" class="library.webservice.impl.BookWebServiceImpl" />
