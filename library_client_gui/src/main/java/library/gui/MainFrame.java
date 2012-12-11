@@ -14,6 +14,7 @@ import library.gui.models.BookTableModel;
 import library.gui.models.DepartmentBoxModel;
 import library.gui.models.UserTableModel;
 import library.webservice.Department;
+import library.webservice.IllegalArgumentException_Exception;
 
 
 /**
@@ -376,7 +377,7 @@ public class MainFrame extends javax.swing.JFrame {
                 getBTM().addBooks(conn.getBws().getAllBooks());
                 getBTM().refresh();
             }
-            catch(ConnectException | NullPointerException | IllegalArgumentException ex)
+            catch(ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex)
             {
                 System.err.println(ex.getMessage());
             }  
@@ -392,7 +393,7 @@ public class MainFrame extends javax.swing.JFrame {
         {
             getBTM().addBooks(conn.getBws().searchBooksByTitle(jTextFieldBookTitle.getText()));
         }
-        catch(ConnectException | NullPointerException | IllegalArgumentException ex)
+        catch(ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex)
         {
             System.err.println(ex.getMessage());
         }
@@ -403,7 +404,7 @@ public class MainFrame extends javax.swing.JFrame {
         {
             getBTM().addBooks(conn.getBws().getBooksByAuthor(jTextFieldBookAuthor.getText()));
         } 
-        catch(ConnectException | NullPointerException | IllegalArgumentException ex)
+        catch(ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex)
         {
             System.err.println(ex.getMessage());
         }
@@ -416,7 +417,7 @@ public class MainFrame extends javax.swing.JFrame {
             {
                 getBTM().addBooks(conn.getBws().searchBooksByTitle(jTextFieldBookTitle.getText()));
             }
-            catch(ConnectException | NullPointerException | IllegalArgumentException ex)
+            catch(ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex)
             {
                 System.err.println(ex.getMessage());
             }
@@ -431,7 +432,7 @@ public class MainFrame extends javax.swing.JFrame {
             {
                 getBTM().addBooks(conn.getBws().getBooksByAuthor(jTextFieldBookAuthor.getText()));
             }
-            catch(ConnectException | NullPointerException | IllegalArgumentException ex)
+            catch(ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex)
             {
                 System.err.println(ex.getMessage());
             }            
@@ -443,7 +444,7 @@ public class MainFrame extends javax.swing.JFrame {
         {
             getBTM().addBooks(conn.getBws().getBooksByDepartment(Department.valueOf(jComboBox1.getModel().getSelectedItem().toString())));
         }
-        catch(ConnectException | NullPointerException | IllegalArgumentException ex)
+        catch(ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex)
         {
             System.err.println(ex.getMessage());
         }
@@ -501,7 +502,7 @@ public class MainFrame extends javax.swing.JFrame {
                 getUTM().addUsers(conn.getUws().getUsers());
                 getUTM().refresh();
             }
-            catch(ConnectException | NullPointerException | IllegalArgumentException ex)
+            catch(ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex)
             {
                 System.err.println(ex.getMessage());
             }  
@@ -517,7 +518,7 @@ public class MainFrame extends javax.swing.JFrame {
         {
             getUTM().addUsers(conn.getUws().findUserByRealName(jTextFieldSearchByRealName.getText()));
         } 
-        catch(ConnectException | NullPointerException | IllegalArgumentException ex)
+        catch(ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex)
         {
             System.err.println(ex.getMessage());
         }

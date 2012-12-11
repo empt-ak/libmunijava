@@ -10,6 +10,7 @@ import library.gui.ConnectionHolder;
 import library.gui.tools.Memento;
 import library.gui.models.UserRoleBoxModel;
 import library.gui.models.UserTableModel;
+import library.webservice.IllegalArgumentException_Exception;
 import library.webservice.UserDTO;
 
 
@@ -191,7 +192,7 @@ public class EditUserDialog extends javax.swing.JDialog {
             dispose();
             
         }
-        catch(ConnectException | SOAPFaultException | IllegalArgumentException | NullPointerException e)
+        catch(ConnectException | SOAPFaultException | IllegalArgumentException_Exception | IllegalArgumentException | NullPointerException e)
         {
             System.err.println(e.getMessage());
         }  

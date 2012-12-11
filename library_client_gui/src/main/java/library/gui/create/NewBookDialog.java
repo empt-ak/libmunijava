@@ -12,6 +12,7 @@ import library.gui.models.DepartmentBoxModel;
 import library.webservice.BookDTO;
 import library.webservice.BookStatus;
 import library.webservice.Department;
+import library.webservice.IllegalArgumentException_Exception;
 
 /**
  *
@@ -190,7 +191,7 @@ public class NewBookDialog extends javax.swing.JDialog {
             updateModel();
             dispose();   
         }
-        catch(ConnectException | IllegalArgumentException | NullPointerException e)
+        catch(ConnectException | IllegalArgumentException_Exception | IllegalArgumentException | NullPointerException e)
         {
             System.err.println(e.getMessage());
         }  

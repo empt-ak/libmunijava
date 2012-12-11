@@ -11,6 +11,7 @@ import library.gui.ConnectionHolder;
 import library.gui.tools.Tools;
 import library.gui.models.UserRoleBoxModel;
 import library.gui.models.UserTableModel;
+import library.webservice.IllegalArgumentException_Exception;
 import library.webservice.UserDTO;
 
 /**
@@ -170,7 +171,7 @@ public class NewUserDialog extends javax.swing.JDialog {
             Tools.printEntity(this.userDTO);
             dispose();   
         }
-        catch(ConnectException | IllegalArgumentException | NullPointerException e)
+        catch(ConnectException | IllegalArgumentException_Exception | IllegalArgumentException | NullPointerException e)
         {
             System.err.println(e.getMessage());
             Tools.createErrorDialog(e.getMessage());
