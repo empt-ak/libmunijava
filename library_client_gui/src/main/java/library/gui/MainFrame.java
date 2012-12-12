@@ -6,15 +6,17 @@ package library.gui;
 
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import java.awt.CardLayout;
-import library.gui.tools.Tools;
+import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
-import library.gui.edit.EditBookDialog;
-import library.gui.edit.EditUserDialog;
+import java.security.NoSuchAlgorithmException;
 import library.gui.create.NewBookDialog;
 import library.gui.create.NewUserDialog;
+import library.gui.edit.EditBookDialog;
+import library.gui.edit.EditUserDialog;
 import library.gui.models.BookTableModel;
 import library.gui.models.DepartmentBoxModel;
 import library.gui.models.UserTableModel;
+import library.gui.tools.Tools;
 import library.webservice.Department;
 import library.webservice.IllegalArgumentException_Exception;
 
@@ -86,6 +88,8 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("Messages"); // NOI18N
         setTitle(bundle.getString("gui.frame.title.main")); // NOI18N
+        setMinimumSize(new java.awt.Dimension(169, 200));
+        setPreferredSize(new java.awt.Dimension(800, 550));
         getContentPane().setLayout(new java.awt.CardLayout());
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
@@ -705,9 +709,9 @@ public class MainFrame extends javax.swing.JFrame {
         try
         {
             conn = ConnectionHolder.getInstance();
-            conn.setServiceCredentials(userName,password);
+            conn.setServiceCredentials(userName,Tools.SHA1(password));
         }
-        catch(ConnectException ex)
+        catch(NoSuchAlgorithmException | UnsupportedEncodingException | ConnectException ex)
         {
             System.err.println(ex.getMessage());
             connSucc = false;
