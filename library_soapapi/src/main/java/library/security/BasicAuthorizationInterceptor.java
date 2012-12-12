@@ -19,6 +19,7 @@ import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.transport.Conduit;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -46,7 +47,7 @@ public class BasicAuthorizationInterceptor extends SoapHeaderInterceptor {
 
         // CHECK USERNAME AND PASSWORD
         if (!checkLogin(username, password)) {
-            System.out.println("handleMessage: Invalid username or password for user: " + policy.getUserName());
+            System.out.println(DateTime.now() + " AuthorizationInterceptor: Invalid username or password for user: " + policy.getUserName());
             sendErrorResponse(message, HttpURLConnection.HTTP_FORBIDDEN);
         }
     }
