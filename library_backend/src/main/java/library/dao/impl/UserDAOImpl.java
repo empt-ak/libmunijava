@@ -6,6 +6,7 @@ package library.dao.impl;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import library.dao.UserDAO;
 import library.entity.User;
@@ -72,12 +73,14 @@ public class UserDAOImpl implements UserDAO
 
     @Override
     public boolean authenticate(String userName, String password) {
-        if (entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username "
-                + "AND u.password = :password", User.class).setParameter("username", userName)
-                .setParameter("password",password).getSingleResult() != null) {
+        try {
+            entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username "
+                    + "AND u.password = :password", User.class).setParameter("username", userName)
+                    .setParameter("password",password).getSingleResult();
             return true;
-        }
-        return false;
+        } catch (NoResultException e) {
+            return false;
+        }   
     }
 
 }
