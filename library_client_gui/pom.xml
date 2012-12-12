@@ -36,7 +36,11 @@
             <artifactId>cloning</artifactId>
             <version>1.8.2</version>
         </dependency>
-            
+        <dependency>
+            <groupId>com.jgoodies</groupId>
+            <artifactId>looks</artifactId>
+            <version>2.2.2</version>
+        </dependency>    
             
             
         <dependency>
@@ -64,14 +68,14 @@
                             <wsdlOptions>
                                 <wsdlOption>
                                     <!-- ONLINE BUILD -->
-                                    <!--<wsdl>http://localhost:9000/pa165/services/wsdl/UserWebService?wsdl</wsdl>-->
+                                    <!--<wsdl>http://localhost:8080/pa165/services/wsdl/UserWebService?wsdl</wsdl>-->
                                     
                                     <!-- OFFLINE BUILD -->
                                     <wsdl>${project.basedir}/src/main/resources/wsdl/UserWebService.xsd</wsdl>
                                 </wsdlOption>
                                 <wsdlOption>
                                     <!-- ONLINE BUILD -->
-                                    <!--<wsdl>http://localhost:9000/pa165/services/wsdl/BookWebService?wsdl</wsdl>-->
+                                    <!--<wsdl>http://localhost:8080/pa165/services/wsdl/BookWebService?wsdl</wsdl>-->
                                     
                                     <!-- OFFLINE BUILD -->
                                     <wsdl>${project.basedir}/src/main/resources/wsdl/BookWebService.xsd</wsdl>
