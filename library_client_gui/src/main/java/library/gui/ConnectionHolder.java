@@ -76,7 +76,7 @@ public class ConnectionHolder
     
     private boolean check()
     {
-        return checkIfURLExists("http://localhost:8080/pa165/services/wsdl/BookWebService?wsdl");
+        return checkIfURLExists("http://localhost:8080/pa165/services/");
     }
     
     /**
