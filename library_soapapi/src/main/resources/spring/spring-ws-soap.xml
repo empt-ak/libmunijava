@@ -39,18 +39,11 @@
         implementor="library.webservice.impl.UserWebServiceImpl" 
         address="/wsdl/UserWebService" >
     </jaxws:endpoint>
-    
-    <jaxws:endpoint 
-        id="authWebServiceEndpoint" 
-        implementor="library.webservice.impl.AuthWebServiceImpl" 
-        address="/wsdl/AuthWebService" />
  
     <!-- Web service methods -->
     <bean id="bookWebService" class="library.webservice.impl.BookWebServiceImpl" />
     
     <bean id="userWebService" class="library.webservice.impl.UserWebServiceImpl" />
-    
-    <bean id="authWebService" class="library.webservice.impl.AuthWebServiceImpl" />
     
 <!--    <bean id="basicAuthInterceptor"
           class="library.security.BasicAuthorizationInterceptor">
