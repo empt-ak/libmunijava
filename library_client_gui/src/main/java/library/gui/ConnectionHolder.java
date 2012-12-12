@@ -28,6 +28,10 @@ public class ConnectionHolder {
     public static ConnectionHolder getInstance() {
         return instance;
     }
+    
+    public static void resetConnection() {
+        instance = new ConnectionHolder();
+    }
 
     public ConnectionHolder() {
         

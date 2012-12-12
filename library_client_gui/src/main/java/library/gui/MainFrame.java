@@ -6,9 +6,12 @@ package library.gui;
 
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.security.NoSuchAlgorithmException;
+import javax.xml.ws.soap.SOAPFaultException;
 import library.gui.create.NewBookDialog;
 import library.gui.create.NewUserDialog;
 import library.gui.edit.EditBookDialog;
@@ -20,18 +23,15 @@ import library.gui.tools.Tools;
 import library.webservice.Department;
 import library.webservice.IllegalArgumentException_Exception;
 
-
 /**
  *
  * @author Emptak,Andrej
  */
 public class MainFrame extends javax.swing.JFrame {
 
-   // private static final ApplicationContext appContext = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
-    
+    // private static final ApplicationContext appContext = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
     private ConnectionHolder conn = null;
-    
-    
+
     /**
      * Creates new form MainFrame
      */
@@ -84,6 +84,9 @@ public class MainFrame extends javax.swing.JFrame {
         jButtonDeleteUser = new javax.swing.JButton();
         jButtonEditUser = new javax.swing.JButton();
         jButtonCreateUser = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("Messages"); // NOI18N
@@ -106,6 +109,11 @@ public class MainFrame extends javax.swing.JFrame {
         jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jPasswordField1ActionPerformed(evt);
+            }
+        });
+        jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordField1KeyPressed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -139,7 +147,6 @@ public class MainFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
         jPanel1.add(jLabel2, gridBagConstraints);
 
-        jLabel3.setText("gsa");
         jLabel3.setMaximumSize(new java.awt.Dimension(50, 400));
         jLabel3.setMinimumSize(new java.awt.Dimension(50, 400));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -284,7 +291,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelFilterByDepartment))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addComponent(jButtonResetBooksTable)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -373,7 +380,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jButtonUserTableRefresh)
                     .addComponent(jButtonDeleteUser))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -389,7 +396,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 655, Short.MAX_VALUE)
+            .addGap(0, 634, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                     .addComponent(jTabbedPane1)
@@ -398,132 +405,118 @@ public class MainFrame extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, "card2");
 
+        jMenu1.setText("Logout");
+
+        jMenuItem1.setText("Logout");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCreateBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCreateBookActionPerformed
-       
+
         NewBookDialog newBook = new NewBookDialog(this, false);
         newBook.setReq(conn, getBTM());
         newBook.setVisible(true);
-        
+
     }//GEN-LAST:event_jButtonCreateBookActionPerformed
 
     private void jButtonEditBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditBookActionPerformed
         int index = jTableBooks.getSelectedRow();
-        
-        if (index != -1){
-        EditBookDialog ebd = new EditBookDialog(this, false);
-        try
-        {
-            ebd.setReq(getBTM().getBookAt(index), conn,getBTM());
-        }
-        catch(NullPointerException ex)
-        {
-            System.err.println(ex.getMessage());
-        }
-        
-        ebd.setVisible(true);
-        }
-        else {
+
+        if (index != -1) {
+            EditBookDialog ebd = new EditBookDialog(this, false);
+            try {
+                ebd.setReq(getBTM().getBookAt(index), conn, getBTM());
+            } catch (NullPointerException ex) {
+                System.err.println(ex.getMessage());
+            }
+
+            ebd.setVisible(true);
+        } else {
             Tools.createErrorDialog(java.util.ResourceBundle.getBundle("Messages").getString("gui.dialog.book.error"));
         }
     }//GEN-LAST:event_jButtonEditBookActionPerformed
 
     private void jButtonResetBooksTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonResetBooksTableActionPerformed
-        try
-        {
-            getBTM().addBooks(conn.getBws().getAllBooks());            
-        }
-        catch(ConnectException | NullPointerException ex)
-        {
+        try {
+            getBTM().addBooks(conn.getBws().getAllBooks());
+        } catch (ConnectException | NullPointerException ex) {
             System.err.println(ex.getMessage());
         }
-        
+
         jTextFieldBookAuthor.setText("");
         jTextFieldBookTitle.setText("");
     }//GEN-LAST:event_jButtonResetBooksTableActionPerformed
 
     private void jButtonDeleteBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteBookActionPerformed
         int index = jTableBooks.getSelectedRow();
-        
-        if (index != -1){
-        
-            try 
-            {
+
+        if (index != -1) {
+
+            try {
                 conn.getBws().deleteBook(getBTM().getBookAt(index));
                 getBTM().addBooks(conn.getBws().getAllBooks());
                 getBTM().refresh();
-            }
-            catch(ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex)
-            {
+            } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
                 System.err.println(ex.getMessage());
-            }  
-            
-        }
-        else {
+            }
+
+        } else {
             Tools.createErrorDialog(java.util.ResourceBundle.getBundle("Messages").getString("gui.dialog.book.error"));
         }
     }//GEN-LAST:event_jButtonDeleteBookActionPerformed
 
     private void jButtonSearchByTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchByTitleActionPerformed
-        try 
-        {
+        try {
             getBTM().addBooks(conn.getBws().searchBooksByTitle(jTextFieldBookTitle.getText()));
-        }
-        catch(ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex)
-        {
+        } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
             System.err.println(ex.getMessage());
         }
     }//GEN-LAST:event_jButtonSearchByTitleActionPerformed
 
     private void jButtonSearchByAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchByAuthorActionPerformed
-        try 
-        {
+        try {
             getBTM().addBooks(conn.getBws().getBooksByAuthor(jTextFieldBookAuthor.getText()));
-        } 
-        catch(ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex)
-        {
+        } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
             System.err.println(ex.getMessage());
         }
     }//GEN-LAST:event_jButtonSearchByAuthorActionPerformed
 
     private void jTextFieldBookTitleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBookTitleKeyPressed
-        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER)
-        {
-            try 
-            {
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            try {
                 getBTM().addBooks(conn.getBws().searchBooksByTitle(jTextFieldBookTitle.getText()));
-            }
-            catch(ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex)
-            {
+            } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
                 System.err.println(ex.getMessage());
             }
         }
-           
+
     }//GEN-LAST:event_jTextFieldBookTitleKeyPressed
 
     private void jTextFieldBookAuthorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBookAuthorKeyPressed
-        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER)
-        {
-            try 
-            {
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            try {
                 getBTM().addBooks(conn.getBws().getBooksByAuthor(jTextFieldBookAuthor.getText()));
-            }
-            catch(ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex)
-            {
+            } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
                 System.err.println(ex.getMessage());
-            }            
+            }
         }
     }//GEN-LAST:event_jTextFieldBookAuthorKeyPressed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        try
-        {
+        try {
             getBTM().addBooks(conn.getBws().getBooksByDepartment(Department.valueOf(jComboBox1.getModel().getSelectedItem().toString())));
-        }
-        catch(ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex)
-        {
+        } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
             System.err.println(ex.getMessage());
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
@@ -536,68 +529,54 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButtonEditUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditUserActionPerformed
         int index = jTableUsers.getSelectedRow();
-        
-        if (index != -1){
+
+        if (index != -1) {
             EditUserDialog eud = new EditUserDialog(this, false);
-            try
-            {
-                eud.setReq(getUTM().getUserAt(index), conn,getUTM());
-            }
-            catch(NullPointerException ex)
-            {
+            try {
+                eud.setReq(getUTM().getUserAt(index), conn, getUTM());
+            } catch (NullPointerException ex) {
                 System.err.println(ex.getMessage());
             }
 
             eud.setVisible(true);
-            }
-        else {
+        } else {
             Tools.createErrorDialog(java.util.ResourceBundle.getBundle("Messages").getString("gui.dialog.user.error"));
         }
     }//GEN-LAST:event_jButtonEditUserActionPerformed
 
     private void jButtonUserTableRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUserTableRefreshActionPerformed
-    
-        try
-        {
-            getUTM().addUsers(conn.getUws().getUsers());            
-        }
-        catch(ConnectException | NullPointerException ex)
-        {
+
+        try {
+            getUTM().addUsers(conn.getUws().getUsers());
+        } catch (ConnectException | NullPointerException ex) {
             System.err.println(ex.getMessage());
         }
-        
+
         jTextFieldSearchByRealName.setText("");
     }//GEN-LAST:event_jButtonUserTableRefreshActionPerformed
 
     private void jButtonDeleteUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteUserActionPerformed
-       int index = jTableUsers.getSelectedRow();
-        
-        if (index != -1){
-        
-            try 
-            {
+        int index = jTableUsers.getSelectedRow();
+
+        if (index != -1) {
+
+            try {
                 conn.getUws().deleteUser(getUTM().getUserAt(index));
                 getUTM().addUsers(conn.getUws().getUsers());
                 getUTM().refresh();
-            }
-            catch(ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex)
-            {
+            } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
                 System.err.println(ex.getMessage());
-            }  
-            
-        }
-        else {
+            }
+
+        } else {
             Tools.createErrorDialog(java.util.ResourceBundle.getBundle("Messages").getString("gui.dialog.user.error"));
         }
     }//GEN-LAST:event_jButtonDeleteUserActionPerformed
 
     private void jButtonUserSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonUserSearchActionPerformed
-      try 
-        {
+        try {
             getUTM().addUsers(conn.getUws().findUserByRealName(jTextFieldSearchByRealName.getText()));
-        } 
-        catch(ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex)
-        {
+        } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
             System.err.println(ex.getMessage());
         }
     }//GEN-LAST:event_jButtonUserSearchActionPerformed
@@ -607,8 +586,28 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        initAuth();
+        jLabel3.setText("");
+        jLabel3.setForeground(Color.BLACK);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                initAuth();
+            }
+        }).start();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jPasswordField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jButton1.doClick();
+        }
+    }//GEN-LAST:event_jPasswordField1KeyPressed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        ((CardLayout) getContentPane().getLayout()).show(getContentPane(), "card3");
+        jMenu1.setEnabled(false);
+        jLabel3.setText("");
+        ConnectionHolder.resetConnection();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -620,15 +619,12 @@ public class MainFrame extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            if(Tools.isWin())
-            {
+            if (Tools.isWin()) {
                 javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            } else {
+                javax.swing.UIManager.setLookAndFeel(new PlasticXPLookAndFeel());
             }
-            else
-            {
-                javax.swing.UIManager.setLookAndFeel(new PlasticXPLookAndFeel()); 
-            }
-            
+
 //            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
 //                if ("Motif".equals(info.getName())) {
 //                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -669,6 +665,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelRealName;
     private javax.swing.JLabel jLabelSearchByAuthor;
     private javax.swing.JLabel jLabelSearchByTitle;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelBooks;
@@ -684,52 +683,53 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldBookTitle;
     private javax.swing.JTextField jTextFieldSearchByRealName;
     // End of variables declaration//GEN-END:variables
-    
-    private BookTableModel getBTM()
-    {
+
+    private BookTableModel getBTM() {
         return (BookTableModel) jTableBooks.getModel();
     }
-    
-    private UserTableModel getUTM()
-    {
+
+    private UserTableModel getUTM() {
         return (UserTableModel) jTableUsers.getModel();
     }
-    
-    private void myInit()
-    {
+
+    private void myInit() {
         setLocationRelativeTo(null);
-    }
-    
-    private void initAuth() {
-        boolean connSucc = true;
-        
-        String userName = jTextField1.getText();
-        String password = new String(jPasswordField1.getPassword());
-        
-        try
-        {
-            conn = ConnectionHolder.getInstance();
-            conn.setServiceCredentials(userName,Tools.SHA1(password));
-        }
-        catch(NoSuchAlgorithmException | UnsupportedEncodingException | ConnectException ex)
-        {
-            System.err.println(ex.getMessage());
-            connSucc = false;
-        }
-        if(connSucc)
-        {
-            try
-            {
-                getBTM().addBooks(conn.getBws().getAllBooks());
-                getUTM().addUsers(conn.getUws().getUsers());  
-                CardLayout cl = (CardLayout) getContentPane().getLayout();
-                cl.show(getContentPane(), "card2");
-            }
-            catch(ConnectException | NullPointerException ex)
-            {
-                System.err.println(ex.getMessage());
-            }            
-        }
+        jMenu1.setEnabled(false);
     }
 
+    private void initAuth() {
+        boolean connSucc = true;
+
+        String userName = jTextField1.getText();
+        String password = new String(jPasswordField1.getPassword());
+
+        try {
+            conn = ConnectionHolder.getInstance();
+            jLabel3.setText("Setting service credentials.");
+            conn.setServiceCredentials(userName, Tools.SHA1(password));
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException | ConnectException ex) {
+            System.err.println(ex.getMessage());
+            connSucc = false;
+            jLabel3.setText("Error while connecting to server: " + ex.getMessage());
+        }
+        if (connSucc) {
+            try {
+                jLabel3.setText("Getting lists of books and users.");
+                getBTM().addBooks(conn.getBws().getAllBooks());
+                getUTM().addUsers(conn.getUws().getUsers());
+                ((CardLayout) getContentPane().getLayout()).show(getContentPane(), "card2");
+                jMenu1.setEnabled(true);
+            } catch (ConnectException | NullPointerException ex) {
+                System.err.println(ex.getMessage());
+                jLabel3.setText("Error: " + ex.getMessage());
+            } catch (SOAPFaultException ex) {
+                if (ex.getMessage().equalsIgnoreCase("No entity found for query")) {
+                    jLabel3.setForeground(Color.RED);
+                    jLabel3.setText("Wrong login credentials");
+                } else {
+                    jLabel3.setText("SOAP error: " + ex.getMessage());
+                }
+            }
+        }
+    }
 }
