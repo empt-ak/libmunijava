@@ -70,4 +70,14 @@ public class UserDAOImpl implements UserDAO
                 .setParameter("username", username).getSingleResult();
     }
 
+    @Override
+    public boolean authenticate(String userName, String password) {
+        if (entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username "
+                + "AND u.password = :password", User.class).setParameter("username", userName)
+                .setParameter("password",password).getSingleResult() != null) {
+            return true;
+        }
+        return false;
+    }
+
 }

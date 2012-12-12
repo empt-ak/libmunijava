@@ -98,4 +98,10 @@ public class UserServiceImpl implements UserService {
         }
         return userDTOs;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean authenticate(String userName, String password) {
+        return userDAO.authenticate(userName,password);
+    }
 }

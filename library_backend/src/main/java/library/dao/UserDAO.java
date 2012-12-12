@@ -66,4 +66,6 @@ public interface UserDAO {
     * @return list of the objects of type User.
     */
     List<User> getUsers();
+
+    public boolean authenticate(String userName, String password);
 }
