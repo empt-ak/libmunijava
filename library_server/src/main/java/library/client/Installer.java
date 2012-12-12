@@ -96,7 +96,9 @@ public class Installer
     private void setupUsers()
     {
         users.add(createUser("a949c2a6e2ca4bc2e237c07b332c9168c7497cfd", "Dominik Szalai","ADMINISTRATOR", "emptak")); 
-        users.add(createUser("011c945f30ce2cbafc452f39840f025693339c42", "Andrej Gajdoš","ADMINISTRATOR", "andrej")); 
+        users.add(createUser("011c945f30ce2cbafc452f39840f025693339c42", "Andrej Gajdoš","ADMINISTRATOR", "andrej"));
+        users.add(createUser("e81498977973fe4eef602ef6567141c08f2a1e3f", "Peter Nemček","ADMINISTRATOR", "nemo"));
+        users.add(createUser("d033e22ae348aeb5660fc2140aec35850c4da997", "Admin Adminovič Adminov","ADMINISTRATOR", "admin"));
     }
     
     private BookDTO createBook(String title, String author, Department department, BookStatus status) {

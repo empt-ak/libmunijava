@@ -10,13 +10,12 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import library.client.Tools;
 import library.entity.dto.TicketDTO;
 import library.entity.dto.UserDTO;
 import library.service.TicketService;
 import library.service.UserService;
+import library.utils.Tools;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
