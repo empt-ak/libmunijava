@@ -56,7 +56,8 @@ public class NewBookDialog extends javax.swing.JDialog {
      */
     public NewBookDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();        
+        initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

@@ -35,7 +35,8 @@ public class NewUserDialog extends javax.swing.JDialog {
      */
     public NewUserDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();        
+        initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

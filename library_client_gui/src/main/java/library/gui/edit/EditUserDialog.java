@@ -38,7 +38,8 @@ public class EditUserDialog extends javax.swing.JDialog {
      */
     public EditUserDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents();        
+        initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

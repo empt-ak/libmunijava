@@ -84,7 +84,8 @@ public class EditBookDialog extends javax.swing.JDialog {
      */
     public EditBookDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        initComponents(); 
+        initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
