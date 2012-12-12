@@ -8,9 +8,11 @@ import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.security.NoSuchAlgorithmException;
+import javax.xml.ws.WebServiceException;
 import javax.xml.ws.soap.SOAPFaultException;
 import library.gui.create.NewBookDialog;
 import library.gui.create.NewUserDialog;
@@ -719,16 +721,12 @@ public class MainFrame extends javax.swing.JFrame {
                 getUTM().addUsers(conn.getUws().getUsers());
                 ((CardLayout) getContentPane().getLayout()).show(getContentPane(), "card2");
                 jMenu1.setEnabled(true);
-            } catch (ConnectException | NullPointerException ex) {
+            } catch (IOException | NullPointerException ex) {
                 System.err.println(ex.getMessage());
                 jLabel3.setText("Error: " + ex.getMessage());
-            } catch (SOAPFaultException ex) {
-                if (ex.getMessage().equalsIgnoreCase("No entity found for query")) {
-                    jLabel3.setForeground(Color.RED);
-                    jLabel3.setText("Wrong login credentials");
-                } else {
-                    jLabel3.setText("SOAP error: " + ex.getMessage());
-                }
+            } catch (WebServiceException ex) {
+                jLabel3.setForeground(Color.RED);
+                jLabel3.setText("WebService error: " + ex.getMessage() + " Check your login credentials.");
             }
         }
     }
