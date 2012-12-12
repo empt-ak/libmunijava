@@ -7,14 +7,12 @@ package library.webservice;
 import java.util.List;
 import javax.jws.WebService;
 import library.entity.dto.UserDTO;
-import org.apache.cxf.interceptor.InInterceptors;
 
 /**
  *
  * @author Nemko
  */
 @WebService
-@InInterceptors(interceptors = "library.security.BasicAuthorizationInterceptor")
 public interface UserWebService 
 {
     

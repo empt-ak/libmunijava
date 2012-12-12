@@ -21,23 +21,27 @@
                             http://cxf.apache.org/schemas/jaxws.xsd">
     
     <context:annotation-config />
-    <context:component-scan base-package="library.security"/>
+    <context:component-scan base-package="library"/>
     
     <import resource="classpath:META-INF/cxf/cxf.xml" />
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-    
-    <bean id="userService" class="library.service.impl.UserServiceImpl" />
     
     <jaxws:endpoint 
         id="bookWebServiceEndpoint" 
         implementor="library.webservice.impl.BookWebServiceImpl" 
         address="/wsdl/BookWebService" >
+        <jaxws:inInterceptors>
+            <ref bean="basicAuthInterceptor" />
+        </jaxws:inInterceptors>
     </jaxws:endpoint>
     
     <jaxws:endpoint 
         id="userWebServiceEndpoint" 
         implementor="library.webservice.impl.UserWebServiceImpl" 
         address="/wsdl/UserWebService" >
+        <jaxws:inInterceptors>
+            <ref bean="basicAuthInterceptor" />
+        </jaxws:inInterceptors>
     </jaxws:endpoint>
  
     <!-- Web service methods -->
@@ -45,8 +49,8 @@
     
     <bean id="userWebService" class="library.webservice.impl.UserWebServiceImpl" />
     
-<!--    <bean id="basicAuthInterceptor"
+    <bean id="basicAuthInterceptor"
           class="library.security.BasicAuthorizationInterceptor">
-    </bean>-->
+    </bean>
     
 </beans>

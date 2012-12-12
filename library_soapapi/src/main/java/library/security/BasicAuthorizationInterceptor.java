@@ -19,12 +19,13 @@ import org.apache.cxf.message.Exchange;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.transport.Conduit;
 import org.apache.cxf.ws.addressing.EndpointReferenceType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class BasicAuthorizationInterceptor extends SoapHeaderInterceptor {
     
-    // TREBA PORIESIT AUTOWIRE!
-    // @Autowired
+    @Autowired
     private UserService userService;
 
     @Override
@@ -51,8 +52,7 @@ public class BasicAuthorizationInterceptor extends SoapHeaderInterceptor {
     }
 
     private boolean checkLogin(String username, String password) {
-//        return userService.authenticate(username,password);
-        return true;
+        return userService.authenticate(username,password);
     }
 
     private void sendErrorResponse(Message message, int responseCode) {
