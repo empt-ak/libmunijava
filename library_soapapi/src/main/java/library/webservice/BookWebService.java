@@ -8,12 +8,14 @@ import java.util.List;
 import javax.jws.WebService;
 import library.entity.dto.BookDTO;
 import library.entity.enums.Department;
+import org.apache.cxf.interceptor.InInterceptors;
 
 /**
  *
  * @author Nemko
  */
 @WebService
+@InInterceptors(interceptors = "library.security.BasicAuthorizationInterceptor")
 public interface BookWebService {
    
     
