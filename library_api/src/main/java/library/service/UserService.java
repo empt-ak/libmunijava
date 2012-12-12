@@ -27,5 +27,7 @@ public interface UserService
     List<UserDTO> findUserByRealName(String name) throws IllegalArgumentException;
     
     List<UserDTO> getUsers();
+
+    public boolean authenticate(String userName, String password);
     
 }
