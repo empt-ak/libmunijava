@@ -4,25 +4,11 @@
  */
 package library.test;
 
-import library.service.TicketFacade;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.persistence.NoResultException;
 import library.dao.TicketDAO;
 import library.dao.TicketItemDAO;
-import library.entity.Book;
-import library.entity.Ticket;
-import library.entity.TicketItem;
-import library.entity.User;
 import library.entity.dto.BookDTO;
 import library.entity.dto.TicketDTO;
 import library.entity.dto.TicketItemDTO;
@@ -31,11 +17,10 @@ import library.entity.enums.BookStatus;
 import library.entity.enums.Department;
 import library.entity.enums.TicketItemStatus;
 import library.service.BookService;
+import library.service.TicketFacade;
 import library.service.TicketItemService;
 import library.service.TicketService;
 import library.service.UserService;
-import library.service.impl.TicketFacadeImpl;
-import library.utils.aop.validators.LibraryValidator;
 import org.joda.time.DateTime;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -53,7 +38,6 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
  *
  * @author Andrej Gašpar
  */
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/resources/spring/applicationContext-test.xml"})
 @TestExecutionListeners({DirtiesContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class})
@@ -102,7 +86,7 @@ public class TicketFacadeTest {
 
         List<TicketItemDTO> ticketItems = new ArrayList<>(6);
         ticketItems.add(TestUtils.createTicketItemDTONoID(books.get(0), TicketItemStatus.BORROWED));
-        ticketItems.add(TestUtils.createTicketItemDTONoID(books.get(1), TicketItemStatus.RESERVATION));
+        ticketItems.add(TestUtils.createTicketItemDTONoID(books.get(1), TicketItemStatus.RETURNED));
         ticketItems.add(TestUtils.createTicketItemDTONoID(books.get(2), TicketItemStatus.RETURNED));
         ticketItems.add(TestUtils.createTicketItemDTONoID(books.get(3), TicketItemStatus.BORROWED));
         ticketItems.add(TestUtils.createTicketItemDTONoID(books.get(4), TicketItemStatus.RESERVATION));
@@ -132,94 +116,143 @@ public class TicketFacadeTest {
 
     @Test
     public void addBookToTicket() {
-        
-        
 
-    } 
+
+        UserDTO user = userService.getUserByID(1L);
+        BookDTO b = bookService.getAllBooks().get(0);
+
+        ticketFacade.addBookToTicket(bookService.getBookByID(b.getBookID()).getBookID(), userService.getUserByID(user.getUserID()));
+
+        for (TicketItemDTO ti : ticketService.getTicketByID(1L).getTicketItems()) {
+            assertEquals(ti.getTicketItemStatus(), TicketItemStatus.RESERVATION);
+            assertEquals(ti.getBook().getBookStatus(), BookStatus.NOT_AVAILABLE);
+        }
+    }
 //            
-    
 
     @Test
     public void testBorrowTicket() {
 
-//        BookDTO b1 = bookService.getAllBooks().get(0);
-//        BookDTO b2 = bookService.getAllBooks().get(1);
-        
-             
-//        b1.setBookStatus(BookStatus.NOT_AVAILABLE);
-//        b2.setBookStatus(BookStatus.NOT_AVAILABLE);
-//        
-//        TicketItemDTO ti1 = ticketItemService.getTicketItemByID(1L);
-//        TicketItemDTO ti2 = ticketItemService.getTicketItemByID(2L);
-//        
-//        ti1.setTicketItemStatus(TicketItemStatus.RESERVATION);
-//        ti1.setBook(b1);
-//        
-//        ti2.setTicketItemStatus(TicketItemStatus.RESERVATION);
-//        ti2.setBook(b2);
-//        
-//        List<TicketItemDTO> ticketItems = new ArrayList<>();
-//        
-//        ticketItems.add(ti1);
-//        ticketItems.add(ti2);
-         
+
         TicketDTO t = correctTickets.get(0);
         ticketService.createTicket(t);
-        for(TicketItemDTO ti : t.getTicketItems()) {
+        for (TicketItemDTO ti : t.getTicketItems()) {
             ti.getBook().setBookStatus(BookStatus.NOT_AVAILABLE);
             ti.setTicketItemStatus(TicketItemStatus.RESERVATION);
         }
-        
-              
-        
-        
-        
-        ticketFacade.borrowTicket(t.getTicketID());
-        
-        for(TicketItemDTO ti : ticketService.getTicketByID(1L).getTicketItems()) {
+
+
+
+
+        ticketFacade.borrowTicket(ticketService.getTicketByID(t.getTicketID()).getTicketID());
+
+        for (TicketItemDTO ti : ticketService.getTicketByID(1L).getTicketItems()) {
             assertTrue(ti.getTicketItemStatus().equals(TicketItemStatus.BORROWED));
         }
-        
-        
+
+
     }
 
     @Test
     public void testReturnTicket() {
 
-    
-    
-        
+        TicketDTO t = correctTickets.get(0);
+        ticketService.createTicket(t);
+        for (TicketItemDTO ti : t.getTicketItems()) {
+            ti.getBook().setBookStatus(BookStatus.NOT_AVAILABLE);
+            ti.setTicketItemStatus(TicketItemStatus.RESERVATION);
+
+        }
+
+
+
+
+        ticketFacade.returnTicket(t.getTicketID());
+
+        for (TicketItemDTO ti : ticketService.getTicketByID(1L).getTicketItems()) {
+            assertTrue(ti.getTicketItemStatus().equals(TicketItemStatus.RETURNED));
+            assertTrue(ti.getBook().getBookStatus().equals(BookStatus.AVAILABLE));
+        }
+
+
     }
-        
-        
 
     @Test
     public void testReturnBookInTicketItem() {
-        
+
+
+        ticketService.createTicket(correctTickets.get(0));
+
+        for (TicketItemDTO ti : ticketService.getTicketByID(1L).getTicketItems()) {
+
+            ti.setTicketItemStatus(TicketItemStatus.BORROWED);
+            ti.getBook().setBookStatus(BookStatus.NOT_AVAILABLE);
+
+        }
+
+        ticketFacade.returnBookInTicketItem(ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketItems().get(0).getTicketItemID(), ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketID(), true);
+
        
-            
-            
+            assertEquals(ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketItems().get(0).getTicketItemStatus(), TicketItemStatus.RETURNED_DAMAGED);
+            assertEquals(ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketItems().get(0).getBook().getBookStatus(), BookStatus.NOT_AVAILABLE);
         
+
+        ticketFacade.returnBookInTicketItem(ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketItems().get(1).getTicketItemID(), ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketID(), false);
+
+        
+            assertEquals(ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketItems().get(1).getTicketItemStatus(), TicketItemStatus.RETURNED);
+            assertEquals(ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketItems().get(1).getBook().getBookStatus(), BookStatus.AVAILABLE);
         
     }
 
     @Test
     public void testDeleteTicket() {
-        
-        
-        
-        
-        
-        
+
+
+        TicketDTO t = correctTickets.get(0);
+        ticketService.createTicket(t);
+
+
+        ticketFacade.deleteTicket(t.getTicketID());
+
+        for (int i = 0; i < bookService.getAllBooks().size(); i++) {
+
+            assertTrue(bookService.getAllBooks().get(i).getBookStatus().equals(BookStatus.AVAILABLE));
+
+
+        }
+
+
 
     }
-    
 
     @Test
-     public void testCancelTicket() {
-        
+    public void testCancelTicket() {
+
+        TicketDTO t = correctTickets.get(0);
+        ticketService.createTicket(t);
+
+        for (TicketItemDTO ti : ticketService.getTicketByID(1L).getTicketItems()) {
+            ti.setTicketItemStatus(TicketItemStatus.RESERVATION);
+        }
+
+        ticketFacade.cancelTicket(ticketService.getTicketByID(1L).getTicketID());
+
+
+
+        for (int i = 0; i < bookService.getAllBooks().size(); i++) {
+
+            for (TicketItemDTO ti : ticketService.getTicketByID(1L).getTicketItems()) {
+                if (ti.getBook().equals(bookService.getAllBooks().get(i))) {
+                    assertEquals(ti.getBook().getBookStatus(), BookStatus.AVAILABLE);
+                }
+
+            }
+
+
+        }
+
+
+
     }
-    
-    
-       
-}      
+}
