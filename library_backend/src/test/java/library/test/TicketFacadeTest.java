@@ -229,30 +229,22 @@ public class TicketFacadeTest {
     @Test
     public void testCancelTicket() {
 
-        TicketDTO t = correctTickets.get(0);
-        ticketService.createTicket(t);
+       
+        ticketService.createTicket(correctTickets.get(0));
 
         for (TicketItemDTO ti : ticketService.getTicketByID(1L).getTicketItems()) {
             ti.setTicketItemStatus(TicketItemStatus.RESERVATION);
-        }
-
-        ticketFacade.cancelTicket(ticketService.getTicketByID(1L).getTicketID());
-
-
-
-        for (int i = 0; i < bookService.getAllBooks().size(); i++) {
-
-            for (TicketItemDTO ti : ticketService.getTicketByID(1L).getTicketItems()) {
-                if (ti.getBook().equals(bookService.getAllBooks().get(i))) {
-                    assertEquals(ti.getBook().getBookStatus(), BookStatus.AVAILABLE);
-                }
-
-            }
-
-
+            ti.getBook().setBookStatus(BookStatus.NOT_AVAILABLE);
         }
 
 
+        ticketFacade.cancelTicket(ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketID());
+        
+        for(TicketItemDTO ti : ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketItems()) {
+            
+            assertEquals(ti.getBook().getBookStatus(), BookStatus.AVAILABLE);
+        }
 
+     
     }
 }
