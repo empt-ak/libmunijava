@@ -13,7 +13,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.security.NoSuchAlgorithmException;
 import javax.xml.ws.WebServiceException;
-import javax.xml.ws.soap.SOAPFaultException;
 import library.gui.create.NewBookDialog;
 import library.gui.create.NewUserDialog;
 import library.gui.edit.EditBookDialog;
@@ -108,11 +107,6 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1.add(jTextField1, gridBagConstraints);
 
         jPasswordField1.setPreferredSize(new java.awt.Dimension(48, 20));
-        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
-            }
-        });
         jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jPasswordField1KeyPressed(evt);
@@ -304,6 +298,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabelRealName.setText(bundle.getString("gui.user.realname")); // NOI18N
 
+        jTextFieldSearchByRealName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldSearchByRealNameKeyPressed(evt);
+            }
+        });
+
         jButtonUserSearch.setText(bundle.getString("gui.frame.button.search")); // NOI18N
         jButtonUserSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -487,20 +487,12 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSearchByTitleActionPerformed
 
     private void jButtonSearchByAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchByAuthorActionPerformed
-        try {
-            getBTM().addBooks(conn.getBws().getBooksByAuthor(jTextFieldBookAuthor.getText()));
-        } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
-            System.err.println(ex.getMessage());
-        }
+        jButtonSearchByAuthor.doClick();
     }//GEN-LAST:event_jButtonSearchByAuthorActionPerformed
 
     private void jTextFieldBookTitleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBookTitleKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            try {
-                getBTM().addBooks(conn.getBws().searchBooksByTitle(jTextFieldBookTitle.getText()));
-            } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
-                System.err.println(ex.getMessage());
-            }
+            jButtonSearchByTitle.doClick();
         }
 
     }//GEN-LAST:event_jTextFieldBookTitleKeyPressed
@@ -583,10 +575,6 @@ public class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonUserSearchActionPerformed
 
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jLabel3.setText("");
         jLabel3.setForeground(Color.BLACK);
@@ -610,6 +598,13 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel3.setText("");
         ConnectionHolder.resetConnection();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jTextFieldSearchByRealNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSearchByRealNameKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) 
+        {
+            jButtonUserSearch.doClick();
+        }
+    }//GEN-LAST:event_jTextFieldSearchByRealNameKeyPressed
 
     /**
      * @param args the command line arguments
@@ -709,7 +704,7 @@ public class MainFrame extends javax.swing.JFrame {
             conn = ConnectionHolder.getInstance();
             jLabel3.setText("Setting service credentials.");
             conn.setServiceCredentials(userName, Tools.SHA1(password));
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException | ConnectException ex) {
+        } catch (java.io.IOException |org.apache.cxf.interceptor.Fault | NoSuchAlgorithmException  ex) {
             System.err.println(ex.getMessage());
             connSucc = false;
             jLabel3.setText("Error while connecting to server: " + ex.getMessage());

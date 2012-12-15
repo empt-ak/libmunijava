@@ -114,7 +114,7 @@ public class TicketFacadeImpl implements TicketFacade
              
         for(TicketItem ti :t.getTicketItems())
         {
-            if (ti.getBook().getBookStatus().equals(BookStatus.AVAILABLE)) {
+            if (ti.getBook().getBookStatus().equals(BookStatus.NOT_AVAILABLE)) {
                 ti.setTicketItemStatus(TicketItemStatus.BORROWED);
                 ticketItemDAO.updateTicketItem(ti);
             }

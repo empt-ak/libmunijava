@@ -4,12 +4,18 @@
  */
 package library.gui.edit;
 
+import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.ws.soap.SOAPFaultException;
 import library.gui.ConnectionHolder;
 import library.gui.tools.Memento;
 import library.gui.models.UserRoleBoxModel;
 import library.gui.models.UserTableModel;
+import library.gui.tools.RandomString;
+import library.gui.tools.Tools;
 import library.webservice.IllegalArgumentException_Exception;
 import library.webservice.UserDTO;
 
@@ -24,13 +30,17 @@ public class EditUserDialog extends javax.swing.JDialog {
     private ConnectionHolder holder;
     private UserTableModel utm;
     private Memento<UserDTO> memento = new Memento<>();
-    
+    private RandomString rs = new RandomString(5);
+    private String pass = "";
     public void setReq(UserDTO userDTO,ConnectionHolder holder,UserTableModel utm)
     {
         this.userDTO = userDTO;        
         this.holder = holder;
         this.utm = utm;
+        memento.setState(userDTO);
         valuesFromObject(this.userDTO);
+        pass = rs.nextString();
+        jPasswordField1.setText(pass);
     }
 
     /**
@@ -186,6 +196,17 @@ public class EditUserDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jTextFieldRealNameActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        valuesToObject(this.userDTO);
+        if(hasPasswordChanged())
+        {
+            System.out.println("=Password has changed");
+            String p = passToString();
+            try {
+                this.userDTO.setPassword(Tools.SHA1(p));
+            } catch (    NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+                Logger.getLogger(EditUserDialog.class.getName()).log(Level.SEVERE, null, ex);
+            }          
+        }
         try
         {
             holder.getUws().updateUser(userDTO);
@@ -232,6 +253,7 @@ public class EditUserDialog extends javax.swing.JDialog {
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 EditUserDialog dialog = new EditUserDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -291,6 +313,23 @@ public class EditUserDialog extends javax.swing.JDialog {
         {
             System.err.println(ce.getMessage());
         }        
+    }
+    
+    private boolean hasPasswordChanged()
+    {
+        
+        return !pass.equals(passToString());
+    }
+    
+    private String passToString()
+    {
+        StringBuilder sb = new StringBuilder();
+        for(int i =0;i<jPasswordField1.getPassword().length;i++)
+        {
+            sb.append(jPasswordField1.getPassword()[i]);
+        }
+        
+        return sb.toString();
     }
     
     
