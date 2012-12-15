@@ -138,12 +138,12 @@ public class TicketFacadeTest {
         assertEquals(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketItems().get(0).getBook().getBookStatus(), BookStatus.NOT_AVAILABLE);
 
 
-        ticketFacade.returnBookInTicketItem(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketItems().get(1).getTicketItemID(), ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketID(), true);
+        ticketFacade.returnBookInTicketItem(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketItems().get(1).getTicketItemID(), ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketID(), false);
 
 
 
-        assertEquals(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketItems().get(1).getTicketItemStatus(), TicketItemStatus.RETURNED_DAMAGED);
-        assertEquals(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketItems().get(1).getBook().getBookStatus(), BookStatus.NOT_AVAILABLE);
+        assertEquals(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketItems().get(1).getTicketItemStatus(), TicketItemStatus.RETURNED);
+        assertEquals(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketItems().get(1).getBook().getBookStatus(), BookStatus.AVAILABLE);
     }
 
     @Test
