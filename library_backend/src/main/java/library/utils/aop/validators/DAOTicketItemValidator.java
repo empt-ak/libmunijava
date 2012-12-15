@@ -27,8 +27,7 @@ class DAOTicketItemValidator
         {
             throw new IllegalArgumentException("ERROR: given ti has no id");
         }
-        validateCore(ti);
-        
+        validateCore(ti);        
     }
     
     public static void validateOnDelete(TicketItem ti)

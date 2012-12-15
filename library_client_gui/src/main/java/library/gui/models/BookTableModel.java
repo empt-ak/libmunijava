@@ -79,12 +79,18 @@ public class BookTableModel extends javax.swing.table.AbstractTableModel
         
         switch(columnIndex)
         {
-            case 0: return b.getBookID();
-            case 1: return b.getTitle();
-            case 2: return b.getAuthor();
-            case 3: return b.getDepartment();
-            case 4: return b.getBookStatus();
-            default: throw new IllegalArgumentException("meh");
+            case 0: 
+                return b.getBookID();
+            case 1: 
+                return b.getTitle();
+            case 2: 
+                return b.getAuthor();
+            case 3: 
+                return b.getDepartment();
+            case 4: 
+                return b.getBookStatus();
+            default: 
+                throw new IllegalArgumentException("meh");
         }         
     }
 
@@ -92,12 +98,18 @@ public class BookTableModel extends javax.swing.table.AbstractTableModel
     public String getColumnName(int column) {
         switch(column)
         {
-            case 0: return bundle.getString("gui.book.bookid");
-            case 1: return bundle.getString("gui.book.title");
-            case 2: return bundle.getString("gui.book.author");
-            case 3: return bundle.getString("gui.book.department");
-            case 4: return bundle.getString("gui.book.availability");
-            default : throw new IllegalArgumentException("peh");            
+            case 0: 
+                return bundle.getString("gui.book.bookid");
+            case 1: 
+                return bundle.getString("gui.book.title");
+            case 2: 
+                return bundle.getString("gui.book.author");
+            case 3: 
+                return bundle.getString("gui.book.department");
+            case 4: 
+                return bundle.getString("gui.book.availability");
+            default : 
+                throw new IllegalArgumentException("peh");            
         }
     }
     

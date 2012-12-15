@@ -21,30 +21,37 @@ public class UserWebServiceImpl implements UserWebService {
     @Autowired
     private UserService userService;
     
+    @Override
     public void createUser(UserDTO user) throws IllegalArgumentException {
         userService.createUser(user);
     }
 
+    @Override
     public void updateUser(UserDTO user) throws IllegalArgumentException {
         userService.updateUser(user);
     }
 
+    @Override
     public void deleteUser(UserDTO user) throws IllegalArgumentException {
         userService.deleteUser(user);
     }
 
+    @Override
     public UserDTO getUserByID(Long id) throws IllegalArgumentException {
         return userService.getUserByID(id);
     }
 
+    @Override
     public UserDTO getUserByUsername(String username) throws IllegalArgumentException {
         return userService.getUserByUsername(username);
     }
 
+    @Override
     public List<UserDTO> findUserByRealName(String name) throws IllegalArgumentException {
         return userService.findUserByRealName(name);
     }
 
+    @Override
     public List<UserDTO> getUsers() {
         return userService.getUsers();
     }

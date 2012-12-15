@@ -10,12 +10,9 @@ import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import library.entity.dto.TicketDTO;
 import library.entity.dto.UserDTO;
-import library.service.BookService;
 import library.service.TicketFacade;
-import library.service.TicketItemService;
 import library.service.TicketService;
 import library.service.UserService;
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -88,14 +85,12 @@ public class TicketController
     {        
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         if(inSession != null)
-        {// sme prihlaseny 
-            
-                TicketDTO t = new TicketDTO();
-                t.setBorrowTime(new DateTime());
-                t.setDueTime(t.getBorrowTime().plusMonths(1));
-                t.setUser(inSession);
-                ticketService.createTicket(t);                
-            
+        {// sme prihlaseny             
+            TicketDTO t = new TicketDTO();
+            t.setBorrowTime(new DateTime());
+            t.setDueTime(t.getBorrowTime().plusMonths(1));
+            t.setUser(inSession);
+            ticketService.createTicket(t);
         }
 
         return new ModelAndView("redirect:/ticket/show/mytickets/");        
@@ -119,8 +114,7 @@ public class TicketController
                 java.util.Collections.sort(tickets,tComparator);
                 return new ModelAndView("ticket_list","tickets",tickets);                                
             }
-        }
-        
+        }     
         
         return new ModelAndView("redirect:/");
     }
@@ -143,8 +137,7 @@ public class TicketController
                 targetU = userService.getUserByID(userID);
             }
             catch(NoResultException nre)
-            {
-                
+            {                
             }
             
             if(targetU != null)
@@ -187,12 +180,10 @@ public class TicketController
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {
-            ticketFacade.borrowTicket(ticketID);
-            
+            ticketFacade.borrowTicket(ticketID);            
             TicketDTO t = ticketService.getTicketByID(ticketID);
            
-            return new ModelAndView("redirect:/ticket/show/user/"+t.getUser().getUserID().toString());
-            
+            return new ModelAndView("redirect:/ticket/show/user/"+t.getUser().getUserID().toString());            
         }
         
         return new ModelAndView("redirect:/");
@@ -210,12 +201,10 @@ public class TicketController
         UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         if(inSession != null  && inSession.getSystemRole().equals("ADMINISTRATOR"))
         {
-            ticketFacade.returnTicket(ticketID);
-                
+            ticketFacade.returnTicket(ticketID);                
             TicketDTO t = ticketService.getTicketByID(ticketID);
             
-            return new ModelAndView("redirect:/ticket/show/user/"+t.getUser().getUserID().toString());
-            
+            return new ModelAndView("redirect:/ticket/show/user/"+t.getUser().getUserID().toString());            
         }
         
         return new ModelAndView("index");       
@@ -297,10 +286,8 @@ public class TicketController
             }          
         }
         
-        return new ModelAndView("redirect:/ticket/show/mytickets/");
-        
-    }
-    
+        return new ModelAndView("redirect:/ticket/show/mytickets/");        
+    }    
     
     private static java.util.Comparator<TicketDTO> tComparator = new Comparator<TicketDTO>() 
     {

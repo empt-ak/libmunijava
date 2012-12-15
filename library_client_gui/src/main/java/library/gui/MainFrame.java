@@ -9,7 +9,6 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.security.NoSuchAlgorithmException;
 import javax.xml.ws.WebServiceException;
@@ -699,29 +698,36 @@ public class MainFrame extends javax.swing.JFrame {
 
         String userName = jTextField1.getText();
         String password = new String(jPasswordField1.getPassword());
-
         try {
             conn = ConnectionHolder.getInstance();
-            jLabel3.setText("Setting service credentials.");
+            jLabel3.setText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.set.credentials"));
             conn.setServiceCredentials(userName, Tools.SHA1(password));
         } catch (java.io.IOException |org.apache.cxf.interceptor.Fault | NoSuchAlgorithmException  ex) {
             System.err.println(ex.getMessage());
             connSucc = false;
-            jLabel3.setText("Error while connecting to server: " + ex.getMessage());
+            jLabel3.setText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.connectionerror") + ex.getMessage());
         }
         if (connSucc) {
             try {
-                jLabel3.setText("Getting lists of books and users.");
+                jLabel3.setText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.getall"));
                 getBTM().addBooks(conn.getBws().getAllBooks());
                 getUTM().addUsers(conn.getUws().getUsers());
                 ((CardLayout) getContentPane().getLayout()).show(getContentPane(), "card2");
                 jMenu1.setEnabled(true);
             } catch (IOException | NullPointerException ex) {
                 System.err.println(ex.getMessage());
-                jLabel3.setText("Error: " + ex.getMessage());
+                jLabel3.setText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.error") + ex.getMessage()); //java.util.ResourceBundle.getBundle("Messages").getString("gui.login.error")
             } catch (WebServiceException ex) {
                 jLabel3.setForeground(Color.RED);
-                jLabel3.setText("WebService error: " + ex.getMessage() + " Check your login credentials.");
+                jLabel3.setText(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.weberror"), ex.getMessage()));
+            }
+            catch(Exception e)
+            {
+                System.err.println("="+e.getMessage());
+            }
+            catch(Throwable e)
+            {
+                System.err.println(e.getMessage());
             }
         }
     }

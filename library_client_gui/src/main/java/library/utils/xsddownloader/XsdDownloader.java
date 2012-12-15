@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,11 +16,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import library.gui.tools.Tools;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -36,26 +37,31 @@ import org.xml.sax.SAXException;
  * @author Nemko
  */
 public class XsdDownloader {
+    
+    public static Properties props = Tools.getProperties();
 
     public static class XsdNameSpaceContext implements NamespaceContext {
 
         private final Map<String, String> nameSpaceUrisByPrefixes;
 
         public XsdNameSpaceContext() {
-            nameSpaceUrisByPrefixes = new HashMap<String, String>();
+            nameSpaceUrisByPrefixes = new HashMap<>();
             nameSpaceUrisByPrefixes.put("xsd",
                     "http://www.w3.org/2001/XMLSchema");
         }
 
+        @Override
         public String getNamespaceURI(final String prefix) {
             return nameSpaceUrisByPrefixes.get(prefix);
         }
 
+        @Override
         public String getPrefix(final String namespaceURI) {
             // TODO Auto-generated method stub
             return null;
         }
 
+        @Override
         public Iterator getPrefixes(final String namespaceURI) {
             // TODO Auto-generated method stub
             return null;
@@ -72,9 +78,9 @@ public class XsdDownloader {
 //		}
 //		String xsdUrl = args[0];
 //		String filePrefix = args[1];
-        String xsdUrl1 = "http://localhost:8080/pa165/services/wsdl/UserWebService?wsdl";
+        String xsdUrl1 = props.getProperty("service.user.url");
         String filePrefix1 = "UserWebService";
-        String xsdUrl2 = "http://localhost:8080/pa165/services/wsdl/BookWebService?wsdl";
+        String xsdUrl2 = props.getProperty("service.book.url");
         String filePrefix2 = "BookWebService";
         XsdDownloader xsdDownloader1 = new XsdDownloader();
         xsdDownloader1.setDownloadPrefix(filePrefix1);
@@ -83,30 +89,18 @@ public class XsdDownloader {
 
         try {
             xsdDownloader1.downloadXsdRecurse(xsdUrl1);
-        } catch (IOException ex) {
-            Logger.getLogger(XsdDownloader.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(XsdDownloader.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
-            Logger.getLogger(XsdDownloader.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TransformerException ex) {
+        } catch (IOException | ParserConfigurationException | SAXException | TransformerException ex) {
             Logger.getLogger(XsdDownloader.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         try {
             xsdDownloader2.downloadXsdRecurse(xsdUrl2);
-        } catch (IOException ex) {
-            Logger.getLogger(XsdDownloader.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(XsdDownloader.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
-            Logger.getLogger(XsdDownloader.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TransformerException ex) {
+        } catch (IOException | ParserConfigurationException | SAXException | TransformerException ex) {
             Logger.getLogger(XsdDownloader.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     Map<String, String> fileNamesByprocessedUrls =
-            new HashMap<String, String>();
+            new HashMap<>();
     private String downloadPrefix;
 
     private void downloadXsdRecurse(final String xsdUrl) throws IOException,

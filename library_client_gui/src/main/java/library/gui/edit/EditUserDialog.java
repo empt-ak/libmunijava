@@ -289,8 +289,6 @@ public class EditUserDialog extends javax.swing.JDialog {
         u.setUsername(jTextFieldUsername.getText());
         u.setRealName(jTextFieldRealName.getText());
         u.setSystemRole(jComboBox1.getSelectedItem().toString());
-        //u.setPassword(jTextFieldPassword.getText());
-        
     }
     
     private void valuesFromObject(UserDTO u)
@@ -316,8 +314,7 @@ public class EditUserDialog extends javax.swing.JDialog {
     }
     
     private boolean hasPasswordChanged()
-    {
-        
+    {        
         return !pass.equals(passToString());
     }
     
@@ -331,6 +328,4 @@ public class EditUserDialog extends javax.swing.JDialog {
         
         return sb.toString();
     }
-    
-    
 }

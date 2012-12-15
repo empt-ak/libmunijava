@@ -215,6 +215,7 @@ public class NewUserDialog extends javax.swing.JDialog {
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 NewUserDialog dialog = new NewUserDialog(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -269,7 +270,8 @@ public class NewUserDialog extends javax.swing.JDialog {
             System.err.println(ex.getMessage());
         }
         
-        System.out.println("==from form obtained following book:"+userDTO);
+        System.out.print("==from form obtained following book:");
+        Tools.printEntity(userDTO);
     }
     
     private void updateModel()

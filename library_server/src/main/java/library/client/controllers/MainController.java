@@ -5,18 +5,10 @@
 package library.client.controllers;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import library.client.Installer;
-import library.entity.dto.BookDTO;
-import library.entity.dto.UserDTO;
-import library.entity.enums.BookStatus;
-import library.entity.enums.Department;
-import library.service.BookService;
 import library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,9 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/")
 public class MainController
 {
-    @Autowired
-    private UserService userService; 
-    
     @Autowired
     private Installer installer;
     
@@ -49,23 +38,5 @@ public class MainController
     @PostConstruct
     public void install(){
         installer.firstRun();
-    }
-    
-    /**
-     * Method makes admin from user with specified username
-     * @param username username of user from who we want to make admin
-     * @return redirect to :/ whether user exists or not
-     */
-    @RequestMapping("makeadmin/{username}")
-    public ModelAndView makeAdmin(@PathVariable String username)
-    {
-        UserDTO u = userService.getUserByUsername(username);
-        if(u != null)
-        {
-            u.setSystemRole("ADMINISTRATOR");
-            userService.updateUser(u);
-        }
-        
-        return new ModelAndView("redirect:/");
     }
 }

@@ -62,7 +62,6 @@ public interface TicketFacade
      */
     void returnBookInTicketItem(Long ticketItemID, Long ticketID,boolean isDamaged) throws IllegalArgumentException, NoResultException;
     
-    /* TODO: co ak mazem staru pozicku, a knihu ma teraz niekto pozicanu tak ju nastavim na dostupnu a moze byt pozicana 2x */
     /**
      * 
      * Method used for deleting ticket from database. At first we obtain ticket from database, iterate through ticketitems and 

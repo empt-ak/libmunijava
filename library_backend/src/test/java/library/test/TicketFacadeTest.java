@@ -5,10 +5,7 @@
 package library.test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import library.dao.TicketDAO;
-import library.dao.TicketItemDAO;
 import library.entity.dto.BookDTO;
 import library.entity.dto.TicketDTO;
 import library.entity.dto.TicketItemDTO;
@@ -18,10 +15,8 @@ import library.entity.enums.Department;
 import library.entity.enums.TicketItemStatus;
 import library.service.BookService;
 import library.service.TicketFacade;
-import library.service.TicketItemService;
 import library.service.TicketService;
 import library.service.UserService;
-import org.joda.time.DateTime;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;

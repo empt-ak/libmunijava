@@ -14,15 +14,15 @@
         <script src="<c:url value="/resources/javascript/jQuery.1.8.2.js" />"></script>
         <script type="text/javascript" language="javascript" src="<c:url value="/resources/javascript/jquery.dataTables.js" />"></script>
         <script type="text/javascript" language="javascript" src="<c:url value="/resources/javascript/clickable_div.js" />"></script>
-        
+
         <script>
             var oTable;
             $(document).ready(function() {
                 oTable = $('#example').dataTable({
-                    "bProcessing": true, 
-                    "bFilter":false,
-                    "bPaginate":false,
-                    "bInfo":false,
+                    "bProcessing": true,
+                    "bFilter": false,
+                    "bPaginate": false,
+                    "bInfo": false,
                     "sAjaxSource": '${pageContext.request.contextPath}/book/getJSONlastbooks',
 //                    "sPaginationType": "full_numbers",
                     "aoColumns": [
@@ -30,7 +30,7 @@
                         null,
                         {"sWidth": 80},
                         {"sWidth": 80}
-                        ],
+                    ],
                     "oLanguage":
                             {
                                 "sLengthMenu": "<spring:message code="label.datatable.sLengthMenu" />",
@@ -47,11 +47,11 @@
                                             "sPrevious": "<spring:message code="label.datatable.sPrevious" />"
                                         }
                             }
-                });                
+                });
             });
-            
-                    </script>
-        
+
+        </script>
+
     </head>
     <body> 
         <!-- wrapper -->
@@ -66,14 +66,10 @@
             <div id="faux">
 
                 <h1><spring:message code="label.website.title.index"/></h1>
-                
-                - ak sa zaregsitrujete a chcete mat admin prava zadajte url adresu <b>/pa165/makeadmin/vaslogin</b>
-                
-                <br/>
-                
+
                 <h2 id="last_books"> <spring:message code="label.website.table.header.index" /></h2>
-                
-                    <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
                     <thead>
                         <tr>
 
@@ -86,15 +82,15 @@
                     </thead>
                     <tbody>
                     </tbody>
-                            </table>
-                            
-                            <div  class="all_books">
-                   <a href='${pageContext.request.contextPath}/book/'><span><spring:message code="label.website.otherbooks.books" /></span></a>
-                            </div>
-            </div>
-            
+                </table>
 
-            
+                <div  class="all_books">
+                    <a href='${pageContext.request.contextPath}/book/'><span><spring:message code="label.website.otherbooks.books" /></span></a>
+                </div>
+            </div>
+
+
+
 
             <!-- footer -->
             <%@include file="/WEB-INF/pages/page_parts/footer.jsp" %>      

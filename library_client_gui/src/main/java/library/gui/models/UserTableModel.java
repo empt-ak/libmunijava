@@ -73,11 +73,16 @@ public class UserTableModel extends javax.swing.table.AbstractTableModel
         
         switch(columnIndex)
         {
-            case 0: return u.getUserID();
-            case 1: return u.getUsername();
-            case 2: return u.getRealName();
-            case 3: return u.getSystemRole();
-            default: throw new IllegalArgumentException("no such column");
+            case 0: 
+                return u.getUserID();
+            case 1: 
+                return u.getUsername();
+            case 2: 
+                return u.getRealName();
+            case 3: 
+                return u.getSystemRole();
+            default: 
+                throw new IllegalArgumentException("no such column");
         }
     }
 
@@ -86,12 +91,16 @@ public class UserTableModel extends javax.swing.table.AbstractTableModel
     {
         switch(column)
         {
-            case 0: return bundle.getString("gui.user.userID");
-            case 1: return bundle.getString("gui.user.username");
-            case 2: return bundle.getString("gui.user.realname");
-            case 3: return bundle.getString("gui.user.systemrole");
-            default : throw new IllegalArgumentException("no such column");
+            case 0: 
+                return bundle.getString("gui.user.userID");
+            case 1: 
+                return bundle.getString("gui.user.username");
+            case 2: 
+                return bundle.getString("gui.user.realname");
+            case 3: 
+                return bundle.getString("gui.user.systemrole");
+            default : 
+                throw new IllegalArgumentException("no such column");
         }
     }
-
 }

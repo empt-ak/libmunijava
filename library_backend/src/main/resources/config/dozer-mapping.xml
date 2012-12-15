@@ -10,15 +10,13 @@
         </custom-converters>
     </configuration>
     
-    
     <mapping>
         <class-a>library.entity.Book</class-a>
         <class-b>library.entity.dto.BookDTO</class-b>
     </mapping> 
     <mapping>
         <class-a>library.entity.Ticket</class-a>
-        <class-b>library.entity.dto.TicketDTO</class-b>  
-<!--        <field custom-converter=""     -->
+        <class-b>library.entity.dto.TicketDTO</class-b> 
     </mapping>
     <mapping>
         <class-a>library.entity.TicketItem</class-a>
@@ -26,28 +24,6 @@
     </mapping>
     <mapping>
         <class-a>library.entity.User</class-a>
-        <class-b>library.entity.dto.UserDTO</class-b>        
-        <!-- ak by sme chceli vlastne mapovanie ine nazvy tak toto --> 
-        <!--    
-        <field>
-          <a>userID</a>
-          <b>userID</b>
-        </field>
-        <field>
-          <a>username</a>
-          <b>username</b>
-        </field>
-        <field>
-          <a>password</a>
-          <b>password</b>
-        </field>
-        <field>
-          <a>realName</a>
-          <b>realName</b>
-        </field>
-        <field>
-          <a>systemRole</a>
-          <b>systemRole</b>
-        </field>-->
+        <class-b>library.entity.dto.UserDTO</class-b>
     </mapping>
 </mappings>

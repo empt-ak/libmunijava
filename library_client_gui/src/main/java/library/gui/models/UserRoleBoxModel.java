@@ -36,6 +36,5 @@ public class UserRoleBoxModel
     @Override
     public Object getSelectedItem() {
         return values.get(selectedItem);
-    }
-    
+    }    
 }

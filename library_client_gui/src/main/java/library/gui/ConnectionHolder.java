@@ -7,6 +7,7 @@ package library.gui;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Properties;
 import javax.xml.ws.BindingProvider;
 import library.gui.tools.Tools;
 import library.webservice.BookWebService;
@@ -24,8 +25,10 @@ public class ConnectionHolder {
     private UserWebService uws = null;
     private static final String ERROR = java.util.ResourceBundle.getBundle("Messages").getString("gui.connection.error");
     private static ConnectionHolder instance = new ConnectionHolder();
+    private static Properties props = null;
 
-    public static ConnectionHolder getInstance() {
+    public static ConnectionHolder getInstance() {        
+        initProps();
         return instance;
     }
     
@@ -33,8 +36,9 @@ public class ConnectionHolder {
         instance = new ConnectionHolder();
     }
 
-    public ConnectionHolder() {
-        
+    public ConnectionHolder() 
+    {
+        initProps();
     }
 
     public void setServiceCredentials(String userName, String password) throws ConnectException {
@@ -76,7 +80,7 @@ public class ConnectionHolder {
     }
 
     private boolean check() {
-        return checkIfURLExists("http://localhost:8080/pa165/services/");
+        return checkIfURLExists(props.getProperty("service.general.url"));
     }
 
     /**
@@ -117,5 +121,13 @@ public class ConnectionHolder {
 
     private void error() {
         Tools.createErrorDialog(ERROR);
+    }
+    
+    private static void initProps()
+    {
+        if(props == null)
+        {
+            props = Tools.getProperties();
+        }        
     }
 }

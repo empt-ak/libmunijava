@@ -4,9 +4,12 @@
  */
 package library.gui.tools;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Properties;
 import library.webservice.BookDTO;
 import library.webservice.UserDTO;
 
@@ -115,4 +118,28 @@ public class Tools
         return buf.toString();
     }
     
+    /**
+     * Method used for obtaining properties
+     * @return properties with config file in /resources/config.properties
+     */
+    public static Properties getProperties()
+    {
+        InputStream in = Tools.class.getClassLoader().getResourceAsStream("config.properties");
+        Properties p = null;
+        if(in != null)
+        {
+            p = new Properties();
+            try
+            {
+                p.load(in);
+            }
+            catch(IOException ex)
+            {
+                System.out.println(ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
+        
+        return p;
+    }    
 }

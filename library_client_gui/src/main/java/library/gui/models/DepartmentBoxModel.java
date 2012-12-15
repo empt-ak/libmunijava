@@ -37,6 +37,5 @@ public class DepartmentBoxModel
     @Override
     public Object getSelectedItem() {
         return list.get(selectedItem);
-    }
-    
+    }    
 }
