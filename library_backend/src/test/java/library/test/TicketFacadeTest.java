@@ -51,23 +51,13 @@ public class TicketFacadeTest {
     @Autowired
     private BookService bookService;
     @Autowired
-    private TicketItemService ticketItemService;
-    @Autowired
-    private TicketDAO ticketDAO;
-    @Autowired
-    private TicketItemDAO ticketItemDAO;
-    @Autowired
     private TicketService ticketService;
-    private List<TicketDTO> correctTickets;
-    private List<TicketDTO> wrongTickets;
 
     @Before
     public void init() {
         // we need one correct user for ticket, since one of fields is user
         UserDTO user1 = TestUtils.createUserDTONoID("heslo1", "realny1", "USER", "uziv1");
-        UserDTO user2 = TestUtils.createUserDTONoID("heslo2", "realny2", "USER", "uziv2");
         userService.createUser(user1);
-        userService.createUser(user2);
 
         List<BookDTO> books = new ArrayList<>(6);
 
@@ -82,145 +72,95 @@ public class TicketFacadeTest {
         for (BookDTO b : books) {
             bookService.createBook(b);
         }
-
-
-        List<TicketItemDTO> ticketItems = new ArrayList<>(6);
-        ticketItems.add(TestUtils.createTicketItemDTONoID(books.get(0), TicketItemStatus.BORROWED));
-        ticketItems.add(TestUtils.createTicketItemDTONoID(books.get(1), TicketItemStatus.RETURNED));
-        ticketItems.add(TestUtils.createTicketItemDTONoID(books.get(2), TicketItemStatus.RETURNED));
-        ticketItems.add(TestUtils.createTicketItemDTONoID(books.get(3), TicketItemStatus.BORROWED));
-        ticketItems.add(TestUtils.createTicketItemDTONoID(books.get(4), TicketItemStatus.RESERVATION));
-        ticketItems.add(TestUtils.createTicketItemDTONoID(books.get(5), TicketItemStatus.RETURNED));
-
-
-        for (TicketItemDTO ti : ticketItems) {
-            ticketItemService.createTicketItem(ti);
-        }
-
-        // 5 correct tickets
-        correctTickets = new ArrayList<>(5);
-
-        // first ticket has 2 ticketitems              
-        correctTickets.add(TestUtils.createTicketDTONoID(user1, new DateTime(2012, 10, 5, 12, 30), Arrays.asList(ticketItems.get(0), ticketItems.get(1))));
-        correctTickets.add(TestUtils.createTicketDTONoID(user1, new DateTime(2012, 10, 8, 12, 30), Arrays.asList(ticketItems.get(2))));
-        correctTickets.add(TestUtils.createTicketDTONoID(user1, new DateTime(2012, 10, 11, 12, 30), Arrays.asList(ticketItems.get(3))));
-        correctTickets.add(TestUtils.createTicketDTONoID(user2, new DateTime(2012, 10, 14, 12, 30), Arrays.asList(ticketItems.get(4))));
-        correctTickets.add(TestUtils.createTicketDTONoID(user2, new DateTime(2012, 10, 17, 12, 30), Arrays.asList(ticketItems.get(5))));
-
-        wrongTickets = new ArrayList<>(2);
-
-        wrongTickets.add(TestUtils.createTicketDTONoID(null, new DateTime(), Arrays.asList(ticketItems.get(5))));//ticket without user
-        wrongTickets.add(TestUtils.createTicketDTONoID(user1, new DateTime(), new ArrayList<TicketItemDTO>()));
-
     }
 
     @Test
     public void addBookToTicket() {
-
-
         UserDTO user = userService.getUserByID(1L);
         BookDTO b = bookService.getAllBooks().get(0);
 
         ticketFacade.addBookToTicket(bookService.getBookByID(b.getBookID()).getBookID(), userService.getUserByID(user.getUserID()));
 
-        for (TicketItemDTO ti : ticketService.getTicketByID(1L).getTicketItems()) {
-            assertEquals(ti.getTicketItemStatus(), TicketItemStatus.RESERVATION);
-            assertEquals(ti.getBook().getBookStatus(), BookStatus.NOT_AVAILABLE);
+        TicketDTO tidto = ticketService.getLastTicketForUser(user);
+        assertEquals(BookStatus.NOT_AVAILABLE, bookService.getAllBooks().get(0).getBookStatus());
+        for (TicketItemDTO ti : tidto.getTicketItems()) {
+            if (ti.getBook().equals(b)) {
+                assertEquals(TicketItemStatus.RESERVATION, ti.getTicketItemStatus());
+            }
         }
     }
-//            
 
     @Test
     public void testBorrowTicket() {
+        ticketFacade.addBookToTicket(bookService.getBookByID(new Long(1)).getBookID(), userService.getUserByID(new Long(1)));
+        ticketFacade.addBookToTicket(bookService.getBookByID(new Long(2)).getBookID(), userService.getUserByID(new Long(1)));
 
+        ticketFacade.borrowTicket(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketID());
 
-        TicketDTO t = correctTickets.get(0);
-        ticketService.createTicket(t);
-        for (TicketItemDTO ti : t.getTicketItems()) {
-            ti.getBook().setBookStatus(BookStatus.NOT_AVAILABLE);
-            ti.setTicketItemStatus(TicketItemStatus.RESERVATION);
+        TicketDTO tdto = ticketService.getLastTicketForUser(userService.getUserByID(new Long(1)));
+
+        for (TicketItemDTO ti : tdto.getTicketItems()) {
+            assertEquals(TicketItemStatus.BORROWED, ti.getTicketItemStatus());
         }
-
-
-
-
-        ticketFacade.borrowTicket(ticketService.getTicketByID(t.getTicketID()).getTicketID());
-
-        for (TicketItemDTO ti : ticketService.getTicketByID(1L).getTicketItems()) {
-            assertTrue(ti.getTicketItemStatus().equals(TicketItemStatus.BORROWED));
-        }
-
-
     }
 
     @Test
     public void testReturnTicket() {
+        ticketFacade.addBookToTicket(bookService.getBookByID(new Long(1)).getBookID(), userService.getUserByID(new Long(1)));
+        ticketFacade.addBookToTicket(bookService.getBookByID(new Long(2)).getBookID(), userService.getUserByID(new Long(1)));
+        ticketFacade.borrowTicket(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketID());
 
-        TicketDTO t = correctTickets.get(0);
-        ticketService.createTicket(t);
-        for (TicketItemDTO ti : t.getTicketItems()) {
-            ti.getBook().setBookStatus(BookStatus.NOT_AVAILABLE);
-            ti.setTicketItemStatus(TicketItemStatus.RESERVATION);
+        ticketFacade.returnTicket(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketID());
 
-        }
+        TicketDTO tdto = ticketService.getLastTicketForUser(userService.getUserByID(new Long(1)));
 
-
-
-
-        ticketFacade.returnTicket(t.getTicketID());
-
-        for (TicketItemDTO ti : ticketService.getTicketByID(1L).getTicketItems()) {
+        for (TicketItemDTO ti : tdto.getTicketItems()) {
             assertTrue(ti.getTicketItemStatus().equals(TicketItemStatus.RETURNED));
             assertTrue(ti.getBook().getBookStatus().equals(BookStatus.AVAILABLE));
         }
-
-
     }
 
     @Test
     public void testReturnBookInTicketItem() {
 
 
-        ticketService.createTicket(correctTickets.get(0));
+        ticketFacade.addBookToTicket(bookService.getBookByID(new Long(1)).getBookID(), userService.getUserByID(new Long(1)));
+        ticketFacade.addBookToTicket(bookService.getBookByID(new Long(2)).getBookID(), userService.getUserByID(new Long(1)));
 
-        for (TicketItemDTO ti : ticketService.getTicketByID(1L).getTicketItems()) {
+        ticketFacade.borrowTicket(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketID());
 
-            ti.setTicketItemStatus(TicketItemStatus.BORROWED);
-            ti.getBook().setBookStatus(BookStatus.NOT_AVAILABLE);
 
-        }
+        ticketFacade.returnBookInTicketItem(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketItems().get(0).getTicketItemID(), ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketID(), true);
 
-        ticketFacade.returnBookInTicketItem(ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketItems().get(0).getTicketItemID(), ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketID(), true);
 
-       
-            assertEquals(ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketItems().get(0).getTicketItemStatus(), TicketItemStatus.RETURNED_DAMAGED);
-            assertEquals(ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketItems().get(0).getBook().getBookStatus(), BookStatus.NOT_AVAILABLE);
-        
 
-        ticketFacade.returnBookInTicketItem(ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketItems().get(1).getTicketItemID(), ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketID(), false);
+        assertEquals(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketItems().get(0).getTicketItemStatus(), TicketItemStatus.RETURNED_DAMAGED);
+        assertEquals(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketItems().get(0).getBook().getBookStatus(), BookStatus.NOT_AVAILABLE);
 
-        
-            assertEquals(ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketItems().get(1).getTicketItemStatus(), TicketItemStatus.RETURNED);
-            assertEquals(ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketItems().get(1).getBook().getBookStatus(), BookStatus.AVAILABLE);
-        
+
+        ticketFacade.returnBookInTicketItem(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketItems().get(1).getTicketItemID(), ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketID(), true);
+
+
+
+        assertEquals(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketItems().get(1).getTicketItemStatus(), TicketItemStatus.RETURNED_DAMAGED);
+        assertEquals(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketItems().get(1).getBook().getBookStatus(), BookStatus.NOT_AVAILABLE);
     }
 
     @Test
     public void testDeleteTicket() {
 
+        ticketFacade.addBookToTicket(bookService.getBookByID(new Long(1)).getBookID(), userService.getUserByID(new Long(1)));
+        ticketFacade.addBookToTicket(bookService.getBookByID(new Long(2)).getBookID(), userService.getUserByID(new Long(1)));
 
-        TicketDTO t = correctTickets.get(0);
-        ticketService.createTicket(t);
+        ticketFacade.deleteTicket(ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))).getTicketID());
 
 
-        ticketFacade.deleteTicket(t.getTicketID());
 
         for (int i = 0; i < bookService.getAllBooks().size(); i++) {
-
             assertTrue(bookService.getAllBooks().get(i).getBookStatus().equals(BookStatus.AVAILABLE));
-
-
         }
+
+
 
 
 
@@ -228,23 +168,18 @@ public class TicketFacadeTest {
 
     @Test
     public void testCancelTicket() {
+        ticketFacade.addBookToTicket(bookService.getBookByID(new Long(1)).getBookID(), userService.getUserByID(new Long(1)));
+        ticketFacade.addBookToTicket(bookService.getBookByID(new Long(2)).getBookID(), userService.getUserByID(new Long(1)));
 
-       
-        ticketService.createTicket(correctTickets.get(0));
-
-        for (TicketItemDTO ti : ticketService.getTicketByID(1L).getTicketItems()) {
-            ti.setTicketItemStatus(TicketItemStatus.RESERVATION);
-            ti.getBook().setBookStatus(BookStatus.NOT_AVAILABLE);
+        TicketDTO tdto = ticketService.getLastTicketForUser(userService.getUserByID(new Long(1))); // local copy
+        List<BookDTO> books = new ArrayList<>();
+        for (TicketItemDTO ti : tdto.getTicketItems()) {
+            books.add(ti.getBook());
         }
+        ticketFacade.cancelTicket(tdto.getTicketID());
 
-
-        ticketFacade.cancelTicket(ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketID());
-        
-        for(TicketItemDTO ti : ticketService.getTicketByID(correctTickets.get(0).getTicketID()).getTicketItems()) {
-            
-            assertEquals(ti.getBook().getBookStatus(), BookStatus.AVAILABLE);
+        for (BookDTO b : books) {
+            assertEquals(BookStatus.AVAILABLE, bookService.getBookByID(b.getBookID()).getBookStatus());
         }
-
-     
     }
 }
