@@ -702,7 +702,7 @@ public class MainFrame extends javax.swing.JFrame {
             conn = ConnectionHolder.getInstance();
             jLabel3.setText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.set.credentials"));
             conn.setServiceCredentials(userName, Tools.SHA1(password));
-        } catch (java.io.IOException |org.apache.cxf.interceptor.Fault | NoSuchAlgorithmException  ex) {
+        } catch (java.io.IOException | NoSuchAlgorithmException ex) {
             System.err.println(ex.getMessage());
             connSucc = false;
             jLabel3.setText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.connectionerror") + ex.getMessage());
