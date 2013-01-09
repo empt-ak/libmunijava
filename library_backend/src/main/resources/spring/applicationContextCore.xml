@@ -70,6 +70,9 @@
     <bean id="ticketFacade" class="library.service.impl.TicketFacadeImpl" /> 
     
     
+<!--    <bean id="customUserDetailsService" class="library.security.CustomUserDetailsService" />-->
+    
+    
     <bean id="mapper" class="org.dozer.DozerBeanMapper">
         <property name="mappingFiles">
             <list>

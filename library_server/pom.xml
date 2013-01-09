@@ -50,6 +50,26 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${org.springframework-version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${org.springframework-version}</version>           
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
         
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -58,8 +78,14 @@
             <scope>provided</scope>
         </dependency>
         
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        
         <!-- Jackson JSON Mapper required for correct
-            representation of utf8 characters -->
+        representation of utf8 characters -->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
@@ -110,6 +136,7 @@
                 <version>2.1</version>
                 <executions>
                     <execution>
+                        <id>val</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>copy</goal>
@@ -125,8 +152,16 @@
                                     <type>jar</type>
                                 </artifactItem>
                             </artifactItems>
+                            <!--                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring.handlers</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring.schemas</resource>
+                                </transformer>
+                            </transformers>-->
                         </configuration>
-                    </execution>
+                    </execution>                    
                 </executions>
             </plugin>
         </plugins>

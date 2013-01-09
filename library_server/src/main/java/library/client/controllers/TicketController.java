@@ -282,7 +282,7 @@ public class TicketController
             // only if we are owner of ticket or we are administrator, then we can make som changes
             if(t != null && (t.getUser().equals(inSession) || inSession.getSystemRole().equals("ADMINISTRATOR")))
             {
-                ticketFacade.deleteTicket(ticketID);
+                ticketFacade.cancelTicket(ticketID);
             }          
         }
         

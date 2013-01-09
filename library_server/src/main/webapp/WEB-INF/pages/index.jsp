@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
 <html>
@@ -67,6 +67,14 @@
 
                 <h1><spring:message code="label.website.title.index"/></h1>
 
+                <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
+                        <!-- HTML CHUNK TO BE SECURED -->
+                        funguje
+                </sec:authorize>
+                        <sec:authorize access="hasRole('ROLE_USER')">
+                        <!-- HTML CHUNK TO BE SECURED -->
+                        fasdsadsad
+                </sec:authorize>
                 <h2 id="last_books"> <spring:message code="label.website.table.header.index" /></h2>
 
                 <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">

@@ -25,14 +25,20 @@
             <!-- Begin Faux Columns -->
             <div id="faux">
 
-                <form action="${pageContext.request.contextPath}/user/login/" method="post" >           									
+                <!--<form action="${pageContext.request.contextPath}/user/login/" method="post" >           									
                     <fieldset>
                         <label><spring:message code="label.website.user.register.field.username"/></label><input type="text" id="register_input" name="username" /><br/>
                         <label><spring:message code="label.website.user.register.field.password"/></label><input type="password" id="register_input" name="password" /><br/>
                         <label></label><input type="submit" id="register_button" value="<spring:message code="label.website.user.login.loginbutton"/>" />    
                     </fieldset>
 
-                </form>	
+                </form> -->
+                
+                <form action="${pageContext.request.contextPath}/j_spring_security_check" method="post">
+                    <input id="j_username" name="j_username" type="text"/>
+                    <input id="j_password" name="j_password" type="password"/>
+                    <input type="submit" value="Login"/>
+                </form>
 
             </div>	
 

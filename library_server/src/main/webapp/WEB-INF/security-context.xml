@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/security 
+		http://www.springframework.org/schema/security/spring-security-3.1.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+    
+        
+               
+	<http pattern="/resources" security="none" />
+	
+	<http auto-config="true"  use-expressions="true">
+                <intercept-url pattern="/" access="permitAll"/>
+                
+                <intercept-url pattern="/book/save" access="hasRole('ROLE_ADMINISTRATOR')"/>
+		<intercept-url pattern="/book/edit/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
+                <intercept-url pattern="/book/delete/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
+                <intercept-url pattern="/book/reset/" access="hasRole('ROLE_ADMINISTRATOR')"/>
+                <intercept-url pattern="/ticket/create/user/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
+                <intercept-url pattern="/ticket/show/user/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
+                <intercept-url pattern="/ticket/borrow/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
+                <intercept-url pattern="/ticket/return/**" access="hasRole('ROLE_ADMINISTRATOR')"/> <!-- sem patri aj /ticket/return/{ID}/ticketitem/{tiID}/damaged/{isDamaged} -->
+                <intercept-url pattern="/ticket/delete/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
+                <intercept-url pattern="/ticket/create/user/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
+                <intercept-url pattern="/user/edit" access="hasRole('ROLE_ADMINISTRATOR')"/>
+                <intercept-url pattern="/user/edit/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
+                <intercept-url pattern="/user/delete/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
+                <intercept-url pattern="/user/" access="hasRole('ROLE_ADMINISTRATOR')"/>
+                <intercept-url pattern="/user/getUsersJSON" access="hasRole('ROLE_ADMINISTRATOR')"/>
+                
+                <intercept-url pattern="/ticket/create/" access="hasRole('ROLE_USER')"/>
+                <intercept-url pattern="/ticket/show/mytickets" access="hasRole('ROLE_USER')"/>
+                <intercept-url pattern="/ticket/add/book/**" access="hasRole('ROLE_USER')"/>
+                <intercept-url pattern="/ticket/cancel/**" access="hasRole('ROLE_USER')"/>
+                <intercept-url pattern="/user/editprofile" access="hasRole('ROLE_USER')"/>
+                
+                
+                
+                
+		<form-login login-page="/user/login" 
+			authentication-failure-url="/login/failure" 
+			default-target-url="/"/>
+		
+		<access-denied-handler error-page="/denied"/>
+		
+		<logout invalidate-session="true" 
+			logout-success-url="/logout/success" 
+			logout-url="/user/logout"/>
+	</http>
+	
+	<authentication-manager>
+	        <authentication-provider user-service-ref="customUserDetailsService">
+	        		<password-encoder hash="sha"/>
+	        </authentication-provider>
+	</authentication-manager>
+</beans:beans>
