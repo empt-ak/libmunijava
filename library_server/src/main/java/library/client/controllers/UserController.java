@@ -120,35 +120,30 @@ public class UserController
      * back to form, if any of details are not valid
      */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public ModelAndView editUser(@ModelAttribute("userDTO") UserDTO userDTO, BindingResult result, Errors errors, HttpServletRequest request) 
+    public ModelAndView editUser(@ModelAttribute("userDTO") UserDTO userDTO, BindingResult result, Errors errors) 
     {
-//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-//        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
-//        {
-            userValidator.validate(userDTO, errors);
-            if (userDTO.getSystemRole() == null || !(!userDTO.getSystemRole().equals("USER") ^ !userDTO.getSystemRole().equals("ADMINISTRATOR"))) 
+        userValidator.validate(userDTO, errors);
+        if (userDTO.getSystemRole() == null || !(!userDTO.getSystemRole().equals("USER") ^ !userDTO.getSystemRole().equals("ADMINISTRATOR"))) 
+        {
+            errors.rejectValue("systemRole", "error.field.systemrole.empty");
+        }
+        if (result.hasErrors()) 
+        {
+            return new ModelAndView("user_edit", "userDTO", userDTO);
+        } 
+        else 
+        {
+            try 
             {
-                errors.rejectValue("systemRole", "error.field.systemrole.empty");
-            }
-            if (result.hasErrors()) 
-            {
-                return new ModelAndView("user_edit", "userDTO", userDTO);
+                userDTO.setPassword(Tools.SHA1(userDTO.getPassword()));
             } 
-            else 
-            {
-                try 
-                {
-                    userDTO.setPassword(Tools.SHA1(userDTO.getPassword()));
-                } 
-                catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) 
-                {                    
-                }
-                
-                userService.updateUser(userDTO);
-                return new ModelAndView("redirect:/user/");
+            catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) 
+            {                    
             }
-//        }
-//        return new ModelAndView("redirect:/");        
+
+            userService.updateUser(userDTO);
+            return new ModelAndView("redirect:/user/");
+        }    
     }
 
     /**
@@ -172,113 +167,82 @@ public class UserController
      * @param userDTO user with values from form
      * @param result
      * @param errors
-     * @param request servlet request holding session attribute
      * @return redirect to /, or back to form if any of fields are not valid
      */
     @RequestMapping(value = "/editprofile/", method = RequestMethod.POST)
-    public ModelAndView editUserProfile(@ModelAttribute("userDTO") UserDTO userDTO, BindingResult result, Errors errors, HttpServletRequest request) {
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if (inSession != null) 
+    public ModelAndView editUserProfile(@ModelAttribute("userDTO") UserDTO userDTO, BindingResult result, Errors errors, HttpServletRequest request) 
+    {
+        userValidator.validate(userDTO, errors);
+        if (result.hasErrors()) 
         {
-            if (inSession.equals(userDTO)) 
+            return new ModelAndView("user_profile", "userDTO", userDTO);
+        } 
+        else 
+        {
+            try 
             {
-                userValidator.validate(userDTO, errors);
-                if (result.hasErrors()) 
-                {
-                    return new ModelAndView("user_profile", "userDTO", userDTO);
-                } 
-                else 
-                {
-                    try 
-                    {
-                        userDTO.setPassword(Tools.SHA1(userDTO.getPassword()));
-                    } 
-                    catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) 
-                    {                        
-                    }
-                    
-                    try 
-                    {
-                        userService.updateUser(userDTO);
-                    } 
-                    catch (IllegalArgumentException iae) 
-                    {
-                        return new ModelAndView("error/fatal", "ERROR_MESSAGE", iae.getCause());
-                    }
-
-                    return new ModelAndView("redirect:/");
-                }
+                userDTO.setPassword(Tools.SHA1(userDTO.getPassword()));
+            } 
+            catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) 
+            {                        
             }
-        }
-        
-        return new ModelAndView("redirect:/");
+
+            try 
+            {
+                userService.updateUser(userDTO);
+            } 
+            catch (IllegalArgumentException iae) 
+            {
+                return new ModelAndView("error/fatal", "ERROR_MESSAGE", iae.getCause());
+            }
+
+            return new ModelAndView("redirect:/");
+        }            
     }
 
     /**
      * Request mapper for editing user profile. if we are logged in we pass our session attribute to service layer which will return 
      * user from database (we may changed something and it has not been reflected in session) and show form with logged in user values.
      * if we are not logged in redirect to / is performed
-     * @param request servlet request holding session 
      * @return M&V user_profile if user is logged in with userDTO object, redirect to / otherwise
      */
     @RequestMapping(value = "/editprofile/", method = RequestMethod.GET)
-    public ModelAndView editUserProfile(HttpServletRequest request) 
+    public ModelAndView editUserProfile() 
     {
-//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-//        if(inSession != null)
-//        {
         UserDTO temp = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-            return new ModelAndView("user_profile", "userDTO", userService.getUserByUsername(temp.getUsername()));
-//        }
-//        else
-//        {
-//            return new ModelAndView("redirect:/");
-//        }        
+        
+        return new ModelAndView("user_profile", "userDTO", userService.getUserByUsername(temp.getUsername()));       
     }
 
     /**
      * Requestmapper for deleting user from database. Only administrator can delete user from database
      * @param userID to be deleted
-     * @param request holding session
      * @return redirect to /user/ or / if administrator is not logged in
      */
     @RequestMapping(value = "/delete/{userID}", method = RequestMethod.GET)
     public ModelAndView deleteUser(@PathVariable Long userID, HttpServletRequest request) 
     {
-//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-//        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
-//        {
-            UserDTO u = new UserDTO();
-            u.setUserID(userID);
-            List<TicketDTO> tickets = ticketService.getAllTicketsForUser(u);
-            for (TicketDTO t : tickets) 
-            {
-                ticketService.deleteTicket(t);
-            }
+        UserDTO u = new UserDTO();
+        u.setUserID(userID);
+        List<TicketDTO> tickets = ticketService.getAllTicketsForUser(u);
+        for (TicketDTO t : tickets) 
+        {
+            ticketService.deleteTicket(t);
+        }
 
-            userService.deleteUser(u);
+        userService.deleteUser(u);
 
-            return new ModelAndView("redirect:/user/");
-//        }
-//
-//        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/user/");
     }
 
     /**
      * Request mapper for root /user/ call. 
-     * @param request holding session
      * @return M&V user_list or redirect to / if we are not logged in as administrator
      */
     @RequestMapping("/")
     public ModelAndView showUsers(HttpServletRequest request) 
-    {      
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
-        {        
-            return new ModelAndView("user_list");
-        }
-        
-        return new ModelAndView("redirect:/");
+    {       
+        return new ModelAndView("user_list");
     }
 
     /**
@@ -302,43 +266,37 @@ public class UserController
      */
     @RequestMapping("/getUsersJSON")
     @ResponseBody
-    String getUsersJSON(HttpServletRequest request) 
-    {
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
-        {        
-            List<UserDTO> users = userService.getUsers();
-            StringBuilder sb = new StringBuilder("{ \"aaData\": [");
-            for (int i = 0; i < users.size(); i++) 
+    String getUsersJSON() 
+    {       
+        List<UserDTO> users = userService.getUsers();
+        StringBuilder sb = new StringBuilder("{ \"aaData\": [");
+        for (int i = 0; i < users.size(); i++) 
+        {
+            UserDTO u = users.get(i);
+            sb.append("\r\n").append("[\"");
+            sb.append(u.getUserID());
+            sb.append("\",\"");
+            sb.append(u.getUsername());
+            sb.append("\",\"");
+            sb.append(u.getRealName());
+            sb.append("\",\"");
+            sb.append(u.getPassword());
+            sb.append("\",\"");
+            sb.append(u.getSystemRole());
+            sb.append("\",\"");
+            if (i < users.size() - 1) 
             {
-                UserDTO u = users.get(i);
-                sb.append("\r\n").append("[\"");
-                sb.append(u.getUserID());
-                sb.append("\",\"");
-                sb.append(u.getUsername());
-                sb.append("\",\"");
-                sb.append(u.getRealName());
-                sb.append("\",\"");
-                sb.append(u.getPassword());
-                sb.append("\",\"");
-                sb.append(u.getSystemRole());
-                sb.append("\",\"");
-                if (i < users.size() - 1) 
-                {
-                    sb.append("\"],");
-                } 
-                else 
-                {
-                    sb.append("\"]");
-                }
+                sb.append("\"],");
+            } 
+            else 
+            {
+                sb.append("\"]");
             }
-        
-            sb.append("\r\n] }");
-
-            return sb.toString();
         }
-        
-        return "";
+
+        sb.append("\r\n] }");
+
+        return sb.toString();
     }
 
     /**
@@ -362,22 +320,22 @@ public class UserController
     @RequestMapping(value = "/login/", method = RequestMethod.POST)
     public ModelAndView login(HttpSession session, HttpServletRequest request)
     {
-        String username = (String) request.getParameter("username");
-        String password = (String) request.getParameter("password");
-
-        try 
-        {
-            password = Tools.SHA1(password);
-        } 
-        catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) 
-        {
-        }
-
-        UserDTO user = userService.getUserByUsername(username);
-        if (user != null && user.getPassword().equals(password)) 
-        {
-            session.setAttribute("USER", user);
-        }
+//        String username = (String) request.getParameter("username");
+//        String password = (String) request.getParameter("password");
+//
+//        try 
+//        {
+//            password = Tools.SHA1(password);
+//        } 
+//        catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) 
+//        {
+//        }
+//
+//        UserDTO user = userService.getUserByUsername(username);
+//        if (user != null && user.getPassword().equals(password)) 
+//        {
+//            session.setAttribute("USER", user);
+//        }
 
         return new ModelAndView("redirect:/");
     }

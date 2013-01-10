@@ -71,38 +71,37 @@
                                                         <td>${ticketItem.book.title}</td>
                                                         <td>${ticketItem.book.author}</td>
                                                         <td>${ticketItem.ticketItemStatus}</td>
-                                                           
-                                                            <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
-                                                                <c:choose>
-                                                                    <c:when test="${ticketItem.ticketItemStatus == 'RETURNED'}">
-                                                                        <td><a href="${pageContext.request.contextPath}/ticket/return/${ticket.ticketID}/ticketitem/${ticketItem.ticketItemID}/damaged/true/"><spring:message code="label.website.ticket.return.book.damaged" /></a></td>
-                                                                    </c:when>
-                                                                    <c:when test="${ticketItem.ticketItemStatus == 'RETURNED_DAMAGED'}">
-                                                                        <td></td>
-                                                                    </c:when>
-                                                                    <c:otherwise>
-                                                                        <td><a href="${pageContext.request.contextPath}/ticket/return/${ticket.ticketID}/ticketitem/${ticketItem.ticketItemID}/damaged/false/"><spring:message code="label.website.ticket.return.book" /></a></td>
-                                                                    </c:otherwise>
-                                                                </c:choose>                                                                
-                                                            </sec:authorize>
-                                                            <%--
-                                                                c:when test="${ticketItem.ticketItemStatus == 'RETURNED' || ticketItem.ticketItemStatus == 'RETURNED_DAMAGED'} 
-                                                            --%>
-                                                            <sec:authorize access="!hasRole('ROLE_ADMINISTRATOR')">
-                                                                <td></td>
-                                                            </sec:authorize>
-                                                        </c:choose>
+
+                                                        <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
+                                                            <c:choose>
+                                                                <c:when test="${ticketItem.ticketItemStatus == 'RETURNED'}">
+                                                                    <td><a href="${pageContext.request.contextPath}/ticket/return/${ticket.ticketID}/ticketitem/${ticketItem.ticketItemID}/damaged/true/"><spring:message code="label.website.ticket.return.book.damaged" /></a></td>
+                                                                </c:when>
+                                                                <c:when test="${ticketItem.ticketItemStatus == 'RETURNED_DAMAGED'}">
+                                                                    <td></td>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <td><a href="${pageContext.request.contextPath}/ticket/return/${ticket.ticketID}/ticketitem/${ticketItem.ticketItemID}/damaged/false/"><spring:message code="label.website.ticket.return.book" /></a></td>
+                                                                </c:otherwise>
+                                                            </c:choose>                                                                
+                                                        </sec:authorize>
+                                                        <%--
+                                                            c:when test="${ticketItem.ticketItemStatus == 'RETURNED' || ticketItem.ticketItemStatus == 'RETURNED_DAMAGED'} 
+                                                        --%>
+                                                        <sec:authorize access="!hasRole('ROLE_ADMINISTRATOR')">
+                                                            <td></td>
+                                                        </sec:authorize>                                                        
                                                     </tr>
                                                 </c:forEach>
                                             </c:otherwise>
                                         </c:choose>                                    
                                     </table><br />   
-                                    
-                                        <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
-                                            <a href="${pageContext.request.contextPath}/ticket/delete/${ticket.ticketID}"><spring:message code="label.website.ticket.delete" /></a> | 
-                                            <a href="${pageContext.request.contextPath}/ticket/borrow/${ticket.ticketID}"><spring:message code="label.website.ticket.borrow" /></a> | 
-                                            <a href="${pageContext.request.contextPath}/ticket/return/${ticket.ticketID}"><spring:message code="label.website.ticket.return" /></a> | 
-                                        </sec:authorize>
+
+                                    <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
+                                        <a href="${pageContext.request.contextPath}/ticket/delete/${ticket.ticketID}"><spring:message code="label.website.ticket.delete" /></a> | 
+                                        <a href="${pageContext.request.contextPath}/ticket/borrow/${ticket.ticketID}"><spring:message code="label.website.ticket.borrow" /></a> | 
+                                        <a href="${pageContext.request.contextPath}/ticket/return/${ticket.ticketID}"><spring:message code="label.website.ticket.return" /></a> | 
+                                    </sec:authorize>
                                     <a href="${pageContext.request.contextPath}/ticket/cancel/${ticket.ticketID}" ><spring:message code="label.website.ticket.cancel" /></a> | <a href="#" class="hide"><spring:message code="label.website.ticket.hide" /> <img src="<c:url value="/resources/img/arrow_up.gif" />" /></a>
                                 </div> 
                             </c:forEach>

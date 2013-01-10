@@ -12,7 +12,6 @@ import java.util.Locale;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import library.entity.dto.BookDTO;
-import library.entity.dto.UserDTO;
 import library.entity.enums.BookStatus;
 import library.entity.enums.Department;
 import library.service.BookService;
@@ -58,22 +57,17 @@ public class BookController
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public ModelAndView saveBook(@ModelAttribute("bookDTO") BookDTO bookDTO, BindingResult result, Errors errors) 
     {
-//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-//        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
-//        {
-            bookValidator.validate(bookDTO, errors);
-            if (result.hasErrors()) 
-            {
-                return new ModelAndView("book_add", "bookDTO", bookDTO);
-            } 
-            else 
-            {
-                bookDTO.setBookStatus(BookStatus.AVAILABLE);
-                bookService.createBook(bookDTO);
-                return new ModelAndView("redirect:/book/");
-            }
-//        }
-//        return new ModelAndView("redirect:/");
+        bookValidator.validate(bookDTO, errors);
+        if (result.hasErrors()) 
+        {
+            return new ModelAndView("book_add", "bookDTO", bookDTO);
+        } 
+        else 
+        {
+            bookDTO.setBookStatus(BookStatus.AVAILABLE);
+            bookService.createBook(bookDTO);
+            return new ModelAndView("redirect:/book/");
+        }
     }
 
     /**
@@ -112,27 +106,21 @@ public class BookController
     @RequestMapping(value = "/edit/", method = RequestMethod.POST)
     public ModelAndView editBook(@ModelAttribute("bookDTO") BookDTO bookDTO, BindingResult result, Errors errors) 
     {
-//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-//        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
-//        {
-            bookValidator.validate(bookDTO, errors);
-            if (!LibraryValidator.isValidID(bookDTO.getBookID())) 
-            {
-                //errors.
-            }
+        bookValidator.validate(bookDTO, errors);
+        if (!LibraryValidator.isValidID(bookDTO.getBookID())) 
+        {
+            //errors.
+        }
 
-            if (result.hasErrors()) 
-            {
-                return new ModelAndView("book_edit", "bookDTO", bookDTO);
-            } 
-            else 
-            {
-                bookService.updateBook(bookDTO);
-                return new ModelAndView("redirect:/book/");
-            }
-//        }
-//
-//        return new ModelAndView("redirect:/");
+        if (result.hasErrors()) 
+        {
+            return new ModelAndView("book_edit", "bookDTO", bookDTO);
+        } 
+        else 
+        {
+            bookService.updateBook(bookDTO);
+            return new ModelAndView("redirect:/book/");
+        }
     }
 
     /**
@@ -167,27 +155,18 @@ public class BookController
      * Request mapping for book deleting. only administrator can delete book so
      * we need check if logged user is administrator.
      *
-     * @param bookID
-     * @param request
+     * @param bookID id of book to be deleted
      * @return redirect to /book/ or redirect to / if admin is not logged in
      */
     @RequestMapping("/delete/{bookID}")
-    public ModelAndView deleteBook(@PathVariable Long bookID, HttpServletRequest request) 
+    public ModelAndView deleteBook(@PathVariable Long bookID) 
     {
+        BookDTO book = new BookDTO();
+        book.setBookID(bookID);
 
-//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-//        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
-//        {
-            BookDTO book = new BookDTO();
-            book.setBookID(bookID);
+        bookService.deleteBook(bookService.getBookByID(book.getBookID()));
 
-
-            bookService.deleteBook(bookService.getBookByID(book.getBookID()));
-
-            return new ModelAndView("redirect:/book/");
-//        }
-//
-//        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/book/");
     }
 
     /**
@@ -309,7 +288,7 @@ public class BookController
      * @return string value of last 5 books in json format
      */
     @RequestMapping(value = "/getJSONlastbooks", method = RequestMethod.GET)
-      public @ResponseBody String getlastBooks(Locale locale) 
+    public @ResponseBody String getlastBooks(Locale locale) 
     {
         List<BookDTO> b = bookService.getAllBooks();
         Collections.sort(b,bComparator);

@@ -27,30 +27,28 @@
             <!-- Begin Faux Columns -->
             <div id="faux"> 
                 <br />
-                <c:choose>
-                    <c:when test="${USER == userDTO}">
-                        <form:form method="POST" action="${pageContext.request.contextPath}/user/editprofile/" commandName="userDTO">                    
-                            <fieldset>
-                                <%-- todo formatovanie errov :] --%>
-                                <legend><spring:message code="label.website.user.editprofile.formheader" /></legend>                    
-                                <form:label path="username"><spring:message code="label.website.user.register.field.username"/></form:label>
-                                <form:input path="username" id="register_input" readonly="true"/> <form:errors path="username"/><br />
+                <sec:authorize access="hasRole('ROLE_USER')">
+                    <form:form method="POST" action="${pageContext.request.contextPath}/user/editprofile/" commandName="userDTO">                    
+                        <fieldset>
+                            <%-- todo formatovanie errov :] --%>
+                            <legend><spring:message code="label.website.user.editprofile.formheader" /></legend>                    
+                            <form:label path="username"><spring:message code="label.website.user.register.field.username"/></form:label>
+                            <form:input path="username" id="register_input" readonly="true"/> <form:errors path="username"/><br />
 
-                                <form:label path="realName"><spring:message code="label.website.user.register.field.realname"/></form:label>
-                                <form:input path="realName" id="register_input"/><form:errors path="realName"/><br/>
+                            <form:label path="realName"><spring:message code="label.website.user.register.field.realname"/></form:label>
+                            <form:input path="realName" id="register_input"/><form:errors path="realName"/><br/>
 
-                                <form:label path="password"><spring:message code="label.website.user.register.field.password"/></form:label>
-                                <form:password path="password" id="register_input"/><form:errors path="password"/><br />
-                                <form:hidden path="userID" />
-                                <form:hidden path="systemRole"/>
-                                <label></label><input type="submit" value="<spring:message code="label.website.user.editprofile.editbutton"/>" id="register_button"/>
-                            </fieldset>
-                        </form:form>
-                    </c:when>
-                    <c:otherwise>
-                        <spring:message code="error.website.accessdenied"/>
-                    </c:otherwise>
-                </c:choose>
+                            <form:label path="password"><spring:message code="label.website.user.register.field.password"/></form:label>
+                            <form:password path="password" id="register_input"/><form:errors path="password"/><br />
+                            <form:hidden path="userID" />
+                            <form:hidden path="systemRole"/>
+                            <label></label><input type="submit" value="<spring:message code="label.website.user.editprofile.editbutton"/>" id="register_button"/>
+                        </fieldset>
+                    </form:form>
+                </sec:authorize>
+                <sec:authorize access="!hasRole('ROLE_USER')">
+                    <spring:message code="error.website.accessdenied"/>
+                </sec:authorize>
 
             </div>	
 
