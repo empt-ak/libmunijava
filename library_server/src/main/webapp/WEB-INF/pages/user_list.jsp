@@ -2,6 +2,8 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 
 <!DOCTYPE HTML>
 <html>
@@ -52,19 +54,19 @@
             function output(userID, realName)
             {
                 var output = '';
-                <c:choose>
-                    <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
+ 
+                    <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
                         output += '<a href="${pageContext.request.contextPath}/user/edit/' + userID + '" title="<spring:message code="label.website.user.list.tooltip.edit" />"><img src="<c:url value="/resources/img/icons20x20/96.png" />" /></a>';
                         output += '<a href="${pageContext.request.contextPath}/ticket/show/user/' + userID + '" title="<spring:message code="label.website.user.list.tooltip.ticketshow" />"> <img src="<c:url value="/resources/img/icons20x20/52.png" />" /> </a>';
                         output += '<a href="#" onClick="confirmDelete(' + userID + ',\'' + realName + '\')" title="<spring:message code="label.website.user.list.tooltip.delete" />"> <img src="<c:url value="/resources/img/icons20x20/33.png" />" /> </a>';
-                    </c:when>
-                </c:choose>
+                        </sec:authorize>
+
 
                 return output;
             }
 
-            <c:choose>
-                <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
+
+                <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
                     function confirmDelete(id, userRname)
                     {
                         if (confirm("chcet zmazat zaznam" + id + "\nUzivatela : " + userRname))
@@ -76,8 +78,8 @@
                             //kk
                         }
                     }
-                </c:when>
-            </c:choose>
+                </sec:authorize>
+
         </script>
     </head>
     <body> 
@@ -91,8 +93,8 @@
 
             <!-- Begin Faux Columns -->
             <div id="faux">
-                <c:choose>
-                    <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
+
+                    <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
                         <table cellpadding="0" cellspacing="0" border="0" class="display" id="users">
                             <thead>
                                 <tr>
@@ -118,11 +120,11 @@
                                 </tr>
                             </tfoot>
                         </table>
-                    </c:when>
-                    <c:otherwise>
+                    </sec:authorize>
+                    <sec:authorize access="!hasRole('ROLE_ADMINISTRATOR')">
                         <spring:message code="error.website.accessdenied"/>
-                    </c:otherwise>
-                </c:choose>
+                    </sec:authorize>
+
             </div>	
 
             <!-- footer -->

@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -11,8 +13,8 @@
 
         <script src="<c:url value="/resources/javascript/jQuery.1.8.2.js" />"></script>
         <script>
-            <c:choose>
-                <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
+
+                <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
                 function confirmDelete(id, bookTitle, author)
                 {
                     if (confirm("<spring:message code="confirm.delete.entry" /> " + id + ", \n<spring:message code="book.book" />: " + bookTitle + " <spring:message code="book.writtenby" /> \"" + author + "\" ?"))
@@ -24,8 +26,8 @@
                         //document.location = "/meh";
                     }
                 }
-                </c:when>
-            </c:choose>
+                </sec:authorize>
+
         </script>
     </head>
     <body> 
@@ -79,15 +81,15 @@
                             <td> <a href="${pageContext.request.contextPath}/book/category/title/${book.title}"><spring:message code="label.website.book.show.similartitle" /></a></td>
                             <td><a href="${pageContext.request.contextPath}/book/category/author/${book.author}"><spring:message code="label.website.book.show.similarauthor" /></a></td>
                             <td><a href="${pageContext.request.contextPath}/book/category/department/${book.department}"><spring:message code="label.website.book.show.similardepartment" /></a></td>
-                                <c:choose>
-                                    <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
+
+                                    <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
                                     <td style="padding-left: 20px"><a href="${pageContext.request.contextPath}/book/edit/${book.bookID}" title="<spring:message code="label.website.book.list.tooltip.edit" />"><img src="<c:url value="/resources/img/icons20x20/96.png" />" alt="<spring:message code="label.website.book.add.updatebutton" />" /></a>
                                     <a href="#" onClick="confirmDelete(${book.bookID},'${book.title}','${book.author}')" title="<spring:message code="label.website.book.list.tooltip.delete" />"><img src="<c:url value="/resources/img/icons20x20/33.png" />" alt="<spring:message code="label.website.book.list.deletebook" />" /></a></td>
-                                </c:when>
-                                <c:otherwise>
+                                    </sec:authorize>
+                                <sec:authorize access="!hasRole('ROLE_ADMINISTRATOR')">
                                     <td></td>
-                                </c:otherwise>
-                            </c:choose>
+                                </sec:authorize>
+
                         </tr>
                     </tfoot>
                 </table>

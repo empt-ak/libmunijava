@@ -2,6 +2,8 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -23,8 +25,8 @@
 
             <!-- Begin Faux Columns -->
             <div id="faux">                
-                <c:choose>
-                    <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
+
+                    <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
                         <form:form method="POST" action="${pageContext.request.contextPath}/book/edit/" commandName="bookDTO">                    
                             <fieldset>
                                 <%-- todo formatovanie errov :] --%>
@@ -35,7 +37,6 @@
 
                                 <form:label path="author"><spring:message code="label.website.book.add.field.booktauthor"/></form:label>
                                 <form:input path="author" id="register_input"/><form:errors path="author" id="error" element="div"/><br/>
-
 
                                 <form:label path="department"><spring:message code="label.website.book.add.field.bookdepartment"/></form:label>
                                 <form:select path="department" id="register_input">
@@ -53,11 +54,10 @@
                                 <label></label><input type="submit" value="<spring:message code="label.website.book.add.updatebutton"/>" id="register_button"/>
                             </fieldset>
                         </form:form>
-                    </c:when>
-                    <c:otherwise>
+                    </sec:authorize>
+                    <sec:authorize access="!hasRole('ROLE_ADMINISTRATOR')">
                         <h3><spring:message code="error.website.accessdenied"/></h3>
-                    </c:otherwise>
-                </c:choose>
+                    </sec:authorize>
 
             </div>	
 

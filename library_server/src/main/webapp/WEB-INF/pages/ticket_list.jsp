@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -52,9 +54,9 @@
                                             <td><spring:message code ="label.website.ticket.add.field.bookTitle"/></td>
                                             <td><spring:message code ="label.website.ticket.add.field.author"/></td>
                                             <td><spring:message code ="label.website.ticket.add.field.status"/></td>
-                                            <c:if test="${USER.systemRole == 'ADMINISTRATOR'}"> 
+                                            <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
                                                 <td><spring:message code="label.website.action" /></td>
-                                            </c:if>
+                                            </sec:authorize>
 
                                         </tr>
                                         <c:choose>
@@ -69,8 +71,8 @@
                                                         <td>${ticketItem.book.title}</td>
                                                         <td>${ticketItem.book.author}</td>
                                                         <td>${ticketItem.ticketItemStatus}</td>
-                                                        <c:choose>                                                            
-                                                            <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
+                                                           
+                                                            <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
                                                                 <c:choose>
                                                                     <c:when test="${ticketItem.ticketItemStatus == 'RETURNED'}">
                                                                         <td><a href="${pageContext.request.contextPath}/ticket/return/${ticket.ticketID}/ticketitem/${ticketItem.ticketItemID}/damaged/true/"><spring:message code="label.website.ticket.return.book.damaged" /></a></td>
@@ -82,13 +84,13 @@
                                                                         <td><a href="${pageContext.request.contextPath}/ticket/return/${ticket.ticketID}/ticketitem/${ticketItem.ticketItemID}/damaged/false/"><spring:message code="label.website.ticket.return.book" /></a></td>
                                                                     </c:otherwise>
                                                                 </c:choose>                                                                
-                                                            </c:when>
+                                                            </sec:authorize>
                                                             <%--
                                                                 c:when test="${ticketItem.ticketItemStatus == 'RETURNED' || ticketItem.ticketItemStatus == 'RETURNED_DAMAGED'} 
                                                             --%>
-                                                            <c:otherwise>
+                                                            <sec:authorize access="!hasRole('ROLE_ADMINISTRATOR')">
                                                                 <td></td>
-                                                            </c:otherwise>
+                                                            </sec:authorize>
                                                         </c:choose>
                                                     </tr>
                                                 </c:forEach>
@@ -96,11 +98,11 @@
                                         </c:choose>                                    
                                     </table><br />   
                                     <c:choose>
-                                        <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
+                                        <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
                                             <a href="${pageContext.request.contextPath}/ticket/delete/${ticket.ticketID}"><spring:message code="label.website.ticket.delete" /></a> | 
                                             <a href="${pageContext.request.contextPath}/ticket/borrow/${ticket.ticketID}"><spring:message code="label.website.ticket.borrow" /></a> | 
                                             <a href="${pageContext.request.contextPath}/ticket/return/${ticket.ticketID}"><spring:message code="label.website.ticket.return" /></a> | 
-                                        </c:when>
+                                        </sec:authorize>
                                     </c:choose>
                                     <a href="${pageContext.request.contextPath}/ticket/cancel/${ticket.ticketID}" ><spring:message code="label.website.ticket.cancel" /></a> | <a href="#" class="hide"><spring:message code="label.website.ticket.hide" /> <img src="<c:url value="/resources/img/arrow_up.gif" />" /></a>
                                 </div> 

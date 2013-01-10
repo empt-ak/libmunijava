@@ -2,6 +2,8 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -26,7 +28,7 @@
                 <br />
                     
                 <c:choose>
-                    <c:when test="${USER.systemRole == 'ADMINISTRATOR'}">
+                    <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
                         <form:form method="POST" action="${pageContext.request.contextPath}/book/save" commandName="bookDTO">                    
                             <fieldset>
                                 <%-- todo formatovanie errov :] --%>
@@ -49,7 +51,7 @@
                                 <label></label><input type="submit" value="<spring:message code="label.website.book.add.createbutton"/>" id="register_button"/>
                             </fieldset>
                         </form:form>
-                    </c:when>
+                    </sec:authorize>
                     <c:otherwise>
                         <h3><spring:message code="error.website.accessdenied"/></h3>
                     </c:otherwise>
