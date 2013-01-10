@@ -21,7 +21,7 @@
                 <intercept-url pattern="/user/logout/" access="permitAll"/>
                 <intercept-url pattern="/user/register/" access="permitAll"/>
                 <intercept-url pattern="/services/**" access="permitAll"/>
-                <intercept-url pattern="user/j_spring_security_check" access="permitAll" />
+<!--                <intercept-url pattern="user/j_spring_security_check" access="permitAll" />-->
                 
                 <intercept-url pattern="/book/save" access="hasRole('ROLE_ADMINISTRATOR')"/>
 		<intercept-url pattern="/book/edit/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
