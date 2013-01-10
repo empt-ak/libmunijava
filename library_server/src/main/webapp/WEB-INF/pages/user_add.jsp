@@ -23,7 +23,7 @@
         <!-- Begin Faux Columns -->
         <div id="faux">
 
-            <form:form method="POST" action="${pageContext.request.contextPath}/user/register" commandName="userDTO">                    
+            <form:form method="POST" action="${pageContext.request.contextPath}/user/register/" commandName="userDTO">                    
                 <fieldset>
                     <%-- todo formatovanie errov :] --%>
                     <legend><spring:message code="label.website.user.register.formheader" /></legend>                    

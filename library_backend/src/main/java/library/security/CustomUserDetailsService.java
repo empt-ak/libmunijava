@@ -32,10 +32,14 @@ public class CustomUserDetailsService implements UserDetailsService
     @Override
     public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
         library.entity.User domainUser = null;
+        User u = null;
         try
         {
             domainUser = userDAO.getUserByUsername(string);
-            return new User(domainUser.getUsername(), domainUser.getPassword(), getAuthorities(domainUser));            
+            u = new User(domainUser.getUsername(), domainUser.getPassword(), getAuthorities(domainUser)); 
+            System.out.println(u.getAuthorities());
+            
+            return u;
         }
         catch(Exception e)
         {

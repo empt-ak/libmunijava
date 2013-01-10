@@ -97,13 +97,12 @@
                                             </c:otherwise>
                                         </c:choose>                                    
                                     </table><br />   
-                                    <c:choose>
+                                    
                                         <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
                                             <a href="${pageContext.request.contextPath}/ticket/delete/${ticket.ticketID}"><spring:message code="label.website.ticket.delete" /></a> | 
                                             <a href="${pageContext.request.contextPath}/ticket/borrow/${ticket.ticketID}"><spring:message code="label.website.ticket.borrow" /></a> | 
                                             <a href="${pageContext.request.contextPath}/ticket/return/${ticket.ticketID}"><spring:message code="label.website.ticket.return" /></a> | 
                                         </sec:authorize>
-                                    </c:choose>
                                     <a href="${pageContext.request.contextPath}/ticket/cancel/${ticket.ticketID}" ><spring:message code="label.website.ticket.cancel" /></a> | <a href="#" class="hide"><spring:message code="label.website.ticket.hide" /> <img src="<c:url value="/resources/img/arrow_up.gif" />" /></a>
                                 </div> 
                             </c:forEach>

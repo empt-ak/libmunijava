@@ -55,7 +55,7 @@
             {              
                 var text = '<a href="${pageContext.request.contextPath}/book/show/' + recordID + '" title="<spring:message code="label.website.book.list.tooltip.details" />"><img src="<c:url value="/resources/img/icons20x20/65.png" />" alt="<spring:message code="label.website.navigation.viewdetails" />" /></a> &nbsp;';
 
-                <sec:authorize access="!hasRole('ROLE_USER')">
+                <sec:authorize access="hasRole('ROLE_USER')">
                     text += '<a href="${pageContext.request.contextPath}/ticket/add/book/' + recordID + '" title="<spring:message code="label.website.book.list.tooltip.create" />"><img src="<c:url value="/resources/img/icons20x20/22.png" />" alt="<spring:message code="label.website.navigation.addbooktoticket" />" /></a> &nbsp;'
                 </sec:authorize>
 

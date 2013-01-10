@@ -7,7 +7,10 @@
     <artifactId>library_api</artifactId>
     <version>1.0-SNAPSHOT</version>
     
-    <name>library_api</name>
+    <name>library_api</name>   
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>        
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -21,9 +24,6 @@
             </plugin>
         </plugins>
     </build>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -37,7 +37,7 @@
             <groupId>org.jadira.usertype</groupId>
             <artifactId>usertype.core</artifactId>
             <version>3.0.0.CR4</version>
-        </dependency>
+        </dependency>        
         
     </dependencies>
 </project>

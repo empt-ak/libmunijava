@@ -56,11 +56,11 @@ public class BookController
      * @return redirect to form on any error redirect to /book/ otherwise
      */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public ModelAndView saveBook(@ModelAttribute("bookDTO") BookDTO bookDTO, BindingResult result, Errors errors, HttpServletRequest request) 
+    public ModelAndView saveBook(@ModelAttribute("bookDTO") BookDTO bookDTO, BindingResult result, Errors errors) 
     {
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
-        {
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
+//        {
             bookValidator.validate(bookDTO, errors);
             if (result.hasErrors()) 
             {
@@ -72,8 +72,8 @@ public class BookController
                 bookService.createBook(bookDTO);
                 return new ModelAndView("redirect:/book/");
             }
-        }
-        return new ModelAndView("redirect:/");
+//        }
+//        return new ModelAndView("redirect:/");
     }
 
     /**
@@ -110,11 +110,11 @@ public class BookController
      * error ocures), redirect to /book/ otherwise
      */
     @RequestMapping(value = "/edit/", method = RequestMethod.POST)
-    public ModelAndView editBook(@ModelAttribute("bookDTO") BookDTO bookDTO, BindingResult result, Errors errors, HttpServletRequest request) 
+    public ModelAndView editBook(@ModelAttribute("bookDTO") BookDTO bookDTO, BindingResult result, Errors errors) 
     {
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
-        {
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
+//        {
             bookValidator.validate(bookDTO, errors);
             if (!LibraryValidator.isValidID(bookDTO.getBookID())) 
             {
@@ -130,9 +130,9 @@ public class BookController
                 bookService.updateBook(bookDTO);
                 return new ModelAndView("redirect:/book/");
             }
-        }
-
-        return new ModelAndView("redirect:/");
+//        }
+//
+//        return new ModelAndView("redirect:/");
     }
 
     /**
@@ -175,9 +175,9 @@ public class BookController
     public ModelAndView deleteBook(@PathVariable Long bookID, HttpServletRequest request) 
     {
 
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
-        {
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
+//        {
             BookDTO book = new BookDTO();
             book.setBookID(bookID);
 
@@ -185,9 +185,9 @@ public class BookController
             bookService.deleteBook(bookService.getBookByID(book.getBookID()));
 
             return new ModelAndView("redirect:/book/");
-        }
-
-        return new ModelAndView("redirect:/");
+//        }
+//
+//        return new ModelAndView("redirect:/");
     }
 
     /**

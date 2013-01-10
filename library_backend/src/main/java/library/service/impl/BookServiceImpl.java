@@ -13,6 +13,7 @@ import library.entity.enums.Department;
 import library.service.BookService;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,7 @@ public class BookServiceImpl implements BookService
     @Autowired
     private Mapper mapper;
 
+    @PreAuthorize("ROLE_ADMINISTRATOR")
     @Override
     @Transactional
     public void createBook(BookDTO bookDTO) throws IllegalArgumentException 
@@ -45,6 +47,7 @@ public class BookServiceImpl implements BookService
         bookDTO.setBookID(book.getBookID());        
     }
 
+    @PreAuthorize("ROLE_ADMINISTRATOR")
     @Override
     @Transactional
     public void updateBook(BookDTO bookDTO) throws IllegalArgumentException 
@@ -58,6 +61,7 @@ public class BookServiceImpl implements BookService
         bookDAO.updateBook(book);        
     }
 
+    @PreAuthorize("ROLE_ADMINISTRATOR")
     @Override
     @Transactional
     public void deleteBook(BookDTO bookDTO) throws IllegalArgumentException 
@@ -71,6 +75,7 @@ public class BookServiceImpl implements BookService
         bookDAO.deleteBook(book);
     }
 
+    
     @Override
     @Transactional(readOnly=true)
     public BookDTO getBookByID(Long id) throws IllegalArgumentException 

@@ -15,6 +15,7 @@ import library.service.TicketService;
 import library.service.UserService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,11 +47,11 @@ public class TicketController
      * @return redirect to /ticket/show/user/{userID} if method flow is in order, redirect to / otherwise
      */
     @RequestMapping("/create/user/{userID}")
-    public ModelAndView createTicketLib(@PathVariable Long userID,HttpServletRequest request)
+    public ModelAndView createTicketLib(@PathVariable Long userID)
     {        
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
-        {// sme prihlaseny 
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
+//        {// sme prihlaseny 
             UserDTO temp = null;
             try
             {
@@ -70,9 +71,9 @@ public class TicketController
                 ticketService.createTicket(t);                
             }
             return new ModelAndView("redirect:/ticket/show/user/"+userID.toString());
-        }
-
-        return new ModelAndView("redirect:/");        
+//        }
+//
+//        return new ModelAndView("redirect:/");        
     }
     
     /**
@@ -83,15 +84,16 @@ public class TicketController
     @RequestMapping("/create/")
     public ModelAndView createTicket(HttpServletRequest request)
     {        
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if(inSession != null)
-        {// sme prihlaseny             
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        if(inSession != null)
+//        {// sme prihlaseny             
             TicketDTO t = new TicketDTO();
             t.setBorrowTime(new DateTime());
             t.setDueTime(t.getBorrowTime().plusMonths(1));
-            t.setUser(inSession);
+            
+            t.setUser(userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName()));
             ticketService.createTicket(t);
-        }
+//        }
 
         return new ModelAndView("redirect:/ticket/show/mytickets/");        
     }
@@ -104,19 +106,19 @@ public class TicketController
     @RequestMapping(value="/show/mytickets/")
     public ModelAndView viewTicketsForUser(HttpServletRequest request)
     {
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if(inSession != null)
-        {
-            UserDTO temp = userService.getUserByID(inSession.getUserID());
-            if(inSession.equals(temp))
-            {
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        if(inSession != null)
+//        {
+            UserDTO temp = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+//            if(inSession.equals(temp))
+//            {
                 List<TicketDTO> tickets = ticketService.getAllTicketsForUser(temp);
                 java.util.Collections.sort(tickets,tComparator);
                 return new ModelAndView("ticket_list","tickets",tickets);                                
-            }
-        }     
-        
-        return new ModelAndView("redirect:/");
+//            }
+//        }     
+//        
+//        return new ModelAndView("redirect:/");
     }
     
     /**
@@ -128,9 +130,9 @@ public class TicketController
     @RequestMapping(value="/show/user/{userID}")
     public ModelAndView showTickets(@PathVariable Long userID, HttpServletRequest request)
     {
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
-        {
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
+//        {
             UserDTO targetU = null;
             try
             {
@@ -145,10 +147,11 @@ public class TicketController
                 List<TicketDTO> tickets = ticketService.getAllTicketsForUser(targetU);
                 java.util.Collections.sort(tickets,tComparator);
                 return new ModelAndView("ticket_list","tickets",tickets);
-            }          
-        }
-        
-        return new ModelAndView("redirect:/");
+            }      
+            return new ModelAndView("redirect:/");
+//        }
+//        
+//        return new ModelAndView("redirect:/");
     }
     
     /**
@@ -160,11 +163,12 @@ public class TicketController
     @RequestMapping(value="/add/book/{bookID}")
     public ModelAndView addBookToTicket(@PathVariable Long bookID,HttpServletRequest request)
     {
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if(inSession != null)
-        {            
-            ticketFacade.addBookToTicket(bookID, inSession);                       
-        }       
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        if(inSession != null)
+//        {     
+        UserDTO temp = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            ticketFacade.addBookToTicket(bookID, temp);                       
+//        }       
         return new ModelAndView("redirect:/book/");
     }
     
@@ -177,16 +181,16 @@ public class TicketController
     @RequestMapping("/borrow/{ticketID}")
     public ModelAndView borrowTicket(@PathVariable Long ticketID,HttpServletRequest request)
     {
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
-        {
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
+//        {
             ticketFacade.borrowTicket(ticketID);            
             TicketDTO t = ticketService.getTicketByID(ticketID);
            
             return new ModelAndView("redirect:/ticket/show/user/"+t.getUser().getUserID().toString());            
-        }
-        
-        return new ModelAndView("redirect:/");
+//        }
+//        
+//        return new ModelAndView("redirect:/");
     }
     
     /**
@@ -198,16 +202,16 @@ public class TicketController
     @RequestMapping("/return/{ticketID}")
     public ModelAndView returnTicket(@PathVariable Long ticketID,HttpServletRequest request)
     {
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if(inSession != null  && inSession.getSystemRole().equals("ADMINISTRATOR"))
-        {
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        if(inSession != null  && inSession.getSystemRole().equals("ADMINISTRATOR"))
+//        {
             ticketFacade.returnTicket(ticketID);                
             TicketDTO t = ticketService.getTicketByID(ticketID);
             
             return new ModelAndView("redirect:/ticket/show/user/"+t.getUser().getUserID().toString());            
-        }
-        
-        return new ModelAndView("index");       
+//        }
+//        
+//        return new ModelAndView("index");       
     }
     
     /**
@@ -222,16 +226,16 @@ public class TicketController
     public ModelAndView returnBookForTicket(@PathVariable Long ticketID,@PathVariable Long ticketItemID,
                                             @PathVariable Boolean isDamaged, HttpServletRequest request)
     {
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        
-        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
-        {            
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        
+//        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
+//        {            
             ticketFacade.returnBookInTicketItem(ticketItemID, ticketID,isDamaged);
             TicketDTO t = ticketService.getTicketByID(ticketID);
             return new ModelAndView("redirect:/ticket/show/user/"+t.getUser().getUserID().toString());
-        }      
-        
-        return new ModelAndView("redirect:/ticket/show/mytickets/");
+//        }      
+//        
+//        return new ModelAndView("redirect:/ticket/show/mytickets/");
     }
     
     /**
@@ -243,18 +247,18 @@ public class TicketController
     @RequestMapping("/delete/{ticketID}")
     public ModelAndView deleteTicket(@PathVariable Long ticketID,HttpServletRequest request)
     {
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
         
         Long temp = null;
-        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
-        {
+//        if(inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR"))
+//        {
             temp = ticketService.getTicketByID(ticketID).getUser().getUserID();
             ticketFacade.deleteTicket(ticketID);
             
             return new ModelAndView("redirect:/ticket/show/user/"+String.valueOf(temp));
-        }
-        
-        return new ModelAndView("redirect:/");
+//        }
+//        
+//        return new ModelAndView("redirect:/");
     }  
     
     /**
@@ -267,9 +271,10 @@ public class TicketController
     @RequestMapping("/cancel/{ticketID}")
     public ModelAndView cancelTicket(@PathVariable Long ticketID,HttpServletRequest request)
     {
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if(inSession != null)
-        {            
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        if(inSession != null)
+//        {      
+        UserDTO temp = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
             TicketDTO t = null;
             try
             {
@@ -280,11 +285,11 @@ public class TicketController
             }
             
             // only if we are owner of ticket or we are administrator, then we can make som changes
-            if(t != null && (t.getUser().equals(inSession) || inSession.getSystemRole().equals("ADMINISTRATOR")))
+            if(t != null && (t.getUser().equals(temp) || temp.getSystemRole().equals("ADMINISTRATOR")))
             {
                 ticketFacade.cancelTicket(ticketID);
             }          
-        }
+//        }
         
         return new ModelAndView("redirect:/ticket/show/mytickets/");        
     }    

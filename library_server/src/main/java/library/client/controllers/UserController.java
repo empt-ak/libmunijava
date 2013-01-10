@@ -9,13 +9,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import library.entity.dto.TicketDTO;
 import library.entity.dto.UserDTO;
 import library.service.TicketService;
 import library.service.UserService;
 import library.utils.Tools;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -102,7 +102,7 @@ public class UserController
      *
      * @return M&V for form with registration
      */
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @RequestMapping(value = "/register/", method = RequestMethod.GET)
     public ModelAndView addUser() 
     {
         return new ModelAndView("user_add", "userDTO", new UserDTO());
@@ -118,12 +118,12 @@ public class UserController
      * @return redirect to /user/ (since admin can see all users), or redirect
      * back to form, if any of details are not valid
      */
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/edit/", method = RequestMethod.POST)
     public ModelAndView editUser(@ModelAttribute("userDTO") UserDTO userDTO, BindingResult result, Errors errors, HttpServletRequest request) 
     {
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
-        {
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
+//        {
             userValidator.validate(userDTO, errors);
             if (userDTO.getSystemRole() == null || !(!userDTO.getSystemRole().equals("USER") ^ !userDTO.getSystemRole().equals("ADMINISTRATOR"))) 
             {
@@ -146,8 +146,8 @@ public class UserController
                 userService.updateUser(userDTO);
                 return new ModelAndView("redirect:/user/");
             }
-        }
-        return new ModelAndView("redirect:/");        
+//        }
+//        return new ModelAndView("redirect:/");        
     }
 
     /**
@@ -223,15 +223,16 @@ public class UserController
     @RequestMapping(value = "/editprofile/", method = RequestMethod.GET)
     public ModelAndView editUserProfile(HttpServletRequest request) 
     {
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if(inSession != null)
-        {
-            return new ModelAndView("user_profile", "userDTO", userService.getUserByUsername(inSession.getUsername()));
-        }
-        else
-        {
-            return new ModelAndView("redirect:/");
-        }        
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        if(inSession != null)
+//        {
+        UserDTO temp = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            return new ModelAndView("user_profile", "userDTO", userService.getUserByUsername(temp.getUsername()));
+//        }
+//        else
+//        {
+//            return new ModelAndView("redirect:/");
+//        }        
     }
 
     /**
@@ -243,9 +244,9 @@ public class UserController
     @RequestMapping(value = "/delete/{userID}", method = RequestMethod.GET)
     public ModelAndView deleteUser(@PathVariable Long userID, HttpServletRequest request) 
     {
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
-        {
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
+//        {
             UserDTO u = new UserDTO();
             u.setUserID(userID);
             List<TicketDTO> tickets = ticketService.getAllTicketsForUser(u);
@@ -257,9 +258,9 @@ public class UserController
             userService.deleteUser(u);
 
             return new ModelAndView("redirect:/user/");
-        }
-
-        return new ModelAndView("redirect:/");
+//        }
+//
+//        return new ModelAndView("redirect:/");
     }
 
     /**
@@ -302,9 +303,9 @@ public class UserController
     @ResponseBody
     String getUsersJSON(HttpServletRequest request) 
     {
-        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
-        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
-        {        
+//        UserDTO inSession = (UserDTO) request.getSession().getAttribute("USER");
+//        if (inSession != null && inSession.getSystemRole().equals("ADMINISTRATOR")) 
+//        {        
             List<UserDTO> users = userService.getUsers();
             StringBuilder sb = new StringBuilder("{ \"aaData\": [");
             for (int i = 0; i < users.size(); i++) 
@@ -334,9 +335,9 @@ public class UserController
             sb.append("\r\n] }");
 
             return sb.toString();
-        }
-        
-        return "";
+//        }
+//        
+//        return "";
     }
 
     /**
@@ -350,47 +351,47 @@ public class UserController
         return new ModelAndView("loginpage");
     }
 
-    /**
-     * RequestMapper for loging in. User is logged in if his password matches with password
-     * stored in database. If they match this user is stored inside session
-     * @param session session
-     * @param request servletrequest holding form attributes
-     * @return redirect to index page
-     */
-    @RequestMapping(value = "/login/", method = RequestMethod.POST)
-    public ModelAndView login(HttpSession session, HttpServletRequest request)
-    {
-        String username = (String) request.getParameter("username");
-        String password = (String) request.getParameter("password");
-
-        try 
-        {
-            password = Tools.SHA1(password);
-        } 
-        catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) 
-        {
-        }
-
-        UserDTO user = userService.getUserByUsername(username);
-        if (user != null && user.getPassword().equals(password)) 
-        {
-            session.setAttribute("USER", user);
-        }
-
-        return new ModelAndView("redirect:/");
-    }
-
-    /**
-     * mapping used for logout
-     *
-     * @param request containing session
-     * @return redirect to /
-     */
-    @RequestMapping("/logout/")
-    public ModelAndView logout(HttpServletRequest request) 
-    {
-        request.getSession().invalidate();
-        
-        return new ModelAndView("redirect:/");
-    }
+//    /**
+//     * RequestMapper for loging in. User is logged in if his password matches with password
+//     * stored in database. If they match this user is stored inside session
+//     * @param session session
+//     * @param request servletrequest holding form attributes
+//     * @return redirect to index page
+//     */
+//    @RequestMapping(value = "/login/", method = RequestMethod.POST)
+//    public ModelAndView login(HttpSession session, HttpServletRequest request)
+//    {
+////        String username = (String) request.getParameter("username");
+////        String password = (String) request.getParameter("password");
+////
+////        try 
+////        {
+////            password = Tools.SHA1(password);
+////        } 
+////        catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) 
+////        {
+////        }
+////
+////        UserDTO user = userService.getUserByUsername(username);
+////        if (user != null && user.getPassword().equals(password)) 
+////        {
+////            session.setAttribute("USER", user);
+////        }
+//
+//        return new ModelAndView("redirect:/");
+//    }
+//
+//    /**
+//     * mapping used for logout
+//     *
+//     * @param request containing session
+//     * @return redirect to /
+//     */
+//    @RequestMapping("/logout/")
+//    public ModelAndView logout(HttpServletRequest request) 
+//    {
+//        request.getSession().invalidate();
+//        
+//        return new ModelAndView("redirect:/");
+//    }
 }

@@ -140,6 +140,28 @@ color: rgb(30,40,40);
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);    
 }
 
+#j_username
+{
+    padding-left: 5px;
+    display:block;
+    border: 1px solid #999;
+    height: 25px;
+    -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);    
+}
+
+#j_password
+{
+    padding-left: 5px;
+    display:block;
+    border: 1px solid #999;
+    height: 25px;
+    -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);    
+}
+
 fieldset input
 {
     width:245px;
