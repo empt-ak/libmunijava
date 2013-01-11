@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://webservice.library/" xmlns:ns2="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://impl.webservice.library/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="UserWebServiceImplService" targetNamespace="http://impl.webservice.library/">
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://webservice.library/" xmlns:ns2="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://impl.webservice.library/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="UserWebServiceImplService" targetNamespace="http://impl.webservice.library/">
   <wsdl:import location="UserWebService.1.xsd" namespace="http://webservice.library/">
     </wsdl:import>
   <wsdl:binding name="UserWebServiceImplServiceSoapBinding" type="ns1:UserWebService">
