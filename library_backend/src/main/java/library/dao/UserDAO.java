@@ -67,5 +67,4 @@ public interface UserDAO {
     */
     List<User> getUsers();
 
-    public boolean authenticate(String userName, String password);
 }
