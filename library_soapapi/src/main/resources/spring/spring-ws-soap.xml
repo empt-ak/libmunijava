@@ -2,11 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:jaxws="http://cxf.apache.org/jaxws"
-       xmlns:context="http://www.springframework.org/schema/context"       
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:sec="http://www.springframework.org/schema/security"
        xsi:schemaLocation="http://www.springframework.org/schema/beans 
                             http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                             http://www.springframework.org/schema/context 
-                            http://www.springframework.org/schema/context/spring-context-3.0.xsd                            
+                            http://www.springframework.org/schema/context/spring-context-3.0.xsd  
+                            http://www.springframework.org/schema/security
+                            http://www.springframework.org/schema/security/spring-security-3.1.xsd                          
                             http://cxf.apache.org/jaxws 
                             http://cxf.apache.org/schemas/jaxws.xsd">
     
@@ -21,7 +24,20 @@
         implementor="library.webservice.impl.BookWebServiceImpl" 
         address="/wsdl/BookWebService" >
         <jaxws:inInterceptors>
-            <ref bean="basicAuthInterceptor" />
+            <bean class="library.security.WSAuthenticationInterceptor">
+                <property name="authenticationManager" ref="authenticationManager"/>
+            </bean>
+            <bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+                <constructor-arg>
+                    <map>
+                        <entry key="action" value="UsernameToken"/>
+                        <entry key="passwordType" value="PasswordDigest" />
+                        <entry key="passwordCallbackRef">
+                            <ref bean="passwordCallback" />
+                        </entry>
+                    </map>
+                </constructor-arg>
+            </bean>
         </jaxws:inInterceptors>
     </jaxws:endpoint>
     
@@ -30,17 +46,36 @@
         implementor="library.webservice.impl.UserWebServiceImpl" 
         address="/wsdl/UserWebService" >
         <jaxws:inInterceptors>
-            <ref bean="basicAuthInterceptor" />
+            <bean class="library.security.WSAuthenticationInterceptor">
+                <property name="authenticationManager" ref="authenticationManager"/>
+            </bean>
+            <bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+                <constructor-arg>
+                    <map>
+                        <entry key="action" value="UsernameToken" />
+                        <entry key="passwordType" value="PasswordDigest" />
+                        <entry key="passwordCallbackRef">
+                            <ref bean="passwordCallback" />
+                        </entry>
+                    </map>
+                </constructor-arg>
+            </bean>
         </jaxws:inInterceptors>
     </jaxws:endpoint>
- 
+    
+    <sec:authentication-manager id="authenticationManager">
+      <sec:authentication-provider user-service-ref="customUserDetailsService" >
+      </sec:authentication-provider>
+    </sec:authentication-manager>
+    <bean id="customUserDetailsService" class="library.security.CustomUserDetailsService"/>
+    
     <!-- Web service methods -->
     <bean id="bookWebService" class="library.webservice.impl.BookWebServiceImpl" />
     
     <bean id="userWebService" class="library.webservice.impl.UserWebServiceImpl" />
     
-    <bean id="basicAuthInterceptor"
-          class="library.security.BasicAuthorizationInterceptor">
-    </bean>
+    <bean id="passwordCallback" class="library.security.ServerPasswordCallback" />
+    
+    <bean id="userDAO" class="library.dao.impl.UserDAOImpl" />
     
 </beans>
