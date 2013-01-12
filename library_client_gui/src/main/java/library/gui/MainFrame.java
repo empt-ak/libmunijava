@@ -51,11 +51,13 @@ public class MainFrame extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jPasswordField1 = new javax.swing.JPasswordField();
+        jButton1 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -92,20 +94,36 @@ public class MainFrame extends javax.swing.JFrame {
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("Messages"); // NOI18N
         setTitle(bundle.getString("gui.frame.title.main")); // NOI18N
         setMinimumSize(new java.awt.Dimension(169, 200));
-        setPreferredSize(new java.awt.Dimension(800, 550));
         getContentPane().setLayout(new java.awt.CardLayout());
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
+        jPanel4.setPreferredSize(new java.awt.Dimension(400, 100));
+        jPanel4.setLayout(new java.awt.GridBagLayout());
+
         jTextField1.setPreferredSize(new java.awt.Dimension(100, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 53;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 199;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jTextField1, gridBagConstraints);
+        jPanel4.add(jTextField1, gridBagConstraints);
 
-        jPasswordField1.setPreferredSize(new java.awt.Dimension(48, 20));
+        jLabel1.setText("Username:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(jLabel1, gridBagConstraints);
+
+        jLabel2.setText("Password:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel4.add(jLabel2, gridBagConstraints);
+
+        jPasswordField1.setPreferredSize(new java.awt.Dimension(100, 20));
         jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jPasswordField1KeyPressed(evt);
@@ -113,10 +131,10 @@ public class MainFrame extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 105;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 199;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jPasswordField1, gridBagConstraints);
+        jPanel4.add(jPasswordField1, gridBagConstraints);
 
         jButton1.setText("Login");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -126,28 +144,45 @@ public class MainFrame extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jButton1, gridBagConstraints);
+        jPanel4.add(jButton1, gridBagConstraints);
 
-        jLabel1.setText("Username");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        jPanel1.add(jPanel4, gridBagConstraints);
+
+        jPanel3.setPreferredSize(new java.awt.Dimension(400, 20));
+        jPanel3.setRequestFocusEnabled(false);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(0, 200, Short.MAX_VALUE)
+                    .addComponent(jLabel3)
+                    .addGap(0, 200, Short.MAX_VALUE)))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(0, 10, Short.MAX_VALUE)
+                    .addComponent(jLabel3)
+                    .addGap(0, 10, Short.MAX_VALUE)))
+        );
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        jPanel1.add(jLabel1, gridBagConstraints);
-
-        jLabel2.setText("Password");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        jPanel1.add(jLabel2, gridBagConstraints);
-
-        jLabel3.setMaximumSize(new java.awt.Dimension(50, 400));
-        jLabel3.setMinimumSize(new java.awt.Dimension(50, 400));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        jPanel1.add(jLabel3, gridBagConstraints);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel1.add(jPanel3, gridBagConstraints);
 
         getContentPane().add(jPanel1, "card3");
 
@@ -255,7 +290,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(jPanelBooksLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
                             .addGroup(jPanelBooksLayout.createSequentialGroup()
                                 .addComponent(jButtonResetBooksTable, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
@@ -348,7 +383,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanelUsersLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 574, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsersLayout.createSequentialGroup()
                         .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelUsersLayout.createSequentialGroup()
@@ -391,7 +426,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 599, Short.MAX_VALUE)
+            .addGap(0, 808, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jTabbedPane1))
         );
@@ -576,6 +611,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jLabel3.setText("");
+        jLabel3.setToolTipText("");
         jLabel3.setForeground(Color.BLACK);
         new Thread(new Runnable() {
             @Override
@@ -595,6 +631,10 @@ public class MainFrame extends javax.swing.JFrame {
         ((CardLayout) getContentPane().getLayout()).show(getContentPane(), "card3");
         jMenu1.setEnabled(false);
         jLabel3.setText("");
+        jLabel3.setToolTipText("");
+        jTextField1.setText("");
+        jPasswordField1.setText("");
+        jTextField1.requestFocusInWindow();
         ConnectionHolder.resetConnection();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -666,6 +706,8 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanelBooks;
     private javax.swing.JPanel jPanelUsers;
     private javax.swing.JPasswordField jPasswordField1;
@@ -701,15 +743,18 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             conn = ConnectionHolder.getInstance();
             jLabel3.setText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.set.credentials"));
+            jLabel3.setToolTipText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.set.credentials"));
             conn.setServiceCredentials(userName, Tools.SHA1(password));
-        } catch (java.io.IOException | NoSuchAlgorithmException ex) {
+        } catch (java.io.IOException | IllegalArgumentException_Exception | NoSuchAlgorithmException ex) {
             System.err.println(ex.getMessage());
             connSucc = false;
             jLabel3.setText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.connectionerror") + ex.getMessage());
+            jLabel3.setToolTipText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.connectionerror") + ex.getMessage());
         }
         if (connSucc) {
             try {
                 jLabel3.setText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.getall"));
+                jLabel3.setToolTipText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.getall"));
                 getBTM().addBooks(conn.getBws().getAllBooks());
                 getUTM().addUsers(conn.getUws().getUsers());
                 ((CardLayout) getContentPane().getLayout()).show(getContentPane(), "card2");
@@ -717,9 +762,11 @@ public class MainFrame extends javax.swing.JFrame {
             } catch (IOException | NullPointerException ex) {
                 System.err.println(ex.getMessage());
                 jLabel3.setText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.error") + ex.getMessage()); //java.util.ResourceBundle.getBundle("Messages").getString("gui.login.error")
+                jLabel3.setToolTipText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.error") + ex.getMessage());
             } catch (WebServiceException ex) {
                 jLabel3.setForeground(Color.RED);
                 jLabel3.setText(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.weberror"), ex.getMessage()));
+                jLabel3.setToolTipText(java.text.MessageFormat.format(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.weberror"), ex.getMessage()));
             }
             catch(Exception e)
             {
