@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * @PreAuthorize("hasRole('ROLE_ANONYMOUS')") - anyone can run this method
+ * @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')") - only logged in user while being an administrator can run this method
+ * @PreAuthorize("hasRole('ROLE_USER')") - only logged in user can run this method
  *
  * @author Szalai
  */
@@ -32,7 +35,7 @@ public class BookServiceImpl implements BookService
     @Autowired
     private Mapper mapper;
 
-    @PreAuthorize("ROLE_ADMINISTRATOR")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @Override
     @Transactional
     public void createBook(BookDTO bookDTO) throws IllegalArgumentException 
@@ -130,6 +133,7 @@ public class BookServiceImpl implements BookService
         return books;
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
     @Transactional(readOnly=true)
     public List<BookDTO> getBooksByDepartment(Department department) throws IllegalArgumentException 
