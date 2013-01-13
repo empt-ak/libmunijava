@@ -11,6 +11,9 @@ import library.entity.enums.Department;
 import library.service.BookService;
 import library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  *
@@ -32,7 +35,7 @@ public class Installer
     public void firstRun()
     {
         System.err.println("====INSTALL STARTING");
-        install();        
+//        install();        
         System.out.println("=====INSTALL END");
     }
     
@@ -41,8 +44,10 @@ public class Installer
      */
     private void install()
     {
-        installBooks();
         installUsers();
+        Authentication authentication = new UsernamePasswordAuthenticationToken("admin", "d033e22ae348aeb5660fc2140aec35850c4da997");
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        installBooks();
     }
     
     /**
