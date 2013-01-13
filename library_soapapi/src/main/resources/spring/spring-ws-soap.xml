@@ -24,9 +24,6 @@
         implementor="library.webservice.impl.BookWebServiceImpl" 
         address="/wsdl/BookWebService" >
         <jaxws:inInterceptors>
-            <bean class="library.security.WSAuthenticationInterceptor">
-                <property name="authenticationManager" ref="authenticationManager"/>
-            </bean>
             <bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
                 <constructor-arg>
                     <map>
@@ -38,6 +35,9 @@
                     </map>
                 </constructor-arg>
             </bean>
+            <bean class="library.security.WSAuthenticationInterceptor">
+                <property name="authenticationManager" ref="authenticationManager"/>
+            </bean>
         </jaxws:inInterceptors>
     </jaxws:endpoint>
     
@@ -46,9 +46,6 @@
         implementor="library.webservice.impl.UserWebServiceImpl" 
         address="/wsdl/UserWebService" >
         <jaxws:inInterceptors>
-            <bean class="library.security.WSAuthenticationInterceptor">
-                <property name="authenticationManager" ref="authenticationManager"/>
-            </bean>
             <bean class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
                 <constructor-arg>
                     <map>
@@ -60,6 +57,9 @@
                     </map>
                 </constructor-arg>
             </bean>
+            <bean class="library.security.WSAuthenticationInterceptor">
+                <property name="authenticationManager" ref="authenticationManager"/>
+            </bean>
         </jaxws:inInterceptors>
     </jaxws:endpoint>
     
@@ -67,7 +67,7 @@
       <sec:authentication-provider user-service-ref="customUserDetailsService" >
       </sec:authentication-provider>
     </sec:authentication-manager>
-    <bean id="customUserDetailsService" class="library.security.CustomUserDetailsService"/>
+    <!-- <bean id="customUserDetailsService" class="library.security.CustomUserDetailsService"/>-->
     
     <!-- Web service methods -->
     <bean id="bookWebService" class="library.webservice.impl.BookWebServiceImpl" />
@@ -76,6 +76,8 @@
     
     <bean id="passwordCallback" class="library.security.ServerPasswordCallback" />
     
-    <bean id="userDAO" class="library.dao.impl.UserDAOImpl" />
+    <bean id="userService" class="library.service.impl.UserServiceImpl" />
     
+    <bean id="myAuthenticationManager" class="library.security.MyAuthenticationManager" />
+       
 </beans>
