@@ -63,7 +63,7 @@
 						<li>Následne spustíme server následovne:
 							<ul>
 								<li>prejdeme do zložky <i>library_server</i> príkazom <b>cd library_server</b></li>
-								<li>spustíme príkazom <b>mvn tomcat7:run</b> aplikačný server</li>
+								<li>spustíme príkazom <b>set JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8 & mvn tomcat7:run</b> aplikačný server (-Dfile.encoding=UTF-8 je kvôli používaniu UTF-8 kódovania pri spustení import.sql skriptu)</li>
 								<li>server beží ak výpis v konzole zastane na riadku <i>INFO: Starting ProtocolHandler ["http-bio-8080"]</i>
 								<li>na adrese <a href="http://localhost:8080/pa165" target="_blank">http://localhost:8080/pa165</a> sú následne dostupné webové stránky
 							</ul>
