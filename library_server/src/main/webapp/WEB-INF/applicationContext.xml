@@ -26,7 +26,6 @@
     
     <bean id="userValidator" class="library.client.validators.UserValidator" />
     <bean id="bookValidator" class="library.client.validators.BookValidator" />
-    <bean id="installer" class="library.client.Installer" />
     
  
     <!-- importneme appcontext z backendu -->
