@@ -29,7 +29,7 @@ import org.apache.ws.security.handler.WSHandlerConstants;
 
 /**
  *
- * @author Emptak
+ * @author Emptak,Nemko
  */
 public class ConnectionHolder {
 
@@ -46,6 +46,12 @@ public class ConnectionHolder {
         initProps();
         return instance;
     }
+
+    public static Role getRole() {
+        return role;
+    }
+    
+    
 
     public static void resetConnection() {
         instance = new ConnectionHolder();

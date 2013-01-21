@@ -733,6 +733,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void myInit() {
         setLocationRelativeTo(null);
         jMenu1.setEnabled(false);
+        setButtonsOnLogout();
     }
 
     private void initAuth() {
@@ -759,6 +760,7 @@ public class MainFrame extends javax.swing.JFrame {
                 getUTM().addUsers(conn.getUws().getUsers());
                 ((CardLayout) getContentPane().getLayout()).show(getContentPane(), "card2");
                 jMenu1.setEnabled(true);
+                setButtonsOnLogin();
             } catch (IOException | NullPointerException ex) {
                 System.err.println(ex.getMessage());
                 jLabel3.setText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.error") + ex.getMessage()); //java.util.ResourceBundle.getBundle("Messages").getString("gui.login.error")
@@ -777,5 +779,28 @@ public class MainFrame extends javax.swing.JFrame {
                 System.err.println(e.getMessage());
             }
         }
+    }
+    
+    private void setButtonsOnLogin()
+    {
+        if(ConnectionHolder.getRole().equals(Role.ADMINISTRATOR))
+        {
+            jButtonCreateUser.setVisible(true); 
+            jButtonCreateBook.setVisible(true);
+            jButtonDeleteBook.setVisible(true);
+            jButtonDeleteUser.setVisible(true);
+            jButtonEditBook.setVisible(true);
+            jButtonEditUser.setVisible(true);
+        }
+    }
+    
+    private void setButtonsOnLogout()
+    {
+        jButtonCreateUser.setVisible(false); 
+        jButtonCreateBook.setVisible(false);
+        jButtonDeleteBook.setVisible(false);
+        jButtonDeleteUser.setVisible(false);
+        jButtonEditBook.setVisible(false);
+        jButtonEditUser.setVisible(false);
     }
 }
