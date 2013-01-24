@@ -954,13 +954,14 @@ public class MainFrame extends javax.swing.JFrame {
                 jLabel3.setText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.getall"));
                 jLabel3.setToolTipText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.getall"));
                 getBTM().addBooks(conn.getBws().getAllBooks());
-                getUTM().addUsers(conn.getUws().getUsers());
+                
                 if(ConnectionHolder.getRole().equals(Role.USER))
                 {
                     ((CardLayout) getContentPane().getLayout()).show(getContentPane(), "card4");
                 }
                 else
                 {
+                    getUTM().addUsers(conn.getUws().getUsers());
                     ((CardLayout) getContentPane().getLayout()).show(getContentPane(), "card2");
                 }
                 jMenu1.setEnabled(true);
