@@ -168,17 +168,20 @@ public class ConnectionHolder {
 
     public void setUserRole(String userName) throws IllegalArgumentException_Exception {
         try {
-        UserDTO user = uws.getUserByUsername(userName);
+        UserDTO user = uws.getUserByUsername(userName);        
         
         String roleString = user.getSystemRole();
         switch (roleString) {
             case "USER":
                 role = Role.USER;
+                break;
             case "ADMINISTRATOR":
                 role = Role.ADMINISTRATOR;
+                break;
             default:
                 role = Role.ANONYMOUS;
         }
+            System.out.println("role :["+role+"] was setted");
         } catch (Exception e) {
             System.out.println(e.getCause());
         }

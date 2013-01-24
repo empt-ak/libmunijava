@@ -86,6 +86,18 @@ public class MainFrame extends javax.swing.JFrame {
         jButtonDeleteUser = new javax.swing.JButton();
         jButtonEditUser = new javax.swing.JButton();
         jButtonCreateUser = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jTextFieldTitleUs = new javax.swing.JTextField();
+        jTextFieldAuthorUs = new javax.swing.JTextField();
+        jComboBoxDepartmentUs = new javax.swing.JComboBox();
+        jButtonSearchTitleUs = new javax.swing.JButton();
+        jButtonSearchAuthorUs = new javax.swing.JButton();
+        jButtonBooksResetUs = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -186,7 +198,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, "card3");
 
-        jTableBooks.setModel(new BookTableModel());
+        jTableBooks.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
         jScrollPane1.setViewportView(jTableBooks);
 
         jLabelSearchByTitle.setText(bundle.getString("gui.frame.books.search.bytitle")); // NOI18N
@@ -290,7 +309,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(jPanelBooksLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
                             .addGroup(jPanelBooksLayout.createSequentialGroup()
                                 .addComponent(jButtonResetBooksTable, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
@@ -321,7 +340,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(jPanelBooksLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelFilterByDepartment))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addComponent(jButtonResetBooksTable)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 414, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -383,7 +402,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanelUsersLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsersLayout.createSequentialGroup()
                         .addGroup(jPanelUsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelUsersLayout.createSequentialGroup()
@@ -416,7 +435,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jButtonUserTableRefresh)
                     .addComponent(jButtonDeleteUser))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -432,7 +451,7 @@ public class MainFrame extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 634, Short.MAX_VALUE)
+            .addGap(0, 632, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                     .addComponent(jTabbedPane1)
@@ -440,6 +459,118 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel2, "card2");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
+
+        jLabel4.setText(bundle.getString("gui.frame.books.search.bytitle")); // NOI18N
+
+        jLabel5.setText(bundle.getString("gui.book.author")); // NOI18N
+
+        jLabel6.setText(bundle.getString("gui.frame.books.filterby")); // NOI18N
+
+        jTextFieldTitleUs.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldTitleUsKeyPressed(evt);
+            }
+        });
+
+        jTextFieldAuthorUs.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextFieldAuthorUsKeyPressed(evt);
+            }
+        });
+
+        jComboBoxDepartmentUs.setModel(new DepartmentBoxModel());
+        jComboBoxDepartmentUs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxDepartmentUsActionPerformed(evt);
+            }
+        });
+
+        jButtonSearchTitleUs.setText(bundle.getString("gui.frame.button.search")); // NOI18N
+        jButtonSearchTitleUs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSearchTitleUsActionPerformed(evt);
+            }
+        });
+
+        jButtonSearchAuthorUs.setText(bundle.getString("gui.frame.button.search")); // NOI18N
+        jButtonSearchAuthorUs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSearchAuthorUsActionPerformed(evt);
+            }
+        });
+
+        jButtonBooksResetUs.setText(bundle.getString("gui.button.reset")); // NOI18N
+        jButtonBooksResetUs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBooksResetUsActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6))
+                                .addGap(32, 32, 32)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBoxDepartmentUs, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addComponent(jTextFieldTitleUs, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonSearchTitleUs, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addComponent(jTextFieldAuthorUs, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonSearchAuthorUs, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jLabel4))
+                        .addGap(315, 315, 315)
+                        .addComponent(jButtonBooksResetUs, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jTextFieldTitleUs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonSearchTitleUs))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jTextFieldAuthorUs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonSearchAuthorUs))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jComboBoxDepartmentUs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonBooksResetUs))
+                .addGap(12, 12, 12)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        getContentPane().add(jPanel5, "card4");
 
         jMenu1.setText("Logout");
 
@@ -492,6 +623,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         jTextFieldBookAuthor.setText("");
         jTextFieldBookTitle.setText("");
+        jTextFieldAuthorUs.setText("");
+        jTextFieldTitleUs.setText("");
     }//GEN-LAST:event_jButtonResetBooksTableActionPerformed
 
     private void jButtonDeleteBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteBookActionPerformed
@@ -514,7 +647,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButtonSearchByTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchByTitleActionPerformed
         try {
-            getBTM().addBooks(conn.getBws().searchBooksByTitle(jTextFieldBookTitle.getText()));
+            String text = jTextFieldTitleUs.getText();
+            if(text.length() == 0)
+            {// nemame panel pre usera takze tam nie je ziadna hodnota tak vytiahneme odtialto
+                text = jTextFieldBookTitle.getText();
+            }
+            getBTM().addBooks(conn.getBws().searchBooksByTitle(text));
         } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
             System.err.println(ex.getMessage());
         }
@@ -533,8 +671,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jTextFieldBookAuthorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBookAuthorKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            try {
-                getBTM().addBooks(conn.getBws().getBooksByAuthor(jTextFieldBookAuthor.getText()));
+            try {                
+                getBTM().addBooks(conn.getBws().getBooksByAuthor(jTextFieldAuthorUs.getText()));
             } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
                 System.err.println(ex.getMessage());
             }
@@ -636,6 +774,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPasswordField1.setText("");
         jTextField1.requestFocusInWindow();
         ConnectionHolder.resetConnection();
+        setButtonsOnLogout();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jTextFieldSearchByRealNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSearchByRealNameKeyPressed
@@ -644,6 +783,48 @@ public class MainFrame extends javax.swing.JFrame {
             jButtonUserSearch.doClick();
         }
     }//GEN-LAST:event_jTextFieldSearchByRealNameKeyPressed
+
+    private void jTextFieldTitleUsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldTitleUsKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) 
+        {
+            jButtonSearchTitleUs.doClick();
+        }
+    }//GEN-LAST:event_jTextFieldTitleUsKeyPressed
+
+    private void jTextFieldAuthorUsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldAuthorUsKeyPressed
+        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER)
+        {
+            jButtonSearchAuthorUs.doClick();
+        }
+    }//GEN-LAST:event_jTextFieldAuthorUsKeyPressed
+
+    private void jButtonSearchTitleUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchTitleUsActionPerformed
+        try {
+            getBTM().addBooks(conn.getBws().searchBooksByTitle(jTextFieldTitleUs.getText()));
+        } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_jButtonSearchTitleUsActionPerformed
+
+    private void jButtonSearchAuthorUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchAuthorUsActionPerformed
+        try {
+            getBTM().addBooks(conn.getBws().getBooksByAuthor(jTextFieldAuthorUs.getText()));
+        } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_jButtonSearchAuthorUsActionPerformed
+
+    private void jComboBoxDepartmentUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxDepartmentUsActionPerformed
+        try {
+            getBTM().addBooks(conn.getBws().getBooksByDepartment(Department.valueOf(jComboBoxDepartmentUs.getModel().getSelectedItem().toString())));
+        } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }//GEN-LAST:event_jComboBoxDepartmentUsActionPerformed
+
+    private void jButtonBooksResetUsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBooksResetUsActionPerformed
+        jButtonResetBooksTable.doClick();
+    }//GEN-LAST:event_jButtonBooksResetUsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -682,6 +863,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonBooksResetUs;
     private javax.swing.JButton jButtonCreateBook;
     private javax.swing.JButton jButtonCreateUser;
     private javax.swing.JButton jButtonDeleteBook;
@@ -689,14 +871,20 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonEditBook;
     private javax.swing.JButton jButtonEditUser;
     private javax.swing.JButton jButtonResetBooksTable;
+    private javax.swing.JButton jButtonSearchAuthorUs;
     private javax.swing.JButton jButtonSearchByAuthor;
     private javax.swing.JButton jButtonSearchByTitle;
+    private javax.swing.JButton jButtonSearchTitleUs;
     private javax.swing.JButton jButtonUserSearch;
     private javax.swing.JButton jButtonUserTableRefresh;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBoxDepartmentUs;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabelFilterByDepartment;
     private javax.swing.JLabel jLabelRealName;
     private javax.swing.JLabel jLabelSearchByAuthor;
@@ -708,18 +896,23 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanelBooks;
     private javax.swing.JPanel jPanelUsers;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTableBooks;
     private javax.swing.JTable jTableUsers;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextFieldAuthorUs;
     private javax.swing.JTextField jTextFieldBookAuthor;
     private javax.swing.JTextField jTextFieldBookTitle;
     private javax.swing.JTextField jTextFieldSearchByRealName;
+    private javax.swing.JTextField jTextFieldTitleUs;
     // End of variables declaration//GEN-END:variables
 
     private BookTableModel getBTM() {
@@ -733,6 +926,10 @@ public class MainFrame extends javax.swing.JFrame {
     private void myInit() {
         setLocationRelativeTo(null);
         jMenu1.setEnabled(false);
+        BookTableModel btm = new BookTableModel();
+        
+        jTableBooks.setModel(btm);
+        jTable1.setModel(btm);
         setButtonsOnLogout();
     }
 
@@ -758,7 +955,14 @@ public class MainFrame extends javax.swing.JFrame {
                 jLabel3.setToolTipText(java.util.ResourceBundle.getBundle("Messages").getString("gui.login.getall"));
                 getBTM().addBooks(conn.getBws().getAllBooks());
                 getUTM().addUsers(conn.getUws().getUsers());
-                ((CardLayout) getContentPane().getLayout()).show(getContentPane(), "card2");
+                if(ConnectionHolder.getRole().equals(Role.USER))
+                {
+                    ((CardLayout) getContentPane().getLayout()).show(getContentPane(), "card4");
+                }
+                else
+                {
+                    ((CardLayout) getContentPane().getLayout()).show(getContentPane(), "card2");
+                }
                 jMenu1.setEnabled(true);
                 setButtonsOnLogin();
             } catch (IOException | NullPointerException ex) {

@@ -14,6 +14,7 @@ import library.entity.dto.UserDTO;
 import library.service.TicketService;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ public class TicketServiceImpl implements TicketService {
     @Autowired
     private Mapper mapper;
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
     @Transactional
     public void createTicket(TicketDTO ticketDTO) throws IllegalArgumentException {
@@ -41,13 +43,15 @@ public class TicketServiceImpl implements TicketService {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
     @Transactional
     public void updateTicket(TicketDTO ticketDTO) throws IllegalArgumentException {
         if(ticketDTO == null){throw new IllegalArgumentException("ERROR: Given ticket is null");}
         ticketDAO.updateTicket(mapper.map(ticketDTO, Ticket.class));
     }
-
+    
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @Override
     @Transactional
     public void deleteTicket(TicketDTO ticketDTO) throws IllegalArgumentException {
@@ -55,6 +59,7 @@ public class TicketServiceImpl implements TicketService {
         ticketDAO.deleteTicket(mapper.map(ticketDTO, Ticket.class));
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
     @Transactional(readOnly=true)
     public TicketDTO getTicketByID(Long id) throws IllegalArgumentException {
@@ -65,7 +70,8 @@ public class TicketServiceImpl implements TicketService {
             return null;
         }        
     }
-
+    
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
     @Transactional(readOnly=true)
     public TicketDTO getLastTicketForUser(UserDTO userDTO) throws IllegalArgumentException {
@@ -73,7 +79,8 @@ public class TicketServiceImpl implements TicketService {
         User user = mapper.map(userDTO, User.class);
         return mapper.map(ticketDAO.getLastTicketForUser(user),TicketDTO.class);
     } 
-
+    
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
     @Transactional(readOnly=true)
     public List<TicketDTO> getAllTicketsForUser(UserDTO userDTO) throws IllegalArgumentException {

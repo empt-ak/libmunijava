@@ -41,7 +41,7 @@
         <intercept-url pattern="/user/getUsersJSON" access="hasRole('ROLE_ADMINISTRATOR')"/>
                 
         <intercept-url pattern="/ticket/create/" access="hasRole('ROLE_USER')"/>
-        <intercept-url pattern="/ticket/show/mytickets" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/ticket/show/mytickets/" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/ticket/add/book/**" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/ticket/cancel/**" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/user/editprofile/" access="hasRole('ROLE_USER')"/>

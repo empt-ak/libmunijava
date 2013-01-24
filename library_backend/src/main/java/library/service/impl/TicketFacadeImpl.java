@@ -22,6 +22,7 @@ import library.utils.aop.validators.LibraryValidator;
 import org.dozer.Mapper;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +45,7 @@ public class TicketFacadeImpl implements TicketFacade
     @Autowired
     private Mapper mapper;
     
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
     @Transactional
     public void addBookToTicket(Long bookID, UserDTO userDTO) throws IllegalArgumentException, NoResultException
@@ -106,6 +108,7 @@ public class TicketFacadeImpl implements TicketFacade
         } 
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @Override
     @Transactional
     public void borrowTicket(Long ticketID) throws IllegalArgumentException, NoResultException
@@ -125,6 +128,7 @@ public class TicketFacadeImpl implements TicketFacade
         ticketDAO.updateTicket(t);           
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @Override
     @Transactional
     public void returnTicket(Long ticketID) throws IllegalArgumentException, NoResultException
@@ -151,6 +155,7 @@ public class TicketFacadeImpl implements TicketFacade
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @Override
     @Transactional
     public void returnBookInTicketItem(Long ticketItemID, Long ticketID,boolean isDamaged) throws IllegalArgumentException, NoResultException 
@@ -195,6 +200,7 @@ public class TicketFacadeImpl implements TicketFacade
         }    
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @Override
     @Transactional
     public void deleteTicket(Long ticketID) throws IllegalArgumentException, NoResultException
@@ -218,6 +224,7 @@ public class TicketFacadeImpl implements TicketFacade
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
     @Transactional
     public void cancelTicket(Long ticketID) throws IllegalArgumentException, NoResultException

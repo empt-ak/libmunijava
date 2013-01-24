@@ -35,9 +35,11 @@
                 </form> -->
                 
                 <form action="${pageContext.request.contextPath}/j_spring_security_check" method="post">
-                    <input id="j_username" name="j_username" type="text"/>
-                    <input id="j_password" name="j_password" type="password"/>
-                    <input type="submit" value="<spring:message code="label.website.user.login.loginbutton"/>"/>
+                    <fieldset>
+                        <label><spring:message code="label.website.user.register.field.username"/></label><input id="j_username" name="j_username" type="text"/>
+                        <label><spring:message code="label.website.user.register.field.password"/></label><input id="j_password" name="j_password" type="password"/>
+                        <label></label><input type="submit"  id="register_button" value="<spring:message code="label.website.user.login.loginbutton"/>"/>
+                    </fieldset>
                 </form>
 
             </div>	

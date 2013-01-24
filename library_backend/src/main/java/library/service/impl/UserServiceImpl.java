@@ -12,6 +12,7 @@ import library.entity.dto.UserDTO;
 import library.service.UserService;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private Mapper mapper;
 
+    
     @Override
     @Transactional
     public void createUser(UserDTO userDTO) throws IllegalArgumentException {
@@ -40,6 +42,7 @@ public class UserServiceImpl implements UserService {
         
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
     @Transactional(readOnly = true)
     public UserDTO getUserByID(Long ID) throws IllegalArgumentException {
@@ -51,6 +54,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @Override
     @Transactional(readOnly = true)
     public List<UserDTO> getUsers() {
@@ -63,6 +67,7 @@ public class UserServiceImpl implements UserService {
         return userDTOs;
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
     @Transactional
     public void updateUser(UserDTO userDTO) throws IllegalArgumentException {
@@ -72,6 +77,7 @@ public class UserServiceImpl implements UserService {
         userDAO.updateUser(mapper.map(userDTO, User.class));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @Override
     @Transactional
     public void deleteUser(UserDTO userDTO) throws IllegalArgumentException {
@@ -88,6 +94,7 @@ public class UserServiceImpl implements UserService {
         return mapper.map(userDAO.getUserByUsername(username), UserDTO.class);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @Override
     @Transactional(readOnly = true)
     public List<UserDTO> findUserByRealName(String name) throws IllegalArgumentException {

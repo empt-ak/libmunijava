@@ -14,6 +14,7 @@ import library.entity.dto.TicketItemDTO;
 import library.service.TicketItemService;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ public class TicketItemServiceImpl implements TicketItemService {
     @Autowired
     private Mapper mapper;
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
     @Transactional
     public void createTicketItem(TicketItemDTO ticketItemDTO) throws IllegalArgumentException {
@@ -39,6 +41,8 @@ public class TicketItemServiceImpl implements TicketItemService {
         ticketItemDTO.setTicketItemID(ticketItem.getTicketItemID());
     }
 
+    
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
     @Transactional
     public void updateTicketItem(TicketItemDTO ticketItemDTO) throws IllegalArgumentException {
@@ -46,6 +50,7 @@ public class TicketItemServiceImpl implements TicketItemService {
         ticketItemDAO.updateTicketItem(mapper.map(ticketItemDTO, TicketItem.class));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @Override
     @Transactional
     public void deleteTicketItem(TicketItemDTO ticketItemDTO) throws IllegalArgumentException {
@@ -53,6 +58,7 @@ public class TicketItemServiceImpl implements TicketItemService {
         ticketItemDAO.deleteTicketItem(mapper.map(ticketItemDTO, TicketItem.class));
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
     @Transactional(readOnly=true)
     public TicketItemDTO getTicketItemByID(Long id) throws IllegalArgumentException {
@@ -65,6 +71,7 @@ public class TicketItemServiceImpl implements TicketItemService {
         
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Override
     @Transactional(readOnly=true)
     public List<TicketItemDTO> getTicketItemsByTicket(TicketDTO ticketDTO) throws IllegalArgumentException {
