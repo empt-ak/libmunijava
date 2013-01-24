@@ -28,13 +28,13 @@
                 
                 </br>
                 
-                <h2><a href="<spring:url value="${pageContext.request.contextPath}/services/" />">
+                <h2><a href="${pageContext.request.contextPath}/services/" />
                     <spring:message code="label.website.service.available.all"/></a></h2> </br></br>
                 
                 <h2><spring:message code="label.website.service.available.wsdl"/></h2> </br></br>
 
-                <a href="<spring:url value="${pageContext.request.contextPath}/services/wsdl/BookWebService?wsdl" />">BookWebService</a></br></br>
-                <a href="<spring:url value="${pageContext.request.contextPath}/services/wsdl/UserWebService?wsdl" />">UserWebService</a></br></br>
+                <a href="${pageContext.request.contextPath}/services/wsdl/BookWebService?wsdl">BookWebService</a></br></br>
+                <a href="${pageContext.request.contextPath}/services/wsdl/UserWebService?wsdl">UserWebService</a></br></br>
             
             </div>
 
