@@ -103,8 +103,6 @@ public class NewBookDialog extends javax.swing.JDialog {
         jLabelBookEditTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelBookEditTitle.setText(bundle.getString("gui.frame.books.button.create")); // NOI18N
 
-        jTextFieldBookAuthor.setText(bundle.getString("gui.field.error")); // NOI18N
-
         jLabelStatus.setText(bundle.getString("gui.book.availability")); // NOI18N
 
         jLabelDepartment.setText(bundle.getString("gui.book.department")); // NOI18N

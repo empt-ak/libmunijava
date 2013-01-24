@@ -77,8 +77,6 @@ public class NewUserDialog extends javax.swing.JDialog {
             }
         });
 
-        jTextFieldUsername.setText(bundle.getString("gui.field.error")); // NOI18N
-
         jButtonReset.setText(bundle.getString("gui.button.reset")); // NOI18N
         jButtonReset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,8 +87,6 @@ public class NewUserDialog extends javax.swing.JDialog {
         jLabelBookEditTitle.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabelBookEditTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelBookEditTitle.setText(bundle.getString("gui.frame.user.button.user.create")); // NOI18N
-
-        jTextFieldRealName.setText(bundle.getString("gui.field.error")); // NOI18N
 
         jLabelStatus.setText(bundle.getString("gui.user.systemrole")); // NOI18N
 
