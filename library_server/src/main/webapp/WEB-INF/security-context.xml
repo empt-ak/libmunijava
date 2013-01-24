@@ -37,7 +37,7 @@
         <intercept-url pattern="/user/edit" access="hasRole('ROLE_ADMINISTRATOR')"/>
         <intercept-url pattern="/user/edit/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
         <intercept-url pattern="/user/delete/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
-        <intercept-url pattern="/user/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
+<!--        <intercept-url pattern="/user/**" access="hasRole('ROLE_ADMINISTRATOR')"/>-->
         <intercept-url pattern="/user/getUsersJSON" access="hasRole('ROLE_ADMINISTRATOR')"/>
                 
         <intercept-url pattern="/ticket/create/" access="hasRole('ROLE_USER')"/>
