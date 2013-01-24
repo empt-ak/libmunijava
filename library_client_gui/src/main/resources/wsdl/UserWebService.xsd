@@ -87,7 +87,7 @@
   </wsdl:binding>
   <wsdl:service name="UserWebServiceImplService">
     <wsdl:port binding="tns:UserWebServiceImplServiceSoapBinding" name="UserWebServiceImplPort">
-      <soap:address location="http://localhost:8080/pa165/services/wsdl/UserWebService"/>
+      <soap:address location="http://localhost:8081/pa165/services/wsdl/UserWebService"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

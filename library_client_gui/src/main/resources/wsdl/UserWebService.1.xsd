@@ -108,12 +108,12 @@
     <wsdl:part element="ns1:findUserByRealNameResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="deleteUser">
-    <wsdl:part element="ns1:deleteUser" name="parameters">
-    </wsdl:part>
-  </wsdl:message>
   <wsdl:message name="getUserByIDResponse">
     <wsdl:part element="ns1:getUserByIDResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteUser">
+    <wsdl:part element="ns1:deleteUser" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getUsers">
