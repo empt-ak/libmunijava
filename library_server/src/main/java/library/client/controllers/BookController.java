@@ -10,7 +10,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import javax.persistence.NoResultException;
-import javax.servlet.http.HttpServletRequest;
 import library.entity.dto.BookDTO;
 import library.entity.enums.BookStatus;
 import library.entity.enums.Department;
