@@ -163,17 +163,14 @@ public class BookController
     {
         BookDTO book = new BookDTO();
         book.setBookID(bookID);
-
-//        String message = "";
+        
         boolean error = false;
         try
         {
             bookService.deleteBook(bookService.getBookByID(book.getBookID()));
         }
         catch(Exception cve)
-        {   // meh nic ine okrem tejto nejde chytit ? :-\
-//            java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle/messages", locale);
-//            message = bundle.getString("error.book.delete");
+        {
             error = true;
         }
         
