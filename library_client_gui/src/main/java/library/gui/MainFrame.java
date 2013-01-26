@@ -540,10 +540,9 @@ public class MainFrame extends javax.swing.JFrame {
                                     .addGroup(jPanel5Layout.createSequentialGroup()
                                         .addComponent(jTextFieldAuthorUs, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButtonSearchAuthorUs, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                        .addComponent(jButtonSearchAuthorUs, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addComponent(jLabel4))
-                        .addGap(315, 315, 315)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonBooksResetUs, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -659,7 +658,11 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSearchByTitleActionPerformed
 
     private void jButtonSearchByAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchByAuthorActionPerformed
-        jButtonSearchByAuthor.doClick();
+        try {                
+                getBTM().addBooks(conn.getBws().getBooksByAuthor(jTextFieldBookAuthor.getText()));
+            } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
+                System.err.println(ex.getMessage());
+            }
     }//GEN-LAST:event_jButtonSearchByAuthorActionPerformed
 
     private void jTextFieldBookTitleKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBookTitleKeyPressed
@@ -671,11 +674,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jTextFieldBookAuthorKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldBookAuthorKeyPressed
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            try {                
-                getBTM().addBooks(conn.getBws().getBooksByAuthor(jTextFieldAuthorUs.getText()));
-            } catch (ConnectException | NullPointerException | IllegalArgumentException_Exception | IllegalArgumentException ex) {
-                System.err.println(ex.getMessage());
-            }
+            jButtonSearchByAuthor.doClick();
         }
     }//GEN-LAST:event_jTextFieldBookAuthorKeyPressed
 

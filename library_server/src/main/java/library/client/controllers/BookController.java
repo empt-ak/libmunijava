@@ -159,14 +159,32 @@ public class BookController
      * @return redirect to /book/ or redirect to / if admin is not logged in
      */
     @RequestMapping("/delete/{bookID}")
-    public ModelAndView deleteBook(@PathVariable Long bookID) 
+    public ModelAndView deleteBook(@PathVariable Long bookID, Locale locale) 
     {
         BookDTO book = new BookDTO();
         book.setBookID(bookID);
 
-        bookService.deleteBook(bookService.getBookByID(book.getBookID()));
-
-        return new ModelAndView("redirect:/book/");
+//        String message = "";
+        boolean error = false;
+        try
+        {
+            bookService.deleteBook(bookService.getBookByID(book.getBookID()));
+        }
+        catch(Exception cve)
+        {   // meh nic ine okrem tejto nejde chytit ? :-\
+//            java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("bundle/messages", locale);
+//            message = bundle.getString("error.book.delete");
+            error = true;
+        }
+        
+        if(error)
+        {
+            return new ModelAndView("redirect:/book/", "error", error);
+        }
+        else
+        {
+            return new ModelAndView("redirect:/book/");
+        }
     }
 
     /**

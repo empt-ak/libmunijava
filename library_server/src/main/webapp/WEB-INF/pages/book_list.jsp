@@ -49,6 +49,14 @@
                                         }
                             }
                 });
+                
+                <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
+                    <c:choose>
+                        <c:when test="${param.error == true}">
+                            alert('<spring:message code="error.book.delete" />');
+                        </c:when>
+                    </c:choose>
+               </sec:authorize>
             });
 
             function output(recordID, bookTitle, author)
@@ -81,7 +89,7 @@
                     }
                 }
                </sec:authorize>
-
+                
 
 
         </script>     
@@ -96,7 +104,8 @@
             <%@include file="/WEB-INF/pages/page_parts/navigation.jsp" %>       
 
 
-            <div id="faux">                
+            <div id="faux">    
+                
                 <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
                     <thead>
                         <tr>
