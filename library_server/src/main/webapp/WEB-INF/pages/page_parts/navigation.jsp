@@ -21,11 +21,11 @@
 
         <sec:authorize access="hasRole('ROLE_USER')">
             <li><a href='${pageContext.request.contextPath}/ticket/show/mytickets/'><span><spring:message code="label.website.navigation.tickets" /></span></a>
-                <ul>
+<!--                <ul>
                     <sec:authorize access="hasRole('ROLE_ADMINISTRATOR')">
                         <li><a href='${pageContext.request.contextPath}/ticket/editforuser/'><span><spring:message code="label.website.navigation.ticket.edit" /></span></a></li>
                     </sec:authorize>
-                </ul>
+                </ul>-->
             </li> 
         </sec:authorize>
 
